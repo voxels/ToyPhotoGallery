@@ -42,7 +42,7 @@ done
 exiftool -common -T ./ > ./exif.txt
 ```
 
-#### Upload assets
+#### Upload image assets
 1) Setup an S3 bucket on AWS
 2) Synchronize thumbnails and full-res folders to the bucket using 
 ```
