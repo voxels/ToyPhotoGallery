@@ -22,13 +22,14 @@ ToyPhotoGallery relies on Carthage to add dependencies for:
 - Parse 
 - Bugsnag
 
-**NOTE:** The FBSDKIntegrationTests are misconfigured for building in Carthage.  To fix the dependency, open the FBSDKIntegreationTests Scheme, Choose Run > Executable > FBSDKTestHost.app
+**NOTE:** At the time of writing, the FBSDKIntegrationTests are misconfigured for building in Carthage.  Remove the dependency from the FacebookSDK.xcworkspace schemes to pass through the build.
 
 Run the following commands to update the dependencies:
 ```
-carthage update --no-build
-carthage build --platform ios
+carthage update --platform iOS
 ```
+
+Typically, the Carthage build products would not be added to the github repo via a line in the .gitignore, however, for the purposes of this project, they are included so that the project can be compiled out of the box.
 
 ## Backend Setup
 
