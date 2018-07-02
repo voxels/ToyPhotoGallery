@@ -8,7 +8,14 @@
 
 import Foundation
 
-protocol ErrorHandler {
+protocol ErrorHandlerDelegate {
     
+}
+
+extension ErrorHandlerDelegate {
+    
+}
+
+struct DebugErrorHandler : ErrorHandlerDelegate {
     
 }

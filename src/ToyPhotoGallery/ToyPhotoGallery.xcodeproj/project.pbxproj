@@ -37,6 +37,9 @@
 		1E78B2E120EADC96000DCFE7 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */; };
 		1E78B2E420EADE2F000DCFE7 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E320EADE2F000DCFE7 /* ErrorHandler.swift */; };
 		1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E520EADE4D000DCFE7 /* BugsnagInterface.swift */; };
+		1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */; };
+		1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */; };
+		1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,9 @@
 		1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseTwitterUtils.framework; path = Carthage/Build/iOS/ParseTwitterUtils.framework; sourceTree = SOURCE_ROOT; };
 		1E78B2E320EADE2F000DCFE7 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		1E78B2E520EADE4D000DCFE7 /* BugsnagInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugsnagInterface.swift; sourceTree = "<group>"; };
+		1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obfuscator.swift; sourceTree = "<group>"; };
+		1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlKey.swift; sourceTree = "<group>"; };
+		1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlKeyTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +178,7 @@
 		1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */,
 				1E65CA0020EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift */,
 				1E65CA0220EABBEC00D28BE4 /* Info.plist */,
 			);
@@ -219,6 +226,8 @@
 		1E78B28A20EAC566000DCFE7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */,
+				1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */,
 				1E78B28F20EAC608000DCFE7 /* Framework */,
 			);
 			path = Resource;
@@ -457,8 +466,10 @@
 				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
 				1E78B2A320EAC879000DCFE7 /* ParseServerInterface.swift in Sources */,
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
+				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
 				1E78B29F20EAC78F000DCFE7 /* UserModel.swift in Sources */,
 				1E78B29D20EAC77C000DCFE7 /* ImageResourceModel.swift in Sources */,
+				1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */,
 				1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

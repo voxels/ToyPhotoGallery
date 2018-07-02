@@ -8,7 +8,16 @@
 
 import Foundation
 
-protocol LogHandler {
-    
+protocol LogHandlerDelegate {
+    func console(_ message:String)
+}
+
+extension LogHandlerDelegate {
+    func console(_ message:String) {
+        print(message)
+    }
+}
+
+struct DebugLogHandler : LogHandlerDelegate {
     
 }

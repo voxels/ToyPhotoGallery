@@ -10,5 +10,7 @@ import Foundation
 import Parse
 
 class ParseServerInterface : RemoteStoreController {
-    
+    func launchRemoteStore() {
+        
+    }
 }
