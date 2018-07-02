@@ -1,6 +1,8 @@
 # Toy Photo Gallery
 
-### Instructions
+The Toy Photo Gallery implements the design for a Google code interview that shows a photo gallery which transitions into a preview view.  
+
+## Instructions
 
 ```
 You're designing a mobile photo gallery interface. A designer on the team delivers mockups for a grid view and detailed photo view and asks you to help define the transition between the two states. If you have additional time, you can consider secondary actions, such as items in the detail view toolbar.
@@ -14,9 +16,25 @@ The gallery should be viewable on a mobile device, and any code you produce shou
 The attached zip file includes 3 mock ups and a Photoshop source file (.psd).
 ```
 
-### Steps to Reproduce
+## Project Depedencies
 
-#### Asset Generation
+ToyPhotoGallery relies on Carthage to add dependencies for:
+- Parse 
+- Bugsnag
+
+**NOTE:** The FBSDKIntegrationTests are misconfigured for building in Carthage.  To fix the dependency, open the FBSDKIntegreationTests Scheme, Choose Run > Executable > FBSDKTestHost.app
+
+Run the following commands to update the dependencies:
+```
+carthage update --no-build
+carthage build --platform ios
+```
+
+## Backend Setup
+
+This project requires setting up a back end to serve progressing JPEG images.  Parse was chosen because it's easy to configure.  The seconds below describe how content was generated and installed into a Parse instance.
+
+### Asset Generation
 1) Choose photos from iPhoto
 2) Export as original size, JPG format into ./assets/originals/
 3) Fetch [mozjpeg](https://github.com/kornelski/mozjpeg/releases) from Github
@@ -36,20 +54,20 @@ done
 5) Create thumbnails from the converted files
 6) Upload folders to s3 bucket
 
-#### Create EXIF Data
+### Create EXIF Data
 1) Use the EXIFTool to export EXIF data from the images to a csv file:
 ```
 exiftool -common -T ./ > ./exif.txt
 ```
 
-#### Upload image assets
+### Upload image assets
 1) Setup an S3 bucket on AWS
 2) Synchronize thumbnails and full-res folders to the bucket using 
 ```
 aws s3 sync ./resources s3://<BUCKET_NAME>/path/to/resources
 ```
 
-#### Parse Server Setup
+### Parse Server Setup
 
 1) Setup a Parse service on AWS using Bitnami or something else
 2) SSH into the box and grab the application ID from /apps/parse/htdocs/server.js

@@ -1,0 +1,1652 @@
+BCSymbolMap Version: 2.0
+_bsg_g_continuationByteCount
+_bsg_g_hexConversion
+Apple LLVM version 9.1.0 (clang-902.0.39.2)
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSString.c
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/iOS
+bsg_ksstring_replace
+bsg_ksstring_extractHexValue
+bsg_ksstring_isNullTerminatedUTF8String
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSSysCtl.c
+bsg_kssysctl_getMacAddress
+bsg_kssysctl_getProcessInfo
+bsg_kssysctl_timevalForName
+bsg_kssysctl_timeval
+bsg_kssysctl_stringForName
+bsg_kssysctl_string
+bsg_kssysctl_uint64ForName
+bsg_kssysctl_uint64
+bsg_kssysctl_int64ForName
+bsg_kssysctl_int64
+bsg_kssysctl_uint32ForName
+bsg_kssysctl_uint32
+bsg_kssysctl_int32ForName
+bsg_kssysctl_int32
+-[NSMutableArray(BSG_KSSafeCollections) bsg_ksc_addObjectIfNotNil:]
+-[NSMutableArray(BSG_KSSafeCollections) bsg_ksc_safeAddObject:]
+-[NSMutableArray(BSG_KSSafeCollections) bsg_ksc_insertObjectIfNotNil:atIndex:]
+-[NSMutableArray(BSG_KSSafeCollections) bsg_ksc_safeInsertObject:atIndex:]
+-[NSMutableDictionary(BSG_KSSafeCollections) bsg_ksc_setObjectIfNotNil:forKey:]
+-[NSMutableDictionary(BSG_KSSafeCollections) bsg_ksc_safeSetObject:forKey:]
+-[NSMutableDictionary(BSG_KSSafeCollections) bsg_ksc_setValueIfNotNil:forKey:]
+-[NSMutableDictionary(BSG_KSSafeCollections) bsg_ksc_safeSetValue:forKey:]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSSafeCollections.m
+safeValue
+-[BugsnagConfiguration init]
+-[BugsnagConfiguration shouldSendReports]
+-[BugsnagConfiguration setUser:withName:andEmail:]
+-[BugsnagConfiguration addBeforeSendBlock:]
+-[BugsnagConfiguration clearBeforeSendBlocks]
+-[BugsnagConfiguration addBeforeNotifyHook:]
+-[BugsnagConfiguration releaseStage]
+-[BugsnagConfiguration setReleaseStage:]
+-[BugsnagConfiguration notifyReleaseStages]
+-[BugsnagConfiguration setNotifyReleaseStages:]
+-[BugsnagConfiguration automaticallyCollectBreadcrumbs]
+-[BugsnagConfiguration setAutomaticallyCollectBreadcrumbs:]
+-[BugsnagConfiguration context]
+-[BugsnagConfiguration setContext:]
+-[BugsnagConfiguration appVersion]
+-[BugsnagConfiguration setAppVersion:]
+-[BugsnagConfiguration apiKey]
+-[BugsnagConfiguration setApiKey:]
+-[BugsnagConfiguration shouldAutoCaptureSessions]
+-[BugsnagConfiguration setShouldAutoCaptureSessions:]
+-[BugsnagConfiguration errorApiHeaders]
+-[BugsnagConfiguration sessionApiHeaders]
+-[BugsnagConfiguration setEndpointsForNotify:sessions:]
+-[BugsnagConfiguration isValidUrl:]
+-[BugsnagConfiguration hasValidApiKey]
+-[BugsnagConfiguration session]
+-[BugsnagConfiguration setSession:]
+-[BugsnagConfiguration currentUser]
+-[BugsnagConfiguration setCurrentUser:]
+-[BugsnagConfiguration metaData]
+-[BugsnagConfiguration setMetaData:]
+-[BugsnagConfiguration config]
+-[BugsnagConfiguration setConfig:]
+-[BugsnagConfiguration breadcrumbs]
+-[BugsnagConfiguration beforeSendBlocks]
+-[BugsnagConfiguration setBeforeSendBlocks:]
+-[BugsnagConfiguration onCrashHandler]
+-[BugsnagConfiguration setOnCrashHandler:]
+-[BugsnagConfiguration autoNotify]
+-[BugsnagConfiguration setAutoNotify:]
+-[BugsnagConfiguration notifyURL]
+-[BugsnagConfiguration sessionURL]
+-[BugsnagConfiguration beforeNotifyHooks]
+-[BugsnagConfiguration setBeforeNotifyHooks:]
+-[BugsnagConfiguration codeBundleId]
+-[BugsnagConfiguration setCodeBundleId:]
+-[BugsnagConfiguration notifierType]
+-[BugsnagConfiguration setNotifierType:]
+-[BugsnagConfiguration .cxx_destruct]
+_OBJC_IVAR_$_BugsnagConfiguration._metaData
+_OBJC_IVAR_$_BugsnagConfiguration._config
+_OBJC_IVAR_$_BugsnagConfiguration._apiKey
+_OBJC_IVAR_$_BugsnagConfiguration._sessionURL
+_OBJC_IVAR_$_BugsnagConfiguration._autoNotify
+_OBJC_IVAR_$_BugsnagConfiguration._notifyURL
+_OBJC_IVAR_$_BugsnagConfiguration._beforeNotifyHooks
+_OBJC_IVAR_$_BugsnagConfiguration._beforeSendBlocks
+_OBJC_IVAR_$_BugsnagConfiguration._notifyReleaseStages
+_OBJC_IVAR_$_BugsnagConfiguration._breadcrumbs
+_OBJC_IVAR_$_BugsnagConfiguration._automaticallyCollectBreadcrumbs
+_OBJC_IVAR_$_BugsnagConfiguration._shouldAutoCaptureSessions
+_OBJC_IVAR_$_BugsnagConfiguration._session
+_OBJC_IVAR_$_BugsnagConfiguration._releaseStage
+_OBJC_IVAR_$_BugsnagConfiguration._context
+_OBJC_IVAR_$_BugsnagConfiguration._appVersion
+_OBJC_IVAR_$_BugsnagConfiguration._currentUser
+_OBJC_IVAR_$_BugsnagConfiguration._onCrashHandler
+_OBJC_IVAR_$_BugsnagConfiguration._codeBundleId
+_OBJC_IVAR_$_BugsnagConfiguration._notifierType
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagConfiguration.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagConfiguration.h
+___BSGIsSanitizedType_block_invoke
+___Block_byref_object_copy_
+___Block_byref_object_dispose_
+___BSGSanitizeDict_block_invoke
+___copy_helper_block_
+___destroy_helper_block_
+_BSGIsSanitizedType.onceToken
+_BSGIsSanitizedType.allowedTypes
+___block_descriptor_tmp
+___block_literal_global
+___block_descriptor_tmp.26
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BSGSerialization.m
+__destroy_helper_block_
+__copy_helper_block_
+__BSGSanitizeDict_block_invoke
+__Block_byref_object_dispose_
+__Block_byref_object_copy_
+BSGSanitizeDict
+BSGSanitizeArray
+BSGSanitizeObject
+__inline_isinfd
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/include/math.h
+__BSGIsSanitizedType_block_invoke
+BSGIsSanitizedType
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/include/dispatch/once.h
+-[BugsnagSessionTracker initWithConfig:apiClient:callback:]
+-[BugsnagSessionTracker startNewSession:withUser:autoCaptured:]
+-[BugsnagSessionTracker trackSession]
+-[BugsnagSessionTracker onAutoCaptureEnabled]
+-[BugsnagSessionTracker suspendCurrentSession:]
+-[BugsnagSessionTracker incrementHandledError]
+-[BugsnagSessionTracker send]
+___29-[BugsnagSessionTracker send]_block_invoke
+-[BugsnagSessionTracker currentSession]
+-[BugsnagSessionTracker isInForeground]
+-[BugsnagSessionTracker callback]
+-[BugsnagSessionTracker setCallback:]
+-[BugsnagSessionTracker config]
+-[BugsnagSessionTracker setConfig:]
+-[BugsnagSessionTracker sessionStore]
+-[BugsnagSessionTracker setSessionStore:]
+-[BugsnagSessionTracker apiClient]
+-[BugsnagSessionTracker setApiClient:]
+-[BugsnagSessionTracker trackedFirstSession]
+-[BugsnagSessionTracker setTrackedFirstSession:]
+-[BugsnagSessionTracker .cxx_destruct]
+_OBJC_IVAR_$_BugsnagSessionTracker._config
+_OBJC_IVAR_$_BugsnagSessionTracker._apiClient
+_OBJC_IVAR_$_BugsnagSessionTracker._callback
+_OBJC_IVAR_$_BugsnagSessionTracker._sessionStore
+_OBJC_IVAR_$_BugsnagSessionTracker._currentSession
+_OBJC_IVAR_$_BugsnagSessionTracker._isInForeground
+_OBJC_IVAR_$_BugsnagSessionTracker._trackedFirstSession
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSessionTracker.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSessionTracker.h
+__29-[BugsnagSessionTracker send]_block_invoke
+_bsg_g_installed
+_bsg_g_context
+_bsg_g_signalStack
+_bsg_g_previousSignalHandlers
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_Signal.c
+bsg_kscrashsentry_uninstallSignalHandler
+bsg_kscrashsentry_installSignalHandler
+bsg_kssighndl_i_handleSignal
++[Bugsnag startBugsnagWithApiKey:]
++[Bugsnag startBugsnagWithConfiguration:]
++[Bugsnag configuration]
++[Bugsnag instance]
++[Bugsnag notifier]
++[Bugsnag notify:]
+___18+[Bugsnag notify:]_block_invoke
++[Bugsnag notify:block:]
+___24+[Bugsnag notify:block:]_block_invoke
++[Bugsnag notifyError:]
+___23+[Bugsnag notifyError:]_block_invoke
++[Bugsnag notifyError:block:]
+___29+[Bugsnag notifyError:block:]_block_invoke
+___copy_helper_block_.162
+___destroy_helper_block_.163
++[Bugsnag notify:withData:]
+___27+[Bugsnag notify:withData:]_block_invoke
+___copy_helper_block_.173
+___destroy_helper_block_.174
++[Bugsnag notify:withData:atSeverity:]
+___38+[Bugsnag notify:withData:atSeverity:]_block_invoke
+___copy_helper_block_.178
+___destroy_helper_block_.179
++[Bugsnag internalClientNotify:withData:block:]
++[Bugsnag addAttribute:withValue:toTabWithName:]
++[Bugsnag clearTabWithName:]
++[Bugsnag bugsnagStarted]
++[Bugsnag leaveBreadcrumbWithMessage:]
+___38+[Bugsnag leaveBreadcrumbWithMessage:]_block_invoke
+___copy_helper_block_.198
+___destroy_helper_block_.199
++[Bugsnag leaveBreadcrumbWithBlock:]
++[Bugsnag leaveBreadcrumbForNotificationName:]
++[Bugsnag setBreadcrumbCapacity:]
++[Bugsnag clearBreadcrumbs]
++[Bugsnag startSession]
++[Bugsnag payloadDateFormatter]
+___31+[Bugsnag payloadDateFormatter]_block_invoke
++[Bugsnag setSuspendThreadsForUserReported:]
++[Bugsnag setReportWhenDebuggerIsAttached:]
++[Bugsnag setThreadTracingEnabled:]
++[Bugsnag setWriteBinaryImagesForUserReported:]
+-[NSDictionary(BSGKSMerge) BSG_mergedInto:]
+_bsg_g_bugsnag_notifier
+___block_descriptor_tmp.157
+___block_descriptor_tmp.158
+___block_literal_global.159
+___block_descriptor_tmp.164
+___block_descriptor_tmp.175
+___block_descriptor_tmp.180
+___block_descriptor_tmp.201
+_payloadDateFormatter.formatter
+_payloadDateFormatter.onceToken
+___block_descriptor_tmp.217
+___block_literal_global.218
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/Bugsnag.m
+__31+[Bugsnag payloadDateFormatter]_block_invoke
+__38+[Bugsnag leaveBreadcrumbWithMessage:]_block_invoke
+__38+[Bugsnag notify:withData:atSeverity:]_block_invoke
+__27+[Bugsnag notify:withData:]_block_invoke
+__29+[Bugsnag notifyError:block:]_block_invoke
+__23+[Bugsnag notifyError:]_block_invoke
+__24+[Bugsnag notify:block:]_block_invoke
+__18+[Bugsnag notify:]_block_invoke
+_bsg_ksmach_init.initialized
+_bsg_g_topThread
+_bsg_ksmachtimeDifferenceInSeconds.conversion
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach.c
+bsg_ksmachisBeingTraced
+bsg_ksmachtimeDifferenceInSeconds
+bsg_ksmachcopyMaxPossibleMem
+bsg_ksmachcopyMem
+bsg_ksmachresumeAllThreadsExcept
+isThreadInList
+bsg_ksmachthread_self
+bsg_ksmachresumeAllThreads
+bsg_ksmachsuspendAllThreadsExcept
+bsg_ksmachsuspendAllThreads
+bsg_ksmachgetThreadQueueName
+bsg_ksmachgetThreadName
+bsg_ksmachpthreadFromMachThread
+bsg_ksmachmachThreadFromPThread
+bsg_ksmach_init
+bsg_ksmachfillState
+bsg_ksmachkernelReturnCodeName
+bsg_ksmachexceptionName
+bsg_ksmachcurrentCPUArch
+bsg_ksmachusableMemory
+bsg_ksmachi_VMStats
+bsg_ksmachfreeMemory
+_bsg_g_crashTypes
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashType.c
+bsg_kscrashtype_name
+_bsg_g_registerNames
+_bsg_g_exceptionRegisterNames
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach_Arm.c
+bsg_ksmachstackGrowDirection
+bsg_ksmachfaultAddress
+bsg_ksmachexceptionRegisterValue
+bsg_ksmachexceptionRegisterName
+bsg_ksmachnumExceptionRegisters
+bsg_ksmachregisterValue
+bsg_ksmachregisterName
+bsg_ksmachnumRegisters
+bsg_ksmachexceptionState
+bsg_ksmachfloatState
+bsg_ksmachthreadState
+bsg_ksmachlinkRegister
+bsg_ksmachinstructionAddress
+bsg_ksmachstackPointer
+bsg_ksmachframePointer
+-[BugsnagNotifier initWithConfiguration:]
+___41-[BugsnagNotifier initWithConfiguration:]_block_invoke
+___41-[BugsnagNotifier initWithConfiguration:]_block_invoke_2
+-[BugsnagNotifier initializeNotificationNameMap]
+-[BugsnagNotifier start]
+-[BugsnagNotifier watchLifecycleEvents:]
+-[BugsnagNotifier willEnterForeground:]
+-[BugsnagNotifier willEnterBackground:]
+-[BugsnagNotifier sessionTick:]
+-[BugsnagNotifier flushPendingReports]
+-[BugsnagNotifier setupConnectivityListener]
+___44-[BugsnagNotifier setupConnectivityListener]_block_invoke
+___copy_helper_block_.350
+___destroy_helper_block_.351
+-[BugsnagNotifier startSession]
+-[BugsnagNotifier notifyError:block:]
+___37-[BugsnagNotifier notifyError:block:]_block_invoke
+___copy_helper_block_.397
+___destroy_helper_block_.398
+-[BugsnagNotifier notifyException:atSeverity:block:]
+-[BugsnagNotifier notifyException:block:]
+-[BugsnagNotifier internalClientNotify:withData:block:]
+___55-[BugsnagNotifier internalClientNotify:withData:block:]_block_invoke
+___copy_helper_block_.411
+___destroy_helper_block_.412
+-[BugsnagNotifier notify:message:handledState:block:]
+___53-[BugsnagNotifier notify:message:handledState:block:]_block_invoke
+___copy_helper_block_.458
+___destroy_helper_block_.459
+-[BugsnagNotifier addBreadcrumbWithBlock:]
+-[BugsnagNotifier clearBreadcrumbs]
+-[BugsnagNotifier serializeBreadcrumbs]
+-[BugsnagNotifier metaDataChanged:]
+-[BugsnagNotifier batteryChanged:]
+-[BugsnagNotifier orientationChanged:]
+___38-[BugsnagNotifier orientationChanged:]_block_invoke
+___copy_helper_block_.506
+___destroy_helper_block_.507
+-[BugsnagNotifier lowMemoryWarning:]
+-[BugsnagNotifier updateAutomaticBreadcrumbDetectionSettings]
+-[BugsnagNotifier automaticBreadcrumbStateEvents]
+-[BugsnagNotifier automaticBreadcrumbControlEvents]
+-[BugsnagNotifier automaticBreadcrumbTableItemEvents]
+-[BugsnagNotifier automaticBreadcrumbMenuItemEvents]
+-[BugsnagNotifier crumbleNotification:]
+-[BugsnagNotifier dealloc]
+-[BugsnagNotifier sendBreadcrumbForNotification:]
+___49-[BugsnagNotifier sendBreadcrumbForNotification:]_block_invoke
+___copy_helper_block_.543
+___destroy_helper_block_.544
+-[BugsnagNotifier sendBreadcrumbForTableViewNotification:]
+___58-[BugsnagNotifier sendBreadcrumbForTableViewNotification:]_block_invoke
+___copy_helper_block_.558
+___destroy_helper_block_.559
+-[BugsnagNotifier sendBreadcrumbForMenuItemNotification:]
+-[BugsnagNotifier sendBreadcrumbForControlNotification:]
+___56-[BugsnagNotifier sendBreadcrumbForControlNotification:]_block_invoke
+___copy_helper_block_.563
+___destroy_helper_block_.564
+-[BugsnagNotifier configuration]
+-[BugsnagNotifier setConfiguration:]
+-[BugsnagNotifier state]
+-[BugsnagNotifier setState:]
+-[BugsnagNotifier details]
+-[BugsnagNotifier setDetails:]
+-[BugsnagNotifier metaDataLock]
+-[BugsnagNotifier setMetaDataLock:]
+-[BugsnagNotifier networkReachable]
+-[BugsnagNotifier setNetworkReachable:]
+-[BugsnagNotifier started]
+-[BugsnagNotifier crashSentry]
+-[BugsnagNotifier setCrashSentry:]
+-[BugsnagNotifier errorReportApiClient]
+-[BugsnagNotifier setErrorReportApiClient:]
+-[BugsnagNotifier sessionTrackingApiClient]
+-[BugsnagNotifier setSessionTrackingApiClient:]
+-[BugsnagNotifier sessionTracker]
+-[BugsnagNotifier setSessionTracker:]
+-[BugsnagNotifier sessionTimer]
+-[BugsnagNotifier setSessionTimer:]
+-[BugsnagNotifier .cxx_destruct]
+_hasRecordedSessions
+_sessionId
+_sessionStartDate
+_handledCount
+_bsg_g_bugsnag_data
+_notificationNameMap
+_OBJC_IVAR_$_BugsnagNotifier.configuration
+_initWithConfiguration:.once_t
+___block_descriptor_tmp.240
+_OBJC_IVAR_$_BugsnagNotifier._started
+_OBJC_IVAR_$_BugsnagNotifier._sessionTimer
+___block_descriptor_tmp.353
+___block_descriptor_tmp.400
+___block_descriptor_tmp.413
+___block_descriptor_tmp.461
+___block_descriptor_tmp.508
+___block_descriptor_tmp.545
+___block_descriptor_tmp.560
+___block_descriptor_tmp.565
+_OBJC_IVAR_$_BugsnagNotifier._state
+_OBJC_IVAR_$_BugsnagNotifier._details
+_OBJC_IVAR_$_BugsnagNotifier._metaDataLock
+_OBJC_IVAR_$_BugsnagNotifier._networkReachable
+_OBJC_IVAR_$_BugsnagNotifier._crashSentry
+_OBJC_IVAR_$_BugsnagNotifier._errorReportApiClient
+_OBJC_IVAR_$_BugsnagNotifier._sessionTrackingApiClient
+_OBJC_IVAR_$_BugsnagNotifier._sessionTracker
+l_OBJC_PROTOCOL_$_NSObject
+l_OBJC_LABEL_PROTOCOL_$_NSObject
+l_OBJC_PROTOCOL_$_BugsnagMetaDataDelegate
+l_OBJC_LABEL_PROTOCOL_$_BugsnagMetaDataDelegate
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagNotifier.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagNotifier.h
+__56-[BugsnagNotifier sendBreadcrumbForControlNotification:]_block_invoke
+__58-[BugsnagNotifier sendBreadcrumbForTableViewNotification:]_block_invoke
+__49-[BugsnagNotifier sendBreadcrumbForNotification:]_block_invoke
+__38-[BugsnagNotifier orientationChanged:]_block_invoke
+__53-[BugsnagNotifier notify:message:handledState:block:]_block_invoke
+__55-[BugsnagNotifier internalClientNotify:withData:block:]_block_invoke
+__37-[BugsnagNotifier notifyError:block:]_block_invoke
+__44-[BugsnagNotifier setupConnectivityListener]_block_invoke
+__41-[BugsnagNotifier initWithConfiguration:]_block_invoke_2
+__41-[BugsnagNotifier initWithConfiguration:]_block_invoke
+BSSerializeJSONDictionary
+BSGBreadcrumbNameForNotificationName
+BSSerializeDataCrashHandler
+-[BSG_KSCrashDoctorParam className]
+-[BSG_KSCrashDoctorParam setClassName:]
+-[BSG_KSCrashDoctorParam previousClassName]
+-[BSG_KSCrashDoctorParam setPreviousClassName:]
+-[BSG_KSCrashDoctorParam isInstance]
+-[BSG_KSCrashDoctorParam setIsInstance:]
+-[BSG_KSCrashDoctorParam address]
+-[BSG_KSCrashDoctorParam setAddress:]
+-[BSG_KSCrashDoctorParam value]
+-[BSG_KSCrashDoctorParam setValue:]
+-[BSG_KSCrashDoctorParam type]
+-[BSG_KSCrashDoctorParam setType:]
+-[BSG_KSCrashDoctorParam .cxx_destruct]
+-[BSG_KSCrashDoctorFunctionCall descriptionForObjCCall]
+-[BSG_KSCrashDoctorFunctionCall descriptionWithParamCount:]
+-[BSG_KSCrashDoctorFunctionCall name]
+-[BSG_KSCrashDoctorFunctionCall setName:]
+-[BSG_KSCrashDoctorFunctionCall params]
+-[BSG_KSCrashDoctorFunctionCall setParams:]
+-[BSG_KSCrashDoctorFunctionCall .cxx_destruct]
++[BSG_KSCrashDoctor doctor]
+-[BSG_KSCrashDoctor recrashReport:]
+-[BSG_KSCrashDoctor systemReport:]
+-[BSG_KSCrashDoctor crashReport:]
+-[BSG_KSCrashDoctor infoReport:]
+-[BSG_KSCrashDoctor errorReport:]
+-[BSG_KSCrashDoctor cpuFamily:]
+-[BSG_KSCrashDoctor registerNameForFamily:paramIndex:]
+-[BSG_KSCrashDoctor mainExecutableNameForReport:]
+-[BSG_KSCrashDoctor crashedThreadReport:]
+-[BSG_KSCrashDoctor backtraceFromThreadReport:]
+-[BSG_KSCrashDoctor basicRegistersFromThreadReport:]
+-[BSG_KSCrashDoctor lastInAppStackEntry:]
+-[BSG_KSCrashDoctor lastStackEntry:]
+-[BSG_KSCrashDoctor isInvalidAddress:]
+-[BSG_KSCrashDoctor isMathError:]
+-[BSG_KSCrashDoctor isMemoryCorruption:]
+-[BSG_KSCrashDoctor lastFunctionCall:]
+-[BSG_KSCrashDoctor zombieCall:]
+-[BSG_KSCrashDoctor isStackOverflow:]
+-[BSG_KSCrashDoctor isDeadlock:]
+-[BSG_KSCrashDoctor appendOriginatingCall:callName:]
+-[BSG_KSCrashDoctor diagnoseCrash:]
+_OBJC_IVAR_$_BSG_KSCrashDoctorParam._className
+_OBJC_IVAR_$_BSG_KSCrashDoctorParam._previousClassName
+_OBJC_IVAR_$_BSG_KSCrashDoctorParam._isInstance
+_OBJC_IVAR_$_BSG_KSCrashDoctorParam._address
+_OBJC_IVAR_$_BSG_KSCrashDoctorParam._value
+_OBJC_IVAR_$_BSG_KSCrashDoctorParam._type
+_OBJC_IVAR_$_BSG_KSCrashDoctorFunctionCall._name
+_OBJC_IVAR_$_BSG_KSCrashDoctorFunctionCall._params
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashDoctor.m
+_bsg_g_stateFilePath
+_bsg_g_state
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashState.c
+bsg_kscrashstate_currentState
+bsg_kscrashstate_notifyAppCrash
+bsg_kscrashstate_notifyAppTerminate
+bsg_kscrashstate_notifyAppInForeground
+bsg_kscrashstate_notifyAppActive
+bsg_kscrashstate_init
+bsg_kscrashstate_i_saveState
+bsg_kscrashstate_i_loadState
+bsg_kscrashstate_i_addJSONData
+bsg_kscrashstate_i_onEndData
+bsg_kscrashstate_i_onEndContainer
+bsg_kscrashstate_i_onBeginArray
+bsg_kscrashstate_i_onBeginObject
+bsg_kscrashstate_i_onStringElement
+bsg_kscrashstate_i_onNullElement
+bsg_kscrashstate_i_onIntegerElement
+bsg_kscrashstate_i_onFloatingPointElement
+bsg_kscrashstate_i_onBooleanElement
+-[BugsnagSession initWithId:startDate:user:autoCaptured:]
+-[BugsnagSession initWithDictionary:]
+-[BugsnagSession toJson]
+-[BugsnagSession sessionId]
+-[BugsnagSession startedAt]
+-[BugsnagSession user]
+-[BugsnagSession autoCaptured]
+-[BugsnagSession unhandledCount]
+-[BugsnagSession setUnhandledCount:]
+-[BugsnagSession handledCount]
+-[BugsnagSession setHandledCount:]
+-[BugsnagSession .cxx_destruct]
+_OBJC_IVAR_$_BugsnagSession._sessionId
+_OBJC_IVAR_$_BugsnagSession._startedAt
+_OBJC_IVAR_$_BugsnagSession._user
+_OBJC_IVAR_$_BugsnagSession._autoCaptured
+_OBJC_IVAR_$_BugsnagSession._unhandledCount
+_OBJC_IVAR_$_BugsnagSession._handledCount
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSession.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSession.h
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSCrashCallCompletion.m
+bsg_kscrash_i_callCompletion
+__ZL21CPPExceptionTerminatev
+__ZL27bsg_g_captureNextStackTrace
+__ZL16bsg_g_stackTrace
+__ZL21bsg_g_stackTraceCount
+__ZZ11__cxa_throwE14orig_cxa_throw
+__ZL15bsg_g_installed
+__ZL13bsg_g_context
+__ZL30bsg_g_originalTerminateHandler
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_CPPException.mm
+bsg_kscrashsentry_uninstallCPPExceptionHandler
+CPPExceptionTerminate
+name
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/typeinfo
+bsg_kscrashsentry_installCPPExceptionHandler
+__cxa_throw
+_writeFmtToLog
+_writeToLog
+_bsg_g_fd
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSLogger.m
+bsg_i_kslog_logObjC
+lastPathEntry
+bsg_i_kslog_logObjCBasic
+bsg_i_kslog_logC
+writeFmtArgsToLog
+writeToLog
+bsg_i_kslog_logCBasic
+writeFmtToLog
+bsg_kslog_setLogFilename
+setLogFD
+-[BugsnagSessionTrackingPayload initWithSessions:]
+-[BugsnagSessionTrackingPayload toJson]
+-[BugsnagSessionTrackingPayload sessions]
+-[BugsnagSessionTrackingPayload setSessions:]
+-[BugsnagSessionTrackingPayload .cxx_destruct]
+_OBJC_IVAR_$_BugsnagSessionTrackingPayload._sessions
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSessionTrackingPayload.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSessionTrackingPayload.h
+_bsg_g_fatalSignalData
+_bsg_g_fatalSignals
+_bsg_g_sigBusCodes
+_bsg_g_sigFPECodes
+_bsg_g_sigIllCodes
+_bsg_g_sigSegVCodes
+_bsg_g_sigTrapCodes
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSSignalInfo.c
+bsg_kssignal_signalForMachException
+bsg_kssignal_machExceptionForSignal
+bsg_kssignal_numFatalSignals
+bsg_kssignal_fatalSignals
+bsg_kssignal_signalCodeName
+bsg_kssignal_signalName
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach_x86_32.c
+_handleDealloc_NSObject
+_copyStringIvar
+_handleDealloc_NSProxy
+___uninstall_block_invoke
+_bsg_g_zombieCache
+_bsg_g_lastDeallocedException
+_bsg_g_zombieHashMask
+_bsg_g_originalDealloc_NSObject
+_bsg_g_originalDealloc_NSProxy
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSZombie.c
+__uninstall_block_invoke
+handleDealloc_NSProxy
+handleDealloc
+storeException
+hashIndex
+copyStringIvar
+handleDealloc_NSObject
+bsg_kszombie_lastDeallocedNSExceptionReason
+bsg_kszombie_lastDeallocedNSExceptionName
+bsg_kszombie_lastDeallocedNSExceptionAddress
+bsg_kszombie_className
+bsg_kszombie_setEnabled
+uninstall
+uninstallDealloc_NSProxy
+uninstallDealloc_NSObject
+install
+installDealloc_NSProxy
+installDealloc_NSObject
+-[BSGConnectivity initWithURL:changeBlock:]
+___43-[BSGConnectivity initWithURL:changeBlock:]_block_invoke
+-[BSGConnectivity dealloc]
+-[BSGConnectivity startWatchingConnectivity]
+_BSGConnectivityCallback
+-[BSGConnectivity stopWatchingConnectivity]
+-[BSGConnectivity connectivityChanged:]
+-[BSGConnectivity connectivityChangeBlock]
+-[BSGConnectivity setConnectivityChangeBlock:]
+-[BSGConnectivity reachabilityRef]
+-[BSGConnectivity setReachabilityRef:]
+-[BSGConnectivity serialQueue]
+-[BSGConnectivity setSerialQueue:]
+-[BSGConnectivity callbackBlock]
+-[BSGConnectivity setCallbackBlock:]
+-[BSGConnectivity .cxx_destruct]
+_OBJC_IVAR_$_BSGConnectivity._reachabilityRef
+_OBJC_IVAR_$_BSGConnectivity._connectivityChangeBlock
+_OBJC_IVAR_$_BSGConnectivity._serialQueue
+_OBJC_IVAR_$_BSGConnectivity._callbackBlock
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BSGConnectivity.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BSGConnectivity.h
+BSGConnectivityCallback
+__43-[BSGConnectivity initWithURL:changeBlock:]_block_invoke
+-[BugsnagSink initWithApiClient:]
+-[BugsnagSink filterReports:onCompletion:]
+-[BugsnagSink getBodyFromReports:]
+-[BugsnagSink apiClient]
+-[BugsnagSink setApiClient:]
+-[BugsnagSink .cxx_destruct]
+_OBJC_IVAR_$_BugsnagSink._apiClient
+l_OBJC_PROTOCOL_$_BSG_KSCrashReportFilter
+l_OBJC_LABEL_PROTOCOL_$_BSG_KSCrashReportFilter
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSink.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSink.h
++[BSG_KSJSONCodec codecWithEncodeOptions:decodeOptions:]
+-[BSG_KSJSONCodec initWithEncodeOptions:decodeOptions:]
+-[BSG_KSJSONCodec dealloc]
+___bsg_ksjsoncodecobjc_i_encodeObject_block_invoke
++[BSG_KSJSONCodec encode:options:error:]
++[BSG_KSJSONCodec decode:options:error:]
+-[BSG_KSJSONCodec topLevelContainer]
+-[BSG_KSJSONCodec setTopLevelContainer:]
+-[BSG_KSJSONCodec currentContainer]
+-[BSG_KSJSONCodec setCurrentContainer:]
+-[BSG_KSJSONCodec containerStack]
+-[BSG_KSJSONCodec setContainerStack:]
+-[BSG_KSJSONCodec callbacks]
+-[BSG_KSJSONCodec setCallbacks:]
+-[BSG_KSJSONCodec serializedData]
+-[BSG_KSJSONCodec setSerializedData:]
+-[BSG_KSJSONCodec error]
+-[BSG_KSJSONCodec setError:]
+-[BSG_KSJSONCodec prettyPrint]
+-[BSG_KSJSONCodec setPrettyPrint:]
+-[BSG_KSJSONCodec sorted]
+-[BSG_KSJSONCodec setSorted:]
+-[BSG_KSJSONCodec ignoreNullsInArrays]
+-[BSG_KSJSONCodec setIgnoreNullsInArrays:]
+-[BSG_KSJSONCodec ignoreNullsInObjects]
+-[BSG_KSJSONCodec setIgnoreNullsInObjects:]
+-[BSG_KSJSONCodec .cxx_destruct]
+_OBJC_IVAR_$_BSG_KSJSONCodec._currentContainer
+_OBJC_IVAR_$_BSG_KSJSONCodec._topLevelContainer
+_OBJC_IVAR_$_BSG_KSJSONCodec._containerStack
+_OBJC_IVAR_$_BSG_KSJSONCodec._ignoreNullsInArrays
+_OBJC_IVAR_$_BSG_KSJSONCodec._ignoreNullsInObjects
+_OBJC_IVAR_$_BSG_KSJSONCodec._sorted
+_OBJC_IVAR_$_BSG_KSJSONCodec._callbacks
+_OBJC_IVAR_$_BSG_KSJSONCodec._serializedData
+_OBJC_IVAR_$_BSG_KSJSONCodec._error
+_OBJC_IVAR_$_BSG_KSJSONCodec._prettyPrint
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSJSONCodecObjC.m
+__bsg_ksjsoncodecobjc_i_encodeObject_block_invoke
+bsg_ksjsoncodecobjc_i_encodeObject
+bsg_ksjsoncodecobjc_i_addJSONData
+bsg_ksjsoncodecobjc_i_onBeginContainer
+bsg_ksjsoncodecobjc_i_onElement
+bsg_ksjsoncodecobjc_i_onStringElement
+stringFromCString
+bsg_ksjsoncodecobjc_i_onNullElement
+bsg_ksjsoncodecobjc_i_onIntegerElement
+bsg_ksjsoncodecobjc_i_onFloatingPointElement
+bsg_ksjsoncodecobjc_i_onEndData
+bsg_ksjsoncodecobjc_i_onEndContainer
+bsg_ksjsoncodecobjc_i_onBooleanElement
+bsg_ksjsoncodecobjc_i_onBeginObject
+bsg_ksjsoncodecobjc_i_onBeginArray
+-[BugsnagMetaData init]
+-[BugsnagMetaData initWithDictionary:]
+-[BugsnagMetaData mutableCopyWithZone:]
+-[BugsnagMetaData getTab:]
+-[BugsnagMetaData clearTab:]
+-[BugsnagMetaData toDictionary]
+-[BugsnagMetaData addAttribute:withValue:toTabWithName:]
+-[BugsnagMetaData delegate]
+-[BugsnagMetaData setDelegate:]
+-[BugsnagMetaData dictionary]
+-[BugsnagMetaData setDictionary:]
+-[BugsnagMetaData .cxx_destruct]
+_OBJC_IVAR_$_BugsnagMetaData._delegate
+_OBJC_IVAR_$_BugsnagMetaData._dictionary
+l_OBJC_PROTOCOL_$_NSMutableCopying
+l_OBJC_LABEL_PROTOCOL_$_NSMutableCopying
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagMetaData.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagMetaData.h
+_containsValidROData
+_stringPrintf
+_isValidName
+_stringIsValid
+_stringDescription
+_arrayIsValid
+_arrayDescription
+_dateIsValid
+_dateDescription
+_numberIsValid
+_numberDescription
+_urlIsValid
+_urlDescription
+_objectIsValid
+_objectDescription
+_bsg_g_nameChars
+_bsg_g_classData
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSObjC.c
+objectDescription
+getClassName
+getClassRO
+getClassRW
+bsg_getIsaPointer
+objectIsValid
+urlDescription
+bsg_ksobjc_copyURLContents
+urlIsValid
+numberDescription
+bsg_ksobjc_numberIsFloat
+numberIsValid
+dateDescription
+bsg_ksobjc_dateContents
+dateIsValid
+arrayDescription
+arrayIsValid
+nsarrayIsValid
+cfarrayIsValid
+__CFArrayGetType
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSObjCApple.h
+isCFArray
+getClassDataFromObject
+getClassData
+stringDescription
+stringIsValid
+stringStart
+__CFStrContents
+__CFStrHasExplicitLength
+__CFStrIsInline
+__CFStrHasLengthByte
+__CFStrIsMutable
+isValidName
+stringPrintf
+bsg_ksobjc_init
+bsg_ksobjc_objectClassType
+bsg_ksobjc_isValidObject
+isValidObject
+bsg_ksobjc_isValidTaggedPointer
+bsg_ksobjc_bsg_isTaggedPointer
+bsg_ksobjc_i_objectReferencedByString
+bsg_ksobjc_getDescription
+bsg_ksobjc_dictionaryCount
+bsg_ksobjc_dictionaryFirstEntry
+bsg_ksobjc_arrayContents
+nsarrayContents
+nsarrayIsMutable
+cfarrayContents
+cfarrayData
+__CFArrayGetBucketsPtr
+__CFArrayGetSizeOfType
+bsg_ksobjc_arrayCount
+bsg_ksobjc_numberAsInteger
+bsg_ksobjc_numberAsFloat
+bsg_ksobjc_copyStringContents
+__CFStrIsUnicode
+bsg_ksobjc_stringLength
+bsg_ksobjc_i_copy8BitString
+bsg_ksobjc_i_copyAndConvertUTF16StringToUTF8
+bsg_ksobjc_objectType
+containsValidClassName
+containsValidIvarData
+isValidIvarType
+isMetaClass
+isBlockClass
+hasValidISAPointer
+bsg_ksobjc_taggedPointerPayload
+bsg_getTaggedPayload
+bsg_ksobjc_ivarValue
+bsg_ksobjc_ivarNamed
+bsg_ksobjc_ivarList
+bsg_ksobjc_ivarCount
+bsg_ksobjc_baseClass
+isRootClass
+containsValidROData
+bsg_ksobjc_isKindOfClass
+bsg_ksobjc_isClassNamed
+bsg_ksobjc_objectClassName
+bsg_ksobjc_className
+bsg_ksobjc_isRootClass
+bsg_ksobjc_isMetaClass
+bsg_ksobjc_superClass
+getSuperClass
+bsg_ksobjc_isaPointer
+bsg_decodeIsaPointer
+bsg_getTaggedSlot
+bsg_isTaggedPointer
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach_Arm64.c
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSFileUtils.c
+bsg_ksfureadLineFromFD
+bsg_ksfuwriteFmtArgsToFD
+bsg_ksfuwriteFmtToFD
+bsg_ksfuwriteStringToFD
+bsg_ksfureadEntireFile
+bsg_ksfureadBytesFromFD
+bsg_ksfuwriteBytesToFD
+bsg_ksfuflushWriteBuffer
+bsg_ksfulastPathEntry
+_bsg_g_sentries
+_bsg_g_threads_are_running
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry.c
+bsg_kscrashsentry_beginHandlingCrash
+bsg_kscrashsentry_clearContext
+bsg_kscrashsentry_resumeThreads
+bsg_kscrashsentry_suspendThreads
+bsg_kscrashsentry_uninstall
+bsg_kscrashsentry_installWithContext
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSMach_x86_64.c
++[NSError(BSG_SimpleConstructor) bsg_errorWithDomain:code:description:]
++[NSError(BSG_SimpleConstructor) bsg_fillError:withDomain:code:description:]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/NSError+BSG_SimpleConstructor.m
+_bsg_g_recrashReportFilePath
+_bsg_g_crashReportFilePath
+_bsg_g_crashReportContext
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashC.c
+bsg_kscrash_setThreadTracingEnabled
+bsg_kscrash_setReportWhenDebuggerIsAttached
+bsg_kscrash_setWriteBinaryImagesForUserReported
+bsg_kscrash_setSuspendThreadsForUserReported
+bsg_kscrash_reportUserException
+bsg_kscrash_setCrashNotifyCallback
+bsg_kscrash_setDoNotIntrospectClasses
+bsg_kscrash_setCatchZombies
+bsg_kscrash_setIntrospectMemory
+bsg_kscrash_setSearchQueueNames
+bsg_kscrash_setSearchThreadNames
+bsg_kscrash_setPrintTraceToStdout
+bsg_kscrash_setDeadlockWatchdogInterval
+bsg_kscrash_setUserInfoJSON
+bsg_kscrash_setHandlingCrashTypes
+bsg_kscrash_reinstall
+bsg_kscrash_install
+bsg_kscrash_i_onCrash
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSBacktrace.c
+bsg_ksbt_symbolicate
+bsg_ksbt_backtraceSelf
+bsg_ksbt_backtracePthread
+bsg_ksbt_backtraceThread
+bsg_ksbt_backtraceThreadState
+bsg_ksbt_isBacktraceTooLong
+bsg_ksbt_backtraceLength
+-[BSG_KSCrashDeadlockMonitor init]
+___34-[BSG_KSCrashDeadlockMonitor init]_block_invoke
+-[BSG_KSCrashDeadlockMonitor cancel]
+-[BSG_KSCrashDeadlockMonitor watchdogPulse]
+___43-[BSG_KSCrashDeadlockMonitor watchdogPulse]_block_invoke
+___copy_helper_block_.24
+___destroy_helper_block_.25
+-[BSG_KSCrashDeadlockMonitor watchdogAnswer]
+-[BSG_KSCrashDeadlockMonitor handleDeadlock]
+-[BSG_KSCrashDeadlockMonitor runMonitor]
+-[BSG_KSCrashDeadlockMonitor monitorThread]
+-[BSG_KSCrashDeadlockMonitor setMonitorThread:]
+-[BSG_KSCrashDeadlockMonitor mainThread]
+-[BSG_KSCrashDeadlockMonitor setMainThread:]
+-[BSG_KSCrashDeadlockMonitor awaitingResponse]
+-[BSG_KSCrashDeadlockMonitor setAwaitingResponse:]
+-[BSG_KSCrashDeadlockMonitor .cxx_destruct]
+_bsg_g_watchdogInterval
+_OBJC_IVAR_$_BSG_KSCrashDeadlockMonitor._monitorThread
+_OBJC_IVAR_$_BSG_KSCrashDeadlockMonitor._mainThread
+_OBJC_IVAR_$_BSG_KSCrashDeadlockMonitor._awaitingResponse
+_bsg_g_monitor
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_Deadlock.m
+bsg_kscrashsentry_setDeadlockHandlerWatchdogInterval
+bsg_kscrashsentry_uninstallDeadlockHandler
+bsg_kscrashsentry_installDeadlockHandler
+__43-[BSG_KSCrashDeadlockMonitor watchdogPulse]_block_invoke
+__34-[BSG_KSCrashDeadlockMonitor init]_block_invoke
+-[NSDictionary(BSG_Merge) bsg_mergedInto:]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/NSDictionary+BSG_Merge.m
++[BSG_KSCrashReportStore storeWithPath:]
+-[BSG_KSCrashReportStore initWithPath:filenameSuffix:]
+-[BSG_KSCrashReportStore recrashReportFilenameWithID:]
+-[BSG_KSCrashReportStore pathToRecrashReportWithID:]
+-[BSG_KSCrashReportStore getReportType:]
+-[BSG_KSCrashReportStore deleteFileWithId:]
+-[BSG_KSCrashReportStore fileWithId:]
+-[BSG_KSCrashReportStore fixupCrashReport:]
+-[BSG_KSCrashReportStore mergeDictWithKey:intoDictWithKey:inReport:]
+-[BSG_KSCrashReportStore convertTimestamp:inReport:]
+-[BSG_KSCrashReportStore readFile:error:]
+-[BSG_KSCrashReportStore demangleSwift]
+-[BSG_KSCrashReportStore setDemangleSwift:]
+-[BSG_KSCrashReportStore demangleCPP]
+-[BSG_KSCrashReportStore setDemangleCPP:]
+_OBJC_IVAR_$_BSG_KSCrashReportStore._demangleSwift
+_OBJC_IVAR_$_BSG_KSCrashReportStore._demangleCPP
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReportStore.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReportStore.h
++[BSG_KSSystemInfo int32Sysctl:]
++[BSG_KSSystemInfo int64Sysctl:]
++[BSG_KSSystemInfo stringSysctl:]
++[BSG_KSSystemInfo dateSysctl:]
++[BSG_KSSystemInfo uuidBytesToString:]
++[BSG_KSSystemInfo executablePath]
++[BSG_KSSystemInfo appUUID]
++[BSG_KSSystemInfo deviceAndAppHash]
++[BSG_KSSystemInfo CPUArchForCPUType:subType:]
++[BSG_KSSystemInfo currentCPUArch]
++[BSG_KSSystemInfo isJailbroken]
++[BSG_KSSystemInfo isDebugBuild]
++[BSG_KSSystemInfo isSimulatorBuild]
++[BSG_KSSystemInfo receiptUrlPath]
++[BSG_KSSystemInfo isTestBuild]
++[BSG_KSSystemInfo hasAppStoreReceipt]
++[BSG_KSSystemInfo buildType]
++[BSG_KSSystemInfo systemInfo]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSSystemInfo.m
+bsg_kssysteminfo_copyProcessName
+bsg_kssysteminfo_toJSON
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagKSCrashSysInfoParser.m
+BSGParseAppState
+BSGParseApp
+BSGParseDeviceState
+BSGParseDevice
+-[BugsnagBreadcrumb init]
+-[BugsnagBreadcrumb isValid]
+-[BugsnagBreadcrumb objectValue]
+-[BugsnagBreadcrumb timestamp]
+-[BugsnagBreadcrumb setTimestamp:]
+-[BugsnagBreadcrumb name]
+-[BugsnagBreadcrumb type]
+-[BugsnagBreadcrumb setType:]
+-[BugsnagBreadcrumb setName:]
+-[BugsnagBreadcrumb metadata]
+-[BugsnagBreadcrumb setMetadata:]
++[BugsnagBreadcrumb breadcrumbWithBlock:]
+-[BugsnagBreadcrumb .cxx_destruct]
+-[BugsnagBreadcrumbs init]
+-[BugsnagBreadcrumbs addBreadcrumb:]
+___36-[BugsnagBreadcrumbs addBreadcrumb:]_block_invoke
+-[BugsnagBreadcrumbs addBreadcrumbWithBlock:]
+___45-[BugsnagBreadcrumbs addBreadcrumbWithBlock:]_block_invoke
+___copy_helper_block_.226
+___destroy_helper_block_.227
+-[BugsnagBreadcrumbs capacity]
+-[BugsnagBreadcrumbs setCapacity:]
+-[BugsnagBreadcrumbs clearBreadcrumbs]
+___38-[BugsnagBreadcrumbs clearBreadcrumbs]_block_invoke
+___copy_helper_block_.232
+___destroy_helper_block_.233
+-[BugsnagBreadcrumbs count]
+-[BugsnagBreadcrumbs objectAtIndexedSubscript:]
+___47-[BugsnagBreadcrumbs objectAtIndexedSubscript:]_block_invoke
+___copy_helper_block_.239
+___destroy_helper_block_.240
+-[BugsnagBreadcrumbs arrayValue]
+___32-[BugsnagBreadcrumbs arrayValue]_block_invoke
+___copy_helper_block_.258
+___destroy_helper_block_.259
+-[BugsnagBreadcrumbs resizeToFitCapacity:]
+___42-[BugsnagBreadcrumbs resizeToFitCapacity:]_block_invoke
+___copy_helper_block_.265
+___destroy_helper_block_.266
+-[BugsnagBreadcrumbs breadcrumbs]
+-[BugsnagBreadcrumbs setBreadcrumbs:]
+-[BugsnagBreadcrumbs readWriteQueue]
+-[BugsnagBreadcrumbs .cxx_destruct]
+_OBJC_IVAR_$_BugsnagBreadcrumb._timestamp
+_OBJC_IVAR_$_BugsnagBreadcrumb._name
+_OBJC_IVAR_$_BugsnagBreadcrumb._type
+_OBJC_IVAR_$_BugsnagBreadcrumb._metadata
+_OBJC_IVAR_$_BugsnagBreadcrumbs._breadcrumbs
+_OBJC_IVAR_$_BugsnagBreadcrumbs._capacity
+_OBJC_IVAR_$_BugsnagBreadcrumbs._readWriteQueue
+___block_descriptor_tmp.229
+___block_descriptor_tmp.234
+___block_descriptor_tmp.241
+___block_descriptor_tmp.260
+___block_descriptor_tmp.267
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagBreadcrumb.m
+__42-[BugsnagBreadcrumbs resizeToFitCapacity:]_block_invoke
+__32-[BugsnagBreadcrumbs arrayValue]_block_invoke
+__47-[BugsnagBreadcrumbs objectAtIndexedSubscript:]_block_invoke
+__38-[BugsnagBreadcrumbs clearBreadcrumbs]_block_invoke
+__45-[BugsnagBreadcrumbs addBreadcrumbWithBlock:]_block_invoke
+__36-[BugsnagBreadcrumbs addBreadcrumb:]_block_invoke
+BSGBreadcrumbTypeValue
+-[BugsnagErrorReportApiClient deliveryOperation]
+-[BSGDeliveryOperation main]
+___28-[BSGDeliveryOperation main]_block_invoke
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagErrorReportApiClient.m
+__28-[BSGDeliveryOperation main]_block_invoke
+_bsg_g_hexNybbles
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSJSONCodec.c
+bsg_ksjsondecode
+bsg_ksjsoncodec_i_decodeElement
+isFPChar
+skipWhitespace
+isspace
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/include/_ctype.h
+__istype
+bsg_ksjsoncodec_i_decodeString
+bsg_ksjsoncodec_i_writeUTF8
+bsg_ksjsonendEncode
+bsg_ksjsonbeginEncode
+bsg_ksjsonendContainer
+bsg_ksjsonbeginObject
+bsg_ksjsonbeginArray
+bsg_ksjsonendDataElement
+bsg_ksjsonendStringElement
+bsg_ksjsonappendDataElement
+bsg_ksjsonbeginDataElement
+bsg_ksjsonbeginStringElement
+bsg_ksjsonaddDataElement
+bsg_ksjsonappendStringElement
+bsg_ksjsonaddStringElement
+bsg_ksjsonaddNullElement
+bsg_ksjsonaddJSONElement
+bsg_ksjsonaddIntegerElement
+bsg_ksjsonaddFloatingPointElement
+bsg_ksjsonaddBooleanElement
+bsg_ksjsonaddRawJSONData
+bsg_ksjsonbeginElement
+bsg_ksjsoncodec_i_addQuotedEscapedString
+bsg_ksjsoncodec_i_addEscapedString
+bsg_ksjsoncodec_i_appendEscapedString
+bsg_ksjsonstringForError
+_bsg_g_previousUncaughtExceptionHandler
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_NSException.m
+bsg_kscrashsentry_uninstallNSExceptionHandler
+bsg_kscrashsentry_installNSExceptionHandler
+bsg_ksnsexc_i_handleException
+_bsg_g_introspectionRules
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrashReport.c
+bsg_kscrashreport_logCrash
+bsg_kscrashreport_writeStandardReport
+bsg_kscrw_i_callUserCrashHandler
+bsg_kscrw_i_prepareReportWriter
+bsg_kscrw_i_updateStackOverflowStatus
+bsg_kscrashreport_writeMinimalReport
+bsg_kscrw_i_openCrashReportFile
+bsg_kscrw_i_writeReportInfo
+bsg_kscrw_i_writeProcessState
+bsg_kscrw_i_writeAppStats
+bsg_kscrw_i_writeError
+bsg_kscrw_i_writeMemoryInfo
+bsg_kscrw_i_writeBinaryImages
+bsg_kscrw_i_writeBinaryImage
+bsg_kscrw_i_threadIndex
+bsg_kscrw_i_writeAllThreads
+bsg_kscrw_i_writeThread
+bsg_kscrw_i_writeNotableAddresses
+bsg_kscrw_i_writeNotableRegisters
+bsg_kscrw_i_writeRegisters
+bsg_kscrw_i_writeExceptionRegisters
+bsg_kscrw_i_writeBasicRegisters
+bsg_kscrw_i_writeNotableStackContents
+bsg_kscrw_i_writeStackContents
+bsg_kscrw_i_writeBacktrace
+bsg_kscrw_i_writeBacktraceEntry
+bsg_kscrw_i_writeAddressReferencedByString
+bsg_kscrw_i_writeMemoryContentsIfNotable
+bsg_kscrw_i_isValidPointer
+bsg_kscrw_i_isRestrictedClass
+bsg_kscrw_i_writeUnknownObjectContents
+bsg_kscrw_i_writeMemoryContents
+bsg_kscrw_i_writeNumberContents
+bsg_kscrw_i_writeDateContents
+bsg_kscrw_i_writeURLContents
+bsg_kscrw_i_writeNSStringContents
+bsg_kscrw_i_writeArrayContents
+bsg_kscrw_i_logCrashThreadBacktrace
+bsg_kscrw_i_logBacktrace
+bsg_kscrw_i_logBacktraceEntry
+bsg_kscrw_i_logCrashType
+bsg_kscrw_i_isStackOverflow
+bsg_kscrw_i_getBacktrace
+bsg_kscrw_i_getMachineContext
+bsg_kscrw_i_fetchMachineState
+bsg_kscrw_i_isValidString
+bsg_kscrw_i_addJSONData
+bsg_kscrw_i_endContainer
+bsg_kscrw_i_beginArray
+bsg_kscrw_i_beginObject
+bsg_kscrw_i_addJSONElementFromFile
+bsg_kscrw_i_addJSONElement
+bsg_kscrw_i_addUUIDElement
+bsg_kscrw_i_endDataElement
+bsg_kscrw_i_appendDataElement
+bsg_kscrw_i_beginDataElement
+bsg_kscrw_i_addDataElement
+bsg_kscrw_i_addTextFileElement
+bsg_kscrw_i_addStringElement
+bsg_kscrw_i_addUIntegerElement
+bsg_kscrw_i_addIntegerElement
+bsg_kscrw_i_addFloatingPointElement
+bsg_kscrw_i_addBooleanElement
+-[BugsnagUser initWithDictionary:]
+-[BugsnagUser initWithUserId:name:emailAddress:]
++[BugsnagUser userWithUserId:name:emailAddress:]
+-[BugsnagUser toJson]
+-[BugsnagUser userId]
+-[BugsnagUser setUserId:]
+-[BugsnagUser name]
+-[BugsnagUser setName:]
+-[BugsnagUser emailAddress]
+-[BugsnagUser setEmailAddress:]
+-[BugsnagUser .cxx_destruct]
+_OBJC_IVAR_$_BugsnagUser._userId
+_OBJC_IVAR_$_BugsnagUser._emailAddress
+_OBJC_IVAR_$_BugsnagUser._name
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagUser.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagUser.h
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagCollections.m
+BSGArrayInsertIfNotNil
+BSGDictInsertIfNotNil
+BSGArrayAddSafeObject
+BSGDictSetSafeObject
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_MachException.c
+bsg_kscrashsentry_uninstallMachHandler
+bsg_kscrashsentry_installMachHandler
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_KSDynamicLinker.c
+bsg_ksdlgetSymbolAddrInAnyImage
+bsg_ksdlgetSymbolAddrInImage
+bsg_ksdlfirstCmdAfterHeader
+bsg_ksdldladdr
+bsg_ksdlsegmentBaseOfImageIndex
+bsg_ksdlimageIndexContainingAddress
+bsg_ksdlimageUUID
+bsg_ksdlimageNamed
++[BugsnagHandledState handledStateWithSeverityReason:]
++[BugsnagHandledState handledStateWithSeverityReason:severity:attrValue:]
+-[BugsnagHandledState initWithSeverityReason:severity:unhandled:attrValue:]
+-[BugsnagHandledState initWithDictionary:]
+-[BugsnagHandledState calculateSeverityReasonType]
++[BugsnagHandledState stringFromSeverityReason:]
++[BugsnagHandledState severityReasonFromString:]
+-[BugsnagHandledState toJson]
+-[BugsnagHandledState unhandled]
+-[BugsnagHandledState severityReasonType]
+-[BugsnagHandledState originalSeverity]
+-[BugsnagHandledState currentSeverity]
+-[BugsnagHandledState setCurrentSeverity:]
+-[BugsnagHandledState attrValue]
+-[BugsnagHandledState attrKey]
+-[BugsnagHandledState .cxx_destruct]
+_OBJC_IVAR_$_BugsnagHandledState._severityReasonType
+_OBJC_IVAR_$_BugsnagHandledState._currentSeverity
+_OBJC_IVAR_$_BugsnagHandledState._originalSeverity
+_OBJC_IVAR_$_BugsnagHandledState._unhandled
+_OBJC_IVAR_$_BugsnagHandledState._attrValue
+_OBJC_IVAR_$_BugsnagHandledState._attrKey
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagHandledState.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagHandledState.h
+-[BugsnagCrashSentry install:apiClient:onCrash:]
+-[BugsnagCrashSentry reportUserException:reason:]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagCrashSentry.m
+-[BugsnagCrashReport initWithKSReport:]
+-[BugsnagCrashReport initWithErrorName:errorMessage:configuration:metaData:handledState:session:]
+-[BugsnagCrashReport metaData]
+-[BugsnagCrashReport setMetaData:]
+-[BugsnagCrashReport addMetadata:toTabWithName:]
+-[BugsnagCrashReport addAttribute:withValue:toTabWithName:]
+-[BugsnagCrashReport shouldBeSent]
+-[BugsnagCrashReport context]
+-[BugsnagCrashReport setContext:]
+-[BugsnagCrashReport groupingHash]
+-[BugsnagCrashReport setGroupingHash:]
+-[BugsnagCrashReport breadcrumbs]
+-[BugsnagCrashReport setBreadcrumbs:]
+-[BugsnagCrashReport releaseStage]
+-[BugsnagCrashReport setReleaseStage:]
+-[BugsnagCrashReport attachCustomStacktrace:withType:]
+-[BugsnagCrashReport severity]
+-[BugsnagCrashReport setSeverity:]
+-[BugsnagCrashReport setOverrideProperty:value:]
+-[BugsnagCrashReport serializableValueWithTopLevelData:]
+-[BugsnagCrashReport toJson]
+-[BugsnagCrashReport generateSessionDict]
+-[BugsnagCrashReport serializeThreadsWithException:]
+-[BugsnagCrashReport enhancedErrorMessageForThread:]
+-[BugsnagCrashReport notifyReleaseStages]
+-[BugsnagCrashReport setNotifyReleaseStages:]
+-[BugsnagCrashReport errorClass]
+-[BugsnagCrashReport setErrorClass:]
+-[BugsnagCrashReport errorMessage]
+-[BugsnagCrashReport setErrorMessage:]
+-[BugsnagCrashReport handledState]
+-[BugsnagCrashReport overrides]
+-[BugsnagCrashReport depth]
+-[BugsnagCrashReport setDepth:]
+-[BugsnagCrashReport error]
+-[BugsnagCrashReport setError:]
+-[BugsnagCrashReport device]
+-[BugsnagCrashReport setDevice:]
+-[BugsnagCrashReport deviceState]
+-[BugsnagCrashReport setDeviceState:]
+-[BugsnagCrashReport app]
+-[BugsnagCrashReport setApp:]
+-[BugsnagCrashReport appState]
+-[BugsnagCrashReport setAppState:]
+-[BugsnagCrashReport errorType]
+-[BugsnagCrashReport setErrorType:]
+-[BugsnagCrashReport dsymUUID]
+-[BugsnagCrashReport deviceAppHash]
+-[BugsnagCrashReport binaryImages]
+-[BugsnagCrashReport threads]
+-[BugsnagCrashReport customException]
+-[BugsnagCrashReport setCustomException:]
+-[BugsnagCrashReport session]
+-[BugsnagCrashReport setSession:]
+-[BugsnagCrashReport .cxx_destruct]
++[RegisterErrorData errorDataFromThreads:]
++[RegisterErrorData isReservedWord:]
+-[RegisterErrorData init]
+-[RegisterErrorData initWithClass:message:]
+-[RegisterErrorData errorClass]
+-[RegisterErrorData setErrorClass:]
+-[RegisterErrorData errorMessage]
+-[RegisterErrorData setErrorMessage:]
+-[RegisterErrorData .cxx_destruct]
+_OBJC_IVAR_$_BugsnagCrashReport._notifyReleaseStages
+_OBJC_IVAR_$_BugsnagCrashReport._releaseStage
+_OBJC_IVAR_$_BugsnagCrashReport._error
+_OBJC_IVAR_$_BugsnagCrashReport._errorType
+_OBJC_IVAR_$_BugsnagCrashReport._threads
+_OBJC_IVAR_$_BugsnagCrashReport._errorClass
+_OBJC_IVAR_$_BugsnagCrashReport._errorMessage
+_OBJC_IVAR_$_BugsnagCrashReport._binaryImages
+_OBJC_IVAR_$_BugsnagCrashReport._breadcrumbs
+_OBJC_IVAR_$_BugsnagCrashReport._dsymUUID
+_OBJC_IVAR_$_BugsnagCrashReport._deviceAppHash
+_OBJC_IVAR_$_BugsnagCrashReport._metaData
+_OBJC_IVAR_$_BugsnagCrashReport._context
+_OBJC_IVAR_$_BugsnagCrashReport._deviceState
+_OBJC_IVAR_$_BugsnagCrashReport._device
+_OBJC_IVAR_$_BugsnagCrashReport._app
+_OBJC_IVAR_$_BugsnagCrashReport._appState
+_OBJC_IVAR_$_BugsnagCrashReport._groupingHash
+_OBJC_IVAR_$_BugsnagCrashReport._overrides
+_OBJC_IVAR_$_BugsnagCrashReport._customException
+_OBJC_IVAR_$_BugsnagCrashReport._handledState
+_OBJC_IVAR_$_BugsnagCrashReport._depth
+_OBJC_IVAR_$_BugsnagCrashReport._severity
+_OBJC_IVAR_$_BugsnagCrashReport._session
+_OBJC_IVAR_$_RegisterErrorData._errorClass
+_OBJC_IVAR_$_RegisterErrorData._errorMessage
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagCrashReport.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagCrashReport.h
+BSGParseCustomException
+BSGFormatSeverity
+BSGParseSeverity
+BSGParseReleaseStage
+BSGParseBreadcrumbs
+BSGParseGroupingHash
+BSGParseContext
+BSGParseErrorMessage
+BSGParseErrorClass
+BSGFormatFrame
+-[BSG_KSCrash setDemangleLanguages:]
+-[BSG_KSCrash demangleLanguages]
++[BSG_KSCrash sharedInstance]
+___29+[BSG_KSCrash sharedInstance]_block_invoke
++[BSG_KSCrash allocWithZone:]
+-[BSG_KSCrash init]
+-[BSG_KSCrash initWithReportFilesDirectory:]
+-[BSG_KSCrash setUserInfo:]
+-[BSG_KSCrash setHandlingCrashTypes:]
+-[BSG_KSCrash setDeadlockWatchdogInterval:]
+-[BSG_KSCrash setPrintTraceToStdout:]
+-[BSG_KSCrash setOnCrash:]
+-[BSG_KSCrash setSearchThreadNames:]
+-[BSG_KSCrash setSearchQueueNames:]
+-[BSG_KSCrash setIntrospectMemory:]
+-[BSG_KSCrash setCatchZombies:]
+-[BSG_KSCrash setSuspendThreadsForUserReported:]
+-[BSG_KSCrash setReportWhenDebuggerIsAttached:]
+-[BSG_KSCrash setThreadTracingEnabled:]
+-[BSG_KSCrash setWriteBinaryImagesForUserReported:]
+-[BSG_KSCrash setDoNotIntrospectClasses:]
+-[BSG_KSCrash crashReportPath]
+-[BSG_KSCrash recrashReportPath]
+-[BSG_KSCrash stateFilePath]
+-[BSG_KSCrash install]
+-[BSG_KSCrash sendAllReportsWithCompletion:]
+___44-[BSG_KSCrash sendAllReportsWithCompletion:]_block_invoke
+___copy_helper_block_.147
+___destroy_helper_block_.148
+-[BSG_KSCrash deleteAllReports]
+-[BSG_KSCrash reportUserException:reason:language:lineOfCode:stackTrace:terminateProgram:]
+-[BSG_KSCrash activeDurationSinceLastCrash]
+-[BSG_KSCrash backgroundDurationSinceLastCrash]
+-[BSG_KSCrash launchesSinceLastCrash]
+-[BSG_KSCrash sessionsSinceLastCrash]
+-[BSG_KSCrash activeDurationSinceLaunch]
+-[BSG_KSCrash backgroundDurationSinceLaunch]
+-[BSG_KSCrash sessionsSinceLaunch]
+-[BSG_KSCrash crashedLastLaunch]
+-[BSG_KSCrash reportCount]
+-[BSG_KSCrash crashReportsPath]
+-[BSG_KSCrash sendReports:onCompletion:]
+___40-[BSG_KSCrash sendReports:onCompletion:]_block_invoke
+___copy_helper_block_.172
+___destroy_helper_block_.173
+-[BSG_KSCrash allReports]
+-[BSG_KSCrash redirectConsoleLogsToFile:overwrite:]
+-[BSG_KSCrash redirectConsoleLogsToDefaultFile]
+-[BSG_KSCrash nullTerminated:]
+-[BSG_KSCrash applicationDidBecomeActive]
+-[BSG_KSCrash applicationWillResignActive]
+-[BSG_KSCrash applicationDidEnterBackground]
+-[BSG_KSCrash applicationWillEnterForeground]
+-[BSG_KSCrash applicationWillTerminate]
+-[BSG_KSCrash sink]
+-[BSG_KSCrash setSink:]
+-[BSG_KSCrash userInfo]
+-[BSG_KSCrash deleteBehaviorAfterSendAll]
+-[BSG_KSCrash setDeleteBehaviorAfterSendAll:]
+-[BSG_KSCrash handlingCrashTypes]
+-[BSG_KSCrash deadlockWatchdogInterval]
+-[BSG_KSCrash printTraceToStdout]
+-[BSG_KSCrash onCrash]
+-[BSG_KSCrash crashReportStore]
+-[BSG_KSCrash setCrashReportStore:]
+-[BSG_KSCrash bundleName]
+-[BSG_KSCrash setBundleName:]
+-[BSG_KSCrash logFilePath]
+-[BSG_KSCrash setLogFilePath:]
+-[BSG_KSCrash nextCrashID]
+-[BSG_KSCrash setNextCrashID:]
+-[BSG_KSCrash searchThreadNames]
+-[BSG_KSCrash searchQueueNames]
+-[BSG_KSCrash introspectMemory]
+-[BSG_KSCrash catchZombies]
+-[BSG_KSCrash doNotIntrospectClasses]
+-[BSG_KSCrash maxStoredReports]
+-[BSG_KSCrash setMaxStoredReports:]
+-[BSG_KSCrash suspendThreadsForUserReported]
+-[BSG_KSCrash reportWhenDebuggerIsAttached]
+-[BSG_KSCrash threadTracingEnabled]
+-[BSG_KSCrash writeBinaryImagesForUserReported]
+-[BSG_KSCrash .cxx_destruct]
+_sharedInstance.sharedInstance
+_sharedInstance.onceToken
+_allocWithZone:.singleInstance
+_OBJC_IVAR_$_BSG_KSCrash._userInfo
+_OBJC_IVAR_$_BSG_KSCrash._handlingCrashTypes
+_OBJC_IVAR_$_BSG_KSCrash._deadlockWatchdogInterval
+_OBJC_IVAR_$_BSG_KSCrash._printTraceToStdout
+_OBJC_IVAR_$_BSG_KSCrash._onCrash
+_OBJC_IVAR_$_BSG_KSCrash._searchThreadNames
+_OBJC_IVAR_$_BSG_KSCrash._searchQueueNames
+_OBJC_IVAR_$_BSG_KSCrash._introspectMemory
+_OBJC_IVAR_$_BSG_KSCrash._catchZombies
+_OBJC_IVAR_$_BSG_KSCrash._suspendThreadsForUserReported
+_OBJC_IVAR_$_BSG_KSCrash._reportWhenDebuggerIsAttached
+_OBJC_IVAR_$_BSG_KSCrash._threadTracingEnabled
+_OBJC_IVAR_$_BSG_KSCrash._writeBinaryImagesForUserReported
+_OBJC_IVAR_$_BSG_KSCrash._doNotIntrospectClasses
+___block_descriptor_tmp.150
+___block_descriptor_tmp.174
+_OBJC_IVAR_$_BSG_KSCrash._sink
+_OBJC_IVAR_$_BSG_KSCrash._deleteBehaviorAfterSendAll
+_OBJC_IVAR_$_BSG_KSCrash._crashReportStore
+_OBJC_IVAR_$_BSG_KSCrash._bundleName
+_OBJC_IVAR_$_BSG_KSCrash._logFilePath
+_OBJC_IVAR_$_BSG_KSCrash._nextCrashID
+_OBJC_IVAR_$_BSG_KSCrash._maxStoredReports
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrash.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/BSG_KSCrash.h
+__40-[BSG_KSCrash sendReports:onCompletion:]_block_invoke
+__44-[BSG_KSCrash sendAllReportsWithCompletion:]_block_invoke
+__29+[BSG_KSCrash sharedInstance]_block_invoke
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Sentry/BSG_KSCrashSentry_User.c
+bsg_kscrashsentry_reportUserException
+bsg_kscrashsentry_uninstallUserExceptionHandler
+bsg_kscrashsentry_installUserExceptionHandler
++[BSG_RFC3339DateTool sharedInstance]
++[BSG_RFC3339DateTool stringFromDate:]
++[BSG_RFC3339DateTool dateFromString:]
++[BSG_RFC3339DateTool stringFromUNIXTimestamp:]
++[BSG_RFC3339DateTool UNIXTimestampFromString:]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/KSCrash/Source/KSCrash/Recording/Tools/BSG_RFC3339DateTool.m
++[FileStoreInfo fileStoreInfoWithId:creationDate:]
+-[FileStoreInfo initWithId:creationDate:]
+-[FileStoreInfo compare:]
+-[FileStoreInfo fileId]
+-[FileStoreInfo creationDate]
+-[FileStoreInfo .cxx_destruct]
+-[BugsnagFileStore initWithPath:filenameSuffix:]
+-[BugsnagFileStore fileIds]
+-[BugsnagFileStore fileCount]
+-[BugsnagFileStore allFiles]
+-[BugsnagFileStore deleteAllFiles]
+-[BugsnagFileStore pruneFilesLeaving:]
+-[BugsnagFileStore fileWithId:]
+-[BugsnagFileStore deleteFileWithId:]
++[BugsnagFileStore findReportStorePath:bundleName:]
++[BugsnagFileStore ensureDirectoryExists:]
+-[BugsnagFileStore performOnFields:inFile:operation:okIfNotFound:]
+-[BugsnagFileStore pathToFileWithId:]
+-[BugsnagFileStore readFile:error:]
+-[BugsnagFileStore filenameWithId:]
+-[BugsnagFileStore fileIdFromFilename:]
+-[BugsnagFileStore path]
+-[BugsnagFileStore setPath:]
+-[BugsnagFileStore filenameSuffix]
+-[BugsnagFileStore bundleName]
+-[BugsnagFileStore setBundleName:]
+-[BugsnagFileStore .cxx_destruct]
+_OBJC_IVAR_$_FileStoreInfo._fileId
+_OBJC_IVAR_$_FileStoreInfo._creationDate
+_OBJC_IVAR_$_BugsnagFileStore._filenameSuffix
+_OBJC_IVAR_$_BugsnagFileStore._path
+_OBJC_IVAR_$_BugsnagFileStore._bundleName
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagFileStore.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagFileStore.h
++[BugsnagSessionFileStore storeWithPath:]
+-[BugsnagSessionFileStore write:]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSessionFileStore.m
+-[BugsnagSessionTrackingApiClient deliveryOperation]
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagSessionTrackingApiClient.m
+-[BugsnagApiClient initWithConfig:queueName:]
+-[BugsnagApiClient flushPendingData]
+-[BugsnagApiClient deliveryOperation]
+-[BugsnagApiClient sendData:withPayload:toURL:headers:onCompletion:]
+___68-[BugsnagApiClient sendData:withPayload:toURL:headers:onCompletion:]_block_invoke
+-[BugsnagApiClient prepareSession]
+-[BugsnagApiClient prepareRequest:headers:]
+-[BugsnagApiClient sendQueue]
+-[BugsnagApiClient config]
+-[BugsnagApiClient generatedSession]
+-[BugsnagApiClient setGeneratedSession:]
+-[BugsnagApiClient .cxx_destruct]
+-[BSGDelayOperation main]
+_OBJC_IVAR_$_BugsnagApiClient._sendQueue
+_OBJC_IVAR_$_BugsnagApiClient._config
+_OBJC_IVAR_$_BugsnagApiClient._generatedSession
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagApiClient.m
+/Users/voxels/Documents/ToyPhotoGallery/src/ToyPhotoGallery/Carthage/Checkouts/bugsnag-cocoa/Source/BugsnagApiClient.h
+__68-[BugsnagApiClient sendData:withPayload:toURL:headers:onCompletion:]_block_invoke
+/Users/voxels/Library/Caches/org.carthage.CarthageKit/DerivedData/9.4.1_9F2000/bugsnag-cocoa/v5.16.0/Build/Intermediates.noindex/ArchiveIntermediates/Bugsnag/IntermediateBuildFilesPath/Bugsnag.build/Release-iphoneos/Bugsnag.build/DerivedSources/Bugsnag_vers.c
+__ZL15__ARCLite__loadv
+__ZL30add_image_hook_autoreleasepoolPK11mach_headerl
+__ZL34__arclite_objc_autoreleasePoolPushv
+__ZL33__arclite_objc_autoreleasePoolPopPv
+__ZL19patch_lazy_pointersPK11mach_headerP7patch_tm
+__ZL42__arclite_NSArray_objectAtIndexedSubscriptP7NSArrayP13objc_selectorj
+__ZL53__arclite_NSMutableArray_setObject_atIndexedSubscriptP14NSMutableArrayP13objc_selectorP11objc_objectj
+__ZL46__arclite_NSDictionary_objectForKeyedSubscriptP12NSDictionaryP13objc_selectorP11objc_object
+__ZL47__arclite_NSOrderedSet_objectAtIndexedSubscriptP12NSOrderedSetP13objc_selectorj
+__ZL58__arclite_NSMutableOrderedSet_setObject_atIndexedSubscriptP19NSMutableOrderedSetP13objc_selectorP11objc_objectj
+__ZL58__arclite_NSMutableDictionary__setObject_forKeyedSubscriptP19NSMutableDictionaryP13objc_selectorP11objc_objectS4_
+__ZL18add_image_hook_ARCPK11mach_headerl
+__ZL36__arclite_object_setInstanceVariableP11objc_objectPKcPv
+__ZL24__arclite_object_setIvarP11objc_objectP9objc_ivarS0_
+__ZL21__arclite_object_copyP11objc_objectm
+__ZL21__arclite_objc_retainP11objc_object
+__ZL26__arclite_objc_retainBlockP11objc_object
+__ZL22__arclite_objc_releaseP11objc_object
+__ZL26__arclite_objc_autoreleaseP11objc_object
+__ZL32__arclite_objc_retainAutoreleaseP11objc_object
+__ZL37__arclite_objc_autoreleaseReturnValueP11objc_object
+__ZL43__arclite_objc_retainAutoreleaseReturnValueP11objc_object
+__ZL44__arclite_objc_retainAutoreleasedReturnValueP11objc_object
+__ZL26__arclite_objc_storeStrongPP11objc_objectS0_
+__ZL22add_image_hook_swiftV1PK11mach_headerl
+__ZL42__arclite_NSUndoManagerProxy_isKindOfClassP11objc_objectP13objc_selectorP10objc_class
+__ZL30__arclite_NSManagedObject_initP11objc_objectP13objc_selector
+__ZL41__arclite_NSManagedObject_allocWithEntityP11objc_objectP13objc_selectorS0_
+__ZL36__arclite_NSManagedObject_allocBatchP11objc_objectP13objc_selectorPS0_S0_j
+__ZL37__arclite_NSKKMS_fastIndexForKnownKeyP11objc_objectP13objc_selectorS0_
+__ZL28__arclite_NSKKMS_indexForKeyP11objc_objectP13objc_selectorS0_
+__ZL29__arclite_NSKKsD_objectForKeyP11objc_objectP13objc_selectorS0_
+__ZL35__arclite_NSKKsD_removeObjectForKeyP11objc_objectP13objc_selectorS0_
+__ZL33__arclite_NSKKsD_setObject_forKeyP11objc_objectP13objc_selectorS0_S0_
+__ZL41__arclite_NSKKsD_addEntriesFromDictionaryP11objc_objectP13objc_selectorP12NSDictionary
+__ZL28__arclite_objc_readClassPairP10objc_classPK15objc_image_info
+__ZL32__arclite_objc_allocateClassPairP10objc_classPKcm
+__ZL32__arclite_object_getIndexedIvarsP11objc_object
+__ZL23__arclite_objc_getClassPKc
+__ZL27__arclite_objc_getMetaClassPKc
+__ZL31__arclite_objc_getRequiredClassPKc
+__ZL26__arclite_objc_lookUpClassPKc
+__ZL26__arclite_objc_getProtocolPKc
+__ZL23__arclite_class_getNameP10objc_class
+__ZL26__arclite_protocol_getNameP8Protocol
+__ZL37__arclite_objc_copyClassNamesForImagePKcPj
+__ZL17transcribeMethodsP10objc_classP15glue_class_ro_t
+__ZL19transcribeProtocolsP10objc_classP15glue_class_ro_t
+__ZL20transcribePropertiesP10objc_classP15glue_class_ro_t
+__ZL14initialize_impP11objc_objectP13objc_selector
+__ZL18allocateMaybeSwiftP18glue_swift_class_tm
+__ZL22copySwiftV1MangledNamePKcb
+__ZL13demangledNamePKcb
+__ZL16scanMangledFieldRPKcS0_S1_Ri
+__ZL30arclite_uninitialized_functionv
+__ZL12cxxConstructP11objc_object
+__ZL20fixStringForCoreDataP11objc_object
+_OBJC_METACLASS_$___ARCLite__
+__ZL24OBJC_CLASS_$___ARCLite__
+__ZL31OBJC_METACLASS_RO_$___ARCLite__
+__non_lazy_classes
+__ZL27OBJC_CLASS_RO_$___ARCLite__
+__ZL11_class_name
+__ZL32OBJC_$_CLASS_METHODS___ARCLite__
+__ZL17_load_method_name
+__ZL17_load_method_type
+__ZL23NSAutoreleasePool_class
+__ZZL30add_image_hook_autoreleasepoolPK11mach_headerlE7patches
+__ZGVZL30add_image_hook_autoreleasepoolPK11mach_headerlE7patches
+l_OBJC_PROTOCOL_$___ARCLiteIndexedSubscripting__
+l_OBJC_LABEL_PROTOCOL_$___ARCLiteIndexedSubscripting__
+l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteIndexedSubscripting__
+l_OBJC_PROTOCOL_$___ARCLiteKeyedSubscripting__
+l_OBJC_LABEL_PROTOCOL_$___ARCLiteKeyedSubscripting__
+l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteKeyedSubscripting__
+__ZZL18add_image_hook_ARCPK11mach_headerlE7patches
+__ZGVZL18add_image_hook_ARCPK11mach_headerlE7patches
+__ZL30NSUndoManagerProxy_targetClass
+__ZL29original_NSManagedObject_init
+__ZL40original_NSManagedObject_allocWithEntity
+__ZL35original_NSManagedObject_allocBatch
+__ZL25NSMutableDictionary_class
+__ZL22NSConstantString_class
+__ZL14NSString_class
+__ZL36original_NSKKMS_fastIndexForKnownKey
+__ZL27original_NSKKMS_indexForKey
+__ZL28original_NSKKsD_objectForKey
+__ZL34original_NSKKsD_removeObjectForKey
+__ZL32original_NSKKsD_setObject_forKey
+__ZL40original_NSKKsD_addEntriesFromDictionary
+__ZZL22add_image_hook_swiftV1PK11mach_headerlE7patches
+__ZGVZL22add_image_hook_swiftV1PK11mach_headerlE7patches
+__ZL31original_objc_allocateClassPair
+__ZL31original_object_getIndexedIvars
+__ZL22original_objc_getClass
+__ZL26original_objc_getMetaClass
+__ZL30original_objc_getRequiredClass
+__ZL25original_objc_lookUpClass
+__ZL25original_objc_getProtocol
+__ZL22original_class_getName
+__ZL25original_protocol_getName
+__ZL36original_objc_copyClassNamesForImage
+__ZL12demangleLock
+__ZL9Demangled
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch armv7 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -D OBJC_OLD_DISPATCH_PROTOTYPES=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/armv7 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -Wno-error=incomplete-umbrella -Wno-error=invalid-ios-deployment-target -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/armv7/arclite.o -mlinker-version=351.8 -march=armv7a
+/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67/source/arclite.mm
+/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-67
+fixStringForCoreData
+cxxConstruct
+arclite_uninitialized_function
+scanMangledField
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.Internal.sdk/usr/include/_ctype.h
+__isctype
+demangledName
+copySwiftV1DemangledName
+copySwiftV1MangledName
+allocateMaybeSwift
+word_align
+isSwift
+initialize_imp
+transcribeProperties
+property_list_nth
+transcribeProtocols
+transcribeMethods
+data
+method_list_nth
+__arclite_objc_copyClassNamesForImage
+__arclite_protocol_getName
+__arclite_class_getName
+__arclite_objc_getProtocol
+__arclite_objc_lookUpClass
+__arclite_objc_getRequiredClass
+__arclite_objc_getMetaClass
+__arclite_objc_getClass
+__arclite_object_getIndexedIvars
+__arclite_objc_allocateClassPair
+metaclass
+__arclite_objc_readClassPair
+transcribeIvars
+ivar_list_nth
+max
+alignment
+ro
+fastFlags
+__arclite_NSKKsD_addEntriesFromDictionary
+__arclite_NSKKsD_setObject_forKey
+__arclite_NSKKsD_removeObjectForKey
+__arclite_NSKKsD_objectForKey
+__arclite_NSKKMS_indexForKey
+__arclite_NSKKMS_fastIndexForKnownKey
+__arclite_NSManagedObject_allocBatch
+__arclite_NSManagedObject_allocWithEntity
+__arclite_NSManagedObject_init
+__arclite_NSUndoManagerProxy_isKindOfClass
+add_image_hook_swiftV1
+patch_t<const char **(const char *, unsigned int *)>
+patch_t<const char *(Protocol *)>
+patch_t<const char *(Class)>
+patch_t<Protocol *(const char *)>
+patch_t<Class (const char *)>
+patch_t<void *(id)>
+patch_t<Class (Class, const char *, unsigned long)>
+patch_t<Class (Class, const objc_image_info *)>
+__arclite_objc_storeStrong
+__arclite_objc_release
+__arclite_objc_retain
+__arclite_objc_retainAutoreleasedReturnValue
+__arclite_objc_retainAutoreleaseReturnValue
+__arclite_objc_autoreleaseReturnValue
+__arclite_objc_retainAutorelease
+__arclite_objc_autorelease
+__arclite_objc_retainBlock
+__arclite_object_copy
+fixupCopiedReferences
+_class_getInstanceStart
+alignedInstanceStart
+__arclite_class_usesAutomaticRetainRelease
+classOrSuperClassesUseARR
+__arclite_object_setIvar
+isScannedOffset
+_ivar_getClass
+__arclite_object_setInstanceVariable
+add_image_hook_ARC
+patch_t<void (id *, id)>
+patch_t<id (id)>
+patch_t<void (id)>
+patch_t<id (id, unsigned long)>
+patch_t<void (id, objc_ivar *, id)>
+patch_t<objc_ivar *(id, const char *, void *)>
+__arclite_NSMutableDictionary__setObject_forKeyedSubscript
+__arclite_NSMutableOrderedSet_setObject_atIndexedSubscript
+__arclite_NSOrderedSet_objectAtIndexedSubscript
+__arclite_NSDictionary_objectForKeyedSubscript
+__arclite_NSMutableArray_setObject_atIndexedSubscript
+__arclite_NSArray_objectAtIndexedSubscript
+patch_lazy_pointers
+__arclite_objc_autoreleasePoolPop
+__arclite_objc_autoreleasePoolPush
+add_image_hook_autoreleasepool
+patch_t<void (void *)>
+patch_t<void *()>
+__ARCLite__load
+install_swiftV1
+replaceMethod
+install_ARC
+install_dict_nil_value
+addOrReplaceMethod
+keyedGetter
+install_subscripting
+addMethod
+indexedGetter
+install_autoreleasepool

@@ -8,12 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		1E65C9EC20EABBE300D28BE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65C9EB20EABBE300D28BE4 /* AppDelegate.swift */; };
-		1E65C9EE20EABBE300D28BE4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65C9ED20EABBE300D28BE4 /* ViewController.swift */; };
 		1E65C9F120EABBE400D28BE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E65C9EF20EABBE400D28BE4 /* Main.storyboard */; };
 		1E65C9F320EABBEC00D28BE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E65C9F220EABBEC00D28BE4 /* Assets.xcassets */; };
 		1E65C9F620EABBEC00D28BE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E65C9F420EABBEC00D28BE4 /* LaunchScreen.storyboard */; };
 		1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65CA0020EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift */; };
 		1E65CA0C20EABBEC00D28BE4 /* ToyPhotoGalleryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65CA0B20EABBEC00D28BE4 /* ToyPhotoGalleryUITests.swift */; };
+		1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29020EAC690000DCFE7 /* RootViewController.swift */; };
+		1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */; };
+		1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */; };
+		1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */; };
+		1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */; };
+		1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */; };
+		1E78B29D20EAC77C000DCFE7 /* ImageResourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29C20EAC77C000DCFE7 /* ImageResourceModel.swift */; };
+		1E78B29F20EAC78F000DCFE7 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29E20EAC78F000DCFE7 /* UserModel.swift */; };
+		1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */; };
+		1E78B2A320EAC879000DCFE7 /* ParseServerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A220EAC879000DCFE7 /* ParseServerInterface.swift */; };
+		1E78B2A520EAC8BA000DCFE7 /* LogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A420EAC8BA000DCFE7 /* LogHandler.swift */; };
+		1E78B2B120EACC8D000DCFE7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E78B2B020EACC8D000DCFE7 /* Default-568h@2x.png */; };
+		1E78B2D820EADC96000DCFE7 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2CE20EADC96000DCFE7 /* FBSDKLoginKit.framework */; };
+		1E78B2D920EADC96000DCFE7 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2CF20EADC96000DCFE7 /* FBSDKCoreKit.framework */; };
+		1E78B2DA20EADC96000DCFE7 /* FBSDKPlacesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D020EADC96000DCFE7 /* FBSDKPlacesKit.framework */; };
+		1E78B2DB20EADC96000DCFE7 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D120EADC96000DCFE7 /* ParseFacebookUtilsV4.framework */; };
+		1E78B2DC20EADC96000DCFE7 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D220EADC96000DCFE7 /* FBSDKShareKit.framework */; };
+		1E78B2DD20EADC96000DCFE7 /* Bugsnag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D320EADC96000DCFE7 /* Bugsnag.framework */; };
+		1E78B2DE20EADC96000DCFE7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D420EADC96000DCFE7 /* Bolts.framework */; };
+		1E78B2DF20EADC96000DCFE7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D520EADC96000DCFE7 /* Parse.framework */; };
+		1E78B2E020EADC96000DCFE7 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D620EADC96000DCFE7 /* ParseUI.framework */; };
+		1E78B2E120EADC96000DCFE7 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */; };
+		1E78B2E420EADE2F000DCFE7 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E320EADE2F000DCFE7 /* ErrorHandler.swift */; };
+		1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E520EADE4D000DCFE7 /* BugsnagInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +59,6 @@
 /* Begin PBXFileReference section */
 		1E65C9E820EABBE300D28BE4 /* ToyPhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToyPhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E65C9EB20EABBE300D28BE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1E65C9ED20EABBE300D28BE4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1E65C9F020EABBE400D28BE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E65C9F220EABBEC00D28BE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1E65C9F520EABBEC00D28BE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +69,30 @@
 		1E65CA0720EABBEC00D28BE4 /* ToyPhotoGalleryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToyPhotoGalleryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E65CA0B20EABBEC00D28BE4 /* ToyPhotoGalleryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToyPhotoGalleryUITests.swift; sourceTree = "<group>"; };
 		1E65CA0D20EABBEC00D28BE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E78B29020EAC690000DCFE7 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchController.swift; sourceTree = "<group>"; };
+		1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
+		1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
+		1E78B29C20EAC77C000DCFE7 /* ImageResourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResourceModel.swift; sourceTree = "<group>"; };
+		1E78B29E20EAC78F000DCFE7 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreController.swift; sourceTree = "<group>"; };
+		1E78B2A220EAC879000DCFE7 /* ParseServerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseServerInterface.swift; sourceTree = "<group>"; };
+		1E78B2A420EAC8BA000DCFE7 /* LogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHandler.swift; sourceTree = "<group>"; };
+		1E78B2B020EACC8D000DCFE7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1E78B2CE20EADC96000DCFE7 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Carthage/Build/iOS/FBSDKLoginKit.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2CF20EADC96000DCFE7 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Carthage/Build/iOS/FBSDKCoreKit.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D020EADC96000DCFE7 /* FBSDKPlacesKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKPlacesKit.framework; path = Carthage/Build/iOS/FBSDKPlacesKit.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D120EADC96000DCFE7 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtilsV4.framework; path = Carthage/Build/iOS/ParseFacebookUtilsV4.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D220EADC96000DCFE7 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Carthage/Build/iOS/FBSDKShareKit.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D320EADC96000DCFE7 /* Bugsnag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugsnag.framework; path = Carthage/Build/iOS/Bugsnag.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D420EADC96000DCFE7 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Carthage/Build/iOS/Bolts.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D520EADC96000DCFE7 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Carthage/Build/iOS/Parse.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D620EADC96000DCFE7 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = Carthage/Build/iOS/ParseUI.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseTwitterUtils.framework; path = Carthage/Build/iOS/ParseTwitterUtils.framework; sourceTree = SOURCE_ROOT; };
+		1E78B2E320EADE2F000DCFE7 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		1E78B2E520EADE4D000DCFE7 /* BugsnagInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugsnagInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +100,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E78B2E020EADC96000DCFE7 /* ParseUI.framework in Frameworks */,
+				1E78B2DA20EADC96000DCFE7 /* FBSDKPlacesKit.framework in Frameworks */,
+				1E78B2D820EADC96000DCFE7 /* FBSDKLoginKit.framework in Frameworks */,
+				1E78B2DD20EADC96000DCFE7 /* Bugsnag.framework in Frameworks */,
+				1E78B2E120EADC96000DCFE7 /* ParseTwitterUtils.framework in Frameworks */,
+				1E78B2DC20EADC96000DCFE7 /* FBSDKShareKit.framework in Frameworks */,
+				1E78B2DB20EADC96000DCFE7 /* ParseFacebookUtilsV4.framework in Frameworks */,
+				1E78B2D920EADC96000DCFE7 /* FBSDKCoreKit.framework in Frameworks */,
+				1E78B2DF20EADC96000DCFE7 /* Parse.framework in Frameworks */,
+				1E78B2DE20EADC96000DCFE7 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +133,7 @@
 		1E65C9DF20EABBE100D28BE4 = {
 			isa = PBXGroup;
 			children = (
+				1E78B2B020EACC8D000DCFE7 /* Default-568h@2x.png */,
 				1E65C9EA20EABBE300D28BE4 /* ToyPhotoGallery */,
 				1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */,
 				1E65CA0A20EABBEC00D28BE4 /* ToyPhotoGalleryUITests */,
@@ -98,11 +155,16 @@
 			isa = PBXGroup;
 			children = (
 				1E65C9EB20EABBE300D28BE4 /* AppDelegate.swift */,
-				1E65C9ED20EABBE300D28BE4 /* ViewController.swift */,
-				1E65C9EF20EABBE400D28BE4 /* Main.storyboard */,
-				1E65C9F220EABBEC00D28BE4 /* Assets.xcassets */,
-				1E65C9F420EABBEC00D28BE4 /* LaunchScreen.storyboard */,
+				1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */,
+				1E78B28720EAC50A000DCFE7 /* View */,
+				1E78B28820EAC529000DCFE7 /* ViewModel */,
+				1E78B28C20EAC59D000DCFE7 /* Model */,
+				1E78B28D20EAC5DD000DCFE7 /* Network */,
+				1E78B28E20EAC5F7000DCFE7 /* Analytics */,
+				1E78B28B20EAC58A000DCFE7 /* Extension */,
+				1E78B28A20EAC566000DCFE7 /* Resource */,
 				1E65C9F720EABBEC00D28BE4 /* Info.plist */,
+				1E65C9F220EABBEC00D28BE4 /* Assets.xcassets */,
 			);
 			path = ToyPhotoGallery;
 			sourceTree = "<group>";
@@ -125,6 +187,95 @@
 			path = ToyPhotoGalleryUITests;
 			sourceTree = "<group>";
 		};
+		1E78B28720EAC50A000DCFE7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B28920EAC536000DCFE7 /* Storyboard */,
+				1E78B29020EAC690000DCFE7 /* RootViewController.swift */,
+				1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */,
+				1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1E78B28820EAC529000DCFE7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */,
+				1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1E78B28920EAC536000DCFE7 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				1E65C9F420EABBEC00D28BE4 /* LaunchScreen.storyboard */,
+				1E65C9EF20EABBE400D28BE4 /* Main.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		1E78B28A20EAC566000DCFE7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B28F20EAC608000DCFE7 /* Framework */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		1E78B28B20EAC58A000DCFE7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1E78B28C20EAC59D000DCFE7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B29C20EAC77C000DCFE7 /* ImageResourceModel.swift */,
+				1E78B29E20EAC78F000DCFE7 /* UserModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1E78B28D20EAC5DD000DCFE7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */,
+				1E78B2A220EAC879000DCFE7 /* ParseServerInterface.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		1E78B28E20EAC5F7000DCFE7 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B2E320EADE2F000DCFE7 /* ErrorHandler.swift */,
+				1E78B2A420EAC8BA000DCFE7 /* LogHandler.swift */,
+				1E78B2E520EADE4D000DCFE7 /* BugsnagInterface.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		1E78B28F20EAC608000DCFE7 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B2D420EADC96000DCFE7 /* Bolts.framework */,
+				1E78B2D320EADC96000DCFE7 /* Bugsnag.framework */,
+				1E78B2CF20EADC96000DCFE7 /* FBSDKCoreKit.framework */,
+				1E78B2CE20EADC96000DCFE7 /* FBSDKLoginKit.framework */,
+				1E78B2D020EADC96000DCFE7 /* FBSDKPlacesKit.framework */,
+				1E78B2D220EADC96000DCFE7 /* FBSDKShareKit.framework */,
+				1E78B2D520EADC96000DCFE7 /* Parse.framework */,
+				1E78B2D120EADC96000DCFE7 /* ParseFacebookUtilsV4.framework */,
+				1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */,
+				1E78B2D620EADC96000DCFE7 /* ParseUI.framework */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,6 +286,7 @@
 				1E65C9E420EABBE200D28BE4 /* Sources */,
 				1E65C9E520EABBE200D28BE4 /* Frameworks */,
 				1E65C9E620EABBE200D28BE4 /* Resources */,
+				1E78B2E220EADCB9000DCFE7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -230,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E65C9F620EABBEC00D28BE4 /* LaunchScreen.storyboard in Resources */,
+				1E78B2B120EACC8D000DCFE7 /* Default-568h@2x.png in Resources */,
 				1E65C9F320EABBEC00D28BE4 /* Assets.xcassets in Resources */,
 				1E65C9F120EABBE400D28BE4 /* Main.storyboard in Resources */,
 			);
@@ -251,13 +404,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1E78B2E220EADCB9000DCFE7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Bolts.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Bugsnag.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKCoreKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKLoginKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKPlacesKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKShareKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Parse.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ParseFacebookUtilsV4.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ParseTwitterUtils.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ParseUI.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Bolts.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Bugsnag.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/FBSDKCoreKit.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/FBSDKLoginKit.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/FBSDKPlacesKit.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/FBSDKShareKit.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Parse.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseFacebookUtilsV4.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseTwitterUtils.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseUI.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1E65C9E420EABBE200D28BE4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E65C9EE20EABBE300D28BE4 /* ViewController.swift in Sources */,
+				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,
+				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
+				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
+				1E78B2A520EAC8BA000DCFE7 /* LogHandler.swift in Sources */,
+				1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */,
+				1E78B2E420EADE2F000DCFE7 /* ErrorHandler.swift in Sources */,
 				1E65C9EC20EABBE300D28BE4 /* AppDelegate.swift in Sources */,
+				1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */,
+				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,
+				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
+				1E78B2A320EAC879000DCFE7 /* ParseServerInterface.swift in Sources */,
+				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
+				1E78B29F20EAC78F000DCFE7 /* UserModel.swift in Sources */,
+				1E78B29D20EAC77C000DCFE7 /* ImageResourceModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,6 +632,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ToyPhotoGallery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -449,6 +654,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ToyPhotoGallery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
