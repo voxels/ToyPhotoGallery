@@ -31,7 +31,7 @@ enum LaunchControlKey : String {
         case .BugsnagAPIKey:
             return [99, 48, 87, 77, 50, 94, 94, 77, 90, 119, 3, 85, 93, 4, 71, 78, 29, 116, 20, 64, 112, 87, 89, 85, 95, 7, 18, 82, 21, 66, 119, 48]
         case .ParseApplicationId:
-            return [98, 53, 89, 75, 102, 81, 87, 70, 10, 126, 80, 89, 89, 0, 16, 28, 75, 116, 67, 22, 37, 4, 13, 87, 3, 83, 76, 7, 79, 24, 118, 99, 49, 68, 71, 10, 90, 87, 29]
+            return [98, 53, 89, 75, 102, 81, 87, 70, 10, 126, 80, 89, 89, 0, 16, 28, 75, 116, 67, 22, 37, 4, 13, 87, 3, 83, 76, 7, 79, 24, 118, 99, 49, 68, 71, 10, 90, 87, 29, 22]
         }
     }
 
@@ -47,7 +47,7 @@ enum LaunchControlKey : String {
         case .BugsnagAPIKey:
             hideString = "8d84b61950b91a5735d042508ff79b9c"
         case .ParseApplicationId:
-            hideString = "9a626982e9155ebee53faaa2d28bc880b05c401"
+            hideString = "9a626982e9155ebee53faaa2d28bc880b05c4016"
         }
         
         return obfuscator.bytesByObfuscatingString(hideString)

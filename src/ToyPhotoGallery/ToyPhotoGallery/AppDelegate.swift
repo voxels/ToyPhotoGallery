@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var launchController:LaunchController?
     
     deinit {
         deregisterForNotifications()
@@ -23,9 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForLaunchNotifications()
         
         // Start launch services
-        let launchController = LaunchController()
+        launchController = LaunchController()
         let bugsnagService = BugsnagInterface()
-        launchController.launch(services: [bugsnagService])
+        let parseService = ParseInterface()
+        launchController?.launch(services: [bugsnagService, parseService])
         
         return true
     }
@@ -91,6 +93,23 @@ extension AppDelegate {
         let handler = DebugLogHandler()
         handler.console("Launch Did COMPLETE")
         deregisterForLaunchNotifications()
+        guard let parseService = launchController?.remoteStoreController as? ParseInterface else {
+            assert(false)
+            return
+        }
+        parseService.fetch(name: .Resource, startIndex: 0, count: 30) { (objects, error) in
+            if let e = error {
+                throw e
+            }
+            
+            guard let objects = objects else {
+                return
+            }
+            
+            for object in objects {
+                print(object.objectId ?? "")
+            }
+        }
     }
     
     /**
