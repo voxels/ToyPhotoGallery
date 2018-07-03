@@ -59,6 +59,7 @@
 		1E78B30D20EBCE63000DCFE7 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D120EADC96000DCFE7 /* ParseFacebookUtilsV4.framework */; };
 		1E78B30E20EBCE63000DCFE7 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */; };
 		1E78B30F20EBCE63000DCFE7 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D620EADC96000DCFE7 /* ParseUI.framework */; };
+		1E78B31220EBD5A1000DCFE7 /* Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31120EBD5A1000DCFE7 /* Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		1E78B2FC20EBC58A000DCFE7 /* ParseInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInterfaceTests.swift; sourceTree = "<group>"; };
 		1E78B30120EBC72B000DCFE7 /* BugsnagInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugsnagInterfaceTests.swift; sourceTree = "<group>"; };
 		1E78B30320EBC80D000DCFE7 /* ObfuscatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObfuscatorTests.swift; sourceTree = "<group>"; };
+		1E78B31120EBD5A1000DCFE7 /* Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convenience.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 		1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B31120EBD5A1000DCFE7 /* Convenience.swift */,
 				1E78B30320EBC80D000DCFE7 /* ObfuscatorTests.swift */,
 				1E78B30120EBC72B000DCFE7 /* BugsnagInterfaceTests.swift */,
 				1E78B2FC20EBC58A000DCFE7 /* ParseInterfaceTests.swift */,
@@ -596,6 +599,7 @@
 				1E78B30220EBC72B000DCFE7 /* BugsnagInterfaceTests.swift in Sources */,
 				1E78B30420EBC80D000DCFE7 /* ObfuscatorTests.swift in Sources */,
 				1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */,
+				1E78B31220EBD5A1000DCFE7 /* Convenience.swift in Sources */,
 				1E78B2FB20EBC1D7000DCFE7 /* LaunchControllerTests.swift in Sources */,
 				1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */,
 				1E78B2FD20EBC58A000DCFE7 /* ParseInterfaceTests.swift in Sources */,

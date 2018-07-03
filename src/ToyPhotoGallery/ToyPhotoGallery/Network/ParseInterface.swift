@@ -15,13 +15,20 @@ enum ParseClassName : String {
     case Resource
 }
 
+// Global vars are only init once, which we *must* have for initializing Parse
+// And Swift doesn't have dispatch_once, so we do this thing outside of any class instead
+
 /// A class for wrapping the Parse API service
 class ParseInterface : RemoteStoreController {
-    
+    /// The server URL String
     static let serverURLString = "http://ec2-54-210-146-169.compute-1.amazonaws.com/parse"
     
     /// The launch control key that decodes the Parse Application ID
     var launchControlKey: LaunchControlKey? = .ParseApplicationId
+
+    private lazy var initParse:(String)->Void = { key in
+        Parse.initialize(with: ParseInterface.configuration(with: key, for: ParseInterface.serverURLString))
+    }
     
     /**
      Launches the Parse API and posts a DidLaunchRemoteStore notification when complete
@@ -34,8 +41,13 @@ class ParseInterface : RemoteStoreController {
         guard let key = key else {
             throw LaunchError.MissingRequiredKey
         }
+
+        if Parse.currentConfiguration() != nil {
+            throw LaunchError.DuplicateLaunch
+        }
         
-        Parse.initialize(with: ParseInterface.configuration(with: key, for: ParseInterface.serverURLString))
+        initParse(key)
+       
         center.post(name: Notification.Name.DidLaunchRemoteStore, object: nil)
     }
 }

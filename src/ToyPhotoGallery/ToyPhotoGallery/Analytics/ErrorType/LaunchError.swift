@@ -12,6 +12,7 @@ import Foundation
 enum LaunchError : Error {
     case MissingRequiredKey
     case UnexpectedLaunchNotification
+    case DuplicateLaunch
 }
 
 extension LaunchError : LocalizedError {
@@ -21,6 +22,8 @@ extension LaunchError : LocalizedError {
             return NSLocalizedString("The required API key is missing", comment: "")
         case .UnexpectedLaunchNotification:
             return NSLocalizedString("An unexpected launch notification was received", comment: "")
+        case .DuplicateLaunch:
+            return NSLocalizedString("The remote store has already been launched", comment: "")
         }
     }
 }
