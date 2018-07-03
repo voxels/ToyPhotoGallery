@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        // Registers for DidCompleteLaunch notification
+        // Registers for *DidCompleteLaunch* notification
         registerForLaunchNotifications()
         
         // Start launch services
@@ -99,21 +99,6 @@ extension AppDelegate {
         #endif
         
         deregisterForLaunchNotifications()
-        
-        let parseService = ParseInterface()
-        parseService.fetch(name: .Resource, startIndex: 0, count: 30) { (objects, error) in
-            if let e = error {
-                throw e
-            }
-            
-            guard let objects = objects else {
-                return
-            }
-            
-            for object in objects {
-                print(object.objectId ?? "")
-            }
-        }
     }
     
     /**
