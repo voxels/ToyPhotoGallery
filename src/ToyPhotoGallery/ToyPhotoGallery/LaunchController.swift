@@ -80,7 +80,7 @@ extension LaunchController {
             do {
                 try service.launch(with:service.launchControlKey?.decoded(), with:center)
             } catch {
-                let errorHandler = didLaunchBugsnag ? BugsnagInterface() : nil
+                let errorHandler:ErrorHandlerDelegate = didLaunchBugsnag ? BugsnagInterface() : DebugErrorHandler()
                 handle(error: error, with:errorHandler)
             }
         }
@@ -251,7 +251,7 @@ extension LaunchController {
         case Notification.Name.DidLaunchReportingHandler:
             checkLaunchComplete(with: notification)
         default:
-            let errorHandler = didLaunchBugsnag ? BugsnagInterface() : nil
+            let errorHandler:ErrorHandlerDelegate = didLaunchBugsnag ? BugsnagInterface() : DebugErrorHandler()
             handle(error: LaunchError.UnexpectedLaunchNotification, with:errorHandler)
         }
     }

@@ -26,8 +26,9 @@ struct DebugErrorHandler : ErrorHandlerDelegate {
      - Returns: void
      */
     func launch(with key:String? = nil, with center:NotificationCenter = NotificationCenter.default) throws {
-        // Do nothing because we are handling this with the console
+        #if DEBUG
         center.post(name: NSNotification.Name.DidLaunchErrorHandler, object: nil)
+        #endif
     }
     
     /**
@@ -36,8 +37,10 @@ struct DebugErrorHandler : ErrorHandlerDelegate {
      - Returns: void
      */
     func report(_ error: Error) {
+        #if DEBUG
         let message = "<<WARNING>>: \(error.localizedDescription)"
         let handler = DebugLogHandler()
         handler.console(message)
+        #endif
     }
 }

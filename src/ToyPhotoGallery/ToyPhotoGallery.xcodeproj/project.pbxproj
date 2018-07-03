@@ -45,6 +45,7 @@
 		1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */; };
 		1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */; };
 		1E78B2F920EB2542000DCFE7 /* RemoteStoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F820EB2542000DCFE7 /* RemoteStoreError.swift */; };
+		1E78B2FB20EBC1D7000DCFE7 /* LaunchControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2FA20EBC1D7000DCFE7 /* LaunchControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchError.swift; sourceTree = "<group>"; };
 		1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchService.swift; sourceTree = "<group>"; };
 		1E78B2F820EB2542000DCFE7 /* RemoteStoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreError.swift; sourceTree = "<group>"; };
+		1E78B2FA20EBC1D7000DCFE7 /* LaunchControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2FA20EBC1D7000DCFE7 /* LaunchControllerTests.swift */,
 				1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */,
 				1E65CA0020EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift */,
 				1E65CA0220EABBEC00D28BE4 /* Info.plist */,
@@ -506,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */,
+				1E78B2FB20EBC1D7000DCFE7 /* LaunchControllerTests.swift in Sources */,
 				1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
