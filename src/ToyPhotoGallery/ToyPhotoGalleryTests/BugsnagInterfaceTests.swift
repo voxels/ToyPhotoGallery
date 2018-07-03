@@ -10,7 +10,7 @@ import XCTest
 @testable import ToyPhotoGallery
 import Bugsnag
 
-class BugsnagInterfaceTests: XCTestCase, Convenience {
+class BugsnagInterfaceTests: XCTestCase {
     let interface = BugsnagInterface()
     
     func testConfigurationReturnsExpectedAPIKey() {
@@ -34,17 +34,19 @@ class BugsnagInterfaceTests: XCTestCase, Convenience {
         } catch {
             waitExpectation.fulfill()
         }
-        wait(timeout:0.2)
+        let actual = register(expectations:[waitExpectation], duration:XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
     }
     
     func testLaunchPostsDidLaunchErrorHandlerNotification() {
         let emptyKey = ""
-        let _ = expectation(forNotification: Notification.Name.DidLaunchErrorHandler, object: nil, handler: nil)
+        let waitExpectation = expectation(forNotification: Notification.Name.DidLaunchErrorHandler, object: nil, handler: nil)
         do {
             try interface.launch(with: emptyKey)
         } catch {
             XCTFail(error.localizedDescription)
         }
-        wait(timeout:0.2)
+        let actual = register(expectations:[waitExpectation], duration:XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
     }
 }

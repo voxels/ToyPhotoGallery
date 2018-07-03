@@ -36,17 +36,17 @@ class ParseInterfaceTests: XCTestCase {
         } catch {
             waitExpectation.fulfill()
         }
-        wait(timeout:0.2)
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
     }
     
     func testLaunchThrowsDuplicateLaunchError() {
         let applicationId = "applicationId"
-        let waitExpectation0 = expectation(description: "Wait for expectation")
-        let waitExpectation1 = expectation(description: "Wait for duplicate launch expectation")
+        let waitExpectation = expectation(description: "Wait for duplicate launch expectation")
         do {
             try interface.launch(with: applicationId)
         } catch {
-            waitExpectation0.fulfill()
+            XCTFail(error.localizedDescription)
         }
         
         do {
@@ -54,11 +54,12 @@ class ParseInterfaceTests: XCTestCase {
         } catch {
             switch error {
             case LaunchError.DuplicateLaunch:
-                waitExpectation1.fulfill()
+                waitExpectation.fulfill()
             default:
                 XCTFail("Unexpected Error Received")
             }
         }
-        wait(timeout:0.2)
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
     }
 }

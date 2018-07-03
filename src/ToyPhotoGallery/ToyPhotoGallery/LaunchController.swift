@@ -24,7 +24,7 @@ class LaunchController {
     var timeOutTimer:Timer?
     
     /// Flag to indicate of the error reporting service has been launched
-    var didLaunchBugsnag = false
+    var didLaunchErrorHandler = false
     
     /// DEBUG flag to print API key encryption bytes to the console
     static let showKeyEncryption = false
@@ -46,12 +46,13 @@ class LaunchController {
      Calls the launch method for each service, retains any services that need to stay alive,
      and assigns the notification names we need to receive before posting a *DidCompleteLaunch* notification
      - parameter services: An array of *LaunchService* that need to be launched
+     - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
      - Returns: void
      */
-    func launch(services:[LaunchService]) {
-        startTimeOutTimer(duration:timeOutDuration)
-        waitForLaunchNotifications(for: services)
-        attempt(services)
+    func launch(services:[LaunchService], with center:NotificationCenter = NotificationCenter.default) {
+        startTimeOutTimer(duration:timeOutDuration, with:center)
+        waitForLaunchNotifications(for: services, with:center)
+        attempt(services, with:center)
     }
 }
 
@@ -61,11 +62,12 @@ extension LaunchController {
     /**
      Registers for *DidCompleteLaunch* notification for each service in the given array
      - parameter services: an array of *LaunchService* that should be checked for waiting to complete the launch
+     - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
      - Returns: void
      */
-    func waitForLaunchNotifications(for services:[LaunchService]) {
+    func waitForLaunchNotifications(for services:[LaunchService], with center:NotificationCenter = NotificationCenter.default) {
         services.forEach { (service) in
-            waitIfNecessary(service)
+            waitIfNecessary(service, with:center)
         }
     }
     
@@ -80,7 +82,7 @@ extension LaunchController {
             do {
                 try service.launch(with:service.launchControlKey?.decoded(), with:center)
             } catch {
-                let errorHandler:ErrorHandlerDelegate = didLaunchBugsnag ? BugsnagInterface() : DebugErrorHandler()
+                let errorHandler:ErrorHandlerDelegate = didLaunchErrorHandler ? BugsnagInterface() : DebugErrorHandler()
                 handle(error: error, with:errorHandler)
             }
         }
@@ -89,9 +91,10 @@ extension LaunchController {
     /**
      Adds a check for services that the controller should wait for before sending a final *DidCompleteLaunch* notification
      - parameter service: A *LaunchService* that needs to be checked for delaying the final *DidCompleteLaunch* notification
+     - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
      - Returns: void
      */
-    func waitIfNecessary(_ service: LaunchService) {
+    func waitIfNecessary(_ service: LaunchService, with center:NotificationCenter = NotificationCenter.default) {
         var shouldWaitForDidCompleteNotification = false
 
         if service is RemoteStoreController {
@@ -108,7 +111,7 @@ extension LaunchController {
         
         if shouldWaitForDidCompleteNotification, let name = didLaunchNotificationName(for: service) {
             waitForNotifications.insert(name)
-            register(for: name)
+            register(for: name, with:center)
         }
     }
     
@@ -161,12 +164,13 @@ extension LaunchController {
     /**
      Starts the time out timer that posts a *DidFailLaunch* notification after the duration has elapsed
      - parameter duration: the TimeInterval that the class should wait for before posting the failure notification
+     - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
      - Returns: void
     */
-    func startTimeOutTimer(duration:TimeInterval) {
-        timeOutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false, block: { [weak self](timer) in
+    func startTimeOutTimer(duration:TimeInterval, with center:NotificationCenter = NotificationCenter.default) {
+        timeOutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false, block: { [weak self] (timer) in
             let notification = Notification(name: Notification.Name.DidFailLaunch, object: nil, userInfo: [NSLocalizedFailureReasonErrorKey:"Launch timed out after \(String(describing:self?.timeOutDuration)) seconds"])
-            NotificationCenter.default.post(notification)
+            center.post(notification)
         })
     }
 }
@@ -244,14 +248,14 @@ extension LaunchController {
     @objc func handle(notification:Notification) {
         switch notification.name {
         case Notification.Name.DidLaunchErrorHandler:
-            didLaunchBugsnag = true
+            didLaunchErrorHandler = true
             fallthrough
         case Notification.Name.DidLaunchRemoteStore:
             fallthrough
         case Notification.Name.DidLaunchReportingHandler:
             checkLaunchComplete(with: notification)
         default:
-            let errorHandler:ErrorHandlerDelegate = didLaunchBugsnag ? BugsnagInterface() : DebugErrorHandler()
+            let errorHandler:ErrorHandlerDelegate = didLaunchErrorHandler ? BugsnagInterface() : DebugErrorHandler()
             handle(error: LaunchError.UnexpectedLaunchNotification, with:errorHandler)
         }
     }

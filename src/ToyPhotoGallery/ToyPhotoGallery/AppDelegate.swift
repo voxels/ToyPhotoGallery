@@ -14,12 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var launchController:LaunchController?
     
+    private var isRunningUnitTests:Bool {
+        return NSClassFromString("XCTestCase") != nil
+    }
+    
     deinit {
         deregisterForNotifications()
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        if isRunningUnitTests {
+            return true
+        }
+        
         // Registers for *DidCompleteLaunch* notification
         registerForLaunchNotifications()
         
