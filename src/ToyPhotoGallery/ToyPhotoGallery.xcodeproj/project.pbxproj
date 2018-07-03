@@ -49,6 +49,16 @@
 		1E78B2FD20EBC58A000DCFE7 /* ParseInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2FC20EBC58A000DCFE7 /* ParseInterfaceTests.swift */; };
 		1E78B30220EBC72B000DCFE7 /* BugsnagInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B30120EBC72B000DCFE7 /* BugsnagInterfaceTests.swift */; };
 		1E78B30420EBC80D000DCFE7 /* ObfuscatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B30320EBC80D000DCFE7 /* ObfuscatorTests.swift */; };
+		1E78B30620EBCE63000DCFE7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D420EADC96000DCFE7 /* Bolts.framework */; };
+		1E78B30720EBCE63000DCFE7 /* Bugsnag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D320EADC96000DCFE7 /* Bugsnag.framework */; };
+		1E78B30820EBCE63000DCFE7 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2CF20EADC96000DCFE7 /* FBSDKCoreKit.framework */; };
+		1E78B30920EBCE63000DCFE7 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2CE20EADC96000DCFE7 /* FBSDKLoginKit.framework */; };
+		1E78B30A20EBCE63000DCFE7 /* FBSDKPlacesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D020EADC96000DCFE7 /* FBSDKPlacesKit.framework */; };
+		1E78B30B20EBCE63000DCFE7 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D220EADC96000DCFE7 /* FBSDKShareKit.framework */; };
+		1E78B30C20EBCE63000DCFE7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D520EADC96000DCFE7 /* Parse.framework */; };
+		1E78B30D20EBCE63000DCFE7 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D120EADC96000DCFE7 /* ParseFacebookUtilsV4.framework */; };
+		1E78B30E20EBCE63000DCFE7 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */; };
+		1E78B30F20EBCE63000DCFE7 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B2D620EADC96000DCFE7 /* ParseUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +151,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E78B30620EBCE63000DCFE7 /* Bolts.framework in Frameworks */,
+				1E78B30720EBCE63000DCFE7 /* Bugsnag.framework in Frameworks */,
+				1E78B30820EBCE63000DCFE7 /* FBSDKCoreKit.framework in Frameworks */,
+				1E78B30920EBCE63000DCFE7 /* FBSDKLoginKit.framework in Frameworks */,
+				1E78B30A20EBCE63000DCFE7 /* FBSDKPlacesKit.framework in Frameworks */,
+				1E78B30B20EBCE63000DCFE7 /* FBSDKShareKit.framework in Frameworks */,
+				1E78B30C20EBCE63000DCFE7 /* Parse.framework in Frameworks */,
+				1E78B30D20EBCE63000DCFE7 /* ParseFacebookUtilsV4.framework in Frameworks */,
+				1E78B30E20EBCE63000DCFE7 /* ParseTwitterUtils.framework in Frameworks */,
+				1E78B30F20EBCE63000DCFE7 /* ParseUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +182,7 @@
 				1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */,
 				1E65CA0A20EABBEC00D28BE4 /* ToyPhotoGalleryUITests */,
 				1E65C9E920EABBE300D28BE4 /* Products */,
+				1E78B30520EBCE63000DCFE7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -344,6 +365,13 @@
 			path = ReportingHandler;
 			sourceTree = "<group>";
 		};
+		1E78B30520EBCE63000DCFE7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -372,6 +400,7 @@
 				1E65C9F820EABBEC00D28BE4 /* Sources */,
 				1E65C9F920EABBEC00D28BE4 /* Frameworks */,
 				1E65C9FA20EABBEC00D28BE4 /* Resources */,
+				1E78B31020EBCE69000DCFE7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -501,6 +530,29 @@
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseFacebookUtilsV4.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseTwitterUtils.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseUI.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		1E78B31020EBCE69000DCFE7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Bolts.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Bugsnag.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKCoreKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKLoginKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKPlacesKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FBSDKShareKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Parse.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ParseFacebookUtilsV4.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ParseTwitterUtils.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ParseUI.framework",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -757,6 +809,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ToyPhotoGalleryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -777,6 +833,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ToyPhotoGalleryTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

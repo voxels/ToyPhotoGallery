@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import ToyPhotoGallery
+import Bugsnag
 
 class BugsnagInterfaceTests: XCTestCase {
     let interface = BugsnagInterface()
