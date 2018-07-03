@@ -41,6 +41,7 @@ class ParseInterface : RemoteStoreController {
 }
 
 extension ParseInterface {
+    // TODO: Pass in query
     func fetch(name:ParseClassName, startIndex:Int, count:Int, errorHandler:ErrorHandlerDelegate = BugsnagInterface(),  completion:@escaping ParseFetchCompletion ) {
         let query = PFQuery(className:"Resource")
         query.findObjectsInBackground { (objects, error) in
