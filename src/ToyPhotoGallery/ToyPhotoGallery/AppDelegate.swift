@@ -93,8 +93,11 @@ extension AppDelegate {
      - Returns: void
      */
     @objc func handleLaunchDidComplete(sender:Notification) {
+        #if DEBUG
         let handler = DebugLogHandler()
         handler.console("Launch Did COMPLETE")
+        #endif
+        
         deregisterForLaunchNotifications()
         
         let parseService = ParseInterface()
@@ -119,8 +122,11 @@ extension AppDelegate {
      - Returns: void
      */
     @objc func handleLaunchDidFail(sender:Notification) {
+        #if DEBUG
         let handler = DebugLogHandler()
         handler.console("Launch Did FAIL")
+        #endif
+        
         deregisterForLaunchNotifications()
     }
 }
