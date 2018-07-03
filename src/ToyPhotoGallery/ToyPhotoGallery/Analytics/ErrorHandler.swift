@@ -21,12 +21,13 @@ struct DebugErrorHandler : ErrorHandlerDelegate {
     /**
      Posts the did launch error handler notification
      - parameter key: the API Key, nil in this class
+     - parameter center: The *NotificationCenter* used to post the *DidLaunchErrorHandler* notification
      - Throws: does not throw in this class
      - Returns: void
      */
-    func launch(with key:String? = nil) throws {
+    func launch(with key:String? = nil, with center:NotificationCenter = NotificationCenter.default) throws {
         // Do nothing because we are handling this with the console
-        NotificationCenter.default.post(name: NSNotification.Name.DidLaunchErrorHandler, object: nil)
+        center.post(name: NSNotification.Name.DidLaunchErrorHandler, object: nil)
     }
     
     /**

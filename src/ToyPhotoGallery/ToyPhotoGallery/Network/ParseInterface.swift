@@ -25,16 +25,18 @@ class ParseInterface : RemoteStoreController {
     
     /**
      Launches the Parse API and posts a DidLaunchRemoteStore notification when complete
+     - parameter key: the *ApplicationId* Key for Parse as a String
+     - parameter center: the *NotificationCenter* used to post the *DidLaunchRemoteStore* notification
      - Throws: No error is thrown in this class
      - Returns: void
      */
-    func launch(with key: String?) throws {
+    func launch(with key: String?, with center:NotificationCenter = NotificationCenter.default) throws {
         guard let key = key else {
             throw LaunchError.MissingRequiredKey
         }
         
-        Parse.initialize(with: ParseInterface.configuration(with: key))
-        NotificationCenter.default.post(name: Notification.Name.DidLaunchRemoteStore, object: nil)
+        Parse.initialize(with: ParseInterface.configuration(with: key, for: ParseInterface.serverURLString))
+        center.post(name: Notification.Name.DidLaunchRemoteStore, object: nil)
     }
 }
 
@@ -52,10 +54,16 @@ extension ParseInterface {
 }
 
 extension ParseInterface {
-    static func configuration(with applicationId:String)->ParseClientConfiguration {
+    /**
+     Constructs a *ParseClientConfiguration* for a Parse Server using the given *applicationId*
+     - parameter applicationId: a *String* key representing the *applicationId* for the Parse server
+     - parameter serverURLString: an URL *String* for the Parse server
+     - Returns: void
+     */
+    static func configuration(with applicationId:String, for serverURLString:String)->ParseClientConfiguration {
         let config = ParseClientConfiguration {
             $0.applicationId = applicationId
-            $0.server = ParseInterface.serverURLString
+            $0.server = serverURLString
         }
         return config
     }

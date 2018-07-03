@@ -58,7 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     /**
-     Deregisters self for all notifications from the default center
+     Deregisters self for all notifications from a given *NotificationCenter*
+     - parameter center: The *NotificationCenter* to deregister from
      - Returns: void
      */
     func deregisterForNotifications(with center:NotificationCenter = NotificationCenter.default) {
@@ -66,7 +67,8 @@ extension AppDelegate {
     }
     
     /**
-     Deregisters self for all launch notifications from the default center
+     Deregisters self for all launch notifications from the given *NotificationCenter*
+     - parameter center: The *NotificationCenter* to deregister from
      - Returns: void
      */
     func deregisterForLaunchNotifications(with center:NotificationCenter = NotificationCenter.default) {
@@ -76,6 +78,7 @@ extension AppDelegate {
     
     /**
      Registers self for the complete and fail launch notifications
+     - parameter center: The *NotificationCenter* to register with from
      - Returns: void
      */
     func registerForLaunchNotifications(with center:NotificationCenter = NotificationCenter.default) {
@@ -93,10 +96,8 @@ extension AppDelegate {
         let handler = DebugLogHandler()
         handler.console("Launch Did COMPLETE")
         deregisterForLaunchNotifications()
-        guard let parseService = launchController?.remoteStoreController as? ParseInterface else {
-            assert(false)
-            return
-        }
+        
+        let parseService = ParseInterface()
         parseService.fetch(name: .Resource, startIndex: 0, count: 30) { (objects, error) in
             if let e = error {
                 throw e

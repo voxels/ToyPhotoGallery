@@ -19,17 +19,18 @@ struct BugsnagInterface : ErrorHandlerDelegate {
     /**
      Launches the Bugsnag services with the given API key
      - parameter key: The API key used for launch
+     - parameter center: the *NotificationCenter* used to post the *DidLaunchErrorHandler* notification
      - Throws: a 'LaunchError.MissingRequiredKey' if the key is nil
      - Returns: void
      */
-    func launch(with key: String?) throws {
+    func launch(with key: String?, with center:NotificationCenter = NotificationCenter.default) throws {
         guard let key = key else {
             throw LaunchError.MissingRequiredKey
         }
         
         let configuration = BugsnagInterface.configuration(for: key, shouldCaptureSessions: BugsnagInterface.kShouldAutoCaptureSessions)
         start(with: configuration)
-        NotificationCenter.default.post(name: Notification.Name.DidLaunchErrorHandler, object: nil)
+        center.post(name: Notification.Name.DidLaunchErrorHandler, object: nil)
     }
     
     /**

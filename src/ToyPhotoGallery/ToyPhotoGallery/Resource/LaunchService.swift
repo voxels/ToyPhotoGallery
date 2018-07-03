@@ -11,5 +11,5 @@ import Foundation
 // Generic protocol definition for launching services from the LaunchController class
 protocol LaunchService {
     var launchControlKey:LaunchControlKey? { get }
-    func launch(with key:String?) throws
+    func launch(with key:String?, with center:NotificationCenter) throws
 }
