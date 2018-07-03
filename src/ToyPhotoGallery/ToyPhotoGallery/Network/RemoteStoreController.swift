@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol RemoteStoreController {
-    func launchRemoteStore()
+/// Protocol wrapper for handling a remote store service such as Parse or Firebase
+protocol RemoteStoreController : LaunchService {
+
 }

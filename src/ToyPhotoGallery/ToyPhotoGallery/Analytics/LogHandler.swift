@@ -8,16 +8,14 @@
 
 import Foundation
 
+/// Protocol wrapper for logging messages and breadcrumbs to the console or to a third party service
 protocol LogHandlerDelegate {
     func console(_ message:String)
 }
 
-extension LogHandlerDelegate {
+/// Debug Log Handler used to print log messages to the console
+struct DebugLogHandler : LogHandlerDelegate {
     func console(_ message:String) {
         print(message)
     }
-}
-
-struct DebugLogHandler : LogHandlerDelegate {
-    
 }

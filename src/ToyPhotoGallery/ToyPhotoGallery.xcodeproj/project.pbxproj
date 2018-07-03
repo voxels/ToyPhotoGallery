@@ -40,6 +40,10 @@
 		1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */; };
 		1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */; };
 		1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */; };
+		1E78B2F020EAF46A000DCFE7 /* ReportingHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2EF20EAF46A000DCFE7 /* ReportingHandler.swift */; };
+		1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F120EAF605000DCFE7 /* Notification.swift */; };
+		1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */; };
+		1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +103,10 @@
 		1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obfuscator.swift; sourceTree = "<group>"; };
 		1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlKey.swift; sourceTree = "<group>"; };
 		1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlKeyTests.swift; sourceTree = "<group>"; };
+		1E78B2EF20EAF46A000DCFE7 /* ReportingHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingHandler.swift; sourceTree = "<group>"; };
+		1E78B2F120EAF605000DCFE7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchError.swift; sourceTree = "<group>"; };
+		1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +234,7 @@
 		1E78B28A20EAC566000DCFE7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */,
 				1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */,
 				1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */,
 				1E78B28F20EAC608000DCFE7 /* Framework */,
@@ -236,6 +245,7 @@
 		1E78B28B20EAC58A000DCFE7 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2F120EAF605000DCFE7 /* Notification.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -261,8 +271,10 @@
 		1E78B28E20EAC5F7000DCFE7 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2F320EAFAF3000DCFE7 /* ErrorType */,
 				1E78B2E320EADE2F000DCFE7 /* ErrorHandler.swift */,
 				1E78B2A420EAC8BA000DCFE7 /* LogHandler.swift */,
+				1E78B2EF20EAF46A000DCFE7 /* ReportingHandler.swift */,
 				1E78B2E520EADE4D000DCFE7 /* BugsnagInterface.swift */,
 			);
 			path = Analytics;
@@ -283,6 +295,14 @@
 				1E78B2D620EADC96000DCFE7 /* ParseUI.framework */,
 			);
 			path = Framework;
+			sourceTree = "<group>";
+		};
+		1E78B2F320EAFAF3000DCFE7 /* ErrorType */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */,
+			);
+			path = ErrorType;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -455,7 +475,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,
+				1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */,
+				1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */,
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
+				1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */,
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
 				1E78B2A520EAC8BA000DCFE7 /* LogHandler.swift in Sources */,
 				1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */,
@@ -468,6 +491,7 @@
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
 				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
 				1E78B29F20EAC78F000DCFE7 /* UserModel.swift in Sources */,
+				1E78B2F020EAF46A000DCFE7 /* ReportingHandler.swift in Sources */,
 				1E78B29D20EAC77C000DCFE7 /* ImageResourceModel.swift in Sources */,
 				1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */,
 			);

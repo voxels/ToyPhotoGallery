@@ -12,9 +12,21 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    deinit {
+        deregisterForNotifications()
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let _ = LaunchController()
+
+        // Registers for DidCompleteLaunch notification
+        registerForLaunchNotifications()
+        
+        // Start launch services
+        let launchController = LaunchController()
+        let bugsnagService = BugsnagInterface()
+        launchController.launch(services: [bugsnagService])
+        
         return true
     }
 
@@ -36,6 +48,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         
+    }
+}
+
+
+// MARK: - Notifications
+
+extension AppDelegate {
+    /**
+     Deregisters self for all notifications from the default center
+     - Returns: void
+     */
+    func deregisterForNotifications(with center:NotificationCenter = NotificationCenter.default) {
+        center.removeObserver(self)
+    }
+    
+    /**
+     Deregisters self for all launch notifications from the default center
+     - Returns: void
+     */
+    func deregisterForLaunchNotifications(with center:NotificationCenter = NotificationCenter.default) {
+        center.removeObserver(self, name: Notification.Name.DidCompleteLaunch, object: nil)
+        center.removeObserver(self, name: Notification.Name.DidFailLaunch, object: nil)
+    }
+    
+    /**
+     Registers self for the complete and fail launch notifications
+     - Returns: void
+     */
+    func registerForLaunchNotifications(with center:NotificationCenter = NotificationCenter.default) {
+        deregisterForLaunchNotifications()
+        center.addObserver(self, selector: #selector(handleLaunchDidComplete(sender:)), name: Notification.Name.DidCompleteLaunch, object: nil)
+        center.addObserver(self, selector: #selector(handleLaunchDidFail(sender:)), name: Notification.Name.DidFailLaunch, object: nil)
+    }
+    
+    /**
+     Handles the launch did complete notification
+     - parameter notification: The launch notification
+     - Returns: void
+     */
+    @objc func handleLaunchDidComplete(sender:Notification) {
+        let handler = DebugLogHandler()
+        handler.console("Launch Did COMPLETE")
+        deregisterForLaunchNotifications()
+    }
+    
+    /**
+     Handles the launch did fail notification
+     - parameter: The launch notification
+     - Returns: void
+     */
+    @objc func handleLaunchDidFail(sender:Notification) {
+        let handler = DebugLogHandler()
+        handler.console("Launch Did FAIL")
+        deregisterForLaunchNotifications()
     }
 }
 

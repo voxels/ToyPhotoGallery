@@ -1,5 +1,5 @@
 //
-//  UserModel.swift
+//  ReportingHandler.swift
 //  ToyPhotoGallery
 //
 //  Created by Voxels on 7/2/18.
@@ -8,6 +8,7 @@
 
 import Foundation
 
-struct UserModel {
+/// Protocol wrapper for reporting analytics to third-party services
+protocol ReportingHandlerDelegate : LaunchService {
     
 }

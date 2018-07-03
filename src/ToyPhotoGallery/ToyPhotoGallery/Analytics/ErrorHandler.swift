@@ -8,14 +8,35 @@
 
 import Foundation
 
-protocol ErrorHandlerDelegate {
-    
+/// Protocol wrapper for forwarding non-fatal errors to a third-party service such as Bugsnag or Crashlytics
+protocol ErrorHandlerDelegate : LaunchService {
+    func report(_ error:Error)
 }
 
-extension ErrorHandlerDelegate {
-    
-}
-
+/// Debug error handling class used to pring error messages to the console
 struct DebugErrorHandler : ErrorHandlerDelegate {
+    /// The launch control key required by the protocol, nil in this class
+    var launchControlKey: LaunchControlKey? = nil
     
+    /**
+     Posts the did launch error handler notification
+     - parameter key: the API Key, nil in this class
+     - Throws: does not throw in this class
+     - Returns: void
+     */
+    func launch(with key:String? = nil) throws {
+        // Do nothing because we are handling this with the console
+        NotificationCenter.default.post(name: NSNotification.Name.DidLaunchErrorHandler, object: nil)
+    }
+    
+    /**
+     Reports an error using the DebugLogHandler
+     - parameter error: The error to report
+     - Returns: void
+     */
+    func report(_ error: Error) {
+        let message = "<<WARNING>>: \(error.localizedDescription)"
+        let handler = DebugLogHandler()
+        handler.console(message)
+    }
 }
