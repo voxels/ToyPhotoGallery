@@ -35,12 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForLaunchNotifications()
         
         // Start launch services
-        launchController = LaunchController()
         let errorHandlerDelegate = BugsnagInterface()
         let remoteStoreController = ParseInterface()
         let resourceModelController = ResourceModelController(with: remoteStoreController, errorHandler: errorHandlerDelegate)
-        
-        launchController?.launch(services: [errorHandlerDelegate, remoteStoreController], for:resourceModelController)
+        launchController = LaunchController(with:resourceModelController)
+        launchController?.launch(services: [errorHandlerDelegate, remoteStoreController])
         
         return true
     }
@@ -160,12 +159,7 @@ extension AppDelegate {
     func completeLaunch(with launchController:LaunchController, navigationController:UINavigationController, didSucceed:Bool) {
         
         if didSucceed {
-            guard let galleryModel = launchController.galleryModel else {
-                launchController.currentErrorHandler.report(ModelError.MissingGalleryModel)
-                return
-            }
-            
-            launchController.showGalleryView(in: navigationController, with: galleryModel)
+            launchController.showGalleryView(in: navigationController, with: launchController.resourceModelController)
         } else {
             launchController.showReachabilityView(in: navigationController)
         }

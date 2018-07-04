@@ -70,7 +70,7 @@ class ParseInterface : RemoteStoreController {
             find(query: pfQuery, completion: wrappedCompletion)
         } catch {
             errorHandler.report(error)
-            completion([[String:AnyObject]]())
+            completion(RawResourceArray())
         }
     }
     
@@ -86,7 +86,7 @@ class ParseInterface : RemoteStoreController {
                 errorHandler.report(e)
             }
             
-            var fetchedObjects = [[String:AnyObject]]()
+            var fetchedObjects = RawResourceArray()
             objects?.forEach({ (object) in
                 fetchedObjects.append(self.dictionary(for: object))
             })

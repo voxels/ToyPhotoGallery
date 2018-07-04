@@ -11,11 +11,8 @@ import UIKit
 /// Class that launches potentially asynchronous launch services and signals when the expected services
 /// have been successfully launched, or sends a failed to launch notification if the time out is reached
 class LaunchController {
-    /// The gallery model we need to construct for launch
-    var galleryModel:GalleryViewModel?
-    
     /// The resource model we use to create the gallery model
-    var resourceModelController:ResourceModelController?
+    var resourceModelController:ResourceModelController
     
     /// An array of notifications we need to receive before confirming that launch is complete
     var waitForNotifications = Set<Notification.Name>()
@@ -47,7 +44,8 @@ class LaunchController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    init() {
+    init(with modelController:ResourceModelController) {
+        resourceModelController = modelController
         #if DEBUG
         show(hidden: [.BugsnagAPIKey, .ParseApplicationId])
         #endif
@@ -57,12 +55,10 @@ class LaunchController {
      Calls the launch method for each service, retains any services that need to stay alive,
      and assigns the notification names we need to receive before posting a *DidCompleteLaunch* notification
      - parameter services: An array of *LaunchService* that need to be launched
-     - parameter modelController: the *ResourceModel* used to create the gallery model
      - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
      - Returns: void
      */
-    func launch(services:[LaunchService],for modelController:ResourceModelController, with center:NotificationCenter = NotificationCenter.default) {
-        resourceModelController = modelController
+    func launch(services:[LaunchService], with center:NotificationCenter = NotificationCenter.default) {
         startTimeOutTimer(duration:timeOutDuration, with:center)
         waitForLaunchNotifications(for: services, with:center)
         attempt(services, with:center)
@@ -131,16 +127,46 @@ extension LaunchController {
     /**
      Adds a notification to the set of received notifications and compares the set to the notifications we are waiting for to the notifications we have received.  If the *receivedNotifications* are verified against the *waitForNotifications*, the *galleryModel* is constructed.
      - parameter notification: The notification received
-     - Throws: a *LaunchError.MissingRemoteStoreController* if the remote store controller has not been init by this point
+     - parameter center: The notification center to post a *DidFailLaunch* notification to, if necessary
      - Returns: void
      */
-    func checkLaunchComplete(with notification:Notification) throws {
+    func checkLaunchComplete(with notification:Notification, for center:NotificationCenter = NotificationCenter.default) {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
-            if let modelController = resourceModelController {
-                modelController.buildRepository(from:modelController.remoteStoreController)
+            resourceModelController.delegate = self
+            resourceModelController.buildRepository(from:resourceModelController.remoteStoreController, with:resourceModelController.errorHandler, completion: { [weak self] (errors) in
+                // We have been deallocated and this doesn't matter anymore
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                if strongSelf.modelUpdateFailed(with: errors) {
+                    self?.resourceModelController.delegate?.didFailToUpdateModel(with: "Image repository construction failed with \(errors?.count ?? 0) errors")
+                } else {
+                    self?.resourceModelController.delegate?.didUpdateModel()
+                }
+            })
+        }
+    }
+    
+    func modelUpdateFailed(with errors:[Error]?) -> Bool {
+        guard let errors = errors else {
+            return false
+        }
+        
+        var failedLaunch = false
+        errors.forEach { (error) in
+            switch error {
+            case ModelError.InvalidURL:
+                fallthrough
+            case ModelError.IncorrectType:
+                return
+            default:
+                failedLaunch = true
             }
         }
+        
+        return failedLaunch
     }
     
     /**
@@ -165,12 +191,28 @@ extension LaunchController {
      - Returns: void
      */
     func signalLaunchComplete(with center:NotificationCenter = NotificationCenter.default) {
+        reset(with: center)
+        center.post(name: Notification.Name.DidCompleteLaunch, object: nil)
+    }
+    
+    func signalLaunchFailed(reason:String?, with center:NotificationCenter = NotificationCenter.default) {
+        reset(with: center)
+        
+        guard let reason = reason else {
+            center.post(name: Notification.Name.DidFailLaunch, object: nil)
+            return
+        }
+        
+        let notification = Notification(name: Notification.Name.DidFailLaunch, object: nil, userInfo: [NSLocalizedFailureReasonErrorKey:reason])
+        center.post(notification)
+    }
+    
+    func reset(with center:NotificationCenter = NotificationCenter.default) {
         center.removeObserver(self)
         receivedNotifications = Set<Notification.Name>()
         waitForNotifications = Set<Notification.Name>()
         timeOutTimer?.invalidate()
         timeOutTimer = nil
-        center.post(name: Notification.Name.DidCompleteLaunch, object: nil)
     }
 }
 
@@ -185,8 +227,8 @@ extension LaunchController {
     */
     func startTimeOutTimer(duration:TimeInterval, with center:NotificationCenter = NotificationCenter.default) {
         timeOutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false, block: { [weak self] (timer) in
-            let notification = Notification(name: Notification.Name.DidFailLaunch, object: nil, userInfo: [NSLocalizedFailureReasonErrorKey:"Launch timed out after \(String(describing:self?.timeOutDuration)) seconds"])
-            center.post(notification)
+            let reason = "Launch timed out after \(String(describing:self?.timeOutDuration)) seconds"
+            self?.signalLaunchFailed(reason: reason)
         })
     }
 }
@@ -269,11 +311,7 @@ extension LaunchController {
         case Notification.Name.DidLaunchRemoteStore:
             fallthrough
         case Notification.Name.DidLaunchReportingHandler:
-            do {
-                try checkLaunchComplete(with: notification)
-            } catch {
-                handle(error: error, with: currentErrorHandler)
-            }
+            checkLaunchComplete(with: notification)
         default:
             handle(error: LaunchError.UnexpectedLaunchNotification, with:currentErrorHandler)
         }
@@ -286,14 +324,24 @@ extension LaunchController : ResourceModelControllerDelegate {
     func didUpdateModel() {
         signalLaunchComplete()
     }
+    
+    func didFailToUpdateModel(with reason:String?) {
+        signalLaunchFailed(reason: reason)
+    }
 }
 
 // MARK: - View
 
 extension LaunchController {
-    func showGalleryView(in rootViewController:UINavigationController, with model:GalleryViewModel) {
+    func showGalleryView(in rootViewController:UINavigationController, with resourceModelController:ResourceModelController) {
         // TODO: show gallery view
         print("show gallery view")
+        for key in resourceModelController.imageRepository.keys {
+            let handler = DebugLogHandler()
+            handler.console(resourceModelController.imageRepository[key]?.fileURL.absoluteString ?? "missing")
+            handler.console(resourceModelController.imageRepository[key]?.thumbnailURL.absoluteString ?? "missing")
+            handler.console("\n")
+        }
     }
     
     func showReachabilityView(in rootViewController:UINavigationController) {

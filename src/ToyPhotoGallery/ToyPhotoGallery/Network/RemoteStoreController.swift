@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias FindCompletion = ([[String:AnyObject]]) -> Void
+typealias FindCompletion = (RawResourceArray) -> Void
 
 /// Protocol wrapper for handling a remote store service such as Parse or Firebase
 protocol RemoteStoreController : LaunchService {

@@ -8,88 +8,136 @@
 
 import UIKit
 
+typealias ErrorCompletion = ([Error]?)->Void
+typealias RawResourceArray = [[String:AnyObject]]
+typealias ImageRepository = [String:ImageResource]
+typealias ImageRepositoryCompletion = (ImageRepository,[Error]?)->Void
 typealias ResourceCompletion = ([URL])->Void
 
 protocol ResourceModelControllerDelegate {
     func didUpdateModel()
+    func didFailToUpdateModel(with reason:String?)
 }
 
 /// A struct used to hold the image resource URLs
 struct ImageResource {
     var thumbnailURL:URL
-    var fullsizeURL:URL
+    var fileURL:URL
 }
 
 /// A struct used to handle resources from the Parse interface
-struct ResourceModelController {
+class ResourceModelController {
     let remoteStoreController:RemoteStoreController
     let errorHandler:ErrorHandlerDelegate
     var delegate:ResourceModelControllerDelegate?
     
-    var thumbnailRepository:[ImageResource]?
+    var imageRepository = ImageRepository()
     
     init(with storeController:RemoteStoreController, errorHandler:ErrorHandlerDelegate) {
         self.remoteStoreController = storeController
         self.errorHandler = errorHandler
     }
     
-    func resource(sortBy:String?, skip:Int, limit:Int, from service:RemoteStoreController, completion:@escaping ResourceCompletion) {
-        find(from: service, in: .Resource, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler) { foundObjects in
+    func buildRepository(from storeController:RemoteStoreController, with errorHandler :ErrorHandlerDelegate, completion:@escaping ErrorCompletion) {
+        find(from: storeController, in: RemoteStoreTable.Resource, sortBy: RemoteStoreTable.CommonColumn.createdAt.rawValue, skip: 0, limit: storeController.defaultQuerySize, errorHandler: errorHandler) { [weak self] (rawResourceArray) in
+            guard let strongSelf = self else {
+                completion([ModelError.Deallocated])
+                return
+            }
             
+            strongSelf.cleanImageRepository(using:rawResourceArray, with:errorHandler, completion:completion)
         }
     }
     
-    func buildRepository(from remoteStoreController:RemoteStoreController) {
-//        fetch(from:remoteStoreController, column:.thumbnailURLString,sortBy: RemoteStoreTable.CommonColumn.createdAt.rawValue, skip: 0, limit:resourceModel.remoteStoreController.defaultQuerySize) { [weak self] (resources) in
-//            self?.dataSource = resources
-//            self?.delegate?.didUpdateModel()
-//        }
+    func cleanImageRepository(using rawResourceArray:RawResourceArray, with errorHandler:ErrorHandlerDelegate, completion:ErrorCompletion) {
+        imageRepository = ImageRepository()
+        appendImages(from: rawResourceArray, completion: completion)
+    }
+    
+    func appendImages(from rawResourceArray:RawResourceArray, completion:ErrorCompletion ) {
+        extractImageResources(from: rawResourceArray, completion: { [weak self] (newEntries, accumulatedErrors) in
+            newEntries.forEach({ (object) in
+                self?.imageRepository[object.key] = object.value
+            })
+            completion(accumulatedErrors)
+        })
     }
 }
 
-// MARK: - Initialize
+// MARK: - Find
 
 extension ResourceModelController {
-    func fetch(from controller:RemoteStoreController, columns:[RemoteStoreTable], sortBy:String?, skip:Int, limit:Int, completion:@escaping ResourceCompletion) {
-//        resourceModel.find(from: controller, in: .Resource, sortBy: sortBy, skip: skip, limit: limit, errorHandler: resourceModel.errorHandler) { [weak self] (dictionaries) in
-//            do {
-//                guard let resources = try self?.extractResourceURLs(from: column, in: dictionaries) else {
-//                    self?.resourceModel.errorHandler.report(ModelError.Deallocated)
-//                    return
-//                }
-//                completion(resources)
-//            } catch {
-//                self?.resourceModel.errorHandler.report(error)
-//                completion([URL]())
-//            }
-//        }
+    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTable, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping FindCompletion) {
+        
+        remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
     }
 }
 
+// MARK: - Struct Extraction
+
 extension ResourceModelController {
-    /// TODO: Turn into template
-    func extractResourceURLs(from columns:[RemoteStoreTable.ResourceColumn], in dictionaries:[[String:AnyObject]]) throws -> [URL] {
-        var resources = [URL]()
+    func extractImageResources(from rawResourceArray:RawResourceArray, completion:ImageRepositoryCompletion) -> Void {
         
-//        try dictionaries.forEach({ (dictionary) in
-//            guard let urlString = dictionary[column.rawValue] as? String else {
-//                throw ModelError.IncorrectType
-//            }
-//
-//            guard let resourceLocator = URL(string: urlString) else {
-//                throw ModelError.InvalidURL
-//            }
-//
-//            resources.append(resourceLocator)
-//        })
+        var accumulatedErrors = [Error]()
+        var newEntries = ImageRepository()
+        var foundImageResource = false
         
-        return resources
+        rawResourceArray.forEach { (dictionary) in
+            var objectId = String()
+            var thumbnailURL:URL?
+            var fileURL:URL?
+            
+            do {
+                objectId = try extractString(named: RemoteStoreTable.CommonColumn.objectId.rawValue, from: dictionary)
+            } catch {
+                accumulatedErrors.append(ModelError.EmptyObjectId)
+                return
+            }
+
+            do {
+                thumbnailURL = try extractURL(named: RemoteStoreTable.ResourceColumn.thumbnailURLString.rawValue, from: dictionary)
+                fileURL = try extractURL(named: RemoteStoreTable.ResourceColumn.fileURLString.rawValue, from: dictionary)
+            } catch {
+                accumulatedErrors.append(error)
+            }
+            
+            guard let extractedThumbnailURL = thumbnailURL, let extractedFileURL = fileURL else {
+                return
+            }
+            
+            foundImageResource = true
+            
+            let imageResource = ImageResource(thumbnailURL: extractedThumbnailURL, fileURL: extractedFileURL)
+            newEntries[objectId] = imageResource
+        }
+        
+        if !foundImageResource {
+            accumulatedErrors.append(ModelError.EmptyImageResourceModel)
+        }
+        
+        completion(newEntries, accumulatedErrors)
     }
 }
 
+// MARK: Generic Extraction Handlers
+
 extension ResourceModelController {
-    func find(from service:RemoteStoreController, in table:RemoteStoreTable, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping FindCompletion) {
+    func extractString(named key:String, from dictionary:[String:AnyObject]) throws -> String {
         
-        service.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
+        guard let value = dictionary[key] as? String else {
+            throw ModelError.IncorrectType
+        }
+        
+        return value
+    }
+    
+    func extractURL(named key:String, from dictionary:[String:AnyObject]) throws -> URL {
+        
+        let urlString = try extractString(named: key, from: dictionary)
+        guard let resourceLocator = URL(string: urlString) else {
+            throw ModelError.InvalidURL
+        }
+        
+        return resourceLocator
     }
 }

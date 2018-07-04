@@ -13,7 +13,9 @@ enum ModelError : Error {
     case IncorrectType
     case InvalidURL
     case Deallocated
-    case MissingGalleryModel
+    case EmptyObjectId
+    case EmptyImageResourceModel
+    case UnsupportedParsingType
 }
 
 extension ModelError : LocalizedError {
@@ -25,8 +27,12 @@ extension ModelError : LocalizedError {
             return NSLocalizedString("The expected URL could not be constructed", comment: "")
         case .Deallocated:
             return NSLocalizedString("The model has been deallocated", comment: "")
-        case .MissingGalleryModel:
-            return NSLocalizedString("The expected gallery model is missing", comment: "")
+        case .EmptyObjectId:
+            return NSLocalizedString("No object id was found", comment: "")
+        case .EmptyImageResourceModel:
+            return NSLocalizedString("No results were found for the given query", comment: "")
+        case .UnsupportedParsingType:
+            return NSLocalizedString("The expected type to parse is unimplemented", comment: "")
         }
     }
 }
