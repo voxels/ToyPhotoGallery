@@ -10,26 +10,72 @@ import XCTest
 
 class ResourceModelControllerTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testBuildRespositoryFindsExpectedResources() {
+        
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testBuildRepositoryCleansImageRepository() {
+        
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testBuildRepositoryAppendExpectedResources() {
+        
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testCleanRepositoryCleansImageRepository() {
+        
+    }
+    
+    func testCleanRepositoryAppendsExpectedResources() {
+        
+    }
+    
+    func testAppendImagesAppendsExpectedResources() {
+        
+    }
+    
+    func testAppendImagesDoesNotReplaceRepository() {
+        
+    }
+    
+    func testAppendImagesCompletesWithAccumulatedErrors() {
+        
+    }
+    
+    func testExtractValueExtractsExpectedString() {
+        
+    }
+    
+    func testExtractValueExtractsExpectedURL() {
+        
+    }
+    
+    func testExtractValueExtractsExpectedDate() {
+        
+    }
+    
+    func testExtractValueThrowsExpectedMissingObjectIDError() {
+        
+    }
+    
+    func testExtractValueThrowsExpectedMissingValueError() {
+        
+    }
+    
+    func testExtractValueThrowsExpectedIncorrectTypeError() {
+        
+    }
+    
+    func testConstructURLConstructsExpectedURL() {
+        
+    }
+    
+    func testConstructURLThrowsExpectedInvalidURLError() {
+        
+    }
+    
+    func testConstructURLThrowsExpectedIncorrectTypeError() {
+        
     }
     
 }

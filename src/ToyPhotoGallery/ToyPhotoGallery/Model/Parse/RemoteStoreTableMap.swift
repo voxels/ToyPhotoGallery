@@ -9,16 +9,14 @@
 import Foundation
 
 /// Enum representing the table and column names for the schema
-enum RemoteStoreTable : String {
-    case Resource
-    case EXIF
-    
+enum RemoteStoreTableMap : String {
     enum CommonColumn : String {
         case objectId
         case updatedAt
         case createdAt
     }
     
+    case Resource
     enum ResourceColumn : String {
         case filename
         case thumbnailURLString
@@ -26,6 +24,7 @@ enum RemoteStoreTable : String {
         case exifData
     }
     
+    case EXIF
     enum EXIFColumn : String {
         case camera
     }

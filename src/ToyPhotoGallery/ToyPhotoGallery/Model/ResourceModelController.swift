@@ -30,7 +30,7 @@ class ResourceModelController {
     }
     
     func buildRepository(from storeController:RemoteStoreController, with errorHandler :ErrorHandlerDelegate, completion:@escaping ErrorCompletion) {
-        find(from: storeController, in: RemoteStoreTable.Resource, sortBy: RemoteStoreTable.CommonColumn.createdAt.rawValue, skip: 0, limit: storeController.defaultQuerySize, errorHandler: errorHandler) { [weak self] (rawResourceArray) in
+        find(from: storeController, in: RemoteStoreTableMap.Resource, sortBy: RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: 0, limit: storeController.defaultQuerySize, errorHandler: errorHandler) { [weak self] (rawResourceArray) in
             guard let strongSelf = self else {
                 completion([ModelError.Deallocated])
                 return
@@ -58,7 +58,7 @@ class ResourceModelController {
 // MARK: - Find
 
 extension ResourceModelController {
-    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTable, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping FindCompletion) {
+    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTableMap, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping FindCompletion) {
         
         remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
     }
@@ -70,7 +70,7 @@ extension ResourceModelController {
     func extractValue<T>(named key:String, from dictionary:[String:AnyObject]) throws -> T {
         
         guard var value = dictionary[key] else {
-            if key == RemoteStoreTable.CommonColumn.objectId.rawValue {
+            if key == RemoteStoreTableMap.CommonColumn.objectId.rawValue {
                 throw ModelError.EmptyObjectId
             } else {
                 throw ModelError.MissingValue

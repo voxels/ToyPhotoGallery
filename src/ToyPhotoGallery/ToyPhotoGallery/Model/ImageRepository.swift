@@ -30,7 +30,7 @@ extension ImageResource {
         
         rawResourceArray.forEach { (dictionary) in
             do {
-                let objectId:String = try resourceModelController.extractValue(named: RemoteStoreTable.CommonColumn.objectId.rawValue, from: dictionary)
+                let objectId:String = try resourceModelController.extractValue(named: RemoteStoreTableMap.CommonColumn.objectId.rawValue, from: dictionary)
                 
                 foundImageResource = true
                 let imageResource = try ImageResource.imageResource(with: resourceModelController, from: dictionary)
@@ -49,11 +49,11 @@ extension ImageResource {
     }
     
     static func imageResource(with resourceModelController:ResourceModelController, from dictionary:[String:AnyObject]) throws -> ImageResource {
-        let createdAt:Date = try resourceModelController.extractValue(named: RemoteStoreTable.CommonColumn.createdAt.rawValue, from: dictionary)
-        let updatedAt:Date = try resourceModelController.extractValue(named: RemoteStoreTable.CommonColumn.updatedAt.rawValue, from: dictionary)
-        let filename:String = try resourceModelController.extractValue(named: RemoteStoreTable.ResourceColumn.filename.rawValue, from: dictionary)
-        let thumbnailURL:URL = try resourceModelController.extractValue(named: RemoteStoreTable.ResourceColumn.thumbnailURLString.rawValue, from: dictionary)
-        let fileURL:URL = try resourceModelController.extractValue(named: RemoteStoreTable.ResourceColumn.fileURLString.rawValue, from: dictionary)
+        let createdAt:Date = try resourceModelController.extractValue(named: RemoteStoreTableMap.CommonColumn.createdAt.rawValue, from: dictionary)
+        let updatedAt:Date = try resourceModelController.extractValue(named: RemoteStoreTableMap.CommonColumn.updatedAt.rawValue, from: dictionary)
+        let filename:String = try resourceModelController.extractValue(named: RemoteStoreTableMap.ResourceColumn.filename.rawValue, from: dictionary)
+        let thumbnailURL:URL = try resourceModelController.extractValue(named: RemoteStoreTableMap.ResourceColumn.thumbnailURLString.rawValue, from: dictionary)
+        let fileURL:URL = try resourceModelController.extractValue(named: RemoteStoreTableMap.ResourceColumn.fileURLString.rawValue, from: dictionary)
 
         return ImageResource(createdAt: createdAt, updatedAt: updatedAt, filename: filename, thumbnailURL: thumbnailURL, fileURL: fileURL)
     }

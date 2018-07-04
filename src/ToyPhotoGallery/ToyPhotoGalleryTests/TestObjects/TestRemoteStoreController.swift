@@ -26,7 +26,7 @@ class TestRemoteStoreController : RemoteStoreController {
         }
     }
     
-    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
         
     }
 }

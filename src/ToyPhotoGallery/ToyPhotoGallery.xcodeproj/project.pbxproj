@@ -64,7 +64,7 @@
 		1E78B31820EBEF14000DCFE7 /* TestRemoteStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31720EBEF14000DCFE7 /* TestRemoteStoreController.swift */; };
 		1E78B31B20EBF286000DCFE7 /* TestReportingHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31A20EBF286000DCFE7 /* TestReportingHandler.swift */; };
 		1E78B31D20EBF57E000DCFE7 /* TestNotificationLaunchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31C20EBF57E000DCFE7 /* TestNotificationLaunchController.swift */; };
-		1E78B32520EC2AF0000DCFE7 /* RemoteStoreTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */; };
+		1E78B32520EC2AF0000DCFE7 /* RemoteStoreTableMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32420EC2AF0000DCFE7 /* RemoteStoreTableMap.swift */; };
 		1E78B32820EC4035000DCFE7 /* RemoteStoreControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */; };
 		1E78B32A20EC41CA000DCFE7 /* TestParseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */; };
 		1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32B20EC64C7000DCFE7 /* ModelError.swift */; };
@@ -147,7 +147,7 @@
 		1E78B31720EBEF14000DCFE7 /* TestRemoteStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRemoteStoreController.swift; sourceTree = "<group>"; };
 		1E78B31A20EBF286000DCFE7 /* TestReportingHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReportingHandler.swift; sourceTree = "<group>"; };
 		1E78B31C20EBF57E000DCFE7 /* TestNotificationLaunchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationLaunchController.swift; sourceTree = "<group>"; };
-		1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreTable.swift; sourceTree = "<group>"; };
+		1E78B32420EC2AF0000DCFE7 /* RemoteStoreTableMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreTableMap.swift; sourceTree = "<group>"; };
 		1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreControllerTests.swift; sourceTree = "<group>"; };
 		1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseInterface.swift; sourceTree = "<group>"; };
 		1E78B32B20EC64C7000DCFE7 /* ModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
@@ -428,7 +428,7 @@
 		1E78B32620EC2B45000DCFE7 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
-				1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */,
+				1E78B32420EC2AF0000DCFE7 /* RemoteStoreTableMap.swift */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -627,7 +627,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,
-				1E78B32520EC2AF0000DCFE7 /* RemoteStoreTable.swift in Sources */,
+				1E78B32520EC2AF0000DCFE7 /* RemoteStoreTableMap.swift in Sources */,
 				1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */,
 				1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */,
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,

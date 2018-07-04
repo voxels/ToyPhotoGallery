@@ -165,7 +165,7 @@ class ParseInterfaceTests: XCTestCase {
         do {
             let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0)
             let actual = query.parseClassName
-            XCTAssertEqual(RemoteStoreTable.Resource.rawValue, actual)
+            XCTAssertEqual(RemoteStoreTableMap.Resource.rawValue, actual)
         } catch {
             XCTFail("Received unexpected error: \(error.localizedDescription)")
         }

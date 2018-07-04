@@ -15,8 +15,8 @@ protocol RemoteStoreController : LaunchService {
     var serverURLString:String { get }
     var defaultQuerySize:Int { get }
     
-    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, errorHandler:ErrorHandlerDelegate, completion: @escaping FindCompletion) -> Void
-    func validate(sortBy:String, in schemaClass:RemoteStoreTable) throws -> Void
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler:ErrorHandlerDelegate, completion: @escaping FindCompletion) -> Void
+    func validate(sortBy:String, in schemaClass:RemoteStoreTableMap) throws -> Void
 }
 
 extension RemoteStoreController {
@@ -26,18 +26,18 @@ extension RemoteStoreController {
      - parameter table: the *RemoteStoreTable* containing the desired column
      - Throws: a *RemoteStoreError.InvalidSortByColumn* error if the column does not exist in the table schema
      */
-    func validate(sortBy:String, in table:RemoteStoreTable) throws -> Void {
-        if RemoteStoreTable.CommonColumn.init(rawValue: sortBy) != nil{
+    func validate(sortBy:String, in table:RemoteStoreTableMap) throws -> Void {
+        if RemoteStoreTableMap.CommonColumn.init(rawValue: sortBy) != nil{
             return
         }
         
         switch table {
         case .Resource:
-            if RemoteStoreTable.ResourceColumn.init(rawValue: sortBy) != nil {
+            if RemoteStoreTableMap.ResourceColumn.init(rawValue: sortBy) != nil {
                 return
             }
         case .EXIF:
-            if RemoteStoreTable.EXIFColumn.init(rawValue: sortBy ) != nil {
+            if RemoteStoreTableMap.EXIFColumn.init(rawValue: sortBy ) != nil {
                 return
             }
         }
