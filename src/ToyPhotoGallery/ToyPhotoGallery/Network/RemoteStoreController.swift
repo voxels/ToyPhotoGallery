@@ -8,14 +8,14 @@
 
 import Foundation
 
-typealias FindCompletion = ([AnyObject], Error?) -> Void
+typealias FindCompletion = ([AnyObject]) -> Void
 
 /// Protocol wrapper for handling a remote store service such as Parse or Firebase
 protocol RemoteStoreController : LaunchService {
     var serverURLString:String { get }
     var defaultQuerySize:Int { get }
     
-    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, completion: @escaping FindCompletion) throws -> Void
+    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, errorHandler:ErrorHandlerDelegate, completion: @escaping FindCompletion) -> Void
     func validate(sortBy:String, in schemaClass:RemoteStoreTable) throws -> Void
 }
 

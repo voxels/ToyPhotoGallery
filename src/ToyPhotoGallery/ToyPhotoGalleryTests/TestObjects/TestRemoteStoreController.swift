@@ -10,6 +10,7 @@ import Foundation
 @testable import ToyPhotoGallery
 
 class TestRemoteStoreController : RemoteStoreController {
+    
     var serverURLString: String = "urlString"
     var defaultQuerySize: Int = 20
     
@@ -25,7 +26,7 @@ class TestRemoteStoreController : RemoteStoreController {
         }
     }
     
-    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, completion: @escaping FindCompletion) throws {
+    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
         
     }
 }

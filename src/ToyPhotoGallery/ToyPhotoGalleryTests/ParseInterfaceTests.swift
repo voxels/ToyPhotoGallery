@@ -67,12 +67,9 @@ class ParseInterfaceTests: XCTestCase {
     func testFindTableCallsExpectedCompletion() {
         let waitExpectation = expectation(description: "Wait for expectation")
         let interface = TestParseInterface()
-        do {
-            try interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, completion: { (objects, error) in
-                waitExpectation.fulfill()
-            })
-        } catch {
-            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        let errorHandler = TestErrorHandler()
+        interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
+            waitExpectation.fulfill()
         }
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
@@ -81,45 +78,25 @@ class ParseInterfaceTests: XCTestCase {
     func testFindTableCallsFindQuery() {
         let waitExpectation = expectation(description: "Wait for expectation")
         let interface = TestParseInterface()
-        do {
-            try interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, completion: { (objects, error) in
-                XCTAssertTrue(interface.didFindQuery)
-                waitExpectation.fulfill()
-            })
-        } catch {
-            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        let errorHandler = TestErrorHandler()
+        interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
+            XCTAssertTrue(interface.didFindQuery)
+            waitExpectation.fulfill()
         }
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
     }
     
-    func testFindTableThrowsExpectedError() {
-        let errorInterface = TestErrorParseInterface()
-        do {
-            try errorInterface.find(table: .Resource, sortBy: "unexpected", skip: 0, limit: 0) { (objects, error) in
-                // Do nothing
-            }
-        } catch {
-            switch error {
-            case RemoteStoreError.InvalidSortByColumn:
-                return
-            default:
-                XCTFail("Received unexpected error: \(error.localizedDescription)")
-            }
-        }
-        
-        XCTFail("Did not throw expected error")
-    }
-    
     func testParseFindCompletionReturnsWrappedCompletion() {
         let waitExpectation = expectation(description: "Wait for expectation")
 
-        let findCompletion:FindCompletion = { (objects, error) in
+        let findCompletion:FindCompletion = { (objects) in
             waitExpectation.fulfill()
         }
         
         let interface = TestParseInterface()
-        let parseFindCompletion = interface.parseFindCompletion(for: findCompletion)
+        let errorHandler = TestErrorHandler()
+        let parseFindCompletion = interface.parseFindCompletion(with:errorHandler, for: findCompletion)
         parseFindCompletion(nil, nil)
         
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
@@ -130,18 +107,38 @@ class ParseInterfaceTests: XCTestCase {
         func testParseFindCompletionReturnsWrappedCompletion() {
             let waitExpectation = expectation(description: "Wait for expectation")
             
-            let findCompletion:FindCompletion = { (objects, error) in
+            let findCompletion:FindCompletion = { (objects) in
                 XCTAssertNotNil(objects)
                 waitExpectation.fulfill()
             }
             
             let interface = TestParseInterface()
-            let parseFindCompletion = interface.parseFindCompletion(for: findCompletion)
+            let errorHandler = TestErrorHandler()
+            let parseFindCompletion = interface.parseFindCompletion(with:errorHandler, for: findCompletion)
             parseFindCompletion(nil, nil)
             
             let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
             XCTAssertTrue(actual)
         }
+    }
+    
+    func testParseFindCompletionReportsError() {
+        let waitExpectation = expectation(description: "Wait for expectation")
+        
+        let interface = TestParseInterface()
+        let errorHandler = TestErrorHandler()
+        
+        let findCompletion:FindCompletion = { (objects) in
+            XCTAssertTrue(errorHandler.didReport)
+            waitExpectation.fulfill()
+        }
+
+        let parseFindCompletion = interface.parseFindCompletion(with:errorHandler, for: findCompletion)
+        let error = RemoteStoreError.InvalidSortByColumn
+        parseFindCompletion(nil, error)
+        
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
     }
     
     func testFindQueryCallsCompletion() {

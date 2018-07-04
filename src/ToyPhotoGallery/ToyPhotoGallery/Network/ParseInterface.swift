@@ -57,30 +57,37 @@ class ParseInterface : RemoteStoreController {
      - parameter sortBy: the *String* of the column name to sort by, or nil if no sorting is needed
      - parameter skip: an *Int* of the number of records to skip in the query
      - parameter limit: an *Int* of the limit of the number of records returned by the query
+     - parameter errorHandler: The *ErrorHandlerDelegate* that will report the error
      - parameter completion: the *FindCompletion* callback executed when the query is complete
      - Returns: void
      */
-    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, completion: @escaping FindCompletion) throws -> Void {
+    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
         
-        let wrappedCompletion = parseFindCompletion(for: completion)
+        let wrappedCompletion = parseFindCompletion(with:errorHandler, for: completion)
         
         do {
             let pfQuery = try query(for: table, sortBy: sortBy, skip: skip, limit: limit)
             find(query: pfQuery, completion: wrappedCompletion)
         } catch {
-            throw error
+            errorHandler.report(error)
+            completion([AnyObject]())
         }
     }
     
     /**
      Constructs a *ParseFindCompletion* callback from a *FindCompletion* callback, essentially guaranteeing that the objects array will not be empty
+     - parameter errorHandler: an *ErrorHandlerDelegate* that will report the caught error
      - parameter findCompletion: the *FindCompletion* block that needs to be wrapped for this interface
      - Returns: a *ParseFindCompletion* object that can be passed within this interface
      */
-    func parseFindCompletion(for findCompletion:@escaping FindCompletion)->ParseFindCompletion {
+    func parseFindCompletion(with errorHandler:ErrorHandlerDelegate, for findCompletion:@escaping FindCompletion)->ParseFindCompletion {
         let wrappedCompletion:ParseFindCompletion = { (objects, error) in
+            if let e = error {
+                errorHandler.report(e)
+            }
+            
             let fetchedObjects:[AnyObject] = objects ?? [AnyObject]()
-            findCompletion(fetchedObjects, error)
+            findCompletion(fetchedObjects)
         }
         
         return wrappedCompletion
