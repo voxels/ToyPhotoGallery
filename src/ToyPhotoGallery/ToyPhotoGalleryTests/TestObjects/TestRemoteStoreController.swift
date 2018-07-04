@@ -10,6 +10,9 @@ import Foundation
 @testable import ToyPhotoGallery
 
 class TestRemoteStoreController : RemoteStoreController {
+    var serverURLString: String = "urlString"
+    var defaultQuerySize: Int = 20
+    
     var didLaunch = false
     var launchControlKey: LaunchControlKey?
     var delayNotification:DispatchTime = DispatchTime(uptimeNanoseconds: 1000)
@@ -20,5 +23,9 @@ class TestRemoteStoreController : RemoteStoreController {
         DispatchQueue.main.asyncAfter(deadline: delayNotification) {
             center.post(name: Notification.Name.DidLaunchRemoteStore, object: nil)
         }
+    }
+    
+    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, completion: @escaping FindCompletion) throws {
+        
     }
 }

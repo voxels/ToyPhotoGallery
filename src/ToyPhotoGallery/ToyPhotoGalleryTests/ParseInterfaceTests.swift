@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Parse
 @testable import ToyPhotoGallery
 
 class ParseInterfaceTests: XCTestCase {
@@ -61,5 +62,154 @@ class ParseInterfaceTests: XCTestCase {
         }
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
+    }
+    
+    func testFindTableCallsExpectedCompletion() {
+        let waitExpectation = expectation(description: "Wait for expectation")
+        let interface = TestParseInterface()
+        do {
+            try interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, completion: { (objects, error) in
+                waitExpectation.fulfill()
+            })
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
+    }
+    
+    func testFindTableCallsFindQuery() {
+        let waitExpectation = expectation(description: "Wait for expectation")
+        let interface = TestParseInterface()
+        do {
+            try interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, completion: { (objects, error) in
+                XCTAssertTrue(interface.didFindQuery)
+                waitExpectation.fulfill()
+            })
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
+    }
+    
+    func testFindTableThrowsExpectedError() {
+        let errorInterface = TestErrorParseInterface()
+        do {
+            try errorInterface.find(table: .Resource, sortBy: "unexpected", skip: 0, limit: 0) { (objects, error) in
+                // Do nothing
+            }
+        } catch {
+            switch error {
+            case RemoteStoreError.InvalidSortByColumn:
+                return
+            default:
+                XCTFail("Received unexpected error: \(error.localizedDescription)")
+            }
+        }
+        
+        XCTFail("Did not throw expected error")
+    }
+    
+    func testParseFindCompletionReturnsWrappedCompletion() {
+        let waitExpectation = expectation(description: "Wait for expectation")
+
+        let findCompletion:FindCompletion = { (objects, error) in
+            waitExpectation.fulfill()
+        }
+        
+        let interface = TestParseInterface()
+        let parseFindCompletion = interface.parseFindCompletion(for: findCompletion)
+        parseFindCompletion(nil, nil)
+        
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
+    }
+    
+    func testParseFindCompletionReturnsEmptyArrayForNoResults() {
+        func testParseFindCompletionReturnsWrappedCompletion() {
+            let waitExpectation = expectation(description: "Wait for expectation")
+            
+            let findCompletion:FindCompletion = { (objects, error) in
+                XCTAssertNotNil(objects)
+                waitExpectation.fulfill()
+            }
+            
+            let interface = TestParseInterface()
+            let parseFindCompletion = interface.parseFindCompletion(for: findCompletion)
+            parseFindCompletion(nil, nil)
+            
+            let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+            XCTAssertTrue(actual)
+        }
+    }
+    
+    func testFindQueryCallsCompletion() {
+        let waitExpectation = expectation(description: "Wait for expectation")
+        
+        let findCompletion:ParseFindCompletion = { (objects, error) in
+            waitExpectation.fulfill()
+        }
+        
+        let interface = TestParseInterface()
+        do {
+            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0)
+            interface.find(query: query, completion: findCompletion)
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
+        
+        let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
+    }
+    
+    func testQueryForTableSetsClassName() {
+        let interface = TestParseInterface()
+        do {
+            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0)
+            let actual = query.parseClassName
+            XCTAssertEqual(RemoteStoreTable.Resource.rawValue, actual)
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
+    }
+    
+    // func testQueryForTableSetsSortOrder is missing
+    // query sort order is not a value that can be checked
+    
+    func testQueryForTableSetsSkipValue() {
+        let interface = TestParseInterface()
+        let expected = 10
+        do {
+            let query = try interface.query(for: .Resource, sortBy: nil, skip: expected, limit: 0)
+            let actual = query.skip
+            XCTAssertEqual(expected, actual)
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
+    }
+    
+    func testQueryForTableSetsLimitValue() {
+        let interface = TestParseInterface()
+        let expected = 10
+        do {
+            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: expected)
+            let actual = query.limit
+            XCTAssertEqual(expected, actual)
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
+    }
+    
+    func testQueryForTableSetsCachePolicy() {
+        let interface = TestParseInterface()
+        let expected:PFCachePolicy = .cacheOnly
+        do {
+            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0, cachePolicy: expected)
+            let actual = query.cachePolicy
+            XCTAssertEqual(expected, actual)
+        } catch {
+            XCTFail("Received unexpected error: \(error.localizedDescription)")
+        }
     }
 }

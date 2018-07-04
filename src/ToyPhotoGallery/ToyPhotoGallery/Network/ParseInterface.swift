@@ -9,11 +9,7 @@
 import Foundation
 import Parse
 
-typealias ParseFetchCompletion = ([PFObject]?, Error?) throws -> Void
-
-enum ParseClassName : String {
-    case Resource
-}
+typealias ParseFindCompletion = ([PFObject]?, Error?) -> Void
 
 // Global vars are only init once, which we *must* have for initializing Parse
 // And Swift doesn't have dispatch_once, so we do this thing outside of any class instead
@@ -21,13 +17,17 @@ enum ParseClassName : String {
 /// A class for wrapping the Parse API service
 class ParseInterface : RemoteStoreController {
     /// The server URL String
-    static let serverURLString = "http://ec2-54-210-146-169.compute-1.amazonaws.com/parse"
+    var serverURLString = "http://ec2-54-210-146-169.compute-1.amazonaws.com/parse"
+    
+    /// Default size for fetch results
+    var defaultQuerySize = 30
     
     /// The launch control key that decodes the Parse Application ID
     var launchControlKey: LaunchControlKey? = .ParseApplicationId
 
-    private lazy var initParse:(String)->Void = { key in
-        Parse.initialize(with: ParseInterface.configuration(with: key, for: ParseInterface.serverURLString))
+    /// A calculated variable used to initialize Parse
+    private lazy var initParse:(String, String)->Void = { key, server in
+        Parse.initialize(with: ParseInterface.configuration(with: key, for: server))
     }
     
     /**
@@ -46,25 +46,94 @@ class ParseInterface : RemoteStoreController {
             throw LaunchError.DuplicateLaunch
         }
         
-        initParse(key)
+        initParse(key, serverURLString)
        
         center.post(name: Notification.Name.DidLaunchRemoteStore, object: nil)
     }
-}
-
-extension ParseInterface {
-    // TODO: Pass in query
-    func fetch(name:ParseClassName, startIndex:Int, count:Int, errorHandler:ErrorHandlerDelegate = BugsnagInterface(),  completion:@escaping ParseFetchCompletion ) {
-        let query = PFQuery(className:"Resource")
+    
+    /**
+     Finds the objects in the given schemaClass, sorted by the given String, with the expected fetch skip and limit constants.  Calls a completion block when completed
+     - parameter table: a *RemoteStoreTable* table that should be queried on the remote store
+     - parameter sortBy: the *String* of the column name to sort by, or nil if no sorting is needed
+     - parameter skip: an *Int* of the number of records to skip in the query
+     - parameter limit: an *Int* of the limit of the number of records returned by the query
+     - parameter completion: the *FindCompletion* callback executed when the query is complete
+     - Returns: void
+     */
+    func find(table: RemoteStoreTable, sortBy: String?, skip: Int, limit: Int, completion: @escaping FindCompletion) throws -> Void {
+        
+        let wrappedCompletion = parseFindCompletion(for: completion)
+        
+        do {
+            let pfQuery = try query(for: table, sortBy: sortBy, skip: skip, limit: limit)
+            find(query: pfQuery, completion: wrappedCompletion)
+        } catch {
+            throw error
+        }
+    }
+    
+    /**
+     Constructs a *ParseFindCompletion* callback from a *FindCompletion* callback, essentially guaranteeing that the objects array will not be empty
+     - parameter findCompletion: the *FindCompletion* block that needs to be wrapped for this interface
+     - Returns: a *ParseFindCompletion* object that can be passed within this interface
+     */
+    func parseFindCompletion(for findCompletion:@escaping FindCompletion)->ParseFindCompletion {
+        let wrappedCompletion:ParseFindCompletion = { (objects, error) in
+            let fetchedObjects:[AnyObject] = objects ?? [AnyObject]()
+            findCompletion(fetchedObjects, error)
+        }
+        
+        return wrappedCompletion
+    }
+    
+    /**
+     Executes the *PFQuery on a background thread and calls the callback when completed
+     - parameter query: the *PFQuery* to run
+     - parameter completion: the *ParseFindCompletion* callback to execute when the query has returned
+     - Returns: void
+     */
+    func find(query:PFQuery<PFObject>, completion:@escaping ParseFindCompletion ) {
         query.findObjectsInBackground { (objects, error) in
-            do {
-                try completion(objects, error)
-            } catch {
-                errorHandler.report(error)
-            }
+            completion(objects, error)
         }
     }
 }
+
+// MARK: - Query Construction
+extension ParseInterface {
+    /**
+     Constructs a PFQuery for the given parameters
+     - parameter table: a *RemoteStoreTable* table that should be queried on the remote store
+     - parameter sortBy: the *String* of the column name to sort by, or nil if no sorting is needed
+     - parameter skip: an *Int* of the number of records to skip in the query
+     - parameter limit: an *Int* of the limit of the number of records returned by the query
+     - parameter cachePoligy: the *PFCachePolicy* used for the query, defaults to *.networkElseCache*
+     - Throws: Rethrows any errors generated by the call to validate the *sortBy* column
+     - Returns: void
+     */
+    func query(for table:RemoteStoreTable, sortBy:String?, skip:Int, limit:Int, cachePolicy:PFCachePolicy = .networkElseCache) throws -> PFQuery<PFObject> {
+        
+        let query = PFQuery(className: table.rawValue)
+        
+        if let sortAscending = sortBy {
+            do {
+                try validate(sortBy: sortAscending, in:table)
+            } catch {
+                throw error
+            }
+            
+            query.order(byAscending: sortAscending)
+        }
+        
+        query.skip = skip
+        query.limit = limit
+        query.cachePolicy = cachePolicy
+        
+        return query
+    }
+}
+
+// MARK: - Configuration
 
 extension ParseInterface {
     /**

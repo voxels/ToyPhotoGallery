@@ -64,6 +64,9 @@
 		1E78B31820EBEF14000DCFE7 /* TestRemoteStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31720EBEF14000DCFE7 /* TestRemoteStoreController.swift */; };
 		1E78B31B20EBF286000DCFE7 /* TestReportingHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31A20EBF286000DCFE7 /* TestReportingHandler.swift */; };
 		1E78B31D20EBF57E000DCFE7 /* TestNotificationLaunchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B31C20EBF57E000DCFE7 /* TestNotificationLaunchController.swift */; };
+		1E78B32520EC2AF0000DCFE7 /* RemoteStoreTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */; };
+		1E78B32820EC4035000DCFE7 /* RemoteStoreControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */; };
+		1E78B32A20EC41CA000DCFE7 /* TestParseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +140,9 @@
 		1E78B31720EBEF14000DCFE7 /* TestRemoteStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRemoteStoreController.swift; sourceTree = "<group>"; };
 		1E78B31A20EBF286000DCFE7 /* TestReportingHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReportingHandler.swift; sourceTree = "<group>"; };
 		1E78B31C20EBF57E000DCFE7 /* TestNotificationLaunchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationLaunchController.swift; sourceTree = "<group>"; };
+		1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreTable.swift; sourceTree = "<group>"; };
+		1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreControllerTests.swift; sourceTree = "<group>"; };
+		1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +233,7 @@
 		1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */,
 				1E78B31920EBEF4C000DCFE7 /* TestObjects */,
 				1E78B30320EBC80D000DCFE7 /* ObfuscatorTests.swift */,
 				1E78B30120EBC72B000DCFE7 /* BugsnagInterfaceTests.swift */,
@@ -301,6 +308,7 @@
 			children = (
 				1E78B29C20EAC77C000DCFE7 /* ImageResourceModel.swift */,
 				1E78B29E20EAC78F000DCFE7 /* UserModel.swift */,
+				1E78B32620EC2B45000DCFE7 /* Parse */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -391,8 +399,17 @@
 				1E78B31720EBEF14000DCFE7 /* TestRemoteStoreController.swift */,
 				1E78B31A20EBF286000DCFE7 /* TestReportingHandler.swift */,
 				1E78B31C20EBF57E000DCFE7 /* TestNotificationLaunchController.swift */,
+				1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */,
 			);
 			path = TestObjects;
+			sourceTree = "<group>";
+		};
+		1E78B32620EC2B45000DCFE7 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */,
+			);
+			path = Parse;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -589,6 +606,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,
+				1E78B32520EC2AF0000DCFE7 /* RemoteStoreTable.swift in Sources */,
 				1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */,
 				1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */,
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
@@ -618,6 +636,7 @@
 			files = (
 				1E78B30220EBC72B000DCFE7 /* BugsnagInterfaceTests.swift in Sources */,
 				1E78B30420EBC80D000DCFE7 /* ObfuscatorTests.swift in Sources */,
+				1E78B32A20EC41CA000DCFE7 /* TestParseInterface.swift in Sources */,
 				1E78B31820EBEF14000DCFE7 /* TestRemoteStoreController.swift in Sources */,
 				1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */,
 				1E78B31220EBD5A1000DCFE7 /* XCTestCase.swift in Sources */,
@@ -626,6 +645,7 @@
 				1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */,
 				1E78B31B20EBF286000DCFE7 /* TestReportingHandler.swift in Sources */,
 				1E78B31420EBED0C000DCFE7 /* TestErrorHandler.swift in Sources */,
+				1E78B32820EC4035000DCFE7 /* RemoteStoreControllerTests.swift in Sources */,
 				1E78B2FD20EBC58A000DCFE7 /* ParseInterfaceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
