@@ -122,6 +122,30 @@ class LaunchControllerTests: XCTestCase {
         XCTAssertTrue(actual)
     }
     
+    func testCheckLaunchCompleteBuildsResourceModelControllerRepository() {
+        let testResourceModelController = TestResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+        let controller = LaunchController(with: testResourceModelController)
+        controller.waitForNotifications = Set([Notification.Name.DidLaunchReportingHandler])
+        let testReportingNotification = Notification(name: Notification.Name.DidLaunchReportingHandler)
+        controller.checkLaunchComplete(with: testReportingNotification)
+        let actual = testResourceModelController.didBuildRepository
+        XCTAssertTrue(actual)
+    }
+   
+    func testModelUpdateFailedReturnsExpectedFailure() {
+        let controller = LaunchController(with:resourceModelController!)
+        let errors = [ModelError.EmptyObjectId]
+        let actual = controller.modelUpdateFailed(with: errors)
+        XCTAssertTrue(actual)
+    }
+    
+    func testModelUpdateFailedReturnsExpectedPass() {
+        let controller = LaunchController(with:resourceModelController!)
+        let errors = [ModelError.NoNewValues]
+        let actual = controller.modelUpdateFailed(with: errors)
+        XCTAssertFalse(actual)
+    }
+    
     func testVerifyCorrectlyReturnsFalse() {
         let controller = LaunchController(with:resourceModelController!)
         controller.waitForNotifications = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
@@ -162,6 +186,43 @@ class LaunchControllerTests: XCTestCase {
         controller.signalLaunchComplete()
         let actual = register(expectations: [completeLaunchExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
+    }
+    
+    func testSignalLaunchFailedResetsProperties() {
+        let controller = LaunchController(with: resourceModelController!)
+        let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
+        controller.waitForNotifications = names
+        controller.receivedNotifications = names
+        controller.timeOutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
+            XCTFail("Should not be firing timer for this test")
+        })
+        controller.signalLaunchFailed(reason: nil)
+        XCTAssertTrue(controller.waitForNotifications.count == 0)
+        XCTAssertTrue(controller.receivedNotifications.count == 0)
+        XCTAssertNil(controller.timeOutTimer)
+    }
+    
+    func testSignalLaunchFailedPostsDidFailLaunchNotification() {
+        let completeLaunchExpectation = expectation(forNotification: Notification.Name.DidFailLaunch, object: nil, handler: nil)
+        
+        let controller = LaunchController(with:resourceModelController!)
+        controller.signalLaunchFailed(reason: nil)
+        let actual = register(expectations: [completeLaunchExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(actual)
+    }
+    
+    func testResetResetsProperties() {
+        let controller = LaunchController(with: resourceModelController!)
+        let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
+        controller.waitForNotifications = names
+        controller.receivedNotifications = names
+        controller.timeOutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
+            XCTFail("Should not be firing timer for this test")
+        })
+        controller.reset()
+        XCTAssertTrue(controller.waitForNotifications.count == 0)
+        XCTAssertTrue(controller.receivedNotifications.count == 0)
+        XCTAssertNil(controller.timeOutTimer)
     }
     
     func testStartTimeoutTimerStartsTimer() {

@@ -149,6 +149,11 @@ extension LaunchController {
         }
     }
     
+    /**
+     Checks accumulated errors for types that signify that the model failed to update.  For example, if a record in the database fails to parse, then perhaps we should still allow the model update to pass even though the record itself is bad
+     - parameter errors: An array of *Error* we need to check for serious errors
+     - Returns: *true* if a serious error is found, *false* if *errors* is nil or if no serious errors are found
+     */
     func modelUpdateFailed(with errors:[Error]?) -> Bool {
         guard let errors = errors else {
             return false
@@ -160,6 +165,10 @@ extension LaunchController {
             case ModelError.InvalidURL:
                 fallthrough
             case ModelError.IncorrectType:
+                fallthrough
+            case ModelError.MissingValue:
+                fallthrough
+            case ModelError.NoNewValues:
                 return
             default:
                 failedLaunch = true
@@ -194,7 +203,13 @@ extension LaunchController {
         reset(with: center)
         center.post(name: Notification.Name.DidCompleteLaunch, object: nil)
     }
-    
+
+    /**
+     Signals that launch has failed with the *DidFailLaunch* notification. Resets the notification registration and time out timer for self
+     - parameter reason: an optional *String* to include as the reason for failure
+     - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
+     - Returns: void
+     */
     func signalLaunchFailed(reason:String?, with center:NotificationCenter = NotificationCenter.default) {
         reset(with: center)
         
@@ -207,6 +222,11 @@ extension LaunchController {
         center.post(notification)
     }
     
+    /**
+     Resets the notification sets and *timeOutTimer*, removes self from the notification center
+     - parameter center: the center to remove observer status from
+     - Returns: void
+     */
     func reset(with center:NotificationCenter = NotificationCenter.default) {
         center.removeObserver(self)
         receivedNotifications = Set<Notification.Name>()
@@ -321,10 +341,19 @@ extension LaunchController {
 // MARK: - GalleryViewModelDelegate
 
 extension LaunchController : ResourceModelControllerDelegate {
+    /**
+     Delegate method called when the *ResourceModelController* successfully updated
+     - Returns: void
+     */
     func didUpdateModel() {
         signalLaunchComplete()
     }
     
+    /**
+     Delegate method called when the *ResourceModelController* failed to update
+     - parameter reason: an optional *String* to include as the reason why the update failed
+     - Returns: void
+     */
     func didFailToUpdateModel(with reason:String?) {
         signalLaunchFailed(reason: reason)
     }

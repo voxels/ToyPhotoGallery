@@ -70,6 +70,7 @@
 		1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32B20EC64C7000DCFE7 /* ModelError.swift */; };
 		1E78B32E20EC6B12000DCFE7 /* ViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32D20EC6B12000DCFE7 /* ViewError.swift */; };
 		1E78B33020ED4139000DCFE7 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32F20ED4139000DCFE7 /* ImageRepository.swift */; };
+		1E78B33420ED522B000DCFE7 /* TestResourceModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33320ED522B000DCFE7 /* TestResourceModelController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +150,7 @@
 		1E78B32B20EC64C7000DCFE7 /* ModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
 		1E78B32D20EC6B12000DCFE7 /* ViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewError.swift; sourceTree = "<group>"; };
 		1E78B32F20ED4139000DCFE7 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
+		1E78B33320ED522B000DCFE7 /* TestResourceModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResourceModelController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +411,7 @@
 				1E78B31A20EBF286000DCFE7 /* TestReportingHandler.swift */,
 				1E78B31C20EBF57E000DCFE7 /* TestNotificationLaunchController.swift */,
 				1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */,
+				1E78B33320ED522B000DCFE7 /* TestResourceModelController.swift */,
 			);
 			path = TestObjects;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				1E78B2FB20EBC1D7000DCFE7 /* LaunchControllerTests.swift in Sources */,
 				1E78B31D20EBF57E000DCFE7 /* TestNotificationLaunchController.swift in Sources */,
 				1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */,
+				1E78B33420ED522B000DCFE7 /* TestResourceModelController.swift in Sources */,
 				1E78B31B20EBF286000DCFE7 /* TestReportingHandler.swift in Sources */,
 				1E78B31420EBED0C000DCFE7 /* TestErrorHandler.swift in Sources */,
 				1E78B32820EC4035000DCFE7 /* RemoteStoreControllerTests.swift in Sources */,
