@@ -21,24 +21,28 @@ class UnexpectedLaunchService : LaunchService {
 // for most of these tests so that they won't interfere with each other asynchronously
 class LaunchControllerTests: XCTestCase {
     
+    var testErrorHandler:TestErrorHandler?
+    var testRemoteStoreController:TestRemoteStoreController?
+    var resourceModelController:ResourceModelController?
+    
+    override func setUp() {
+        testErrorHandler = TestErrorHandler()
+        testRemoteStoreController = TestRemoteStoreController()
+        resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+    }
+    
     func testLaunchStartsTimeOutTimer() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testErrorHandler = TestErrorHandler()
-        let testRemoteStoreController = TestRemoteStoreController()
-        let resourceModelController = ResourceModelController(with: testRemoteStoreController, errorHandler: testErrorHandler)
-        controller.launch(services: [testErrorHandler], for:resourceModelController, with:testCenter)
+        let controller = LaunchController(with: resourceModelController!)
+        controller.launch(services: [testErrorHandler!], with:testCenter)
         XCTAssertNotNil(controller.timeOutTimer)
         controller.timeOutTimer?.invalidate()
     }
     
     func testLaunchAddsWaitNotifications() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testErrorHandler = TestErrorHandler()
-        let testRemoteStoreController = TestRemoteStoreController()
-        let resourceModelController = ResourceModelController(with: testRemoteStoreController, errorHandler: testErrorHandler)
-        controller.launch(services: [testErrorHandler], for:resourceModelController, with:testCenter)
+        let controller = LaunchController(with: resourceModelController!)
+        controller.launch(services: [testErrorHandler!], with:testCenter)
         let actual = controller.waitForNotifications.contains(Notification.Name.DidLaunchErrorHandler)
         XCTAssertTrue(actual)
         controller.timeOutTimer?.invalidate()
@@ -46,12 +50,9 @@ class LaunchControllerTests: XCTestCase {
     
     func testLaunchAttemptsLaunch() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testErrorHandler = TestErrorHandler()
-        let testRemoteStoreController = TestRemoteStoreController()
-        let resourceModelController = ResourceModelController(with: testRemoteStoreController, errorHandler: testErrorHandler)
-        controller.launch(services: [testErrorHandler], for:resourceModelController, with:testCenter)
-        XCTAssertTrue(testErrorHandler.didLaunch)
+        let controller = LaunchController(with: resourceModelController!)
+        controller.launch(services: [testErrorHandler!], with:testCenter)
+        XCTAssertTrue(testErrorHandler!.didLaunch)
         controller.timeOutTimer?.invalidate()
     }
     
@@ -60,11 +61,8 @@ class LaunchControllerTests: XCTestCase {
         let remoteStoreExpectation = expectation(forNotification: Notification.Name.DidLaunchRemoteStore, object: nil, handler: nil)
 
         let testCenter = NotificationCenter.default
-        let controller = LaunchController()
-        let testErrorHandler = TestErrorHandler()
-        let testRemoteStoreController = TestRemoteStoreController()
-        let resourceModelController = ResourceModelController(with: testRemoteStoreController, errorHandler: testErrorHandler)
-        controller.launch(services: [testErrorHandler, testRemoteStoreController], for:resourceModelController, with:testCenter)
+        let controller = LaunchController(with: resourceModelController!)
+        controller.launch(services: [testErrorHandler!, testRemoteStoreController!], with:testCenter)
 
         controller.timeOutTimer?.invalidate()
         
@@ -74,66 +72,58 @@ class LaunchControllerTests: XCTestCase {
     
     func testAttemptLaunchesServices() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testErrorHandlerService = TestErrorHandler()
-        let testRemoteStoreControllerService = TestRemoteStoreController()
-        controller.attempt([testErrorHandlerService, testRemoteStoreControllerService], with: testCenter)
+        let controller = LaunchController(with: resourceModelController!)
+        controller.attempt([testErrorHandler!, testRemoteStoreController!], with: testCenter)
         
-        XCTAssertTrue(testErrorHandlerService.didLaunch)
-        XCTAssertTrue(testRemoteStoreControllerService.didLaunch)
+        XCTAssertTrue(testErrorHandler!.didLaunch)
+        XCTAssertTrue(testRemoteStoreController!.didLaunch)
     }
     
     func testWaitIfNecessaryInsertsWaitNotificationForRemoteStoreController() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testRemoteStoreController = TestRemoteStoreController()
-        controller.waitIfNecessary(testRemoteStoreController, with:testCenter)
+        let controller = LaunchController(with:resourceModelController!)
+        controller.waitIfNecessary(testRemoteStoreController!, with:testCenter)
         let actual = controller.waitForNotifications.contains(Notification.Name.DidLaunchRemoteStore)
         XCTAssertTrue(actual)
     }
     
     func testWaitIfNecessaryInsertsWaitNotificationForErrorHandlerDelegate() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testErrorHandlerService = TestErrorHandler()
-        controller.waitIfNecessary(testErrorHandlerService, with:testCenter)
+        let controller = LaunchController(with:resourceModelController!)
+        controller.waitIfNecessary(testErrorHandler!, with:testCenter)
         let actual = controller.waitForNotifications.contains(Notification.Name.DidLaunchErrorHandler)
         XCTAssertTrue(actual)
     }
     
     func testWaitIfNecessaryInsertsWaitNotificaitonForReportingHandlerDelegate() {
         let testCenter = NotificationCenter()
-        let controller = LaunchController()
-        let testReportingHandlerService = TestReportingHandler()
-        controller.waitIfNecessary(testReportingHandlerService, with:testCenter)
+        let controller = LaunchController(with:resourceModelController!)
+        let testReportingHandler = TestReportingHandler()
+        controller.waitIfNecessary(testReportingHandler, with:testCenter)
         let actual = controller.waitForNotifications.contains(Notification.Name.DidLaunchReportingHandler)
         XCTAssertTrue(actual)
     }
     
     func testWaitIfNecessaryRegistersFoundNotificationName() {
         let testCenter = NotificationCenter.default
-        let controller = TestNotificationLaunchController()
-        let testReportingHandlerService = TestReportingHandler()
-        controller.waitIfNecessary(testReportingHandlerService, with:testCenter)
+        let controller = TestNotificationLaunchController(with:resourceModelController!)
+        let testReportingHandler = TestReportingHandler()
+        controller.waitIfNecessary(testReportingHandler, with:testCenter)
         NotificationCenter.default.post(name: Notification.Name.DidLaunchReportingHandler, object: nil)
         XCTAssertTrue(controller.didReceiveLaunchReportingHandlerNotification)
     }
     
     func testCheckLaunchCompleteInsertsReceivedNotification() {
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.waitForNotifications = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         let testReportingNotification = Notification(name: Notification.Name.DidLaunchReportingHandler)
-        do {
-            try controller.checkLaunchComplete(with: testReportingNotification)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        controller.checkLaunchComplete(with: testReportingNotification)
         let actual = controller.receivedNotifications.contains(Notification.Name.DidLaunchReportingHandler)
         XCTAssertTrue(actual)
     }
     
     func testVerifyCorrectlyReturnsFalse() {
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.waitForNotifications = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         controller.receivedNotifications = Set([Notification.Name.DidLaunchErrorHandler])
         let expected = false
@@ -142,7 +132,7 @@ class LaunchControllerTests: XCTestCase {
     }
     
     func testVerifyCorrectlyReturnsTrue() {
-        let controller = LaunchController()
+        let controller = LaunchController(with: resourceModelController!)
         let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         controller.waitForNotifications = names
         controller.receivedNotifications = names
@@ -152,7 +142,7 @@ class LaunchControllerTests: XCTestCase {
     }
     
     func testSignalLaunchCompleteResetsProperties() {
-        let controller = LaunchController()
+        let controller = LaunchController(with: resourceModelController!)
         let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         controller.waitForNotifications = names
         controller.receivedNotifications = names
@@ -168,14 +158,14 @@ class LaunchControllerTests: XCTestCase {
     func testSignalLaunchCompletePostsDidCompleteLaunchNotification() {
         let completeLaunchExpectation = expectation(forNotification: Notification.Name.DidCompleteLaunch, object: nil, handler: nil)
         
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.signalLaunchComplete()
         let actual = register(expectations: [completeLaunchExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
     }
     
     func testStartTimeoutTimerStartsTimer() {
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.startTimeOutTimer(duration: 10)
         XCTAssertNotNil(controller.timeOutTimer)
         controller.timeOutTimer?.invalidate()
@@ -183,30 +173,27 @@ class LaunchControllerTests: XCTestCase {
     
     func testStartTimeoutTimerFiresNotification() {
         let waitExpectation = expectation(forNotification: Notification.Name.DidFailLaunch, object: nil, handler: nil)
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.startTimeOutTimer(duration: 1)
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
     }
     
     func testHandleErrorForwardsToErrorHandler() {
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         let testErrorHandler = TestErrorHandler()
         controller.handle(error: LaunchError.DuplicateLaunch, with: testErrorHandler)
         XCTAssertTrue(testErrorHandler.didReport)
     }
     
     func testDidLaunchNotificationNameReturnsExpectedNameForService() {
-        let testRemoteStoreController = TestRemoteStoreController()
-        let testErrorHandler = TestErrorHandler()
         let testReportingHandler = TestReportingHandler()
+        let controller = LaunchController(with:resourceModelController!)
         
-        let controller = LaunchController()
-        
-        var actual = controller.didLaunchNotificationName(for: testRemoteStoreController)
+        var actual = controller.didLaunchNotificationName(for: testRemoteStoreController!)
         XCTAssertEqual(actual, Notification.Name.DidLaunchRemoteStore)
         
-        actual = controller.didLaunchNotificationName(for: testErrorHandler)
+        actual = controller.didLaunchNotificationName(for: testErrorHandler!)
         XCTAssertEqual(actual, Notification.Name.DidLaunchErrorHandler)
         
         actual = controller.didLaunchNotificationName(for: testReportingHandler)
@@ -215,7 +202,7 @@ class LaunchControllerTests: XCTestCase {
     
     func testDidLaunchNotificationNameReturnsNilForUnexpectedService() {
         let fakeLaunchService = UnexpectedLaunchService()
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
 
         let actual = controller.didLaunchNotificationName(for: fakeLaunchService)
         XCTAssertNil(actual)
@@ -223,14 +210,14 @@ class LaunchControllerTests: XCTestCase {
     
     func testHandleNotificationSetsFlagForDidLaunchErrorHandler() {
         let notification = Notification(name: Notification.Name.DidLaunchErrorHandler)
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.handle(notification: notification)
         XCTAssertTrue(controller.didLaunchErrorHandler)
     }
     
     func testDidUpdateModelSignalsLaunchCompletion() {
         let waitExpectation = expectation(forNotification: Notification.Name.DidCompleteLaunch, object: nil, handler: nil)
-        let controller = LaunchController()
+        let controller = LaunchController(with:resourceModelController!)
         controller.didUpdateModel()        
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
