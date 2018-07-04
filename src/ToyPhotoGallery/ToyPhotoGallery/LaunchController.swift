@@ -15,7 +15,7 @@ class LaunchController {
     var galleryModel:GalleryViewModel?
     
     /// The resource model we use to create the gallery model
-    var resourceModel:ResourceModelController?
+    var resourceModelController:ResourceModelController?
     
     /// An array of notifications we need to receive before confirming that launch is complete
     var waitForNotifications = Set<Notification.Name>()
@@ -62,7 +62,7 @@ class LaunchController {
      - Returns: void
      */
     func launch(services:[LaunchService],for modelController:ResourceModelController, with center:NotificationCenter = NotificationCenter.default) {
-        resourceModel = modelController
+        resourceModelController = modelController
         startTimeOutTimer(duration:timeOutDuration, with:center)
         waitForLaunchNotifications(for: services, with:center)
         attempt(services, with:center)
@@ -137,12 +137,8 @@ extension LaunchController {
     func checkLaunchComplete(with notification:Notification) throws {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
-            if let model = resourceModel {
-                galleryModel = GalleryViewModel(with: model, delegate: self)
-                guard let storeController = resourceModel?.remoteStoreController else {
-                    throw LaunchError.MissingRemoteStoreController
-                }
-                galleryModel?.buildDataSource(from: storeController)
+            if let modelController = resourceModelController {
+                modelController.buildRepository(from:modelController.remoteStoreController)
             }
         }
     }
@@ -162,10 +158,6 @@ extension LaunchController {
         
         return true
     }
-    
-    /**
-     
-     */
     
     /**
      Signals that launch is complete with the *DidCompleteLaunch* notification. Resets the notification registration and time out timer for self
@@ -290,7 +282,7 @@ extension LaunchController {
 
 // MARK: - GalleryViewModelDelegate
 
-extension LaunchController : GalleryViewModelDelegate {
+extension LaunchController : ResourceModelControllerDelegate {
     func didUpdateModel() {
         signalLaunchComplete()
     }

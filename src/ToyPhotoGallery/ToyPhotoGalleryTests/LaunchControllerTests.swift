@@ -132,27 +132,6 @@ class LaunchControllerTests: XCTestCase {
         XCTAssertTrue(actual)
     }
     
-    func testCheckLaunchCompleteCreatesGalleryModel() {
-        let controller = LaunchController()
-        let testRemoteStoreController = TestRemoteStoreController()
-        let testErrorHandler = TestErrorHandler()
-        controller.resourceModel = ResourceModelController(with: testRemoteStoreController, errorHandler: testErrorHandler)
-        controller.waitForNotifications = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
-        let testReportingNotification = Notification(name: Notification.Name.DidLaunchReportingHandler)
-        let testErrorHandlerNotification = Notification(name: Notification.Name.DidLaunchErrorHandler)
-        do {
-            try controller.checkLaunchComplete(with: testReportingNotification)
-            do {
-                try controller.checkLaunchComplete(with: testErrorHandlerNotification)
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-        XCTAssertNotNil(controller.galleryModel)
-    }
-    
     func testVerifyCorrectlyReturnsFalse() {
         let controller = LaunchController()
         controller.waitForNotifications = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])

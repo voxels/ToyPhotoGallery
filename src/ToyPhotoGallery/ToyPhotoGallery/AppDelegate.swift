@@ -12,8 +12,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    /// The launch controller handling all launch services
     var launchController:LaunchController?
     
+    /// A boolean indicating if unit tests are currently running
     private var isRunningUnitTests:Bool {
         return NSClassFromString("XCTestCase") != nil
     }
@@ -110,25 +113,14 @@ extension AppDelegate {
         
         deregisterForLaunchNotifications()
         
-        guard let launchController = launchController else {
-            assert(false)
+        do {
+            try guaranteeControllers(from: self) { [weak self] (launchController, rootNavigationController) in
+                self?.completeLaunch(with: launchController, navigationController: rootNavigationController, didSucceed: true)
+            }
+        } catch {
+            launchController?.currentErrorHandler.report(error)
             kill()
-            return
         }
-        
-        guard let rootNavigationController = window?.rootViewController as? UINavigationController else {
-            launchController.currentErrorHandler.report(ViewError.MissingNavigationController)
-            assert(false)
-            kill()
-            return
-        }
-        
-        guard let galleryModel = launchController.galleryModel else {
-            launchController.currentErrorHandler.report(ModelError.MissingGalleryModel)
-            return
-        }
-        
-        launchController.showGalleryView(in: rootNavigationController, with: galleryModel)
     }
     
     /**
@@ -144,24 +136,65 @@ extension AppDelegate {
         
         deregisterForLaunchNotifications()
 
-        guard let launchController = launchController else {
-            assert(false)
+        do {
+            try guaranteeControllers(from: self) { [weak self] (launchController, rootNavigationController) in
+                self?.completeLaunch(with: launchController, navigationController: rootNavigationController, didSucceed: false)
+            }
+        } catch {
+            launchController?.currentErrorHandler.report(error)
             kill()
-            return
+        }
+    }
+}
+
+// MARK: - ViewController Handling
+
+extension AppDelegate {
+    /**
+     Completes the launch process with the given *LaunchController* and *UINavigationController*
+     - parameter launchController: the *LaunchController* handling the launch process
+     - parameter navigationController: the *UINavigationController* that is expected to be the root view controller of the AppDelegate's window
+     - parameter didSucceed: a flag indicating if the launch process successfully completed
+     - Returns: void
+     */
+    func completeLaunch(with launchController:LaunchController, navigationController:UINavigationController, didSucceed:Bool) {
+        
+        if didSucceed {
+            guard let galleryModel = launchController.galleryModel else {
+                launchController.currentErrorHandler.report(ModelError.MissingGalleryModel)
+                return
+            }
+            
+            launchController.showGalleryView(in: navigationController, with: galleryModel)
+        } else {
+            launchController.showReachabilityView(in: navigationController)
+        }
+    }
+    
+    /**
+     Guarantees that the *AppDelegate* has a *LaunchController* and a *UINavigationController* as the root view controller of the *UIWindow*
+     - parameter delegate: the *AppDelegate* to verify against
+     - parameter completion: the callback used to hand back the *LaunchController* and *UINavigationController* located in the *AppDelegate*
+     - Throws: a *LaunchError.MissingLaunchController* error if the *LaunchController* cannot be located, and a *ViewError.MissingNavigationController* error if the *UINavigationController* cannot be located
+     - Returns: void
+     */
+    func guaranteeControllers(from delegate:AppDelegate, completion:(LaunchController, UINavigationController) ->Void) throws -> Void {
+        guard let launchController = delegate.launchController else {
+            throw LaunchError.MissingLaunchController
         }
         
-        guard let rootNavigationController = window?.rootViewController as? UINavigationController else {
-            launchController.currentErrorHandler.report(ViewError.MissingNavigationController)
-            assert(false)
-            kill()
-            return
+        guard let rootNavigationController = delegate.window?.rootViewController as? UINavigationController else {
+            throw ViewError.MissingNavigationController
         }
-
-        launchController.showReachabilityView(in: rootNavigationController)
+        
+        completion(launchController, rootNavigationController)
     }
     
     // The app is broken because of a programming error.  We have no recourse except to
     // present an error if possible and kill the app
+    /**
+     Shows a fatal alert dialog, if possible, and kills the app.  
+     */
     func kill() {
         LaunchController.showFatalAlert(with: "An unexpected error has occurred.  Please contact the developer at info@noisederived.com", in: window?.rootViewController)
     }
