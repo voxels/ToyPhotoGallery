@@ -33,9 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Start launch services
         launchController = LaunchController()
-        let bugsnagService = BugsnagInterface()
-        let parseService = ParseInterface()
-        launchController?.launch(services: [bugsnagService, parseService])
+        let errorHandlerDelegate = BugsnagInterface()
+        let remoteStoreController = ParseInterface()
+        let resourceModelController = ResourceModelController(with: remoteStoreController, errorHandler: errorHandlerDelegate)
+        
+        launchController?.launch(services: [errorHandlerDelegate, remoteStoreController], for:resourceModelController)
         
         return true
     }

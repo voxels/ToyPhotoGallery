@@ -11,6 +11,12 @@ import Foundation
 /// Class that launches potentially asynchronous launch services and signals when the expected services
 /// have been successfully launched, or sends a failed to launch notification if the time out is reached
 class LaunchController {
+    /// The gallery model we need to construct for launch
+    var galleryModel:GalleryViewModel?
+    
+    /// The resource model we use to create the gallery model
+    var resourceModel:ResourceModelController?
+    
     /// An array of notifications we need to receive before confirming that launch is complete
     var waitForNotifications = Set<Notification.Name>()
     
@@ -25,6 +31,11 @@ class LaunchController {
     
     /// Flag to indicate of the error reporting service has been launched
     var didLaunchErrorHandler = false
+    
+    /// We use the debug error handler until we have the Bugsnag service
+    var currentErrorHandler:ErrorHandlerDelegate {
+        return didLaunchErrorHandler ? BugsnagInterface() : DebugErrorHandler()
+    }
     
     /// DEBUG flag to print API key encryption bytes to the console
     static let showKeyEncryption = false
@@ -46,10 +57,12 @@ class LaunchController {
      Calls the launch method for each service, retains any services that need to stay alive,
      and assigns the notification names we need to receive before posting a *DidCompleteLaunch* notification
      - parameter services: An array of *LaunchService* that need to be launched
+     - parameter modelController: the *ResourceModel* used to create the gallery model
      - parameter center: the *NotificationCenter* to deregister and post *DidCompleteLaunch* on
      - Returns: void
      */
-    func launch(services:[LaunchService], with center:NotificationCenter = NotificationCenter.default) {
+    func launch(services:[LaunchService],for modelController:ResourceModelController, with center:NotificationCenter = NotificationCenter.default) {
+        resourceModel = modelController
         startTimeOutTimer(duration:timeOutDuration, with:center)
         waitForLaunchNotifications(for: services, with:center)
         attempt(services, with:center)
@@ -116,14 +129,21 @@ extension LaunchController {
     }
     
     /**
-     Adds a notification to the set of received notifications and compares the set to the notifications we are waiting for to the notifications we have received
+     Adds a notification to the set of received notifications and compares the set to the notifications we are waiting for to the notifications we have received.  If the *receivedNotifications* are verified against the *waitForNotifications*, the *galleryModel* is constructed.
      - parameter notification: The notification received
+     - Throws: a *LaunchError.MissingRemoteStoreController* if the remote store controller has not been init by this point
      - Returns: void
      */
-    func checkLaunchComplete(with notification:Notification) {
+    func checkLaunchComplete(with notification:Notification) throws {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
-            signalLaunchComplete()
+            if let model = resourceModel {
+                galleryModel = GalleryViewModel(with: model, delegate: self)
+                guard let storeController = resourceModel?.remoteStoreController else {
+                    throw LaunchError.MissingRemoteStoreController
+                }
+                galleryModel?.buildDataSource(from: storeController)
+            }
         }
     }
     
@@ -142,6 +162,10 @@ extension LaunchController {
         
         return true
     }
+    
+    /**
+     
+     */
     
     /**
      Signals that launch is complete with the *DidCompleteLaunch* notification. Resets the notification registration and time out timer for self
@@ -253,13 +277,25 @@ extension LaunchController {
         case Notification.Name.DidLaunchRemoteStore:
             fallthrough
         case Notification.Name.DidLaunchReportingHandler:
-            checkLaunchComplete(with: notification)
+            do {
+                try checkLaunchComplete(with: notification)
+            } catch {
+                handle(error: error, with: currentErrorHandler)
+            }
         default:
-            let errorHandler:ErrorHandlerDelegate = didLaunchErrorHandler ? BugsnagInterface() : DebugErrorHandler()
-            handle(error: LaunchError.UnexpectedLaunchNotification, with:errorHandler)
+            handle(error: LaunchError.UnexpectedLaunchNotification, with:currentErrorHandler)
         }
     }
 }
+
+// MARK: - GalleryViewModelDelegate
+
+extension LaunchController : GalleryViewModelDelegate {
+    func didUpdateModel() {
+        signalLaunchComplete()
+    }
+}
+
 
 // MARK: - API Key Security
 private extension LaunchController {
@@ -285,3 +321,4 @@ private extension LaunchController {
     }
     #endif
 }
+

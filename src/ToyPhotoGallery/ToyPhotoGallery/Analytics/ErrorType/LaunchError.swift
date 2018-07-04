@@ -13,6 +13,7 @@ enum LaunchError : Error {
     case MissingRequiredKey
     case UnexpectedLaunchNotification
     case DuplicateLaunch
+    case MissingRemoteStoreController
 }
 
 extension LaunchError : LocalizedError {
@@ -24,6 +25,8 @@ extension LaunchError : LocalizedError {
             return NSLocalizedString("An unexpected launch notification was received", comment: "")
         case .DuplicateLaunch:
             return NSLocalizedString("The remote store has already been launched", comment: "")
+        case .MissingRemoteStoreController:
+            return NSLocalizedString("The required remote store controller is missing", comment: "")
         }
     }
 }
