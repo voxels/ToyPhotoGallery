@@ -67,6 +67,8 @@
 		1E78B32520EC2AF0000DCFE7 /* RemoteStoreTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */; };
 		1E78B32820EC4035000DCFE7 /* RemoteStoreControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */; };
 		1E78B32A20EC41CA000DCFE7 /* TestParseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */; };
+		1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32B20EC64C7000DCFE7 /* ModelError.swift */; };
+		1E78B32E20EC6B12000DCFE7 /* ViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32D20EC6B12000DCFE7 /* ViewError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +145,8 @@
 		1E78B32420EC2AF0000DCFE7 /* RemoteStoreTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreTable.swift; sourceTree = "<group>"; };
 		1E78B32720EC4035000DCFE7 /* RemoteStoreControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreControllerTests.swift; sourceTree = "<group>"; };
 		1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseInterface.swift; sourceTree = "<group>"; };
+		1E78B32B20EC64C7000DCFE7 /* ModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
+		1E78B32D20EC6B12000DCFE7 /* ViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +359,8 @@
 			children = (
 				1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */,
 				1E78B2F820EB2542000DCFE7 /* RemoteStoreError.swift */,
+				1E78B32B20EC64C7000DCFE7 /* ModelError.swift */,
+				1E78B32D20EC6B12000DCFE7 /* ViewError.swift */,
 			);
 			path = ErrorType;
 			sourceTree = "<group>";
@@ -612,11 +618,13 @@
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
 				1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */,
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
+				1E78B32E20EC6B12000DCFE7 /* ViewError.swift in Sources */,
 				1E78B2A520EAC8BA000DCFE7 /* LogHandlerDelegate.swift in Sources */,
 				1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */,
 				1E78B2E420EADE2F000DCFE7 /* ErrorHandlerDelegate.swift in Sources */,
 				1E65C9EC20EABBE300D28BE4 /* AppDelegate.swift in Sources */,
 				1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */,
+				1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */,
 				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,
 				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
 				1E78B2F920EB2542000DCFE7 /* RemoteStoreError.swift in Sources */,

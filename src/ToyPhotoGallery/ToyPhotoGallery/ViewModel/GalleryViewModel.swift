@@ -25,8 +25,8 @@ class GalleryViewModel {
     }
     
     func buildDataSource(from controller:RemoteStoreController) {
-        thumbnails(from:controller, sortBy: RemoteStoreTable.CommonColumn.createdAt.rawValue, skip: 0, limit:resourceModel.remoteStoreController.defaultQuerySize) { [weak self] (foundResources) in
-            self?.dataSource = foundResources
+        fetch(from:controller, column:.thumbnailURLString,sortBy: RemoteStoreTable.CommonColumn.createdAt.rawValue, skip: 0, limit:resourceModel.remoteStoreController.defaultQuerySize) { [weak self] (resources) in
+            self?.dataSource = resources
             self?.delegate?.didUpdateModel()
         }
     }
@@ -35,11 +35,38 @@ class GalleryViewModel {
 // MARK: - Initialize
 
 extension GalleryViewModel {
-    func thumbnails(from controller:RemoteStoreController, sortBy:String?, skip:Int, limit:Int, completion:ResourceCompletion) {
-        resourceModel.find(from: controller, in: .Resource, sortBy: sortBy, skip: skip, limit: limit, errorHandler: resourceModel.errorHandler) { [weak self] (foundObjects) in
-            for object in foundObjects {
-                self?.logHandler.console(String(describing:type(of: object)))
+    func fetch(from controller:RemoteStoreController, column:RemoteStoreTable.ResourceColumn, sortBy:String?, skip:Int, limit:Int, completion:@escaping ResourceCompletion) {
+        resourceModel.find(from: controller, in: .Resource, sortBy: sortBy, skip: skip, limit: limit, errorHandler: resourceModel.errorHandler) { [weak self] (dictionaries) in
+            do {
+                guard let resources = try self?.extractResourceURLs(from: column, in: dictionaries) else {
+                    self?.resourceModel.errorHandler.report(ModelError.Deallocated)
+                    return
+                }
+                completion(resources)
+            } catch {
+                self?.resourceModel.errorHandler.report(error)
+                completion([URL]())
             }
         }
+    }
+}
+
+extension GalleryViewModel {
+    func extractResourceURLs(from column:RemoteStoreTable.ResourceColumn, in dictionaries:[[String:AnyObject]]) throws -> [URL] {
+        var resources = [URL]()
+        
+        try dictionaries.forEach({ (dictionary) in
+            guard let urlString = dictionary[column.rawValue] as? String else {
+                throw ModelError.IncorrectType
+            }
+            
+            guard let resourceLocator = URL(string: urlString) else {
+                throw ModelError.InvalidURL
+            }
+            
+            resources.append(resourceLocator)
+        })
+        
+        return resources
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Michael Edgcumbe. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Class that launches potentially asynchronous launch services and signals when the expected services
 /// have been successfully launched, or sends a failed to launch notification if the time out is reached
@@ -293,6 +293,34 @@ extension LaunchController {
 extension LaunchController : GalleryViewModelDelegate {
     func didUpdateModel() {
         signalLaunchComplete()
+    }
+}
+
+// MARK: - View
+
+extension LaunchController {
+    func showGalleryView(in rootViewController:UINavigationController, with model:GalleryViewModel) {
+        // TODO: show gallery view
+        print("show gallery view")
+    }
+    
+    func showReachabilityView(in rootViewController:UINavigationController) {
+        // TODO: show reachability view
+        print("show reachability view")
+    }
+    
+    static func showFatalAlert(with message:String, in viewController:UIViewController?) {
+        guard let viewController = viewController else {
+            // No further recourse.  The app is dead.
+            fatalError("Missing root window view controller")
+        }
+        
+        let alertController = UIAlertController(title: "Fatal Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            fatalError("turtles")
+        }
+        alertController.addAction(okAction)
+        alertController.show(viewController, sender: nil)
     }
 }
 

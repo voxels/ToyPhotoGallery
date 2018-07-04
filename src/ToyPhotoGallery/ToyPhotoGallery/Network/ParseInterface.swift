@@ -70,7 +70,7 @@ class ParseInterface : RemoteStoreController {
             find(query: pfQuery, completion: wrappedCompletion)
         } catch {
             errorHandler.report(error)
-            completion([AnyObject]())
+            completion([[String:AnyObject]]())
         }
     }
     
@@ -86,7 +86,11 @@ class ParseInterface : RemoteStoreController {
                 errorHandler.report(e)
             }
             
-            let fetchedObjects:[AnyObject] = objects ?? [AnyObject]()
+            var fetchedObjects = [[String:AnyObject]]()
+            objects?.forEach({ (object) in
+                fetchedObjects.append(self.dictionary(for: object))
+            })
+            
             findCompletion(fetchedObjects)
         }
         
@@ -103,6 +107,22 @@ class ParseInterface : RemoteStoreController {
         query.findObjectsInBackground { (objects, error) in
             completion(objects, error)
         }
+    }
+    
+    /**
+     Constructs a *[String:AnyObject]* for the given *PFObject*
+     - parameter object: the *PFObject* that needs to be converted to a dictionary
+     - Returns: a *[String:AnyObject]* of the dictionary
+     */
+    func dictionary(for object:PFObject)->[String:AnyObject] {
+        var dictionaryRepresentation = [String:AnyObject]()
+        dictionaryRepresentation[RemoteStoreTable.CommonColumn.objectId.rawValue] = object.objectId as AnyObject
+        dictionaryRepresentation[RemoteStoreTable.CommonColumn.createdAt.rawValue] = object.createdAt as AnyObject
+        dictionaryRepresentation[RemoteStoreTable.CommonColumn.updatedAt.rawValue] = object.updatedAt as AnyObject
+        object.allKeys.forEach { (key) in
+            dictionaryRepresentation[key] = object[key] as AnyObject
+        }
+        return dictionaryRepresentation
     }
 }
 

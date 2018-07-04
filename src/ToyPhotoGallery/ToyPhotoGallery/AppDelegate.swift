@@ -109,6 +109,26 @@ extension AppDelegate {
         #endif
         
         deregisterForLaunchNotifications()
+        
+        guard let launchController = launchController else {
+            assert(false)
+            kill()
+            return
+        }
+        
+        guard let rootNavigationController = window?.rootViewController as? UINavigationController else {
+            launchController.currentErrorHandler.report(ViewError.MissingNavigationController)
+            assert(false)
+            kill()
+            return
+        }
+        
+        guard let galleryModel = launchController.galleryModel else {
+            launchController.currentErrorHandler.report(ModelError.MissingGalleryModel)
+            return
+        }
+        
+        launchController.showGalleryView(in: rootNavigationController, with: galleryModel)
     }
     
     /**
@@ -123,6 +143,26 @@ extension AppDelegate {
         #endif
         
         deregisterForLaunchNotifications()
+
+        guard let launchController = launchController else {
+            assert(false)
+            kill()
+            return
+        }
+        
+        guard let rootNavigationController = window?.rootViewController as? UINavigationController else {
+            launchController.currentErrorHandler.report(ViewError.MissingNavigationController)
+            assert(false)
+            kill()
+            return
+        }
+
+        launchController.showReachabilityView(in: rootNavigationController)
+    }
+    
+    // The app is broken because of a programming error.  We have no recourse except to
+    // present an error if possible and kill the app
+    func kill() {
+        LaunchController.showFatalAlert(with: "An unexpected error has occurred.  Please contact the developer at info@noisederived.com", in: window?.rootViewController)
     }
 }
-
