@@ -29,7 +29,7 @@ class ResourceModelController {
         self.errorHandler = errorHandler
     }
     
-    func buildRepository(from storeController:RemoteStoreController, with errorHandler :ErrorHandlerDelegate, completion:@escaping ErrorCompletion) {
+    func buildRepository(from storeController:RemoteStoreController, with errorHandler:ErrorHandlerDelegate, completion:@escaping ErrorCompletion) {
         find(from: storeController, in: RemoteStoreTableMap.Resource, sortBy: RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: 0, limit: storeController.defaultQuerySize, errorHandler: errorHandler) { [weak self] (rawResourceArray) in
             guard let strongSelf = self else {
                 completion([ModelError.Deallocated])

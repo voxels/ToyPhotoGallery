@@ -15,6 +15,7 @@ class TestRemoteStoreController : RemoteStoreController {
     var defaultQuerySize: Int = 20
     
     var didLaunch = false
+    var didFind = false
     var launchControlKey: LaunchControlKey?
     var delayNotification:DispatchTime = DispatchTime(uptimeNanoseconds: 1000)
     
@@ -27,6 +28,7 @@ class TestRemoteStoreController : RemoteStoreController {
     }
     
     func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
-        
+        didFind = true
+        completion([ImageRepositoryTests.imageResourceRawObject])
     }
 }
