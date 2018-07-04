@@ -338,6 +338,8 @@ extension LaunchController {
         print("show gallery view")
         for key in resourceModelController.imageRepository.keys {
             let handler = DebugLogHandler()
+            handler.console(resourceModelController.imageRepository[key]?.filename ?? "missing")
+            handler.console(String(describing:resourceModelController.imageRepository[key]?.createdAt))
             handler.console(resourceModelController.imageRepository[key]?.fileURL.absoluteString ?? "missing")
             handler.console(resourceModelController.imageRepository[key]?.thumbnailURL.absoluteString ?? "missing")
             handler.console("\n")

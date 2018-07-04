@@ -10,19 +10,10 @@ import UIKit
 
 typealias ErrorCompletion = ([Error]?)->Void
 typealias RawResourceArray = [[String:AnyObject]]
-typealias ImageRepository = [String:ImageResource]
-typealias ImageRepositoryCompletion = (ImageRepository,[Error]?)->Void
-typealias ResourceCompletion = ([URL])->Void
 
 protocol ResourceModelControllerDelegate {
     func didUpdateModel()
     func didFailToUpdateModel(with reason:String?)
-}
-
-/// A struct used to hold the image resource URLs
-struct ImageResource {
-    var thumbnailURL:URL
-    var fileURL:URL
 }
 
 /// A struct used to handle resources from the Parse interface
@@ -55,7 +46,7 @@ class ResourceModelController {
     }
     
     func appendImages(from rawResourceArray:RawResourceArray, completion:ErrorCompletion ) {
-        extractImageResources(from: rawResourceArray, completion: { [weak self] (newEntries, accumulatedErrors) in
+        ImageResource.extractImageResources(with: self, from: rawResourceArray, completion: { [weak self] (newEntries, accumulatedErrors) in
             newEntries.forEach({ (object) in
                 self?.imageRepository[object.key] = object.value
             })
@@ -73,71 +64,40 @@ extension ResourceModelController {
     }
 }
 
-// MARK: - Struct Extraction
-
-extension ResourceModelController {
-    func extractImageResources(from rawResourceArray:RawResourceArray, completion:ImageRepositoryCompletion) -> Void {
-        
-        var accumulatedErrors = [Error]()
-        var newEntries = ImageRepository()
-        var foundImageResource = false
-        
-        rawResourceArray.forEach { (dictionary) in
-            var objectId = String()
-            var thumbnailURL:URL?
-            var fileURL:URL?
-            
-            do {
-                objectId = try extractString(named: RemoteStoreTable.CommonColumn.objectId.rawValue, from: dictionary)
-            } catch {
-                accumulatedErrors.append(ModelError.EmptyObjectId)
-                return
-            }
-
-            do {
-                thumbnailURL = try extractURL(named: RemoteStoreTable.ResourceColumn.thumbnailURLString.rawValue, from: dictionary)
-                fileURL = try extractURL(named: RemoteStoreTable.ResourceColumn.fileURLString.rawValue, from: dictionary)
-            } catch {
-                accumulatedErrors.append(error)
-            }
-            
-            guard let extractedThumbnailURL = thumbnailURL, let extractedFileURL = fileURL else {
-                return
-            }
-            
-            foundImageResource = true
-            
-            let imageResource = ImageResource(thumbnailURL: extractedThumbnailURL, fileURL: extractedFileURL)
-            newEntries[objectId] = imageResource
-        }
-        
-        if !foundImageResource {
-            accumulatedErrors.append(ModelError.EmptyImageResourceModel)
-        }
-        
-        completion(newEntries, accumulatedErrors)
-    }
-}
-
 // MARK: Generic Extraction Handlers
 
 extension ResourceModelController {
-    func extractString(named key:String, from dictionary:[String:AnyObject]) throws -> String {
+    func extractValue<T>(named key:String, from dictionary:[String:AnyObject]) throws -> T {
         
-        guard let value = dictionary[key] as? String else {
+        guard var value = dictionary[key] else {
+            if key == RemoteStoreTable.CommonColumn.objectId.rawValue {
+                throw ModelError.EmptyObjectId
+            } else {
+                throw ModelError.MissingValue
+            }
+        }
+        
+        // We need to convert the string to an URL type
+        if T.self is URL.Type{
+            value = try constructURL(from: value) as AnyObject
+        }
+        
+        // We need to make sure we have the type of variable we expect to have
+        guard let castValue = value as? T else {
             throw ModelError.IncorrectType
         }
         
-        return value
+        return castValue
     }
     
-    func extractURL(named key:String, from dictionary:[String:AnyObject]) throws -> URL {
-        
-        let urlString = try extractString(named: key, from: dictionary)
-        guard let resourceLocator = URL(string: urlString) else {
-            throw ModelError.InvalidURL
+    func constructURL(from value:AnyObject) throws -> URL {
+        if let urlString = value as? String {
+            guard let resourceLocator = URL(string: urlString) else {
+                throw ModelError.InvalidURL
+            }
+            return resourceLocator
+        } else {
+            throw ModelError.IncorrectType
         }
-        
-        return resourceLocator
     }
 }

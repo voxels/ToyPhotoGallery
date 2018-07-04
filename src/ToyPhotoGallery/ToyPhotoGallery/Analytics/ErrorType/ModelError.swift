@@ -14,8 +14,8 @@ enum ModelError : Error {
     case InvalidURL
     case Deallocated
     case EmptyObjectId
-    case EmptyImageResourceModel
-    case UnsupportedParsingType
+    case MissingValue
+    case NoNewValues
 }
 
 extension ModelError : LocalizedError {
@@ -29,10 +29,10 @@ extension ModelError : LocalizedError {
             return NSLocalizedString("The model has been deallocated", comment: "")
         case .EmptyObjectId:
             return NSLocalizedString("No object id was found", comment: "")
-        case .EmptyImageResourceModel:
-            return NSLocalizedString("No results were found for the given query", comment: "")
-        case .UnsupportedParsingType:
-            return NSLocalizedString("The expected type to parse is unimplemented", comment: "")
+        case .MissingValue:
+            return NSLocalizedString("The raw dictionary does not contain the desired value", comment: "")
+        case .NoNewValues:
+            return NSLocalizedString("No new values were created", comment: "")
         }
     }
 }

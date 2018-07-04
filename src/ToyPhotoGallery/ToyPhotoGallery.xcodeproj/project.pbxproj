@@ -20,7 +20,7 @@
 		1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */; };
 		1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */; };
 		1E78B29D20EAC77C000DCFE7 /* ResourceModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */; };
-		1E78B29F20EAC78F000DCFE7 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29E20EAC78F000DCFE7 /* UserModel.swift */; };
+		1E78B29F20EAC78F000DCFE7 /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */; };
 		1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */; };
 		1E78B2A320EAC879000DCFE7 /* ParseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A220EAC879000DCFE7 /* ParseInterface.swift */; };
 		1E78B2A520EAC8BA000DCFE7 /* LogHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A420EAC8BA000DCFE7 /* LogHandlerDelegate.swift */; };
@@ -69,6 +69,7 @@
 		1E78B32A20EC41CA000DCFE7 /* TestParseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */; };
 		1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32B20EC64C7000DCFE7 /* ModelError.swift */; };
 		1E78B32E20EC6B12000DCFE7 /* ViewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32D20EC6B12000DCFE7 /* ViewError.swift */; };
+		1E78B33020ED4139000DCFE7 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B32F20ED4139000DCFE7 /* ImageRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,7 +109,7 @@
 		1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
 		1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
 		1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceModelController.swift; sourceTree = "<group>"; };
-		1E78B29E20EAC78F000DCFE7 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreController.swift; sourceTree = "<group>"; };
 		1E78B2A220EAC879000DCFE7 /* ParseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInterface.swift; sourceTree = "<group>"; };
 		1E78B2A420EAC8BA000DCFE7 /* LogHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHandlerDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		1E78B32920EC41CA000DCFE7 /* TestParseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseInterface.swift; sourceTree = "<group>"; };
 		1E78B32B20EC64C7000DCFE7 /* ModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
 		1E78B32D20EC6B12000DCFE7 /* ViewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewError.swift; sourceTree = "<group>"; };
+		1E78B32F20ED4139000DCFE7 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,7 +313,8 @@
 			isa = PBXGroup;
 			children = (
 				1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */,
-				1E78B29E20EAC78F000DCFE7 /* UserModel.swift */,
+				1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */,
+				1E78B32F20ED4139000DCFE7 /* ImageRepository.swift */,
 				1E78B32620EC2B45000DCFE7 /* Parse */,
 			);
 			path = Model;
@@ -623,6 +626,7 @@
 				1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */,
 				1E78B2E420EADE2F000DCFE7 /* ErrorHandlerDelegate.swift in Sources */,
 				1E65C9EC20EABBE300D28BE4 /* AppDelegate.swift in Sources */,
+				1E78B33020ED4139000DCFE7 /* ImageRepository.swift in Sources */,
 				1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */,
 				1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */,
 				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,
@@ -631,7 +635,7 @@
 				1E78B2A320EAC879000DCFE7 /* ParseInterface.swift in Sources */,
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
 				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
-				1E78B29F20EAC78F000DCFE7 /* UserModel.swift in Sources */,
+				1E78B29F20EAC78F000DCFE7 /* UserModelController.swift in Sources */,
 				1E78B2F020EAF46A000DCFE7 /* ReportingHandlerDelegate.swift in Sources */,
 				1E78B29D20EAC77C000DCFE7 /* ResourceModelController.swift in Sources */,
 				1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */,

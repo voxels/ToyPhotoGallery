@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct UserModel {
+struct UserModelController {
     
 }
