@@ -199,6 +199,8 @@ extension AppDelegate {
     /**
      Shows a fatal alert dialog, if possible, and kills the app.  
      */
+    
+    // TODO: Change this to LockoutViewController
     func kill() {
         LaunchController.showFatalAlert(with: "An unexpected error has occurred.  Please contact the developer at info@noisederived.com", in: window?.rootViewController)
     }

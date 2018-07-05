@@ -371,6 +371,7 @@ extension LaunchController {
         }
         
         galleryViewController.viewModel = galleryViewModel
+        rootViewController.pushViewController(galleryViewController, animated: false)
     }
     
     func showReachabilityView(in rootViewController:UINavigationController) {

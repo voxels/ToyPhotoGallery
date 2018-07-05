@@ -17,8 +17,4 @@ class RootViewController: UIViewController {
         super.viewDidLoad()
         
     }
-    
-    func push(galleryViewController:GalleryViewController) {
-        navigationController?.pushViewController(galleryViewController, animated: false)
-    }
 }
