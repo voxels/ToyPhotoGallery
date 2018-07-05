@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol GalleryCollectionViewModelDelegate {
+protocol GalleryCollectionViewModelDelegate : class {
     func imageResources(skip:Int, limit:Int, completion:ImageResourceCompletion?)
 }
 
 class GalleryCollectionViewModel {
-    var modelDelegate:GalleryCollectionViewModelDelegate? {
+    weak var modelDelegate:GalleryCollectionViewModelDelegate? {
         didSet {
             if let delegate = modelDelegate {
                 refresh(with: delegate)
@@ -21,7 +21,7 @@ class GalleryCollectionViewModel {
         }
     }
     
-    var viewModelDelegate:GalleryViewModelDelegate?
+    weak var viewModelDelegate:GalleryViewModelDelegate?
     
     var dataSource = [GalleryCollectionViewCellModel]()
     

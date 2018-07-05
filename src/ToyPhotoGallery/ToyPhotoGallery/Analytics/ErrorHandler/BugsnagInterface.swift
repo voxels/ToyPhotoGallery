@@ -9,7 +9,7 @@
 import Foundation
 import Bugsnag
 
-class BugsnagInterface : ErrorHandlerDelegate {
+struct BugsnagInterface : ErrorHandlerDelegate {
     /// Flag to indicate if Bugsnag should capture session information
     static let kShouldAutoCaptureSessions = true
     

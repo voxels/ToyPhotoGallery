@@ -328,7 +328,7 @@ extension LaunchController : ResourceModelControllerDelegate {
 
 extension LaunchController {
     func showGalleryView(in rootViewController:UINavigationController, with resourceModelController:ResourceModelController) throws {
-        // TODO: show gallery view
+        
         let galleryViewModel = GalleryViewModel(with: resourceModelController)
 
         guard let galleryViewController = UIStoryboard.init(name: StoryboardMap.Main.rawValue, bundle: .main).instantiateViewController(withIdentifier: StoryboardMap.ViewController.GalleryViewController.rawValue) as? GalleryViewController else {

@@ -11,7 +11,7 @@ import UIKit
 typealias ErrorCompletion = ([Error]?)->Void
 typealias RawResourceArray = [[String:AnyObject]]
 
-protocol ResourceModelControllerDelegate {
+protocol ResourceModelControllerDelegate : class {
     func didUpdateModel()
     func didFailToUpdateModel(with reason:String?)
 }
@@ -20,7 +20,7 @@ protocol ResourceModelControllerDelegate {
 class ResourceModelController {
     let remoteStoreController:RemoteStoreController
     let errorHandler:ErrorHandlerDelegate
-    var delegate:ResourceModelControllerDelegate?
+    weak var delegate:ResourceModelControllerDelegate?
     
     var imageRepository = ImageRepository()
     

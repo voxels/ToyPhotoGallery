@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PreviewViewModelDelegate {
+protocol PreviewViewModelDelegate : class {
     func didUpdateViewModel()
 }
 
@@ -21,7 +21,7 @@ class PreviewViewModel {
         }
     }
     
-    var delegate:PreviewViewModelDelegate?
+    weak var delegate:PreviewViewModelDelegate?
     
     func refresh(with imageResource:ImageResource) {
         delegate?.didUpdateViewModel()
