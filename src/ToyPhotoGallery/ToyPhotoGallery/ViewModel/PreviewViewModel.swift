@@ -8,6 +8,20 @@
 
 import Foundation
 
-class PreviewViewModel {
+protocol PreviewViewModelDelegate {
     
+}
+
+class PreviewViewModel {
+    var imageResource:ImageResource? {
+        didSet {
+            
+        }
+    }
+    
+    var delegate:PreviewViewModelDelegate? {
+        didSet {
+            
+        }
+    }
 }

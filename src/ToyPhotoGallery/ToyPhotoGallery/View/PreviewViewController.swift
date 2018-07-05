@@ -9,8 +9,23 @@
 import UIKit
 
 class PreviewViewController: UIViewController {
+    var viewModel:PreviewViewModel? {
+        didSet {
+            if let model = viewModel {
+                refresh(with: model)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    func refresh(with viewModel:PreviewViewModel) {
+        viewModel.delegate = self
+    }
+}
+
+extension PreviewViewController : PreviewViewModelDelegate {
+    
 }

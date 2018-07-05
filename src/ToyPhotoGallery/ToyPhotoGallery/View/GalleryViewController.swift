@@ -24,6 +24,9 @@ class GalleryViewController: UIViewController {
     func refresh(with viewModel:GalleryViewModel) {
         viewModel.delegate = self
         viewModel.dataSource = viewModel.buildDataSource(from: viewModel.resourceModelController)
+    }
+    
+    func show(previewViewController:PreviewViewController, for imageResource:ImageResource) {
         
     }
 }
