@@ -128,8 +128,14 @@ class LaunchControllerTests: XCTestCase {
         controller.waitForNotifications = Set([Notification.Name.DidLaunchReportingHandler])
         let testReportingNotification = Notification(name: Notification.Name.DidLaunchReportingHandler)
         controller.checkLaunchComplete(with: testReportingNotification)
-        let actual = testResourceModelController.didBuildRepository
-        XCTAssertTrue(actual)
+        let waitExpectation = expectation(forNotification: Notification.Name.DidCompleteLaunch, object: nil) { (notification) -> Bool in
+            let actual = testResourceModelController.didBuildRepository
+            XCTAssertTrue(actual)
+            return actual
+        }
+
+        let completed = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+        XCTAssertTrue(completed)
     }
    
     func testModelUpdateFailedReturnsExpectedFailure() {

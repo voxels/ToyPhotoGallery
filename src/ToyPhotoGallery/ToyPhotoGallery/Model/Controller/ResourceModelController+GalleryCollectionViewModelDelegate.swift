@@ -10,21 +10,31 @@ import Foundation
 
 extension ResourceModelController : GalleryCollectionViewModelDelegate {
     func imageResources(sortBy: String?, skip: Int, limit: Int, completion:ImageResourceCompletion?) -> Void {
-//        let wrappedCompletion:ResourceCompletion = {[weak self] (sortedResources) in
-//            guard let imageResources = sortedResources as? [ImageResource] else {
-//                self?.errorHandler.report(ModelError.IncorrectType)
-//                completion?([ImageResource]())
-//                return
-//            }
-//            completion?(imageResources)
-//        }
-//
-//        do {
-//            let values:[ImageResource] = Array(imageRepository.map.values)
-//            try sorted(resources: values, sortBy: sortBy, skip: skip, limit: limit, completion: wrappedCompletion)
-//        } catch {
-//            errorHandler.report(error)
-//            completion?([ImageResource]())
-//        }
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            let wrappedCompletion:([Resource])->Void = {[weak self] (sortedResources) in
+                guard let imageResources = sortedResources as? [ImageResource] else {
+                    DispatchQueue.main.async {
+                        self?.errorHandler.report(ModelError.IncorrectType)
+                        completion?([ImageResource]())
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion?(imageResources)
+                }
+            }
+            
+            do {
+                try strongSelf.sorted(repository: strongSelf.imageRepository, sortBy: sortBy, skip: skip, limit: limit, completion: wrappedCompletion)
+            } catch {
+                DispatchQueue.main.async { [weak self] in
+                    self?.errorHandler.report(error)
+                    completion?([ImageResource]())
+                }
+            }
+        }
     }
 }

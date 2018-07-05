@@ -134,16 +134,20 @@ extension LaunchController {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
             resourceModelController.delegate = self
-            resourceModelController.build(using: resourceModelController.remoteStoreController, for: ImageResource.self, with: resourceModelController.errorHandler) { [weak self] (errors) in
-                // We have been deallocated and this doesn't matter anymore
+            DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let strongSelf = self else {
                     return
                 }
-                
-                if strongSelf.modelUpdateFailed(with: errors) {
-                    self?.resourceModelController.delegate?.didFailToUpdateModel(with: "Image repository construction failed with \(errors?.count ?? 0) errors")
-                } else {
-                    self?.resourceModelController.delegate?.didUpdateModel()
+                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler) { (errors) in
+                    if strongSelf.modelUpdateFailed(with: errors) {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.resourceModelController.delegate?.didFailToUpdateModel(with: "Image repository construction failed with \(errors?.count ?? 0) errors")
+                        }
+                    } else {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.resourceModelController.delegate?.didUpdateModel()
+                        }
+                    }
                 }
             }
         }
