@@ -285,6 +285,7 @@
 				1E78B29020EAC690000DCFE7 /* RootViewController.swift */,
 				1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */,
 				1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */,
+				1E78B34320EDB27A000DCFE7 /* PreviewScene */,
 				1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */,
 			);
 			path = View;
@@ -440,6 +441,13 @@
 				1E78B32420EC2AF0000DCFE7 /* RemoteStoreTableMap.swift */,
 			);
 			path = Parse;
+			sourceTree = "<group>";
+		};
+		1E78B34320EDB27A000DCFE7 /* PreviewScene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PreviewScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
