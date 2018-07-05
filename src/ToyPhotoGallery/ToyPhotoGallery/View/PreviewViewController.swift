@@ -17,7 +17,8 @@ class PreviewViewController: UIViewController {
         }
     }
     
-    
+    @IBOutlet weak var sceneContainerView: UIView!
+    @IBOutlet weak var sceneView: PreviewSceneView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

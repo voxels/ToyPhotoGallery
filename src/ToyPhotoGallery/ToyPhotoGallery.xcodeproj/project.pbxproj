@@ -77,6 +77,9 @@
 		1E78B33E20ED9CC1000DCFE7 /* StoryboardMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */; };
 		1E78B34020ED9F44000DCFE7 /* LockoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */; };
 		1E78B34220EDA1B0000DCFE7 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */; };
+		1E78B34520EDBDD6000DCFE7 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B34420EDBDD6000DCFE7 /* SceneKit.framework */; };
+		1E78B34720EDBDE1000DCFE7 /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */; };
+		1E78B34920EDBE1C000DCFE7 /* PreviewSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34820EDBE1C000DCFE7 /* PreviewSceneView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +166,9 @@
 		1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardMap.swift; sourceTree = "<group>"; };
 		1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockoutViewController.swift; sourceTree = "<group>"; };
 		1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		1E78B34420EDBDD6000DCFE7 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
+		1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
+		1E78B34820EDBE1C000DCFE7 /* PreviewSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSceneView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +176,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E78B34720EDBDE1000DCFE7 /* GameplayKit.framework in Frameworks */,
+				1E78B34520EDBDD6000DCFE7 /* SceneKit.framework in Frameworks */,
 				1E78B2E020EADC96000DCFE7 /* ParseUI.framework in Frameworks */,
 				1E78B2DA20EADC96000DCFE7 /* FBSDKPlacesKit.framework in Frameworks */,
 				1E78B2D820EADC96000DCFE7 /* FBSDKLoginKit.framework in Frameworks */,
@@ -417,6 +425,8 @@
 		1E78B30520EBCE63000DCFE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */,
+				1E78B34420EDBDD6000DCFE7 /* SceneKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -446,6 +456,7 @@
 		1E78B34320EDB27A000DCFE7 /* PreviewScene */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B34820EDBE1C000DCFE7 /* PreviewSceneView.swift */,
 			);
 			path = PreviewScene;
 			sourceTree = "<group>";
@@ -662,6 +673,7 @@
 				1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */,
 				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,
 				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
+				1E78B34920EDBE1C000DCFE7 /* PreviewSceneView.swift in Sources */,
 				1E78B2F920EB2542000DCFE7 /* RemoteStoreError.swift in Sources */,
 				1E78B2A320EAC879000DCFE7 /* ParseInterface.swift in Sources */,
 				1E78B34020ED9F44000DCFE7 /* LockoutViewController.swift in Sources */,

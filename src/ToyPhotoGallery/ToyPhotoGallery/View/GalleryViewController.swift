@@ -60,7 +60,7 @@ class GalleryViewController: UIViewController {
             customConstraints.append(contentsOf: verticalConstraints)
         }
         
-        view.addConstraints(customConstraints)
+        NSLayoutConstraint.activate(customConstraints)
         super.updateViewConstraints()
     }
 }
@@ -78,7 +78,7 @@ extension GalleryViewController {
     func configure(debugButton:UIButton) {
         debugButton.translatesAutoresizingMaskIntoConstraints = false
         debugButton.setTitle("Transition In", for: .normal)
-        debugButton.titleLabel?.textColor = .black
+        debugButton.setTitleColor(.black, for: .normal)
         debugButton.addTarget(self, action: #selector(debugPreviewViewControllerTransition), for: .touchUpInside)
     }
     
