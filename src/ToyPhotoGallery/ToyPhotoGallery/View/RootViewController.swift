@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ViewModelDelegate {
+    func didUpdateModel()
+}
+
 class RootViewController: UIViewController {    
     deinit {
         

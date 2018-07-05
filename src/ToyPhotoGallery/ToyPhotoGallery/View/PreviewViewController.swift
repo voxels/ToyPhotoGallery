@@ -16,6 +16,8 @@ class PreviewViewController: UIViewController {
             }
         }
     }
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +26,14 @@ class PreviewViewController: UIViewController {
     func refresh(with viewModel:PreviewViewModel) {
         viewModel.delegate = self
     }
+    
+    @IBAction func onTapCloseButton(_ sender: Any) {
+        parent?.remove(childViewController: self)
+    }
 }
 
 extension PreviewViewController : PreviewViewModelDelegate {
-    
+    func didUpdateModel() {
+        
+    }
 }

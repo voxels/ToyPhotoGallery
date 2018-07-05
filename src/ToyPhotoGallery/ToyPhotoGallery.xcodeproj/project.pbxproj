@@ -76,6 +76,7 @@
 		1E78B33C20ED55AD000DCFE7 /* ImageRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33B20ED55AD000DCFE7 /* ImageRepositoryTests.swift */; };
 		1E78B33E20ED9CC1000DCFE7 /* StoryboardMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */; };
 		1E78B34020ED9F44000DCFE7 /* LockoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */; };
+		1E78B34220EDA1B0000DCFE7 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +162,7 @@
 		1E78B33B20ED55AD000DCFE7 /* ImageRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepositoryTests.swift; sourceTree = "<group>"; };
 		1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardMap.swift; sourceTree = "<group>"; };
 		1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockoutViewController.swift; sourceTree = "<group>"; };
+		1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				1E78B2F120EAF605000DCFE7 /* Notification.swift */,
+				1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -646,6 +649,7 @@
 				1E78B2E420EADE2F000DCFE7 /* ErrorHandlerDelegate.swift in Sources */,
 				1E65C9EC20EABBE300D28BE4 /* AppDelegate.swift in Sources */,
 				1E78B33020ED4139000DCFE7 /* ImageRepository.swift in Sources */,
+				1E78B34220EDA1B0000DCFE7 /* UIViewController.swift in Sources */,
 				1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */,
 				1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */,
 				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,

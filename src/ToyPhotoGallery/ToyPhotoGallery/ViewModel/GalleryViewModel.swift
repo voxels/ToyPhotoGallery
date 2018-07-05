@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol GalleryViewModelDelegate {
+protocol GalleryViewModelDelegate : ViewModelDelegate {
     
 }
 
@@ -26,5 +26,9 @@ class GalleryViewModel {
     func buildDataSource(from controller:ResourceModelController)->[URL] {
         
         return [URL]()
+    }
+    
+    func imageResource(for index:Int)->ImageResource {
+        return ImageResource(createdAt: Date(), updatedAt: Date(), filename: "", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string: "http://apple.com")!)
     }
 }
