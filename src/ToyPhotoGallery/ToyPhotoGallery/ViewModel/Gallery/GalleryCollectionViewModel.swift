@@ -15,4 +15,10 @@ protocol GalleryCollectionViewModelDelegate {
 class GalleryCollectionViewModel {
     var delegate:GalleryCollectionViewModelDelegate?
     var dataSource = [GalleryCollectionViewCellModel]()
+    
+    var parentModel:GalleryViewModel
+    
+    init(with galleryViewModel:GalleryViewModel) {
+        parentModel = galleryViewModel
+    }
 }

@@ -30,5 +30,5 @@ class GalleryViewModel {
     
     func imageResource(for index:Int)->ImageResource {
         return ImageResource(createdAt: Date(), updatedAt: Date(), filename: "", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string: "http://apple.com")!)
-    }
+    }    
 }

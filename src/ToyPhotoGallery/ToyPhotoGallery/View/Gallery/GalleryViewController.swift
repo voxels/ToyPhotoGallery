@@ -38,6 +38,13 @@ class GalleryViewController: UIViewController {
     func refresh(with viewModel:GalleryViewModel) {
         viewModel.delegate = self
         viewModel.dataSource = viewModel.buildDataSource(from: viewModel.resourceModelController)
+        let configuredView = configuredCollectionView(with: UICollectionViewLayout(), viewModel:viewModel)
+        guard let _ = configuredView.model?.dataSource.first else {
+            return
+        }
+        contentContainerView.addSubview(configuredView)
+        collectionView = configuredView
+        refreshLayout(in: view)
     }
     
     func show(previewViewController:PreviewViewController, for imageResource:ImageResource) {
@@ -62,10 +69,35 @@ class GalleryViewController: UIViewController {
             customConstraints.append(contentsOf: verticalConstraints)
         }
         
+        if let currentCollectionView = collectionView, let collectionViewConstraints = constraints(for: currentCollectionView) {
+            customConstraints.append(contentsOf: collectionViewConstraints)
+        }
+        
         NSLayoutConstraint.activate(customConstraints)
         super.updateViewConstraints()
     }
 }
+
+extension GalleryViewController {
+    func configuredCollectionView(with layout:UICollectionViewLayout, viewModel:GalleryViewModel)->GalleryCollectionView {
+        if collectionView != nil {
+            collectionView?.removeFromSuperview()
+            refreshLayout(in: contentContainerView)
+            collectionView = nil
+        }
+        
+        let configuredView = GalleryCollectionView(frame: .zero, collectionViewLayout: layout)
+        configuredView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let collectionViewModel = GalleryCollectionViewModel(with: viewModel)
+        configuredView.model = collectionViewModel
+        
+        return configuredView
+    }
+}
+
+
+// MARK: - Debug Button
 
 extension GalleryViewController {
     func checkDebugState(with debugButton:UIButton) {
@@ -100,7 +132,7 @@ extension GalleryViewController {
     }
 }
 
-// MARK: - Autolayout
+// MARK: - Auto Layout
 
 extension GalleryViewController {
     func constraints(for collectionView:GalleryCollectionView)->[NSLayoutConstraint]? {
