@@ -9,7 +9,7 @@
 import Foundation
 
 protocol GalleryCollectionViewModelDelegate {
-    func imageResources(sortBy:String?, skip:Int, limit:Int, completion:ImageResourceCompletion?)
+    func imageResources(skip:Int, limit:Int, completion:ImageResourceCompletion?)
 }
 
 class GalleryCollectionViewModel {

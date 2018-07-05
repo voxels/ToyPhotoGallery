@@ -45,8 +45,8 @@ class ResourceModelControllerTests: XCTestCase {
     func testBuildRepositoryCleansImageRepository() {
         let waitExpectation = expectation(description: "Wait for completion")
         resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
-        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!, sortIndex:0)
-        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!, sortIndex:0)
+        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
+        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
         let imageRepository = ImageRepository()
         imageRepository.map = ["xxxxxx":unexpectedImageResource, "asdfbasd":otherUnexpectedImageResource]
         resourceModelController?.imageRepository = imageRepository
@@ -73,8 +73,8 @@ class ResourceModelControllerTests: XCTestCase {
     func testCleanRepositoryCleansImageRepository() {
         let waitExpectation = expectation(description: "Wait for completion")
         resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
-        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!, sortIndex: 0)
-        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!, sortIndex: 0)
+        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
+        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
         let imageRepository = ImageRepository()
         imageRepository.map = ["xxxxxx":unexpectedImageResource, "asdfbasd":otherUnexpectedImageResource]
         resourceModelController?.imageRepository = imageRepository
@@ -102,8 +102,8 @@ class ResourceModelControllerTests: XCTestCase {
     func testAppendImagesAppendsExpectedResources() {
         let waitExpectation = expectation(description: "Wait for completion")
         resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
-        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!, sortIndex: 0)
-        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!, sortIndex: 0)
+        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
+        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
         let imageRepository = ImageRepository()
         imageRepository.map = ["xxxxxx":unexpectedImageResource, "asdfbasd":otherUnexpectedImageResource]
         resourceModelController?.imageRepository = imageRepository
@@ -134,8 +134,8 @@ class ResourceModelControllerTests: XCTestCase {
     func testAppendImagesCompletesWithAccumulatedErrors() {
         let waitExpectation = expectation(description: "Wait for completion")
         resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
-        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!, sortIndex: 0)
-        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!, sortIndex: 0)
+        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
+        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
         let imageRepository = ImageRepository()
         imageRepository.map =  ["xxxxxx":unexpectedImageResource, "asdfbasd":otherUnexpectedImageResource]
         resourceModelController?.imageRepository = imageRepository

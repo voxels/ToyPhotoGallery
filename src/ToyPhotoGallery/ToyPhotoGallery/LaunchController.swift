@@ -139,7 +139,7 @@ extension LaunchController {
                     return
                 }
                 strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler) { (errors) in
-                    if strongSelf.modelUpdateFailed(with: errors) {
+                    if ResourceModelController.modelUpdateFailed(with: errors) {
                         DispatchQueue.main.async { [weak self] in
                             self?.resourceModelController.delegate?.didFailToUpdateModel(with: "Image repository construction failed with \(errors?.count ?? 0) errors")
                         }
@@ -151,35 +151,6 @@ extension LaunchController {
                 }
             }
         }
-    }
-    
-    /**
-     Checks accumulated errors for types that signify that the model failed to update.  For example, if a record in the database fails to parse, then perhaps we should still allow the model update to pass even though the record itself is bad
-     - parameter errors: An array of *Error* we need to check for serious errors
-     - Returns: *true* if a serious error is found, *false* if *errors* is nil or if no serious errors are found
-     */
-    func modelUpdateFailed(with errors:[Error]?) -> Bool {
-        guard let errors = errors else {
-            return false
-        }
-        
-        var failedLaunch = false
-        errors.forEach { (error) in
-            switch error {
-            case ModelError.InvalidURL:
-                fallthrough
-            case ModelError.IncorrectType:
-                fallthrough
-            case ModelError.MissingValue:
-                fallthrough
-            case ModelError.NoNewValues:
-                return
-            default:
-                failedLaunch = true
-            }
-        }
-        
-        return failedLaunch
     }
     
     /**

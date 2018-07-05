@@ -9,7 +9,7 @@
 import Foundation
 
 extension ResourceModelController : GalleryCollectionViewModelDelegate {
-    func imageResources(sortBy: String?, skip: Int, limit: Int, completion:ImageResourceCompletion?) -> Void {
+    func imageResources(skip: Int, limit: Int, completion:ImageResourceCompletion?) -> Void {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let strongSelf = self else {
                 return
@@ -28,7 +28,7 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
             }
             
             do {
-                try strongSelf.sorted(repository: strongSelf.imageRepository, sortBy: sortBy, skip: skip, limit: limit, completion: wrappedCompletion)
+                try strongSelf.sorted(repository: strongSelf.imageRepository, skip: skip, limit: limit, completion: wrappedCompletion)
             } catch {
                 DispatchQueue.main.async { [weak self] in
                     self?.errorHandler.report(error)

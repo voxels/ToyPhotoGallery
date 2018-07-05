@@ -16,15 +16,13 @@ class ImageResource : ImageSchema  {
     var filename: String
     var thumbnailURL: URL
     var fileURL: URL
-    var sortIndex: Int
     
-    init(createdAt:Date, updatedAt:Date, filename:String, thumbnailURL:URL, fileURL:URL, sortIndex:Int) {
+    init(createdAt:Date, updatedAt:Date, filename:String, thumbnailURL:URL, fileURL:URL) {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.filename = filename
         self.thumbnailURL = thumbnailURL
         self.fileURL = fileURL
-        self.sortIndex = sortIndex
     }
     
     static func extractImageResources(with resourceModelController:ResourceModelController, from rawResourceArray:RawResourceArray, completion:ImageRepositoryCompletion) -> Void {
@@ -61,6 +59,6 @@ class ImageResource : ImageSchema  {
         let thumbnailURL:URL = try resourceModelController.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.thumbnailURLString.rawValue, from: dictionary)
         let fileURL:URL = try resourceModelController.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.fileURLString.rawValue, from: dictionary)
         
-        return ImageResource(createdAt: createdAt, updatedAt: updatedAt, filename: filename, thumbnailURL: thumbnailURL, fileURL: fileURL, sortIndex:0)
+        return ImageResource(createdAt: createdAt, updatedAt: updatedAt, filename: filename, thumbnailURL: thumbnailURL, fileURL: fileURL)
     }
 }

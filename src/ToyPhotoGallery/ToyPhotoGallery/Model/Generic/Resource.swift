@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Resource {
-    var sortIndex:Int { get set }
+    var updatedAt: Date { get set }
 }

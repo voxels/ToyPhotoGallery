@@ -83,15 +83,24 @@ class ResourceModelController {
         }
     }
     
-    func fill<T>(repository:T, sortBy:String?, skip:Int, limit:Int, completion:(T)->Void) throws where T:Repository, T.AssociatedType:Resource {
+    func fill<T>(repository:T, skip:Int, limit:Int, completion:@escaping (T)->Void) throws where T:Repository, T.AssociatedType:Resource {
         let count = repository.map.count
         
         let table = try tableMap(for: repository)
         
         if count < skip {
             // If we have less that the skip, fill from the count to the limit
-            find(from: remoteStoreController, in: table, sortBy:sortBy, skip: skip, limit: limit, errorHandler: errorHandler) { (rawResourceArray) in
-                
+            find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: count-1, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
+                self?.append(from: rawResourceArray, into: T.AssociatedType.self, completion: { (accumulatedErrors) in
+                    
+                    if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
+                        DispatchQueue.main.async {
+                            self?.delegate?.didFailToUpdateModel(with: nil)
+                        }
+                    }
+                    
+                    completion(repository)
+                })
             }
         } else if count >= skip && count < limit {
             // If we have more than the skip, but less than the limit, fill from the skip to the limit
@@ -107,13 +116,14 @@ class ResourceModelController {
 // MARK: - Sort
 
 extension ResourceModelController {
-    func sorted<T>(repository:T, sortBy:String?, skip:Int, limit:Int, completion:([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
-        try fill(repository:repository, sortBy:sortBy, skip: skip, limit: limit) { (filledRepository) in
-            sort(repository: filledRepository, by: sortBy, completion: completion)
+    func sorted<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
+        try fill(repository:repository, skip: skip, limit: limit) { [weak self] (filledRepository) in
+            self?.sort(repository: filledRepository, completion: completion)
         }
     }
     
-    func sort<T>(repository:T, by:String?, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+    func sort<T>(repository:T, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+        let values = Array(repository.map.values)
         
     }
 }
@@ -162,5 +172,38 @@ extension ResourceModelController {
         } else {
             throw ModelError.IncorrectType
         }
+    }
+}
+
+// MARK: - Error Checking
+
+extension ResourceModelController {
+    /**
+     Checks accumulated errors for types that signify that the model failed to update.  For example, if a record in the database fails to parse, then perhaps we should still allow the model update to pass even though the record itself is bad
+     - parameter errors: An array of *Error* we need to check for serious errors
+     - Returns: *true* if a serious error is found, *false* if *errors* is nil or if no serious errors are found
+     */
+    static func modelUpdateFailed(with errors:[Error]?) -> Bool {
+        guard let errors = errors else {
+            return false
+        }
+        
+        var failedLaunch = false
+        errors.forEach { (error) in
+            switch error {
+            case ModelError.InvalidURL:
+                fallthrough
+            case ModelError.IncorrectType:
+                fallthrough
+            case ModelError.MissingValue:
+                fallthrough
+            case ModelError.NoNewValues:
+                return
+            default:
+                failedLaunch = true
+            }
+        }
+        
+        return failedLaunch
     }
 }

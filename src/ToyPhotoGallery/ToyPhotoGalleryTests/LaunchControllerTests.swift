@@ -141,14 +141,14 @@ class LaunchControllerTests: XCTestCase {
     func testModelUpdateFailedReturnsExpectedFailure() {
         let controller = LaunchController(with:resourceModelController!)
         let errors = [ModelError.EmptyObjectId]
-        let actual = controller.modelUpdateFailed(with: errors)
+        let actual = ResourceModelController.modelUpdateFailed(with: errors)
         XCTAssertTrue(actual)
     }
     
     func testModelUpdateFailedReturnsExpectedPass() {
         let controller = LaunchController(with:resourceModelController!)
         let errors = [ModelError.NoNewValues]
-        let actual = controller.modelUpdateFailed(with: errors)
+        let actual = ResourceModelController.modelUpdateFailed(with: errors)
         XCTAssertFalse(actual)
     }
     
