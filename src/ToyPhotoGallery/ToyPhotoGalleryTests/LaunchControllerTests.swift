@@ -124,29 +124,29 @@ class LaunchControllerTests: XCTestCase {
     
     func testCheckLaunchCompleteBuildsResourceModelControllerRepository() {
         let testResourceModelController = TestResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
-        let controller = LaunchController(with: testResourceModelController)
-        controller.waitForNotifications = Set([Notification.Name.DidLaunchReportingHandler])
-        let testReportingNotification = Notification(name: Notification.Name.DidLaunchReportingHandler)
-        controller.checkLaunchComplete(with: testReportingNotification)
+
         let waitExpectation = expectation(forNotification: Notification.Name.DidCompleteLaunch, object: nil) { (notification) -> Bool in
             let actual = testResourceModelController.didBuildRepository
             XCTAssertTrue(actual)
             return actual
         }
 
+        let controller = LaunchController(with: testResourceModelController)
+        controller.waitForNotifications = Set([Notification.Name.DidLaunchReportingHandler])
+        let testReportingNotification = Notification(name: Notification.Name.DidLaunchReportingHandler)
+        controller.checkLaunchComplete(with: testReportingNotification)
+
         let completed = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(completed)
     }
    
     func testModelUpdateFailedReturnsExpectedFailure() {
-        let controller = LaunchController(with:resourceModelController!)
         let errors = [ModelError.EmptyObjectId]
         let actual = ResourceModelController.modelUpdateFailed(with: errors)
         XCTAssertTrue(actual)
     }
     
     func testModelUpdateFailedReturnsExpectedPass() {
-        let controller = LaunchController(with:resourceModelController!)
         let errors = [ModelError.NoNewValues]
         let actual = ResourceModelController.modelUpdateFailed(with: errors)
         XCTAssertFalse(actual)

@@ -22,6 +22,8 @@
 		1E6F2E1820EEAD4E005A5567 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E1720EEAD4E005A5567 /* Resource.swift */; };
 		1E6F2E1A20EEAD9E005A5567 /* ImageSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E1920EEAD9E005A5567 /* ImageSchema.swift */; };
 		1E6F2E2120EEAE5C005A5567 /* ImageResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E2020EEAE5C005A5567 /* ImageResource.swift */; };
+		1E6F2E2520EED35A005A5567 /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E2420EED35A005A5567 /* Extractor.swift */; };
+		1E6F2E2720EED441005A5567 /* ExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E2620EED441005A5567 /* ExtractorTests.swift */; };
 		1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29020EAC690000DCFE7 /* RootViewController.swift */; };
 		1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */; };
 		1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */; };
@@ -132,6 +134,8 @@
 		1E6F2E1720EEAD4E005A5567 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		1E6F2E1920EEAD9E005A5567 /* ImageSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSchema.swift; sourceTree = "<group>"; };
 		1E6F2E2020EEAE5C005A5567 /* ImageResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResource.swift; sourceTree = "<group>"; };
+		1E6F2E2420EED35A005A5567 /* Extractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extractor.swift; sourceTree = "<group>"; };
+		1E6F2E2620EED441005A5567 /* ExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractorTests.swift; sourceTree = "<group>"; };
 		1E78B29020EAC690000DCFE7 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 		1E65C9FF20EABBEC00D28BE4 /* ToyPhotoGalleryTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E6F2E2620EED441005A5567 /* ExtractorTests.swift */,
 				1E78B33B20ED55AD000DCFE7 /* ImageRepositoryTests.swift */,
 				1E78B33920ED559E000DCFE7 /* GalleryViewModelTests.swift */,
 				1E78B33720ED5591000DCFE7 /* ResourceModelControllerTests.swift */,
@@ -313,6 +318,7 @@
 			children = (
 				1E6F2E1520EEAD30005A5567 /* Repository.swift */,
 				1E6F2E1720EEAD4E005A5567 /* Resource.swift */,
+				1E6F2E2420EED35A005A5567 /* Extractor.swift */,
 			);
 			path = Generic;
 			sourceTree = "<group>";
@@ -778,6 +784,7 @@
 				1E6F2E1620EEAD30005A5567 /* Repository.swift in Sources */,
 				1E6F2E2120EEAE5C005A5567 /* ImageResource.swift in Sources */,
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
+				1E6F2E2520EED35A005A5567 /* Extractor.swift in Sources */,
 				1E78B35220EE59D1000DCFE7 /* GalleryCollectionViewModel.swift in Sources */,
 				1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */,
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
@@ -830,6 +837,7 @@
 				1E78B31B20EBF286000DCFE7 /* TestReportingHandler.swift in Sources */,
 				1E78B31420EBED0C000DCFE7 /* TestErrorHandler.swift in Sources */,
 				1E78B32820EC4035000DCFE7 /* RemoteStoreControllerTests.swift in Sources */,
+				1E6F2E2720EED441005A5567 /* ExtractorTests.swift in Sources */,
 				1E78B2FD20EBC58A000DCFE7 /* ParseInterfaceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

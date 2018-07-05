@@ -29,36 +29,75 @@ class ResourceModelController {
         self.errorHandler = errorHandler
     }
     
-    func tableMap<T>(for repository:T) throws -> RemoteStoreTableMap where T:Repository, T.AssociatedType:Resource {
-        return try tableMap(with: T.AssociatedType.self)
-    }
-    
-    func tableMap<T>(with type:T.Type) throws -> RemoteStoreTableMap where T:Resource {
-        switch T.self {
-        case is ImageResource.Type:
-            return RemoteStoreTableMap.ImageResource
-        default:
-            throw ModelError.UnsupportedRequest
-        }
-    }
-    
-    func build<T>(using storeController:RemoteStoreController, for repositoryType:T.Type, with errorHandler:ErrorHandlerDelegate, completion:@escaping ErrorCompletion) where T:Resource {
-        do {
-            let table = try tableMap(with: repositoryType)
-            
-            find(from: storeController, in: table, sortBy: RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: 0, limit: storeController.defaultQuerySize, errorHandler: errorHandler) { [weak self](rawResourceArray) in
-                guard let strongSelf = self else {
-                    completion([ModelError.Deallocated])
-                    return
+    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate) where T:Resource {
+            do {
+                switch T.self {
+                case is ImageResource.Type:
+                    try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, completion:nil)
+                default:
+                    throw ModelError.UnsupportedRequest
                 }
-                strongSelf.clean(using: rawResourceArray, for: repositoryType, with: errorHandler, completion: completion)
+            } catch {
+                DispatchQueue.main.async { [weak self] in
+                    self?.errorHandler.report(error)
+                    self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+                }
             }
-        } catch {
-            completion([error])
-        }
     }
     
-    func clean<T>(using rawResourceArray:RawResourceArray, for repositoryType:T.Type, with errorHandler:ErrorHandlerDelegate, completion:ErrorCompletion) where T:Resource {
+    func fill<T>(repository:T, skip:Int, limit:Int, completion:((T)->Void)?) throws where T:Repository, T.AssociatedType:Resource {
+        let count = repository.map.count
+        
+        // We have what we need
+        if count >= skip + limit {
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didUpdateModel()
+            }
+
+            completion?(repository)
+            return
+        }
+        
+        let table = try tableMap(for: repository)
+        var finalSkip = skip
+        
+        if count < skip {
+            // If we have less that the skip, fill from the count to the limit
+            finalSkip = count - 1
+        } else if count - 1 >= skip && count < limit {
+            // If we have more than the skip, but less than the limit, fill from the count to the limit
+            // We are not entertaining empty list values at the moment
+            finalSkip = count - 1
+        }
+        
+        find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: finalSkip, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
+            self?.append(from: rawResourceArray, into: T.AssociatedType.self, completion: { (accumulatedErrors) in
+                if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
+                    DispatchQueue.main.async {
+                        self?.delegate?.didFailToUpdateModel(with: nil)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.delegate?.didUpdateModel()
+                    }
+                }
+                
+                completion?(repository)
+            })
+        }
+    }
+}
+
+// MARK: - Utilities
+
+/// NOTE: These methods do not notify the delegate
+extension ResourceModelController {
+    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTableMap, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping RawResourceArrayCompletion) {
+        
+        remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
+    }
+
+    func clean<T>(using rawResourceArray:RawResourceArray, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, completion:ErrorCompletion) where T:Resource {
         switch T.self {
         case is ImageResource.Type:
             imageRepository = ImageRepository()
@@ -69,7 +108,7 @@ class ResourceModelController {
         append(from: rawResourceArray, into: T.self, completion: completion)
     }
     
-    func append<T>(from rawResourceArray:RawResourceArray, into repositoryType:T.Type, completion:ErrorCompletion ) where T:Resource {
+    func append<T>(from rawResourceArray:RawResourceArray, into resourceType:T.Type, completion:ErrorCompletion ) where T:Resource {
         switch T.self {
         case is ImageResource.Type:
             ImageResource.extractImageResources(with: self, from: rawResourceArray, completion: { [weak self] (newRepository, accumulatedErrors) in
@@ -83,32 +122,16 @@ class ResourceModelController {
         }
     }
     
-    func fill<T>(repository:T, skip:Int, limit:Int, completion:@escaping (T)->Void) throws where T:Repository, T.AssociatedType:Resource {
-        let count = repository.map.count
-        
-        let table = try tableMap(for: repository)
-        
-        if count < skip {
-            // If we have less that the skip, fill from the count to the limit
-            find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: count-1, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
-                self?.append(from: rawResourceArray, into: T.AssociatedType.self, completion: { (accumulatedErrors) in
-                    
-                    if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
-                        DispatchQueue.main.async {
-                            self?.delegate?.didFailToUpdateModel(with: nil)
-                        }
-                    }
-                    
-                    completion(repository)
-                })
-            }
-        } else if count >= skip && count < limit {
-            // If we have more than the skip, but less than the limit, fill from the skip to the limit
-            // We are not entertaining empty list values at the moment
-            
-        } else {
-            // We have the number of things we need
-            completion(repository)
+    func tableMap<T>(for repository:T) throws -> RemoteStoreTableMap where T:Repository, T.AssociatedType:Resource {
+        return try tableMap(with: T.AssociatedType.self)
+    }
+    
+    func tableMap<T>(with type:T.Type) throws -> RemoteStoreTableMap where T:Resource {
+        switch T.self {
+        case is ImageResource.Type:
+            return RemoteStoreTableMap.ImageResource
+        default:
+            throw ModelError.UnsupportedRequest
         }
     }
 }
@@ -116,6 +139,7 @@ class ResourceModelController {
 // MARK: - Sort
 
 extension ResourceModelController {
+    
     func sorted<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
         try fill(repository:repository, skip: skip, limit: limit) { [weak self] (filledRepository) in
             self?.sort(repository: filledRepository, completion: completion)
@@ -123,57 +147,11 @@ extension ResourceModelController {
     }
     
     func sort<T>(repository:T, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
-        let values = Array(repository.map.values)
-        
+        let values = Array(repository.map.values).sorted { $0.updatedAt < $1.updatedAt }
+        completion(values)
     }
 }
 
-// MARK: - RemoteStoreController
-
-extension ResourceModelController {
-    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTableMap, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping RawResourceArrayCompletion) {
-        
-        remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
-    }
-}
-
-// MARK: Generic Extraction Handlers
-
-extension ResourceModelController {
-    func extractValue<T>(named key:String, from dictionary:[String:AnyObject]) throws -> T {
-        
-        guard var value = dictionary[key] else {
-            if key == RemoteStoreTableMap.CommonColumn.objectId.rawValue {
-                throw ModelError.EmptyObjectId
-            } else {
-                throw ModelError.MissingValue
-            }
-        }
-        
-        // We need to convert the string to an URL type
-        if T.self is URL.Type{
-            value = try constructURL(from: value) as AnyObject
-        }
-        
-        // We need to make sure we have the type of variable we expect to have
-        guard let castValue = value as? T else {
-            throw ModelError.IncorrectType
-        }
-        
-        return castValue
-    }
-    
-    func constructURL(from value:AnyObject) throws -> URL {
-        if let urlString = value as? String {
-            guard let resourceLocator = URL(string: urlString) else {
-                throw ModelError.InvalidURL
-            }
-            return resourceLocator
-        } else {
-            throw ModelError.IncorrectType
-        }
-    }
-}
 
 // MARK: - Error Checking
 

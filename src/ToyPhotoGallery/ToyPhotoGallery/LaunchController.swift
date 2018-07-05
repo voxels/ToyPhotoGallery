@@ -138,17 +138,7 @@ extension LaunchController {
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler) { (errors) in
-                    if ResourceModelController.modelUpdateFailed(with: errors) {
-                        DispatchQueue.main.async { [weak self] in
-                            self?.resourceModelController.delegate?.didFailToUpdateModel(with: "Image repository construction failed with \(errors?.count ?? 0) errors")
-                        }
-                    } else {
-                        DispatchQueue.main.async { [weak self] in
-                            self?.resourceModelController.delegate?.didUpdateModel()
-                        }
-                    }
-                }
+                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler)
             }
         }
     }

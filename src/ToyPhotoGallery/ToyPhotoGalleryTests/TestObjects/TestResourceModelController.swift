@@ -12,8 +12,10 @@ import Foundation
 class TestResourceModelController : ResourceModelController {
     var didBuildRepository = false
     
-    override func build<T>(using storeController: RemoteStoreController, for repositoryType: T.Type, with errorHandler: ErrorHandlerDelegate, completion: @escaping ErrorCompletion) where T : Resource {
+    override func build<T>(using storeController: RemoteStoreController, for resourceType: T.Type, with errorHandler: ErrorHandlerDelegate) where T : Resource {
         didBuildRepository = true
-        completion(nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.delegate?.didUpdateModel()
+        }
     }
 }
