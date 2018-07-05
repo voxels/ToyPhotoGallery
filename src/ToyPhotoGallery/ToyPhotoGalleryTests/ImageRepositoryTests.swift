@@ -39,7 +39,7 @@ class ImageRepositoryTests: XCTestCase {
                 return
             }
             
-            guard let first = repository.first else {
+            guard let first = repository.map.first else {
                 XCTFail("Did not find expected resource")
                 return
             }

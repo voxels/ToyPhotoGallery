@@ -12,7 +12,7 @@ import Foundation
 class TestResourceModelController : ResourceModelController {
     var didBuildRepository = false
     
-    override func buildImageRepository(from storeController: RemoteStoreController, with errorHandler: ErrorHandlerDelegate, completion: @escaping ErrorCompletion) {
+    override func build<T>(using storeController: RemoteStoreController, for repositoryType: T.Type, with errorHandler: ErrorHandlerDelegate, completion: @escaping ErrorCompletion) where T : Resource {
         didBuildRepository = true
         completion(nil)
     }
