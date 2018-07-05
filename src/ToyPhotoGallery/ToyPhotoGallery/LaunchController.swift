@@ -362,17 +362,15 @@ extension LaunchController : ResourceModelControllerDelegate {
 // MARK: - View
 
 extension LaunchController {
-    func showGalleryView(in rootViewController:UINavigationController, with resourceModelController:ResourceModelController) {
+    func showGalleryView(in rootViewController:UINavigationController, with resourceModelController:ResourceModelController) throws {
         // TODO: show gallery view
-        print("show gallery view")
-        for key in resourceModelController.imageRepository.keys {
-            let handler = DebugLogHandler()
-            handler.console(resourceModelController.imageRepository[key]?.filename ?? "missing")
-            handler.console(String(describing:resourceModelController.imageRepository[key]?.createdAt))
-            handler.console(resourceModelController.imageRepository[key]?.fileURL.absoluteString ?? "missing")
-            handler.console(resourceModelController.imageRepository[key]?.thumbnailURL.absoluteString ?? "missing")
-            handler.console("\n")
+        let galleryViewModel = GalleryViewModel(with: resourceModelController)
+
+        guard let galleryViewController = UIStoryboard.init(name: StoryboardMap.Main.rawValue, bundle: .main).instantiateViewController(withIdentifier: StoryboardMap.ViewController.GalleryViewController.rawValue) as? GalleryViewController else {
+            throw ViewError.MissingViewController
         }
+        
+        galleryViewController.viewModel = galleryViewModel
     }
     
     func showReachabilityView(in rootViewController:UINavigationController) {

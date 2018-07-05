@@ -8,17 +8,23 @@
 
 import Foundation
 
-class GalleryViewModel {
-    let resourceModel:ResourceModelController
-    let logHandler = DebugLogHandler()
+protocol GalleryViewModelDelegate {
     
+}
+
+class GalleryViewModel {
+    let resourceModelController:ResourceModelController
+    let logHandler = DebugLogHandler()
+
     var dataSource:[URL]?
+    var delegate:GalleryViewModelDelegate?
     
     init(with resourceModel:ResourceModelController) {
-        self.resourceModel = resourceModel
+        self.resourceModelController = resourceModel
     }
     
-    func buildDataSource(from controller:RemoteStoreController) {
+    func buildDataSource(from controller:ResourceModelController)->[URL] {
         
+        return [URL]()
     }
 }

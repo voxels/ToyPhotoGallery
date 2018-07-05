@@ -74,6 +74,8 @@
 		1E78B33820ED5591000DCFE7 /* ResourceModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33720ED5591000DCFE7 /* ResourceModelControllerTests.swift */; };
 		1E78B33A20ED559E000DCFE7 /* GalleryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33920ED559E000DCFE7 /* GalleryViewModelTests.swift */; };
 		1E78B33C20ED55AD000DCFE7 /* ImageRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33B20ED55AD000DCFE7 /* ImageRepositoryTests.swift */; };
+		1E78B33E20ED9CC1000DCFE7 /* StoryboardMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */; };
+		1E78B34020ED9F44000DCFE7 /* LockoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,8 @@
 		1E78B33720ED5591000DCFE7 /* ResourceModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceModelControllerTests.swift; sourceTree = "<group>"; };
 		1E78B33920ED559E000DCFE7 /* GalleryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModelTests.swift; sourceTree = "<group>"; };
 		1E78B33B20ED55AD000DCFE7 /* ImageRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepositoryTests.swift; sourceTree = "<group>"; };
+		1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardMap.swift; sourceTree = "<group>"; };
+		1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockoutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +283,7 @@
 				1E78B29020EAC690000DCFE7 /* RootViewController.swift */,
 				1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */,
 				1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */,
+				1E78B33F20ED9F44000DCFE7 /* LockoutViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 			children = (
 				1E65C9F420EABBEC00D28BE4 /* LaunchScreen.storyboard */,
 				1E65C9EF20EABBE400D28BE4 /* Main.storyboard */,
+				1E78B33D20ED9CC1000DCFE7 /* StoryboardMap.swift */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -633,6 +639,7 @@
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
 				1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */,
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
+				1E78B33E20ED9CC1000DCFE7 /* StoryboardMap.swift in Sources */,
 				1E78B32E20EC6B12000DCFE7 /* ViewError.swift in Sources */,
 				1E78B2A520EAC8BA000DCFE7 /* LogHandlerDelegate.swift in Sources */,
 				1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */,
@@ -645,6 +652,7 @@
 				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
 				1E78B2F920EB2542000DCFE7 /* RemoteStoreError.swift in Sources */,
 				1E78B2A320EAC879000DCFE7 /* ParseInterface.swift in Sources */,
+				1E78B34020ED9F44000DCFE7 /* LockoutViewController.swift in Sources */,
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
 				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
 				1E78B29F20EAC78F000DCFE7 /* UserModelController.swift in Sources */,

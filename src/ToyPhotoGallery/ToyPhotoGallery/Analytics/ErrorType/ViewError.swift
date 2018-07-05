@@ -11,6 +11,7 @@ import Foundation
 /// Remote Store Errors used in the ParseServerInterface class
 enum ViewError : Error {
     case MissingNavigationController
+    case MissingViewController
 }
 
 extension ViewError : LocalizedError {
@@ -18,6 +19,8 @@ extension ViewError : LocalizedError {
         switch self {
         case .MissingNavigationController:
             return NSLocalizedString("The expected navigation controller cannot be found", comment: "")
+        case .MissingViewController:
+            return NSLocalizedString("The expected view controller cannot be found", comment: "")
         }
     }
 }

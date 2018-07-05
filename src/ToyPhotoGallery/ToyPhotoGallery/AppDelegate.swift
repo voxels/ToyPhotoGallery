@@ -159,7 +159,12 @@ extension AppDelegate {
     func completeLaunch(with launchController:LaunchController, navigationController:UINavigationController, didSucceed:Bool) {
         
         if didSucceed {
-            launchController.showGalleryView(in: navigationController, with: launchController.resourceModelController)
+            do {
+                try launchController.showGalleryView(in: navigationController, with: launchController.resourceModelController)
+            } catch {
+                launchController.currentErrorHandler.report(error)
+                showLockoutViewController(with: error.localizedDescription)
+            }
         } else {
             launchController.showReachabilityView(in: navigationController)
         }
@@ -182,6 +187,11 @@ extension AppDelegate {
         }
         
         completion(launchController, rootNavigationController)
+    }
+    
+    func showLockoutViewController(with message:String?) {
+        let lockoutViewController = LockoutViewController(nibName: nil, bundle: nil)
+        window?.rootViewController = lockoutViewController
     }
     
     // The app is broken because of a programming error.  We have no recourse except to

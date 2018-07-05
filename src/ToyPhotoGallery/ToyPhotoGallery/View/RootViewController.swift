@@ -8,8 +8,7 @@
 
 import UIKit
 
-class RootViewController: UIViewController {
-
+class RootViewController: UIViewController {    
     deinit {
         
     }
@@ -17,5 +16,9 @@ class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    func push(galleryViewController:GalleryViewController) {
+        navigationController?.pushViewController(galleryViewController, animated: false)
     }
 }
