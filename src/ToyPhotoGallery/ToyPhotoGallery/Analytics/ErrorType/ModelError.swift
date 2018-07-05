@@ -16,6 +16,7 @@ enum ModelError : Error {
     case EmptyObjectId
     case MissingValue
     case NoNewValues
+    case MissingDataSourceItem
 }
 
 extension ModelError : LocalizedError {
@@ -33,6 +34,8 @@ extension ModelError : LocalizedError {
             return NSLocalizedString("The raw dictionary does not contain the desired value", comment: "")
         case .NoNewValues:
             return NSLocalizedString("No new values were created", comment: "")
+        case .MissingDataSourceItem:
+            return NSLocalizedString("The data source does not contain the expected item", comment: "")
         }
     }
 }

@@ -21,7 +21,9 @@ class GalleryViewController: UIViewController {
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var headingContainerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var contentContainerView: UIView!    
+    @IBOutlet weak var contentContainerView: UIView!
+    
+    var collectionView:GalleryCollectionView?
     
     var debugTransitionButton:UIButton = UIButton(type: UIButtonType.custom)
     var debugTransitionButtonSize = CGSize(width: 100, height: 44)
