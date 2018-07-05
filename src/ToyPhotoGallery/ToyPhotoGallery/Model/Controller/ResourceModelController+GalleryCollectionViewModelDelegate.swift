@@ -10,6 +10,13 @@ import Foundation
 
 extension ResourceModelController : GalleryCollectionViewModelDelegate {
     func imageResources(skip: Int, limit: Int, completion:ImageResourceCompletion?) -> Void {
+        // We need to make sure we don't skip fetching any images for this purpose
+        let checkCount = imageRepository.map.values.count
+        let finalSkip = skip > checkCount ? checkCount : skip
+        
+        // We also need to make sure we still get the requested number of images
+        let finalLimit = abs(finalSkip - skip) + limit
+        
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let strongSelf = self else {
                 return
@@ -28,7 +35,7 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
             }
             
             do {
-                try strongSelf.sorted(repository: strongSelf.imageRepository, skip: skip, limit: limit, completion: wrappedCompletion)
+                try strongSelf.fillAndSort(repository: strongSelf.imageRepository, skip: finalSkip, limit: finalLimit, completion: wrappedCompletion)
             } catch {
                 DispatchQueue.main.async { [weak self] in
                     self?.errorHandler.report(error)

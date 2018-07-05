@@ -11,7 +11,9 @@ import UIKit
 class GalleryCollectionView: UICollectionView {
     var model:GalleryCollectionViewModel? {
         didSet {
-            
+            if model != nil {
+                refresh()
+            }
         }
     }
     
@@ -41,6 +43,10 @@ extension GalleryCollectionView {
                 self?.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: identifier)
             }
         }
+    }
+    
+    func refresh() {
+        self.reloadData()
     }
 }
 

@@ -37,11 +37,13 @@ class GalleryViewController: UIViewController {
     
     func refresh(with viewModel:GalleryViewModel) {
         let configuredView = configuredCollectionView(with: UICollectionViewLayout(), viewModel:viewModel)
+        collectionView = configuredView
+        
         guard let _ = configuredView.model?.dataSource.first else {
             return
         }
+        
         contentContainerView.addSubview(configuredView)
-        collectionView = configuredView
         refreshLayout(in: view)
     }
     
@@ -84,9 +86,9 @@ extension GalleryViewController {
         configuredView.translatesAutoresizingMaskIntoConstraints = false
         
         let collectionViewModel = GalleryCollectionViewModel()
+        collectionViewModel.viewModelDelegate = self
+        collectionViewModel.resourceDelegate = viewModel.resourceModelController
         configuredView.model = collectionViewModel
-        configuredView.model?.modelDelegate = viewModel.resourceModelController
-        configuredView.model?.viewModelDelegate = self
         
         return configuredView
     }
@@ -165,5 +167,9 @@ extension GalleryViewController {
 extension GalleryViewController : GalleryViewModelDelegate {
     func didUpdateViewModel() {
         collectionView?.reloadData()
+        print(viewModel?.resourceModelController.imageRepository.map.count ?? "")
+        viewModel?.resourceModelController.imageRepository.map.values.forEach({ (resource) in
+            print(resource.filename)
+        })
     }
 }

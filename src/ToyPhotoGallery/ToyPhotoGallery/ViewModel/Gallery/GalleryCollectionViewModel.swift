@@ -13,9 +13,9 @@ protocol GalleryCollectionViewModelDelegate : class {
 }
 
 class GalleryCollectionViewModel {
-    weak var modelDelegate:GalleryCollectionViewModelDelegate? {
+    weak var resourceDelegate:GalleryCollectionViewModelDelegate? {
         didSet {
-            if let delegate = modelDelegate {
+            if let delegate = resourceDelegate {
                 refresh(with: delegate)
             }
         }
@@ -27,5 +27,18 @@ class GalleryCollectionViewModel {
     
     func refresh(with delegate:GalleryCollectionViewModelDelegate) {
         dataSource = [GalleryCollectionViewCellModel]()
+        delegate.imageResources(skip: 0, limit: 30) { [weak self] (resources) in
+            for resource in resources {
+                print(resource.filename)
+            }
+            self?.viewModelDelegate?.didUpdateViewModel()
+        }
+        
+        delegate.imageResources(skip: 32, limit: 10) { [weak self] (resources) in
+            for resource in resources {
+                print(resource.filename)
+            }
+            self?.viewModelDelegate?.didUpdateViewModel()
+        }
     }
 }

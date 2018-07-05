@@ -59,18 +59,8 @@ class ResourceModelController {
         }
         
         let table = try tableMap(for: repository)
-        var finalSkip = skip
         
-        if count < skip {
-            // If we have less that the skip, fill from the count to the limit
-            finalSkip = count - 1
-        } else if count - 1 >= skip && count < limit {
-            // If we have more than the skip, but less than the limit, fill from the count to the limit
-            // We are not entertaining empty list values at the moment
-            finalSkip = count - 1
-        }
-        
-        find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: finalSkip, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
+        find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: skip, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
             self?.append(from: rawResourceArray, into: T.AssociatedType.self, completion: { (accumulatedErrors) in
                 if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
                     DispatchQueue.main.async {
@@ -140,15 +130,17 @@ extension ResourceModelController {
 
 extension ResourceModelController {
     
-    func sorted<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
+    func fillAndSort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
         try fill(repository:repository, skip: skip, limit: limit) { [weak self] (filledRepository) in
-            self?.sort(repository: filledRepository, completion: completion)
+            self?.sort(repository: filledRepository, skip:skip, limit:limit, completion: completion)
         }
     }
     
-    func sort<T>(repository:T, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+    func sort<T>(repository:T, skip:Int, limit:Int, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
         let values = Array(repository.map.values).sorted { $0.updatedAt < $1.updatedAt }
-        completion(values)
+        let endSlice = skip + limit < values.count ? skip + limit : values.count
+        let resources = Array(values[skip..<(endSlice)])
+        completion(resources)
     }
 }
 

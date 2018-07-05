@@ -104,7 +104,9 @@ class ParseInterface : RemoteStoreController {
      - Returns: void
      */
     func find(query:PFQuery<PFObject>, completion:@escaping ParseFindCompletion ) {
+        let capture = query
         query.findObjectsInBackground { (objects, error) in
+            print(capture.skip)
             completion(objects, error)
         }
     }
