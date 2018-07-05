@@ -19,5 +19,5 @@ class GalleryCollectionViewPhotoCell : UICollectionViewCell {
     
     func refresh(with model:GalleryCollectionViewPhotoCellModel) {
         
-    }    
+    }
 }

@@ -8,8 +8,8 @@
 
 import Foundation
 
-protocol PreviewViewModelDelegate : ViewModelDelegate {
-    
+protocol PreviewViewModelDelegate {
+    func didUpdateViewModel()
 }
 
 class PreviewViewModel {
@@ -24,6 +24,6 @@ class PreviewViewModel {
     var delegate:PreviewViewModelDelegate?
     
     func refresh(with imageResource:ImageResource) {
-        delegate?.didUpdateModel()
+        delegate?.didUpdateViewModel()
     }
 }

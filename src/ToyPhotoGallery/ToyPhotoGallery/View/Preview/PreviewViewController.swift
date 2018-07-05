@@ -34,7 +34,7 @@ class PreviewViewController: UIViewController {
 }
 
 extension PreviewViewController : PreviewViewModelDelegate {
-    func didUpdateModel() {
+    func didUpdateViewModel() {
         
     }
 }

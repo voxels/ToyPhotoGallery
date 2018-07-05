@@ -36,8 +36,6 @@ class GalleryViewController: UIViewController {
     }
     
     func refresh(with viewModel:GalleryViewModel) {
-        viewModel.delegate = self
-        viewModel.dataSource = viewModel.buildDataSource(from: viewModel.resourceModelController)
         let configuredView = configuredCollectionView(with: UICollectionViewLayout(), viewModel:viewModel)
         guard let _ = configuredView.model?.dataSource.first else {
             return
@@ -61,18 +59,14 @@ class GalleryViewController: UIViewController {
         
         customConstraints.removeAll()
         
-        if view.subviews.contains(debugTransitionButton) {
-            let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[debugButton(==buttonWidth)]-horizontalMargin-|", options: NSLayoutFormatOptions.init(rawValue: 0), metrics: ["buttonWidth":debugTransitionButtonSize.width, "horizontalMargin":debugTransitionMargins.right], views: ["debugButton" : debugTransitionButton])
-            let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMargin-[debugButton(==buttonHeight)]-(>=0)-|", options: NSLayoutFormatOptions.init(rawValue: 0), metrics: ["buttonHeight":debugTransitionButtonSize.height, "verticalMargin":debugTransitionMargins.top], views: ["debugButton" : debugTransitionButton])
-            
-            customConstraints.append(contentsOf: horizontalConstraints)
-            customConstraints.append(contentsOf: verticalConstraints)
+        if let debugButtonConstraints = constraints(debugButton: debugTransitionButton) {
+            customConstraints.append(contentsOf: debugButtonConstraints)
         }
         
         if let currentCollectionView = collectionView, let collectionViewConstraints = constraints(for: currentCollectionView) {
             customConstraints.append(contentsOf: collectionViewConstraints)
         }
-        
+
         NSLayoutConstraint.activate(customConstraints)
         super.updateViewConstraints()
     }
@@ -91,6 +85,8 @@ extension GalleryViewController {
         
         let collectionViewModel = GalleryCollectionViewModel(with: viewModel)
         configuredView.model = collectionViewModel
+        configuredView.model?.modelDelegate = viewModel.resourceModelController
+        configuredView.model?.viewModelDelegate = self
         
         return configuredView
     }
@@ -123,7 +119,6 @@ extension GalleryViewController {
         }
         
         let previewViewModel = PreviewViewModel()
-        previewViewModel.imageResource = model.imageResource(for: 0)
         previewViewController.viewModel = previewViewModel
         
         try? insert(childViewController: previewViewController, on: self, into: view)
@@ -147,12 +142,28 @@ extension GalleryViewController {
         constraints.append(contentsOf: verticalConstraints)
         return constraints
     }
+    
+    func constraints(debugButton:UIButton)->[NSLayoutConstraint]? {
+        guard view.subviews.contains(debugButton) else {
+            return nil
+        }
+        var constraints = [NSLayoutConstraint]()
+        if view.subviews.contains(debugTransitionButton) {
+            let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[debugButton(==buttonWidth)]-horizontalMargin-|", options: NSLayoutFormatOptions.init(rawValue: 0), metrics: ["buttonWidth":debugTransitionButtonSize.width, "horizontalMargin":debugTransitionMargins.right], views: ["debugButton" : debugTransitionButton])
+            let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMargin-[debugButton(==buttonHeight)]-(>=0)-|", options: NSLayoutFormatOptions.init(rawValue: 0), metrics: ["buttonHeight":debugTransitionButtonSize.height, "verticalMargin":debugTransitionMargins.top], views: ["debugButton" : debugTransitionButton])
+            
+            constraints.append(contentsOf: horizontalConstraints)
+            constraints.append(contentsOf: verticalConstraints)
+        }
+        
+        return constraints
+    }
 }
 
 // MARK: - GalleryViewModelDelegate
 
 extension GalleryViewController : GalleryViewModelDelegate {
-    func didUpdateModel() {
-        
+    func didUpdateViewModel() {
+        collectionView?.reloadData()
     }
 }
