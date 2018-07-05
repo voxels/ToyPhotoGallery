@@ -68,7 +68,7 @@ class ParseInterfaceTests: XCTestCase {
         let waitExpectation = expectation(description: "Wait for expectation")
         let interface = TestParseInterface()
         let errorHandler = TestErrorHandler()
-        interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
+        interface.find(table: .ImageResource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
             waitExpectation.fulfill()
         }
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
@@ -79,7 +79,7 @@ class ParseInterfaceTests: XCTestCase {
         let waitExpectation = expectation(description: "Wait for expectation")
         let interface = TestParseInterface()
         let errorHandler = TestErrorHandler()
-        interface.find(table: .Resource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
+        interface.find(table: .ImageResource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
             XCTAssertTrue(interface.didFindQuery)
             waitExpectation.fulfill()
         }
@@ -90,7 +90,7 @@ class ParseInterfaceTests: XCTestCase {
     func testParseFindCompletionReturnsWrappedCompletion() {
         let waitExpectation = expectation(description: "Wait for expectation")
 
-        let findCompletion:FindCompletion = { (objects) in
+        let findCompletion:RawResourceArrayCompletion = { (objects) in
             waitExpectation.fulfill()
         }
         
@@ -107,7 +107,7 @@ class ParseInterfaceTests: XCTestCase {
         func testParseFindCompletionReturnsWrappedCompletion() {
             let waitExpectation = expectation(description: "Wait for expectation")
             
-            let findCompletion:FindCompletion = { (objects) in
+            let findCompletion:RawResourceArrayCompletion = { (objects) in
                 XCTAssertNotNil(objects)
                 waitExpectation.fulfill()
             }
@@ -128,7 +128,7 @@ class ParseInterfaceTests: XCTestCase {
         let interface = TestParseInterface()
         let errorHandler = TestErrorHandler()
         
-        let findCompletion:FindCompletion = { (objects) in
+        let findCompletion:RawResourceArrayCompletion = { (objects) in
             XCTAssertTrue(errorHandler.didReport)
             waitExpectation.fulfill()
         }
@@ -150,7 +150,7 @@ class ParseInterfaceTests: XCTestCase {
         
         let interface = TestParseInterface()
         do {
-            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0)
+            let query = try interface.query(for: .ImageResource, sortBy: nil, skip: 0, limit: 0)
             interface.find(query: query, completion: findCompletion)
         } catch {
             XCTFail("Received unexpected error: \(error.localizedDescription)")
@@ -163,9 +163,9 @@ class ParseInterfaceTests: XCTestCase {
     func testQueryForTableSetsClassName() {
         let interface = TestParseInterface()
         do {
-            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0)
+            let query = try interface.query(for: .ImageResource, sortBy: nil, skip: 0, limit: 0)
             let actual = query.parseClassName
-            XCTAssertEqual(RemoteStoreTableMap.Resource.rawValue, actual)
+            XCTAssertEqual(RemoteStoreTableMap.ImageResource.rawValue, actual)
         } catch {
             XCTFail("Received unexpected error: \(error.localizedDescription)")
         }
@@ -178,7 +178,7 @@ class ParseInterfaceTests: XCTestCase {
         let interface = TestParseInterface()
         let expected = 10
         do {
-            let query = try interface.query(for: .Resource, sortBy: nil, skip: expected, limit: 0)
+            let query = try interface.query(for: .ImageResource, sortBy: nil, skip: expected, limit: 0)
             let actual = query.skip
             XCTAssertEqual(expected, actual)
         } catch {
@@ -190,7 +190,7 @@ class ParseInterfaceTests: XCTestCase {
         let interface = TestParseInterface()
         let expected = 10
         do {
-            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: expected)
+            let query = try interface.query(for: .ImageResource, sortBy: nil, skip: 0, limit: expected)
             let actual = query.limit
             XCTAssertEqual(expected, actual)
         } catch {
@@ -202,7 +202,7 @@ class ParseInterfaceTests: XCTestCase {
         let interface = TestParseInterface()
         let expected:PFCachePolicy = .cacheOnly
         do {
-            let query = try interface.query(for: .Resource, sortBy: nil, skip: 0, limit: 0, cachePolicy: expected)
+            let query = try interface.query(for: .ImageResource, sortBy: nil, skip: 0, limit: 0, cachePolicy: expected)
             let actual = query.cachePolicy
             XCTAssertEqual(expected, actual)
         } catch {

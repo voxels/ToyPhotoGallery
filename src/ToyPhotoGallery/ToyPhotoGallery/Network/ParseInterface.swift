@@ -61,7 +61,7 @@ class ParseInterface : RemoteStoreController {
      - parameter completion: the *FindCompletion* callback executed when the query is complete
      - Returns: void
      */
-    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
         
         let wrappedCompletion = parseFindCompletion(with:errorHandler, for: completion)
         
@@ -80,7 +80,7 @@ class ParseInterface : RemoteStoreController {
      - parameter findCompletion: the *FindCompletion* block that needs to be wrapped for this interface
      - Returns: a *ParseFindCompletion* object that can be passed within this interface
      */
-    func parseFindCompletion(with errorHandler:ErrorHandlerDelegate, for findCompletion:@escaping FindCompletion)->ParseFindCompletion {
+    func parseFindCompletion(with errorHandler:ErrorHandlerDelegate, for findCompletion:@escaping RawResourceArrayCompletion)->ParseFindCompletion {
         let wrappedCompletion:ParseFindCompletion = { (objects, error) in
             if let e = error {
                 errorHandler.report(e)

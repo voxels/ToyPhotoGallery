@@ -17,6 +17,7 @@ enum ModelError : Error {
     case MissingValue
     case NoNewValues
     case MissingDataSourceItem
+    case UnsupportedRequest
 }
 
 extension ModelError : LocalizedError {
@@ -36,6 +37,8 @@ extension ModelError : LocalizedError {
             return NSLocalizedString("No new values were created", comment: "")
         case .MissingDataSourceItem:
             return NSLocalizedString("The data source does not contain the expected item", comment: "")
+        case .UnsupportedRequest:
+            return NSLocalizedString("The request has not been implemented", comment: "")
         }
     }
 }

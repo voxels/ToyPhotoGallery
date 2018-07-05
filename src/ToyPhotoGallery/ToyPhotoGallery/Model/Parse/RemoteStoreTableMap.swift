@@ -16,8 +16,8 @@ enum RemoteStoreTableMap : String {
         case createdAt
     }
     
-    case Resource
-    enum ResourceColumn : String {
+    case ImageResource = "Resource"
+    enum ImageResourceColumn : String {
         case filename
         case thumbnailURLString
         case fileURLString

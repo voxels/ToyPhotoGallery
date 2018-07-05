@@ -27,7 +27,7 @@ class TestRemoteStoreController : RemoteStoreController {
         }
     }
     
-    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping FindCompletion) {
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
         didFind = true
         completion([ImageRepositoryTests.imageResourceRawObject])
     }

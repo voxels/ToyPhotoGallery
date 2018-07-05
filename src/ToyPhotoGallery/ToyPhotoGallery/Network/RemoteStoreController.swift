@@ -8,14 +8,14 @@
 
 import Foundation
 
-typealias FindCompletion = (RawResourceArray) -> Void
+typealias RawResourceArrayCompletion = (RawResourceArray) -> Void
 
 /// Protocol wrapper for handling a remote store service such as Parse or Firebase
 protocol RemoteStoreController : LaunchService {
     var serverURLString:String { get }
     var defaultQuerySize:Int { get }
     
-    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler:ErrorHandlerDelegate, completion: @escaping FindCompletion) -> Void
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler:ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) -> Void
     func validate(sortBy:String, in schemaClass:RemoteStoreTableMap) throws -> Void
 }
 
@@ -32,8 +32,8 @@ extension RemoteStoreController {
         }
         
         switch table {
-        case .Resource:
-            if RemoteStoreTableMap.ResourceColumn.init(rawValue: sortBy) != nil {
+        case .ImageResource:
+            if RemoteStoreTableMap.ImageResourceColumn.init(rawValue: sortBy) != nil {
                 return
             }
         case .EXIF:

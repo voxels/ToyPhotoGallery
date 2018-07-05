@@ -10,6 +10,5 @@ import Foundation
 
 class GalleryCollectionViewPhotoCellModel : GalleryCollectionViewCellModel {
     static var identifier: String = "GalleryCollectionViewPhotoCell"
-    var objectId:String?
     var imageResource:ImageResource?
 }

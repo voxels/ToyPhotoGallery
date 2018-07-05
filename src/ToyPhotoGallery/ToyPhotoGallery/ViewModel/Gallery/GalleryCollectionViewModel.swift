@@ -9,26 +9,23 @@
 import Foundation
 
 protocol GalleryCollectionViewModelDelegate {
-    func cellModels(from table:RemoteStoreTableMap, sortBy:String?, for skip:Int, limit:Int)->[GalleryCollectionViewCellModel]
+    func imageResources(sortBy:String?, skip:Int, limit:Int, completion:ImageResourceCompletion?)
 }
 
 class GalleryCollectionViewModel {
-    var modelDelegate:GalleryCollectionViewModelDelegate?
+    var modelDelegate:GalleryCollectionViewModelDelegate? {
+        didSet {
+            if let delegate = modelDelegate {
+                refresh(with: delegate)
+            }
+        }
+    }
+    
     var viewModelDelegate:GalleryViewModelDelegate?
     
     var dataSource = [GalleryCollectionViewCellModel]()
     
-    var parentModel:GalleryViewModel {
-        didSet {
-            refresh(with: parentModel)
-        }
-    }
-    
-    init(with galleryViewModel:GalleryViewModel) {
-        parentModel = galleryViewModel
-    }
-    
-    func refresh(with parentModel:GalleryViewModel) {
+    func refresh(with delegate:GalleryCollectionViewModelDelegate) {
         dataSource = [GalleryCollectionViewCellModel]()
     }
 }

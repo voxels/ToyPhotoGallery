@@ -134,7 +134,7 @@ extension LaunchController {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
             resourceModelController.delegate = self
-            resourceModelController.buildRepository(from:resourceModelController.remoteStoreController, with:resourceModelController.errorHandler, completion: { [weak self] (errors) in
+            resourceModelController.build(using: resourceModelController.remoteStoreController, for: ImageResource.self, with: resourceModelController.errorHandler) { [weak self] (errors) in
                 // We have been deallocated and this doesn't matter anymore
                 guard let strongSelf = self else {
                     return
@@ -145,7 +145,7 @@ extension LaunchController {
                 } else {
                     self?.resourceModelController.delegate?.didUpdateModel()
                 }
-            })
+            }
         }
     }
     

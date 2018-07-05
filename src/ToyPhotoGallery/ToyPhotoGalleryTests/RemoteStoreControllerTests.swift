@@ -14,7 +14,7 @@ class RemoteStoreControllerTests: XCTestCase {
     func testValidateThrowsExpectedError() {
         let interface = ParseInterface()
         do {
-            try interface.validate(sortBy: "unexpected", in: .Resource)
+            try interface.validate(sortBy: "unexpected", in: .ImageResource)
         } catch {
             switch error {
             case RemoteStoreError.InvalidSortByColumn:

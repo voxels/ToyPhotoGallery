@@ -83,7 +83,7 @@ extension GalleryViewController {
         let configuredView = GalleryCollectionView(frame: .zero, collectionViewLayout: layout)
         configuredView.translatesAutoresizingMaskIntoConstraints = false
         
-        let collectionViewModel = GalleryCollectionViewModel(with: viewModel)
+        let collectionViewModel = GalleryCollectionViewModel()
         configuredView.model = collectionViewModel
         configuredView.model?.modelDelegate = viewModel.resourceModelController
         configuredView.model?.viewModelDelegate = self
