@@ -100,6 +100,23 @@ extension GalleryViewController {
     }
 }
 
+// MARK: - Autolayout
+
+extension GalleryViewController {
+    func constraints(for collectionView:GalleryCollectionView)->[NSLayoutConstraint]? {
+        guard contentContainerView.subviews.contains(collectionView) else {
+            return nil
+        }
+        
+        var constraints = [NSLayoutConstraint]()
+        let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[collectionView]|", options: NSLayoutFormatOptions.init(rawValue: 0), metrics: nil, views: ["collectionView":collectionView])
+        let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[collectionView]|", options: NSLayoutFormatOptions.init(rawValue: 0), metrics: nil, views: ["collectionView":collectionView])
+        constraints.append(contentsOf: horizontalConstraints)
+        constraints.append(contentsOf: verticalConstraints)
+        return constraints
+    }
+}
+
 // MARK: - GalleryViewModelDelegate
 
 extension GalleryViewController : GalleryViewModelDelegate {
