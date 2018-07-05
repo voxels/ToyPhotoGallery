@@ -17,6 +17,9 @@ class GalleryViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var headingContainerView: UIView!
+    @IBOutlet weak var headingContainerViewHeightConstraint: NSLayoutConstraint!
+    
     var debugTransitionButton:UIButton = UIButton(type: UIButtonType.custom)
     var debugTransitionButtonSize = CGSize(width: 100, height: 44)
     var debugTransitionMargins:UIEdgeInsets = UIEdgeInsets(top: 56, left: 0, bottom: 0, right: 20)
