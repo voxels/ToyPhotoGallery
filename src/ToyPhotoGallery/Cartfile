@@ -1,2 +1,3 @@
 github "parse-community/Parse-SDK-iOS-OSX"
 github "bugsnag/bugsnag-cocoa"
+github "contentful-labs/Concorde.git"

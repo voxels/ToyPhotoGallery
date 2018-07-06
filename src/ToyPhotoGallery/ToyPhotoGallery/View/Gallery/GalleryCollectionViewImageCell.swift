@@ -16,7 +16,7 @@ struct GalleryCollectionViewImageCellAppearance {
 class GalleryCollectionViewImageCell : UICollectionViewCell {
     
     let defaultBackgroundColor:UIColor = .white
-    var imageView:UIImageView?
+    var imageView:CCBufferedImageView?
     
     var model:GalleryCollectionViewImageCellModel? {
         didSet {
@@ -25,7 +25,7 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
             }
         }
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView?.image = nil
@@ -36,14 +36,19 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         layer.shadowOpacity = appearance.shadowOpacity
         layer.shadowOffset = appearance.shadowOffset
         imageView?.image = nil
-        let newImageView = UIImageView(frame: bounds)
-        newImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        newImageView.translatesAutoresizingMaskIntoConstraints = true
-        addSubview(newImageView)
-        configure(imageView: newImageView)
+        configure(with:model.imageResource.thumbnailURL)
     }
     
-    func configure( imageView:UIImageView ) {
-        // This is where we fetch our image
+    func configure(with url:URL) {
+        imageView?.removeFromSuperview()
+        let newImageView = CCBufferedImageView(URL: url)
+        newImageView.clipsToBounds = true
+        newImageView.frame = bounds
+        newImageView.backgroundColor = .white
+        newImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        newImageView.translatesAutoresizingMaskIntoConstraints = true
+        newImageView.contentMode = .scaleAspectFill
+        addSubview(newImageView)
+        imageView = newImageView
     }
 }

@@ -10,12 +10,27 @@ import UIKit
 
 class LockoutViewController: UIViewController {
     
-    var message:String?
+    var message:String? {
+        didSet {
+            if let text = message {
+                
+            }
+        }
+    }
+    
+    var messageLabel:UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
     }
     
-    // TODO: add message
+    func refresh(with text:String) {
+        if messageLabel != nil {
+            messageLabel?.removeFromSuperview()
+            messageLabel = nil
+        }
+        
+        
+    }
 }

@@ -191,6 +191,7 @@ extension AppDelegate {
     
     func showLockoutViewController(with message:String?) {
         let lockoutViewController = LockoutViewController(nibName: nil, bundle: nil)
+        lockoutViewController.message = message
         window?.rootViewController = lockoutViewController
     }
     

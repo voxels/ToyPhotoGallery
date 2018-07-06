@@ -331,7 +331,7 @@ extension LaunchController {
         
         let galleryViewModel = GalleryViewModel(with: resourceModelController)
 
-        guard let galleryViewController = UIStoryboard.init(name: StoryboardMap.Main.rawValue, bundle: .main).instantiateViewController(withIdentifier: StoryboardMap.ViewController.GalleryViewController.rawValue) as? GalleryViewController else {
+        guard let galleryViewController = UIStoryboard.init(name: StoryboardSchemaMap.Main.rawValue, bundle: .main).instantiateViewController(withIdentifier: StoryboardSchemaMap.ViewController.GalleryViewController.rawValue) as? GalleryViewController else {
             throw ViewError.MissingViewController
         }
         
