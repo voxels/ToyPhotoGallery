@@ -15,7 +15,7 @@ protocol GalleryViewModelDelegate : class {
 class GalleryViewModel {
     let resourceModelController:ResourceModelController
     let logHandler = DebugLogHandler()
-
+    
     init(with resourceModel:ResourceModelController) {
         self.resourceModelController = resourceModel
     }

@@ -19,11 +19,6 @@ class GalleryCollectionView: UICollectionView {
     
     let defaultBackgroundColor:UIColor = .white
     let defaultIdentifier = "default"
-
-    /// Flag that indicates that the collection view has called cellForItem: at least once
-    /// We are using it because we need to make sure reloadData is called AFTER auto layout
-    /// has applied the constraints for the collection, but not every time we layout the VC's subviews
-    var completedInitialLayout = false
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -75,8 +70,11 @@ extension GalleryCollectionView : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        completedInitialLayout = true
+        do {
+            try model?.viewDidRequestCell(for: indexPath)
+        } catch {
+            model?.resourceDelegate?.errorHandler.report(error)
+        }
         
         var identifier = defaultIdentifier
         
@@ -104,7 +102,6 @@ extension GalleryCollectionView : UICollectionViewDataSource {
         return false
     }
 }
-
 
 // MARK: - Unused delegate
 

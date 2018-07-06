@@ -36,7 +36,7 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         layer.shadowOpacity = appearance.shadowOpacity
         layer.shadowOffset = appearance.shadowOffset
         imageView?.image = nil
-        configure(with:model.imageResource.thumbnailURL)
+//        configure(with:model.imageResource.thumbnailURL)
     }
     
     func configure(with url:URL) {

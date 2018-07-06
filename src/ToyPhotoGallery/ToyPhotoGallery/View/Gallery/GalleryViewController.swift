@@ -132,13 +132,12 @@ extension GalleryViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        guard let collectionView = collectionView else {
-            return
-        }
-        
         // We need to kick the collection view after the auto layout constraints have been applied
         // But we don't want to do this every time we layout the subviews
-        if !collectionView.completedInitialLayout {
+        guard let collectionView = collectionView, let model = collectionView.model else {
+            return
+        }
+        if model.completedInitialLayout {
             collectionView.reloadData()
         }
     }

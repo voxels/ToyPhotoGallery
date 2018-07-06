@@ -15,6 +15,7 @@ protocol GalleryCollectionViewModelDelegate : class {
 
 class GalleryCollectionViewModel {
     static let defaultPageSize:Int = 30
+    static let remainingCellsPageLimit:Int = 10
     
     weak var resourceDelegate:GalleryCollectionViewModelDelegate? {
         didSet {
@@ -28,9 +29,62 @@ class GalleryCollectionViewModel {
     
     var dataSource = [GalleryCollectionViewCellModel]()
     
+    var isFetching = false
+    var failTimer:Timer?
+    var failureDuration:TimeInterval = 30
+    var retryCount:Int = 0
+    var maxRetryCount: Int = 3
+    
+    /// Flag that indicates that the collection view has called cellForItem: at least once
+    /// We are using it because we need to make sure reloadData is called AFTER auto layout
+    /// has applied the constraints for the collection, but not every time we layout the VC's subviews
+    var completedInitialLayout = false
+
     func refresh(with delegate:GalleryCollectionViewModelDelegate) {
         dataSource = [GalleryCollectionViewCellModel]()
-        delegate.imageResources(skip: 0, limit: GalleryCollectionViewModel.defaultPageSize) { [weak self] (resources) in
+        nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize, completion:nil)
+    }
+    
+    func viewDidRequestCell(for indexPath:IndexPath) throws {
+        completedInitialLayout = true
+        guard let delegate = resourceDelegate else {
+            throw ModelError.MissingResourceModelController
+        }
+        checkForNextPage(with: indexPath, with:delegate)
+    }
+    
+    func checkForNextPage(with indexPath:IndexPath, with resourceDelegate:GalleryCollectionViewModelDelegate) {
+        if indexPath.item > dataSource.count - GalleryCollectionViewModel.remainingCellsPageLimit {
+            nextPage(from: resourceDelegate, skip: dataSource.count, limit: GalleryCollectionViewModel.defaultPageSize, completion:nil)
+        }
+    }
+    
+    func nextPage(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
+        if isFetching {
+            return
+        }
+        
+        beginFetching(from: resourceDelegate, skip: dataSource.count, limit: GalleryCollectionViewModel.defaultPageSize, completion:completion)
+    }
+    
+    func beginFetching(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
+        isFetching = true
+        failTimer = Timer.scheduledTimer(withTimeInterval: failureDuration, repeats: false, block: { [weak self] (timer) in
+            guard let strongSelf = self else {
+                return
+            }
+            if strongSelf.retryFetching() < strongSelf.maxRetryCount {
+                strongSelf.beginFetching(from: resourceDelegate, skip: skip, limit: limit, completion: completion)
+            } else {
+                strongSelf.endFetching()
+            }
+        })
+        
+        request(from: resourceDelegate, skip: skip, limit: limit, completion: completion)
+    }
+    
+    func request(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
+        resourceDelegate.imageResources(skip: skip, limit: limit) { [weak self] (resources) in
             let imageModels = resources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
                 do {
                     return try GalleryCollectionViewImageCellModel(with: imageResource)
@@ -39,8 +93,35 @@ class GalleryCollectionViewModel {
                 }
                 return nil
             })
+            
+            guard imageModels.count > 0 else {
+                completion?(false)
+                return
+            }
+            
             self?.dataSource.append(contentsOf: imageModels)
             self?.viewModelDelegate?.didUpdateViewModel()
+            self?.endFetching()
+            completion?(true)
         }
     }
+    
+    func retryFetching()->Int {
+        failTimer = nil
+        isFetching = false
+        retryCount += 1
+        return retryCount
+    }
+    
+    func endFetching() {
+        failTimer?.invalidate()
+        failTimer = nil
+        isFetching = false
+        retryCount = 0
+    }
+}
+
+
+extension GalleryCollectionViewModel {
+    
 }

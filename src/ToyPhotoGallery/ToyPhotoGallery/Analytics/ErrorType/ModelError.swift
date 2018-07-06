@@ -18,6 +18,7 @@ enum ModelError : Error {
     case NoNewValues
     case MissingDataSourceItem
     case UnsupportedRequest
+    case MissingResourceModelController
 }
 
 extension ModelError : LocalizedError {
@@ -39,6 +40,8 @@ extension ModelError : LocalizedError {
             return NSLocalizedString("The data source does not contain the expected item", comment: "")
         case .UnsupportedRequest:
             return NSLocalizedString("The request has not been implemented", comment: "")
+        case .MissingResourceModelController:
+            return NSLocalizedString("The expected resource model controller is missing", comment: "")
         }
     }
 }
