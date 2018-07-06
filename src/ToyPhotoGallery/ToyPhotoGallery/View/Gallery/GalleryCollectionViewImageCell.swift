@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct GalleryCollectionViewImageCellAppeareance {
+struct GalleryCollectionViewImageCellAppearance {
     let shadowOffset:CGSize = CGSize(width: 0.0, height: -0.5)
     let shadowOpacity:Float = 0.1
 }
@@ -31,7 +31,7 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         imageView?.image = nil
     }
 
-    func refresh(with model:GalleryCollectionViewImageCellModel, appearance:GalleryCollectionViewImageCellAppeareance = GalleryCollectionViewImageCellAppeareance()) {
+    func refresh(with model:GalleryCollectionViewImageCellModel, appearance:GalleryCollectionViewImageCellAppearance = GalleryCollectionViewImageCellAppearance()) {
         backgroundColor = defaultBackgroundColor
         layer.shadowOpacity = appearance.shadowOpacity
         layer.shadowOffset = appearance.shadowOffset
