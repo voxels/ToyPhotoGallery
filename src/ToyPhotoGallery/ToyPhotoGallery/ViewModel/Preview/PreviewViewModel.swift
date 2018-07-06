@@ -8,22 +8,10 @@
 
 import Foundation
 
-protocol PreviewViewModelDelegate : class {
-    func didUpdateViewModel()
-}
-
 class PreviewViewModel {
-    var imageResource:ImageResource? {
-        didSet {
-            if let resource = imageResource {
-                refresh(with: resource)
-            }
-        }
-    }
+    var imageResource:ImageResource
     
-    weak var delegate:PreviewViewModelDelegate?
-    
-    func refresh(with imageResource:ImageResource) {
-        delegate?.didUpdateViewModel()
+    init(with imageResource:ImageResource) {
+        self.imageResource = imageResource
     }
 }

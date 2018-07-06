@@ -12,6 +12,7 @@ import Foundation
 enum ViewError : Error {
     case MissingNavigationController
     case MissingViewController
+    case MissingView
     case ViewHierarchyError
 }
 
@@ -22,8 +23,10 @@ extension ViewError : LocalizedError {
             return NSLocalizedString("The expected navigation controller cannot be found", comment: "")
         case .MissingViewController:
             return NSLocalizedString("The expected view controller cannot be found", comment: "")
+        case .MissingView:
+            return NSLocalizedString("The expected view cannot be found", comment: "")
         case .ViewHierarchyError:
-            return NSLocalizedString("The view hierarchy is not configured for this usecase", comment: "")            
+            return NSLocalizedString("The view hierarchy is not configured for this case", comment: "")
         }
     }
 }

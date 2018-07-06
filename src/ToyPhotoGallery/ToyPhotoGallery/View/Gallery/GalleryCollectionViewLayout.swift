@@ -21,9 +21,15 @@ struct FlowLayoutConfiguration {
     var footerReferenceSize:CGSize          = CGSize.zero
 }
 
+protocol GalleryCollectionViewLayoutDelegate : class {
+    var errorHandler:ErrorHandlerDelegate { get }
+    func previewItem(at indexPath:IndexPath) throws
+}
+
 class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
     
     var configuration:FlowLayoutConfiguration = FlowLayoutConfiguration()
+    weak var delegate:GalleryCollectionViewLayoutDelegate?
     
     /// Used for relative content size calculation
     let defaultLogicalWidth:CGFloat = 320   // the logical width is different for every device, but we
@@ -47,6 +53,20 @@ class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
 }
 
 extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+        guard let delegate = delegate else {
+            assert(false, "The delegate is not set")
+            return
+        }
+        
+        do {
+            try delegate.previewItem(at: indexPath)
+        } catch {
+            
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let relativeSize = relative(size: configuration.itemSize, with: configuration, containerWidth: containerWidth)
         return relativeSize
