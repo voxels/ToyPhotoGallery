@@ -29,6 +29,7 @@ class GalleryViewController: UIViewController {
     var debugTransitionButtonSize = CGSize(width: 100, height: 44)
     var debugTransitionMargins:UIEdgeInsets = UIEdgeInsets(top: 56, left: 0, bottom: 0, right: 20)
     var customConstraints = [NSLayoutConstraint]()
+    var retryUpdate = true
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -36,15 +37,9 @@ class GalleryViewController: UIViewController {
     }
     
     func refresh(with viewModel:GalleryViewModel) {
-        let configuredView = configuredCollectionView(with: UICollectionViewLayout(), viewModel:viewModel)
+        let layout = GalleryCollectionViewLayout()
+        let configuredView = configuredCollectionView(with: layout, viewModel:viewModel)
         collectionView = configuredView
-        
-        guard let _ = configuredView.model?.dataSource.first else {
-            return
-        }
-        
-        contentContainerView.addSubview(configuredView)
-        refreshLayout(in: view)
     }
     
     func show(previewViewController:PreviewViewController, for imageResource:ImageResource) {
@@ -72,6 +67,20 @@ class GalleryViewController: UIViewController {
         NSLayoutConstraint.activate(customConstraints)
         super.updateViewConstraints()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        guard let collectionView = collectionView else {
+            return
+        }
+        
+        // We need to kick the collection view after the auto layout constraints have been applied
+        // But we don't want to do this every time we layout the subviews
+        if !collectionView.completedInitialLayout {
+            collectionView.reloadData()
+        }
+    }
 }
 
 extension GalleryViewController {
@@ -84,6 +93,7 @@ extension GalleryViewController {
         
         let configuredView = GalleryCollectionView(frame: .zero, collectionViewLayout: layout)
         configuredView.translatesAutoresizingMaskIntoConstraints = false
+        configuredView.backgroundColor = .white
         
         let collectionViewModel = GalleryCollectionViewModel()
         collectionViewModel.viewModelDelegate = self
@@ -166,10 +176,25 @@ extension GalleryViewController {
 
 extension GalleryViewController : GalleryViewModelDelegate {
     func didUpdateViewModel() {
-        collectionView?.reloadData()
-        print(viewModel?.resourceModelController.imageRepository.map.count ?? "")
-        viewModel?.resourceModelController.imageRepository.map.values.forEach({ (resource) in
-            print(resource.filename)
-        })
+        guard let collectionView = collectionView else {
+            viewModel?.resourceModelController.errorHandler.report(ViewError.ViewHierarchyError)
+            return
+        }
+        
+        // Preventing a race condition
+        guard isViewLoaded, retryUpdate else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.didUpdateViewModel()
+            }
+            retryUpdate = false
+            return
+        }
+        
+        if !contentContainerView.subviews.contains(collectionView) {
+            contentContainerView.addSubview(collectionView)
+            refreshLayout(in: view)
+        }
+        
+        collectionView.reloadData()
     }
 }

@@ -17,17 +17,27 @@ class GalleryCollectionView: UICollectionView {
         }
     }
     
-    var defaultIdentifier = "default"
-    var errorHandler:ErrorHandlerDelegate = DebugErrorHandler()
+    let defaultBackgroundColor:UIColor = .white
+    let defaultIdentifier = "default"
 
+    /// Flag that indicates that the collection view has called cellForItem: at least once
+    /// We are using it because we need to make sure reloadData is called AFTER auto layout
+    /// has applied the constraints for the collection, but not every time we layout the VC's subviews
+    var completedInitialLayout = false
+    
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        register(identifiers: [defaultIdentifier, GalleryCollectionViewPhotoCellModel.identifier])
+        register(identifiers: [defaultIdentifier, GalleryCollectionViewImageCellModel.identifier])
+        if let delegate = layout as? GalleryCollectionViewLayout {
+            assign(dataSource: self, delegate:delegate )
+        } else {
+            assign(dataSource: self, delegate: self)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        register(identifiers: [defaultIdentifier, GalleryCollectionViewPhotoCellModel.identifier])
+        register(identifiers: [defaultIdentifier, GalleryCollectionViewImageCellModel.identifier])
     }
 }
 
@@ -35,8 +45,8 @@ extension GalleryCollectionView {
     func register(identifiers:[String]) {
         identifiers.forEach { [weak self] (identifier) in
             switch identifier {
-            case GalleryCollectionViewPhotoCellModel.identifier:
-                self?.register(GalleryCollectionViewPhotoCell.classForCoder(), forCellWithReuseIdentifier: identifier)
+            case GalleryCollectionViewImageCellModel.identifier:
+                self?.register(GalleryCollectionViewImageCell.classForCoder(), forCellWithReuseIdentifier: identifier)
             case defaultIdentifier:
                 fallthrough
             default:
@@ -45,12 +55,17 @@ extension GalleryCollectionView {
         }
     }
     
+    func assign(dataSource:UICollectionViewDataSource, delegate:UICollectionViewDelegateFlowLayout) {
+        self.dataSource = dataSource
+        self.delegate = delegate
+    }
+    
     func refresh() {
         self.reloadData()
     }
 }
 
-extension GalleryCollectionView : UICollectionViewDataSource, UICollectionViewDelegate {
+extension GalleryCollectionView : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model?.dataSource.count ?? 0
     }
@@ -60,25 +75,38 @@ extension GalleryCollectionView : UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        completedInitialLayout = true
+        
         var identifier = defaultIdentifier
         
         guard let cellDataSource = model?.dataSource, let cellModel = cellDataSource[safe:UInt(indexPath.item)] else {
-            errorHandler.report(ModelError.MissingDataSourceItem)
+            model?.resourceDelegate?.errorHandler.report(ModelError.MissingDataSourceItem)
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
         
         switch cellModel {
-        case is GalleryCollectionViewPhotoCellModel:
-            identifier = GalleryCollectionViewPhotoCellModel.identifier
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? GalleryCollectionViewPhotoCell else {
-                errorHandler.report(ModelError.IncorrectType)
+        case is GalleryCollectionViewImageCellModel:
+            identifier = GalleryCollectionViewImageCellModel.identifier
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? GalleryCollectionViewImageCell else {
+                model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)
                 return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
             }
-            cell.model = cellModel as? GalleryCollectionViewPhotoCellModel
+            cell.model = cellModel as? GalleryCollectionViewImageCellModel
             return cell
         default:
-            errorHandler.report(ModelError.IncorrectType)
+            model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return false
+    }
 }
+
+
+// MARK: - Unused delegate
+
+// Included for type safety
+extension GalleryCollectionView : UICollectionViewDelegateFlowLayout {}

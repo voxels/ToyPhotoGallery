@@ -1,5 +1,5 @@
 //
-//  GalleryCollectionViewPhotoCell.swift
+//  GalleryCollectionViewImageCell.swift
 //  ToyPhotoGallery
 //
 //  Created by Voxels on 7/5/18.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class GalleryCollectionViewPhotoCell : UICollectionViewCell {
-    var model:GalleryCollectionViewPhotoCellModel? {
+class GalleryCollectionViewImageCell : UICollectionViewCell {
+    var model:GalleryCollectionViewImageCellModel? {
         didSet {
             if let model = model {
                 refresh(with: model)
@@ -17,7 +17,7 @@ class GalleryCollectionViewPhotoCell : UICollectionViewCell {
         }
     }
     
-    func refresh(with model:GalleryCollectionViewPhotoCellModel) {
+    func refresh(with model:GalleryCollectionViewImageCellModel) {
         
     }
 }

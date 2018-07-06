@@ -9,10 +9,13 @@
 import Foundation
 
 protocol GalleryCollectionViewModelDelegate : class {
+    var errorHandler:ErrorHandlerDelegate { get }
     func imageResources(skip:Int, limit:Int, completion:ImageResourceCompletion?)
 }
 
 class GalleryCollectionViewModel {
+    static let defaultPageSize:Int = 30
+    
     weak var resourceDelegate:GalleryCollectionViewModelDelegate? {
         didSet {
             if let delegate = resourceDelegate {
@@ -27,17 +30,16 @@ class GalleryCollectionViewModel {
     
     func refresh(with delegate:GalleryCollectionViewModelDelegate) {
         dataSource = [GalleryCollectionViewCellModel]()
-        delegate.imageResources(skip: 0, limit: 30) { [weak self] (resources) in
-            for resource in resources {
-                print(resource.filename)
-            }
-            self?.viewModelDelegate?.didUpdateViewModel()
-        }
-        
-        delegate.imageResources(skip: 32, limit: 10) { [weak self] (resources) in
-            for resource in resources {
-                print(resource.filename)
-            }
+        delegate.imageResources(skip: 0, limit: GalleryCollectionViewModel.defaultPageSize) { [weak self] (resources) in
+            let imageModels = resources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
+                do {
+                    return try GalleryCollectionViewImageCellModel(with: imageResource)
+                } catch {
+                    self?.resourceDelegate?.errorHandler.report(error)
+                }
+                return nil
+            })
+            self?.dataSource.append(contentsOf: imageModels)
             self?.viewModelDelegate?.didUpdateViewModel()
         }
     }
