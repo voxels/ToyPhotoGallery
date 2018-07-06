@@ -66,7 +66,11 @@ class GalleryCollectionViewModel {
         
         beginFetching(from: resourceDelegate, skip: dataSource.count, limit: GalleryCollectionViewModel.defaultPageSize, completion:completion)
     }
-    
+}
+
+// MARK: - Fetch Retries
+
+extension GalleryCollectionViewModel {
     func beginFetching(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
         isFetching = true
         failTimer = Timer.scheduledTimer(withTimeInterval: failureDuration, repeats: false, block: { [weak self] (timer) in
@@ -82,7 +86,25 @@ class GalleryCollectionViewModel {
         
         request(from: resourceDelegate, skip: skip, limit: limit, completion: completion)
     }
+
+    func retryFetching()->Int {
+        failTimer = nil
+        isFetching = false
+        retryCount += 1
+        return retryCount
+    }
     
+    func endFetching() {
+        failTimer?.invalidate()
+        failTimer = nil
+        isFetching = false
+        retryCount = 0
+    }
+}
+
+// MARK: - Resource Request
+
+extension GalleryCollectionViewModel {
     func request(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
         resourceDelegate.imageResources(skip: skip, limit: limit) { [weak self] (resources) in
             let imageModels = resources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
@@ -105,23 +127,4 @@ class GalleryCollectionViewModel {
             completion?(true)
         }
     }
-    
-    func retryFetching()->Int {
-        failTimer = nil
-        isFetching = false
-        retryCount += 1
-        return retryCount
-    }
-    
-    func endFetching() {
-        failTimer?.invalidate()
-        failTimer = nil
-        isFetching = false
-        retryCount = 0
-    }
-}
-
-
-extension GalleryCollectionViewModel {
-    
 }
