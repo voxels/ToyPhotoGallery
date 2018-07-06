@@ -60,13 +60,14 @@ extension GalleryViewController {
         return configuredView
     }
     
-    func previewViewController(for imageResource:ImageResource) throws -> PreviewViewController {
+    func previewViewController(for indexPath:IndexPath, with galleryCollectionViewModel:GalleryCollectionViewModel) throws -> PreviewViewController {
         guard let previewViewController = UIStoryboard.init(name: StoryboardMap.Main.rawValue, bundle: .main).instantiateViewController(withIdentifier: StoryboardMap.ViewController.PreviewViewController.rawValue) as? PreviewViewController else {
             throw ViewError.MissingViewController
         }
         
-        let previewViewModel = PreviewViewModel(with:imageResource)
+        let previewViewModel = PreviewViewModel(with: indexPath, galleryCollectionViewModel: galleryCollectionViewModel)
         previewViewController.viewModel = previewViewModel
+        previewViewController.view.backgroundColor = previewViewController.defaultBackgroundColor
         return previewViewController
     }
 }
@@ -167,11 +168,11 @@ extension GalleryViewController : GalleryCollectionViewLayoutDelegate {
     }
     
     func previewItem(at indexPath: IndexPath) throws {
-        guard let cellModel = collectionView?.model?.dataSource[indexPath.item] as? GalleryCollectionViewImageCellModel else {
+        guard let galleryModel = collectionView?.model else {
             throw ModelError.IncorrectType
         }
         
-        let viewController = try previewViewController(for: cellModel.imageResource)
+        let viewController = try previewViewController(for: indexPath, with: galleryModel)
         try show(previewViewController: viewController)
     }
 }

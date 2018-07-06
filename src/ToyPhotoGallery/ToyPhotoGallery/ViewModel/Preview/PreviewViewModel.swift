@@ -9,9 +9,9 @@
 import Foundation
 
 class PreviewViewModel {
-    var imageResource:ImageResource
+    var currentIndexPath:IndexPath
     
-    init(with imageResource:ImageResource) {
-        self.imageResource = imageResource
-    }
+    init(with indexPath:IndexPath, galleryCollectionViewModel:GalleryCollectionViewModel) {
+        self.currentIndexPath = indexPath
+    }    
 }

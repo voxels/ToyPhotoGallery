@@ -9,6 +9,7 @@
 import UIKit
 
 class PreviewViewController: UIViewController {
+    
     var viewModel:PreviewViewModel? {
         didSet {
             if let model = viewModel {
@@ -20,10 +21,11 @@ class PreviewViewController: UIViewController {
     @IBOutlet weak var sceneContainerView: UIView!
     @IBOutlet weak var sceneView: PreviewSceneView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    @IBOutlet weak var kitContainerView: UIView!
+    @IBOutlet weak var contentContainerView: UIView!
     
+    let defaultBackgroundColor:UIColor = .clear
+
     func refresh(with viewModel:PreviewViewModel) {
         
     }
