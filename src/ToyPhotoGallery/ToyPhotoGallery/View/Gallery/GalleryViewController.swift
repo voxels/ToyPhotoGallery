@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct ContentContainerViewAppearance {
+    static let shadowOffset:CGSize = CGSize(width: 0.0, height: -0.5)
+    static let shadowOpacity:Float = 0.1
+}
+
 class GalleryViewController: UIViewController {
     var viewModel:GalleryViewModel? {
         didSet {
@@ -27,6 +32,15 @@ class GalleryViewController: UIViewController {
 
     var retryCount:Int = 0
     var maxRetries:Int = 3
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureAppearances()
+    }
+    
+    func configureAppearances() {
+        configure(view: contentContainerView)
+    }
     
     func refresh(with viewModel:GalleryViewModel) {
         let layout = GalleryCollectionViewLayout()
@@ -69,6 +83,17 @@ extension GalleryViewController {
         previewViewController.viewModel = previewViewModel
         previewViewController.view.backgroundColor = previewViewController.defaultBackgroundColor
         return previewViewController
+    }
+}
+
+// MARK: - Appearance
+
+extension GalleryViewController {
+    func configure(view:UIView) {
+        if view == contentContainerView {
+            view.layer.shadowOffset = ContentContainerViewAppearance.shadowOffset
+            view.layer.shadowOpacity = ContentContainerViewAppearance.shadowOpacity
+        }
     }
 }
 

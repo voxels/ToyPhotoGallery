@@ -8,9 +8,14 @@
 
 import UIKit
 
+struct GalleryCollectionViewImageCellAppeareance {
+    let shadowOffset:CGSize = CGSize(width: 0.0, height: -0.5)
+    let shadowOpacity:Float = 0.1
+}
+
 class GalleryCollectionViewImageCell : UICollectionViewCell {
     
-    let defaultBackgroundColor:UIColor = .lightGray
+    let defaultBackgroundColor:UIColor = .white
     var imageView:UIImageView?
     
     var model:GalleryCollectionViewImageCellModel? {
@@ -26,10 +31,10 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         imageView?.image = nil
     }
 
-    func refresh(with model:GalleryCollectionViewImageCellModel) {
+    func refresh(with model:GalleryCollectionViewImageCellModel, appearance:GalleryCollectionViewImageCellAppeareance = GalleryCollectionViewImageCellAppeareance()) {
         backgroundColor = defaultBackgroundColor
-        layer.shadowOpacity = 0.2
-        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        layer.shadowOpacity = appearance.shadowOpacity
+        layer.shadowOffset = appearance.shadowOffset
         imageView?.image = nil
         let newImageView = UIImageView(frame: bounds)
         newImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
