@@ -38,7 +38,13 @@ struct BugsnagInterface : ErrorHandlerDelegate {
      - Returns: void
      */
     func report(_ error: Error) {
+        #if DEBUG
+        let message = "<<WARNING>>: \(error.localizedDescription)"
+        let handler = DebugLogHandler()
+        handler.console(message)
+        #else
         Bugsnag.notifyError(error)
+        #endif
     }
 }
 

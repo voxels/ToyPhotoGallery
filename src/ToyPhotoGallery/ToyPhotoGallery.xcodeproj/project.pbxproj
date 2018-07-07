@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E481A9020F01736006FAE4C /* CCBufferedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E481A8D20F01736006FAE4C /* CCBufferedImageView.swift */; };
-		1E481A9120F01736006FAE4C /* CCBufferedImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E481A8E20F01736006FAE4C /* CCBufferedImageDecoder.m */; };
 		1E481A9420F017AE006FAE4C /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E481A9320F017AE006FAE4C /* libturbojpeg.a */; };
 		1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */; };
 		1E5E9BCB20F043F200D59DFD /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BCA20F043F200D59DFD /* NetworkError.swift */; };
 		1E5E9BCD20F0452C00D59DFD /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BCC20F0452C00D59DFD /* Data.swift */; };
+		1E5E9BD120F0527000D59DFD /* CCBufferedImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BCE20F0527000D59DFD /* CCBufferedImageDecoder.m */; };
+		1E5E9BD220F0527000D59DFD /* BufferedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BD020F0527000D59DFD /* BufferedImageView.swift */; };
 		1E627B3C20EE5C5300F46F22 /* GalleryCollectionViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E627B3B20EE5C5300F46F22 /* GalleryCollectionViewImageCell.swift */; };
 		1E65C9EC20EABBE300D28BE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65C9EB20EABBE300D28BE4 /* AppDelegate.swift */; };
 		1E65C9F120EABBE400D28BE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E65C9EF20EABBE400D28BE4 /* Main.storyboard */; };
@@ -133,10 +133,6 @@
 
 /* Begin PBXFileReference section */
 		1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToyPhotoGallery-Bridging-Header.h"; sourceTree = "<group>"; };
-		1E481A8B20F01736006FAE4C /* CCBufferedImageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBufferedImageDecoder.h; path = Carthage/Checkouts/Concorde/Code/CCBufferedImageDecoder.h; sourceTree = SOURCE_ROOT; };
-		1E481A8C20F01736006FAE4C /* Concorde.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Concorde.h; path = Carthage/Checkouts/Concorde/Code/Concorde.h; sourceTree = SOURCE_ROOT; };
-		1E481A8D20F01736006FAE4C /* CCBufferedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CCBufferedImageView.swift; path = Carthage/Checkouts/Concorde/Code/CCBufferedImageView.swift; sourceTree = SOURCE_ROOT; };
-		1E481A8E20F01736006FAE4C /* CCBufferedImageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBufferedImageDecoder.m; path = Carthage/Checkouts/Concorde/Code/CCBufferedImageDecoder.m; sourceTree = SOURCE_ROOT; };
 		1E481A9320F017AE006FAE4C /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "ToyPhotoGallery/vendor/libjpeg-turbo/lib/libturbojpeg.a"; sourceTree = SOURCE_ROOT; };
 		1E481A9520F018AF006FAE4C /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jconfig.h; path = "ToyPhotoGallery/vendor/libjpeg-turbo/include/jconfig.h"; sourceTree = SOURCE_ROOT; };
 		1E481A9620F018AF006FAE4C /* jerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jerror.h; path = "ToyPhotoGallery/vendor/libjpeg-turbo/include/jerror.h"; sourceTree = SOURCE_ROOT; };
@@ -146,6 +142,9 @@
 		1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSessionInterface.swift; sourceTree = "<group>"; };
 		1E5E9BCA20F043F200D59DFD /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		1E5E9BCC20F0452C00D59DFD /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		1E5E9BCE20F0527000D59DFD /* CCBufferedImageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBufferedImageDecoder.m; sourceTree = "<group>"; };
+		1E5E9BCF20F0527000D59DFD /* CCBufferedImageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBufferedImageDecoder.h; sourceTree = "<group>"; };
+		1E5E9BD020F0527000D59DFD /* BufferedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferedImageView.swift; sourceTree = "<group>"; };
 		1E627B3B20EE5C5300F46F22 /* GalleryCollectionViewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewImageCell.swift; sourceTree = "<group>"; };
 		1E65C9E820EABBE300D28BE4 /* ToyPhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToyPhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E65C9EB20EABBE300D28BE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -292,21 +291,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1E481A8920F0171E006FAE4C /* Concorde */ = {
+		1E481A8920F0171E006FAE4C /* CCBufferedImageDecoder */ = {
 			isa = PBXGroup;
 			children = (
+				1E5E9BCF20F0527000D59DFD /* CCBufferedImageDecoder.h */,
+				1E5E9BCE20F0527000D59DFD /* CCBufferedImageDecoder.m */,
 				1E481A9320F017AE006FAE4C /* libturbojpeg.a */,
-				1E481A8B20F01736006FAE4C /* CCBufferedImageDecoder.h */,
-				1E481A8E20F01736006FAE4C /* CCBufferedImageDecoder.m */,
-				1E481A8D20F01736006FAE4C /* CCBufferedImageView.swift */,
-				1E481A8C20F01736006FAE4C /* Concorde.h */,
 				1E481A9520F018AF006FAE4C /* jconfig.h */,
 				1E481A9620F018AF006FAE4C /* jerror.h */,
 				1E481A9920F018B0006FAE4C /* jmorecfg.h */,
 				1E481A9820F018AF006FAE4C /* jpeglib.h */,
 				1E481A9720F018AF006FAE4C /* turbojpeg.h */,
 			);
-			path = Concorde;
+			path = CCBufferedImageDecoder;
+			sourceTree = "<group>";
+		};
+		1E5E9BD320F053A800D59DFD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1E5E9BD020F0527000D59DFD /* BufferedImageView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		1E65C9DF20EABBE100D28BE4 = {
@@ -335,7 +340,6 @@
 			isa = PBXGroup;
 			children = (
 				1E65C9EB20EABBE300D28BE4 /* AppDelegate.swift */,
-				1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */,
 				1E78B28720EAC50A000DCFE7 /* View */,
 				1E78B28820EAC529000DCFE7 /* ViewModel */,
 				1E78B28C20EAC59D000DCFE7 /* Model */,
@@ -344,6 +348,7 @@
 				1E78B28B20EAC58A000DCFE7 /* Extension */,
 				1E78B28A20EAC566000DCFE7 /* Resource */,
 				1E65C9F720EABBEC00D28BE4 /* Info.plist */,
+				1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */,
 				1E65C9F220EABBEC00D28BE4 /* Assets.xcassets */,
 				1E94CBA620EFBADD00117209 /* Fonts */,
 			);
@@ -379,20 +384,18 @@
 			path = ToyPhotoGalleryUITests;
 			sourceTree = "<group>";
 		};
-		1E6F2E1B20EEADB3005A5567 /* Generic */ = {
+		1E6F2E1B20EEADB3005A5567 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				1E6F2E1520EEAD30005A5567 /* Repository.swift */,
-				1E6F2E1720EEAD4E005A5567 /* Resource.swift */,
+				1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */,
 				1E6F2E2420EED35A005A5567 /* Extractor.swift */,
 			);
-			path = Generic;
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		1E6F2E1C20EEADC1005A5567 /* Schema */ = {
 			isa = PBXGroup;
 			children = (
-				1E6F2E1920EEAD9E005A5567 /* ImageSchema.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 		1E6F2E1D20EEADD3005A5567 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				1E6F2E1520EEAD30005A5567 /* Repository.swift */,
 				1E78B32F20ED4139000DCFE7 /* ImageRepository.swift */,
 			);
 			path = Repository;
@@ -411,6 +415,9 @@
 				1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */,
 				1E6F2E1320EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift */,
 				1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */,
+				1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */,
+				1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */,
+				1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -418,6 +425,8 @@
 		1E6F2E1F20EEAE35005A5567 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1E6F2E1720EEAD4E005A5567 /* Resource.swift */,
+				1E6F2E1920EEAD9E005A5567 /* ImageSchema.swift */,
 				1E6F2E2020EEAE5C005A5567 /* ImageResource.swift */,
 			);
 			path = Resource;
@@ -430,6 +439,7 @@
 				1E78B34D20EE593D000DCFE7 /* Onboarding */,
 				1E78B34C20EE5926000DCFE7 /* Gallery */,
 				1E78B34E20EE594C000DCFE7 /* Preview */,
+				1E5E9BD320F053A800D59DFD /* View */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -456,9 +466,7 @@
 		1E78B28A20EAC566000DCFE7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */,
-				1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */,
-				1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */,
+				1E481A8920F0171E006FAE4C /* CCBufferedImageDecoder */,
 				1E78B28F20EAC608000DCFE7 /* Framework */,
 			);
 			path = Resource;
@@ -479,7 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				1E6F2E1E20EEADE5005A5567 /* Controller */,
-				1E6F2E1B20EEADB3005A5567 /* Generic */,
+				1E6F2E1B20EEADB3005A5567 /* Utility */,
 				1E6F2E1F20EEAE35005A5567 /* Resource */,
 				1E6F2E1D20EEADD3005A5567 /* Repository */,
 				1E6F2E1C20EEADC1005A5567 /* Schema */,
@@ -512,8 +520,6 @@
 		1E78B28F20EAC608000DCFE7 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */,
-				1E481A8920F0171E006FAE4C /* Concorde */,
 				1E78B2D420EADC96000DCFE7 /* Bolts.framework */,
 				1E78B2D320EADC96000DCFE7 /* Bugsnag.framework */,
 				1E78B2CF20EADC96000DCFE7 /* FBSDKCoreKit.framework */,
@@ -879,21 +885,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E627B3C20EE5C5300F46F22 /* GalleryCollectionViewImageCell.swift in Sources */,
+				1E5E9BD120F0527000D59DFD /* CCBufferedImageDecoder.m in Sources */,
 				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,
 				1E6F2E0C20EE60E9005A5567 /* GalleryCollectionViewCellModel.swift in Sources */,
 				1E78B32520EC2AF0000DCFE7 /* RemoteStoreTableMap.swift in Sources */,
 				1E6F2E1420EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift in Sources */,
-				1E481A9120F01736006FAE4C /* CCBufferedImageDecoder.m in Sources */,
 				1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */,
 				1E78B34B20EE5919000DCFE7 /* GalleryCollectionView.swift in Sources */,
 				1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */,
+				1E5E9BD220F0527000D59DFD /* BufferedImageView.swift in Sources */,
 				1E6F2E1620EEAD30005A5567 /* Repository.swift in Sources */,
 				1E6F2E2120EEAE5C005A5567 /* ImageResource.swift in Sources */,
 				1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */,
 				1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */,
 				1E6F2E2520EED35A005A5567 /* Extractor.swift in Sources */,
 				1E78B35220EE59D1000DCFE7 /* GalleryCollectionViewModel.swift in Sources */,
-				1E481A9020F01736006FAE4C /* CCBufferedImageView.swift in Sources */,
 				1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */,
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
 				1E78B33E20ED9CC1000DCFE7 /* StoryboardSchemaMap.swift in Sources */,
@@ -1132,7 +1138,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.secretatomics.ToyPhotoGallery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "ToyPhotoGallery/Resource/Framework/ToyPhotoGallery-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "ToyPhotoGallery/ToyPhotoGallery-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1161,7 +1167,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.secretatomics.ToyPhotoGallery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "ToyPhotoGallery/Resource/Framework/ToyPhotoGallery-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "ToyPhotoGallery/ToyPhotoGallery-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

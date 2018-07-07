@@ -16,7 +16,7 @@ struct GalleryCollectionViewImageCellAppearance {
 class GalleryCollectionViewImageCell : UICollectionViewCell {
     
     let defaultBackgroundColor:UIColor = .white
-    var imageView:CCBufferedImageView?
+    var imageView:BufferedImageView?
     
     var model:GalleryCollectionViewImageCellModel? {
         didSet {
@@ -28,7 +28,9 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView?.image = nil
+        imageView?.cancel()
+        imageView?.removeFromSuperview()
+        imageView = nil
     }
 
     func refresh(with model:GalleryCollectionViewImageCellModel, appearance:GalleryCollectionViewImageCellAppearance = GalleryCollectionViewImageCellAppearance()) {
@@ -36,12 +38,11 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         layer.shadowOpacity = appearance.shadowOpacity
         layer.shadowOffset = appearance.shadowOffset
         imageView?.image = nil
-        configure(with:model.imageResource.thumbnailURL)
+        configure(with:model.imageResource.thumbnailURL, networkSessionInterface:model.interface)
     }
     
-    func configure(with url:URL) {
-        imageView?.removeFromSuperview()
-        let newImageView = CCBufferedImageView(URL: url)
+    func configure(with url:URL, networkSessionInterface:NetworkSessionInterface) {
+        let newImageView = BufferedImageView(url: url, networkSessionInterface: networkSessionInterface)
         newImageView.clipsToBounds = true
         newImageView.frame = bounds
         newImageView.backgroundColor = .white

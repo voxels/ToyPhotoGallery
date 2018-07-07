@@ -25,6 +25,7 @@ class GalleryCollectionViewModel {
         }
     }
     
+    var networkSessionInterface:NetworkSessionInterface?
     weak var viewModelDelegate:GalleryViewModelDelegate?
     
     var dataSource = [GalleryCollectionViewCellModel]()
@@ -41,6 +42,7 @@ class GalleryCollectionViewModel {
     var completedInitialLayout = false
 
     func refresh(with delegate:GalleryCollectionViewModelDelegate) {
+        networkSessionInterface = NetworkSessionInterface(with: delegate.errorHandler)
         dataSource = [GalleryCollectionViewCellModel]()
         nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize, completion:nil)
     }
@@ -109,7 +111,7 @@ extension GalleryCollectionViewModel {
         resourceDelegate.imageResources(skip: skip, limit: limit) { [weak self] (resources) in
             let imageModels = resources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
                 do {
-                    return try GalleryCollectionViewImageCellModel(with: imageResource)
+                    return try GalleryCollectionViewImageCellModel(with: imageResource, networkSessionInterface:self?.networkSessionInterface)
                 } catch {
                     self?.resourceDelegate?.errorHandler.report(error)
                 }
