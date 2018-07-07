@@ -8,13 +8,4 @@
 
 import UIKit
 
-class RootViewController: UIViewController {
-    deinit {
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-}
+class RootViewController: UIViewController {}

@@ -39,7 +39,6 @@
 		1E78B29920EAC71E000DCFE7 /* GalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */; };
 		1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */; };
 		1E78B29D20EAC77C000DCFE7 /* ResourceModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */; };
-		1E78B29F20EAC78F000DCFE7 /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */; };
 		1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */; };
 		1E78B2A320EAC879000DCFE7 /* ParseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A220EAC879000DCFE7 /* ParseInterface.swift */; };
 		1E78B2A520EAC8BA000DCFE7 /* LogHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2A420EAC8BA000DCFE7 /* LogHandlerDelegate.swift */; };
@@ -177,7 +176,6 @@
 		1E78B29820EAC71E000DCFE7 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
 		1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
 		1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceModelController.swift; sourceTree = "<group>"; };
-		1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreController.swift; sourceTree = "<group>"; };
 		1E78B2A220EAC879000DCFE7 /* ParseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInterface.swift; sourceTree = "<group>"; };
 		1E78B2A420EAC8BA000DCFE7 /* LogHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHandlerDelegate.swift; sourceTree = "<group>"; };
@@ -409,22 +407,11 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
-		1E6F2E1E20EEADE5005A5567 /* Controller */ = {
+		1E6F2E1F20EEAE35005A5567 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				1E78B29C20EAC77C000DCFE7 /* ResourceModelController.swift */,
 				1E6F2E1320EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift */,
-				1E78B29E20EAC78F000DCFE7 /* UserModelController.swift */,
-				1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */,
-				1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */,
-				1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		1E6F2E1F20EEAE35005A5567 /* Resource */ = {
-			isa = PBXGroup;
-			children = (
 				1E6F2E1720EEAD4E005A5567 /* Resource.swift */,
 				1E6F2E1920EEAD9E005A5567 /* ImageSchema.swift */,
 				1E6F2E2020EEAE5C005A5567 /* ImageResource.swift */,
@@ -487,7 +474,7 @@
 		1E78B28C20EAC59D000DCFE7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1E6F2E1E20EEADE5005A5567 /* Controller */,
+				1ED5CF6320F1557300E56298 /* Launch */,
 				1E6F2E1B20EEADB3005A5567 /* Utility */,
 				1E6F2E1F20EEAE35005A5567 /* Resource */,
 				1E6F2E1D20EEADD3005A5567 /* Repository */,
@@ -668,6 +655,16 @@
 				1E94CBAD20EFBE8600117209 /* Roboto-ThinItalic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		1ED5CF6320F1557300E56298 /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				1E78B29620EAC6EB000DCFE7 /* LaunchController.swift */,
+				1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */,
+				1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */,
+			);
+			path = Launch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -919,7 +916,6 @@
 				1E6F2E1820EEAD4E005A5567 /* Resource.swift in Sources */,
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
 				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
-				1E78B29F20EAC78F000DCFE7 /* UserModelController.swift in Sources */,
 				1E78B2F020EAF46A000DCFE7 /* ReportingHandlerDelegate.swift in Sources */,
 				1E78B29D20EAC77C000DCFE7 /* ResourceModelController.swift in Sources */,
 				1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */,

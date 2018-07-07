@@ -8,10 +8,16 @@
 
 import Foundation
 
+/// Model class used to hold an image cell's resouce and network session interface
 class GalleryCollectionViewImageCellModel : GalleryCollectionViewCellModel {
     
+    /// The cell identifier registered with the collection view
     static var identifier: String = "GalleryCollectionViewImageCell"
+    
+    /// The image resource model for the cell
     var imageResource:ImageResource
+    
+    /// The interface used to fetch the image resource's data
     var interface:NetworkSessionInterface
 
     required init(with resource: Resource, networkSessionInterface:NetworkSessionInterface? = nil) throws {

@@ -10,6 +10,6 @@ import Foundation
 
 /// Generic cell model created so that the collection view data source can hold subtypes
 protocol GalleryCollectionViewCellModel {
-    static var identifier : String { get }
+    static var identifier : String { get }    
     init(with resource: Resource, networkSessionInterface:NetworkSessionInterface?) throws
 }
