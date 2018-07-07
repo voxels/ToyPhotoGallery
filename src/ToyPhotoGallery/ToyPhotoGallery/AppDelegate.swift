@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// The launch controller handling all launch services
     var launchController:LaunchController?
     
+    ///
+    var backgroundSessionCompletionHandler:(()->Void)?
+    
     /// A boolean indicating if unit tests are currently running
     private var isRunningUnitTests:Bool {
         return NSClassFromString("XCTestCase") != nil
@@ -62,6 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         
+    }
+    
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+        backgroundSessionCompletionHandler = completionHandler
     }
 }
 
