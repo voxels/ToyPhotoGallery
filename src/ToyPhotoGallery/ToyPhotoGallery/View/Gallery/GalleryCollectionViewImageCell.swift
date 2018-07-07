@@ -18,17 +18,10 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
     let defaultBackgroundColor:UIColor = .white
     var imageView:BufferedImageView?
     
-    var model:GalleryCollectionViewImageCellModel? {
-        didSet {
-            if let model = model {
-                refresh(with: model)
-            }
-        }
-    }
+    var model:GalleryCollectionViewImageCellModel?
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView?.cancel()
         imageView?.removeFromSuperview()
         imageView = nil
     }
@@ -37,7 +30,7 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         backgroundColor = defaultBackgroundColor
         layer.shadowOpacity = appearance.shadowOpacity
         layer.shadowOffset = appearance.shadowOffset
-        imageView?.image = nil
+        self.model = model
         configure(with:model.imageResource.thumbnailURL, networkSessionInterface:model.interface)
     }
     

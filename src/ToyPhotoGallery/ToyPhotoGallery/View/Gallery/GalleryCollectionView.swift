@@ -90,7 +90,9 @@ extension GalleryCollectionView : UICollectionViewDataSource {
                 model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)
                 return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
             }
-            cell.model = cellModel as? GalleryCollectionViewImageCellModel
+            if let model = cellModel as? GalleryCollectionViewImageCellModel {
+                cell.refresh(with: model)
+            }
             return cell
         default:
             model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)

@@ -11,6 +11,8 @@ import Foundation
 enum NetworkError : Error {
     case DownloadTaskIsMissingURLRequest
     case CellIsNotReady
+    case InvalidServerTrust
+    case AWSDoesNotSupportSessionTasks
 }
 
 extension NetworkError : LocalizedError {
@@ -20,6 +22,10 @@ extension NetworkError : LocalizedError {
             return NSLocalizedString("The download task is missing the URL Request", comment: "")
         case .CellIsNotReady:
             return NSLocalizedString("The image cell is not expecting the incoming data", comment: "")
+        case .InvalidServerTrust:
+            return NSLocalizedString("The server trust was not verified", comment: "")
+        case .AWSDoesNotSupportSessionTasks:
+            return NSLocalizedString("AWS does not support session tasks", comment: "")
         }
     }
 }

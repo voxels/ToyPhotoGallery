@@ -47,16 +47,34 @@ class BufferedImageView : UIImageView {
         }
         
         image = nil
-        sessionTask = interface.downloadFile(from: url, with: session, retain: false, dataDelegate:self)
+        
+        if let sessionTask = interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
+            sessionTask.task.resume()
+        } else {
+            fallback(with:url, interface:interface)
+        }
+    }
+    
+    func assign(data:Data?) {
+        guard let data = data else {
+            return
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.image = UIImage(data:data)
+        }
+    }
+    
+    func fallback(with url:URL, interface:NetworkSessionInterface) {
+        interface.fetch(url: url) { [weak self] (data) in
+            self?.assign(data: data)
+        }
     }
 }
 
 extension BufferedImageView {
-    // We need this to use the same OperationQueue as out network, AND we need these operations to
-    // happen in order pseudo-serially
-    func add(interface:NetworkSessionInterface, operation:@escaping ()->Void) {
-        let nextOperation = BlockOperation {
-            DispatchQueue.global().sync {
+    func add(operation:@escaping ()->Void) {
+        let nextOperation = BlockOperation { [weak self] in
+            self?.queue.underlyingQueue?.sync {
                 operation()
             }
         }
@@ -81,21 +99,48 @@ extension BufferedImageView {
 }
 
 extension BufferedImageView : NetworkSessionInterfaceDataTaskDelegate {
+    
+    func didReceive(response: URLResponse, for uuid:String?) {
+        if isCancelled {
+            return
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            cancel()
+            return
+        }
+        
+        add { [weak self] in
+            guard let sessionTask = self?.sessionTask, sessionTask.uuid == uuid, let defaultLength = self?.defaultContentLength else {
+                return
+            }
+            
+            var contentLength = Int(response.expectedContentLength)
+            if contentLength < 0 {
+                contentLength = defaultLength
+            }
+            
+            self?.data = Data(capacity: contentLength)
+        }
+    }
+
     func didReceive(data: Data, for uuid:String?) throws {
         if isCancelled {
             return
         }
-        guard let sessionTask = sessionTask, sessionTask.uuid == uuid, let interface = interface else {
-            return
-        }
         
-        add(interface: interface) { [weak self] in
-            guard var storedData = self?.data else {
+        add {
+            [weak self] in
+            guard let sessionTask = self?.sessionTask, sessionTask.uuid == uuid else {
                 return
             }
 
+            guard var storedData = self?.data else {
+                return
+            }
+            
             storedData.append(data)
-
+            
             let decoder = CCBufferedImageDecoder(data: storedData)
             decoder?.decompress()
             
@@ -116,63 +161,26 @@ extension BufferedImageView : NetworkSessionInterfaceDataTaskDelegate {
                 if strongSelf.isCancelled {
                     return
                 }
-
+                
                 strongSelf.image = decodedImage
             }
         }
     }
     
-    func didReceive(response: URLResponse, for uuid:String?) {
-        if isCancelled {
-            return
-        }
-
-        guard let sessionTask = sessionTask, sessionTask.uuid == uuid, let interface = interface else {
-            return
-        }
-        var contentLength = Int(response.expectedContentLength)
-        if contentLength < 0 {
-            contentLength = defaultContentLength
-        }
-        
-        add(interface: interface) { [weak self] in
-            self?.data = Data(capacity: contentLength)
-        }
-    }
-    
     func didFinish(uuid:String?) {
-        guard let sessionTask = sessionTask, sessionTask.uuid == uuid, let interface = interface else {
+        guard let sessionTask = sessionTask, sessionTask.uuid == uuid else {
             return
         }
         
-        add(interface: interface) { [weak self] in
+        add { [weak self] in
             self?.data = nil
         }
     }
     
     func didFail(uuid:String?, with error: URLError) {
-        guard let interface = interface, let session = interface.session, let sessionTask = sessionTask, let url = sessionTask.task.originalRequest?.url  else {
+        guard let sessionTask = sessionTask, let url = sessionTask.task.originalRequest?.url, let interface = interface  else {
             return
         }
-        
-        session.dataTask(with: url) { [weak self] (data, response, error) in
-            if let e = error as? URLError {
-                switch e {
-                case URLError.cancelled:
-                    print("Again!")
-                default:
-                    interface.errorHandler.report(e)
-                }
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            if let fetchedImage = UIImage(data: data) {
-                self?.image = fetchedImage
-            }
-        }
+        fallback(with:url, interface:interface)
     }
 }
