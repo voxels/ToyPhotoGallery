@@ -33,6 +33,18 @@ struct FlowLayoutVerticalConfiguration : FlowLayoutConfiguration {
     var footerReferenceSize:CGSize          = CGSize.zero
 }
 
+struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
+    var compWidth:CGFloat                   = 640.0
+    var scrollDirection:UICollectionViewScrollDirection = .horizontal
+    var minimumLineSpacing:CGFloat          = 50.0
+    var minimumInteritemSpacing:CGFloat     = 50.0
+    var itemSize:CGSize                     = CGSize(width: 640.0, height: 0.0)
+    var estimatedItemSize:CGSize            = CGSize(width: 640.0, height: 0.0)
+    var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+    var headerReferenceSize:CGSize          = CGSize.zero
+    var footerReferenceSize:CGSize          = CGSize.zero
+}
+
 protocol GalleryCollectionViewLayoutDelegate : class {
     var errorHandler:ErrorHandlerDelegate { get }
     func previewItem(at indexPath:IndexPath) throws
@@ -48,10 +60,12 @@ class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
         }
     }
     weak var delegate:GalleryCollectionViewLayoutDelegate?
+    var errorHandler:ErrorHandlerDelegate?
     
-    init(with configuration:FlowLayoutConfiguration) {
+    init(with configuration:FlowLayoutConfiguration, errorHandler:ErrorHandlerDelegate?) {
         super.init()
         self.configuration = configuration
+        self.errorHandler = errorHandler
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -81,7 +95,7 @@ extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
         do {
             try delegate.previewItem(at: indexPath)
         } catch {
-
+            errorHandler?.report(error)
         }
     }
 

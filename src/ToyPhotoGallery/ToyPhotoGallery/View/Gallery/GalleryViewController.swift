@@ -44,7 +44,7 @@ class GalleryViewController: UIViewController {
     
     func refresh(with viewModel:GalleryViewModel) {
         let configuration = FlowLayoutVerticalConfiguration()
-        let layout = GalleryCollectionViewLayout(with:configuration)
+        let layout = GalleryCollectionViewLayout(with:configuration, errorHandler:viewModel.resourceModelController.errorHandler)
         layout.delegate = self
         let configuredView = galleryCollectionView(with: layout, viewModel:viewModel)
         collectionView = configuredView
