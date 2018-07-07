@@ -137,7 +137,7 @@ extension ResourceModelController {
     }
     
     func sort<T>(repository:T, skip:Int, limit:Int, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
-        let values = Array(repository.map.values).sorted { $0.updatedAt < $1.updatedAt }
+        let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
         let endSlice = skip + limit < values.count ? skip + limit : values.count
         let resources = Array(values[skip..<(endSlice)])
         completion(resources)

@@ -8,8 +8,20 @@
 
 import UIKit
 
+protocol FlowLayoutConfiguration {
+    var compWidth:CGFloat { get set }
+    var scrollDirection:UICollectionViewScrollDirection { get set }
+    var minimumLineSpacing:CGFloat { get set }
+    var minimumInteritemSpacing:CGFloat { get set }
+    var itemSize:CGSize { get set }
+    var estimatedItemSize:CGSize { get set }
+    var sectionInset:UIEdgeInsets { get set }
+    var headerReferenceSize:CGSize { get set }
+    var footerReferenceSize:CGSize { get set }
+}
+
 /// Configuration parameters measured from GIMP
-struct FlowLayoutConfiguration {
+struct FlowLayoutVerticalConfiguration : FlowLayoutConfiguration {
     var compWidth:CGFloat                   = 640.0
     var scrollDirection:UICollectionViewScrollDirection = .vertical
     var minimumLineSpacing:CGFloat          = 16.0
@@ -28,22 +40,28 @@ protocol GalleryCollectionViewLayoutDelegate : class {
 
 class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
     
-    var configuration:FlowLayoutConfiguration = FlowLayoutConfiguration()
+    var configuration:FlowLayoutConfiguration? {
+        didSet {
+            if let configuration = configuration {
+                configure(with:configuration)
+            }
+        }
+    }
     weak var delegate:GalleryCollectionViewLayoutDelegate?
+    
+    init(with configuration:FlowLayoutConfiguration) {
+        super.init()
+        self.configuration = configuration
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     /// Used for relative content size calculation
     let defaultLogicalWidth:CGFloat = 320   // the logical width is different for every device, but we
     var containerWidth:CGFloat {
         return collectionView?.frame.size.width ?? defaultLogicalWidth
-    }
-    
-    override init() {
-        super.init()
-        configure(with:configuration)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
     
     func configure(with configuration:FlowLayoutConfiguration) {
@@ -59,38 +77,54 @@ extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
             assert(false, "The delegate is not set")
             return
         }
-        
+
         do {
             try delegate.previewItem(at: indexPath)
         } catch {
-            
+
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let relativeSize = relative(size: configuration.itemSize, with: configuration, containerWidth: containerWidth)
-        return relativeSize
+        if let configuration = configuration {
+           return relative(size: configuration.itemSize, with: configuration, containerWidth: containerWidth)
+        }
+        return CGSize.zero
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return relative(dimension: configuration.minimumLineSpacing, with: configuration, containerWidth: containerWidth)
+        if let configuration = configuration {
+            return relative(dimension: configuration.minimumLineSpacing, with: configuration, containerWidth: containerWidth)
+        }
+        return 0.0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return relative(dimension: configuration.minimumInteritemSpacing, with: configuration, containerWidth: containerWidth)
+        if let configuration = configuration {
+            return  relative(dimension: configuration.minimumInteritemSpacing, with: configuration, containerWidth: containerWidth)
+        }
+        return 0.0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let relativeInset = relative(edgeInsets: configuration.sectionInset, with: configuration, containerWidth:containerWidth )
-        return relativeInset
+        if let configuration = configuration {
+            return relative(edgeInsets: configuration.sectionInset, with: configuration, containerWidth:containerWidth )
+        }
+        return UIEdgeInsets.zero
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return relative(size: configuration.headerReferenceSize, with: configuration, containerWidth: containerWidth)
+        if let configuration = configuration {
+            return relative(size: configuration.headerReferenceSize, with: configuration, containerWidth: containerWidth)
+        }
+        return CGSize.zero
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return relative(size: configuration.footerReferenceSize, with: configuration, containerWidth: containerWidth)
+        if let configuration = configuration {
+            return relative(size: configuration.footerReferenceSize, with: configuration, containerWidth: containerWidth)
+        }
+        return CGSize.zero
     }
 }
 

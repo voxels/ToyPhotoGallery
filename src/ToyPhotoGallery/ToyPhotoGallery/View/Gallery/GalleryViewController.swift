@@ -43,7 +43,8 @@ class GalleryViewController: UIViewController {
     }
     
     func refresh(with viewModel:GalleryViewModel) {
-        let layout = GalleryCollectionViewLayout()
+        let configuration = FlowLayoutVerticalConfiguration()
+        let layout = GalleryCollectionViewLayout(with:configuration)
         layout.delegate = self
         let configuredView = galleryCollectionView(with: layout, viewModel:viewModel)
         collectionView = configuredView

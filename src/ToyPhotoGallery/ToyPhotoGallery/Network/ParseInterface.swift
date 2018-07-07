@@ -142,14 +142,14 @@ extension ParseInterface {
         
         let query = PFQuery(className: table.rawValue)
         
-        if let sortAscending = sortBy {
+        if let sortDescending = sortBy {
             do {
-                try validate(sortBy: sortAscending, in:table)
+                try validate(sortBy: sortDescending, in:table)
             } catch {
                 throw error
             }
             
-            query.order(byAscending: sortAscending)
+            query.order(byDescending: sortDescending)
         }
         
         query.skip = skip

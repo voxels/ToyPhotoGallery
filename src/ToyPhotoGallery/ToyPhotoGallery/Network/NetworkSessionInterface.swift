@@ -87,7 +87,9 @@ class NetworkSessionInterface : NSObject {
     func sessionTask(with url:URL, in session:URLSession, cachePolicy: URLRequest.CachePolicy = NetworkSessionInterface.defaultCachePolicy, timeoutInterval: TimeInterval = NetworkSessionInterface.defaultTimeout, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) -> NetworkSessionTask? {
         
         if NetworkSessionInterface.isAWS(url: url) {
+            #if !DEBUG
             errorHandler.report(NetworkError.AWSDoesNotSupportSessionTasks)
+            #endif
             return nil
         }
         
