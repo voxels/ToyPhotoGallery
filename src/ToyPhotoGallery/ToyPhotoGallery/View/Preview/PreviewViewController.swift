@@ -18,19 +18,11 @@ class PreviewViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var sceneContainerView: UIView!
-    @IBOutlet weak var sceneView: PreviewSceneView!
-
-    @IBOutlet weak var kitContainerView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     
     let defaultBackgroundColor:UIColor = .clear
 
     func refresh(with viewModel:PreviewViewModel) {
         
-    }
-    
-    @IBAction func onTapCloseButton(_ sender: Any) {
-        parent?.remove(childViewController: self)
     }
 }

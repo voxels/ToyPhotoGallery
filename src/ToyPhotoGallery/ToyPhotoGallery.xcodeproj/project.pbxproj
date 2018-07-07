@@ -97,7 +97,6 @@
 		1E78B34220EDA1B0000DCFE7 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */; };
 		1E78B34520EDBDD6000DCFE7 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B34420EDBDD6000DCFE7 /* SceneKit.framework */; };
 		1E78B34720EDBDE1000DCFE7 /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */; };
-		1E78B34920EDBE1C000DCFE7 /* PreviewSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34820EDBE1C000DCFE7 /* PreviewSceneView.swift */; };
 		1E78B34B20EE5919000DCFE7 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34A20EE5919000DCFE7 /* GalleryCollectionView.swift */; };
 		1E78B35220EE59D1000DCFE7 /* GalleryCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B35120EE59D1000DCFE7 /* GalleryCollectionViewModel.swift */; };
 		1E94CBB620EFBE8D00117209 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E94CBB320EFBE8700117209 /* Roboto-Black.ttf */; };
@@ -225,7 +224,6 @@
 		1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1E78B34420EDBDD6000DCFE7 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
-		1E78B34820EDBE1C000DCFE7 /* PreviewSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSceneView.swift; sourceTree = "<group>"; };
 		1E78B34A20EE5919000DCFE7 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
 		1E78B35120EE59D1000DCFE7 /* GalleryCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewModel.swift; sourceTree = "<group>"; };
 		1E94CBA920EFBE8500117209 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
@@ -602,14 +600,6 @@
 			path = Parse;
 			sourceTree = "<group>";
 		};
-		1E78B34320EDB27A000DCFE7 /* PreviewScene */ = {
-			isa = PBXGroup;
-			children = (
-				1E78B34820EDBE1C000DCFE7 /* PreviewSceneView.swift */,
-			);
-			path = PreviewScene;
-			sourceTree = "<group>";
-		};
 		1E78B34C20EE5926000DCFE7 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -634,7 +624,6 @@
 			isa = PBXGroup;
 			children = (
 				1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */,
-				1E78B34320EDB27A000DCFE7 /* PreviewScene */,
 			);
 			path = Preview;
 			sourceTree = "<group>";
@@ -917,7 +906,6 @@
 				1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */,
 				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,
 				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
-				1E78B34920EDBE1C000DCFE7 /* PreviewSceneView.swift in Sources */,
 				1E78B2F920EB2542000DCFE7 /* RemoteStoreError.swift in Sources */,
 				1E5E9BCD20F0452C00D59DFD /* Data.swift in Sources */,
 				1E6F2E1020EE6444005A5567 /* Collection.swift in Sources */,
