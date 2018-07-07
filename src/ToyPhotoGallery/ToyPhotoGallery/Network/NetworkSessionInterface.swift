@@ -58,20 +58,17 @@ class NetworkSessionInterface : NSObject {
         session = session(with: URLSessionConfiguration.default, queue: operationQueue)
     }
     
-    func fetch(url:URL, completion:@escaping (Data?)->Void) {
+    func fetch(url:URL, queue:DispatchQueue = .main, completion:@escaping (Data?)->Void) {
         let task = URLSession(configuration: .default, delegate: nil, delegateQueue: nil).dataTask(with: url) { [weak self] (data, response, error) in
-            if let e = error {
-                self?.errorHandler.report(e)
-                completion(nil)
-                return
+            queue.async {
+                if let e = error {
+                    self?.errorHandler.report(e)
+                    completion(nil)
+                    return
+                }
+                
+                completion(data)
             }
-            
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            
-            completion(data)
         }
         task.resume()
     }

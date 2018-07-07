@@ -51,7 +51,7 @@ class BufferedImageView : UIImageView {
         if let sessionTask = interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
             sessionTask.task.resume()
         } else {
-            fallback(with:url, interface:interface)
+            fallback(with:url, queue:queue.underlyingQueue ?? .main, interface:interface)
         }
     }
     
@@ -64,8 +64,8 @@ class BufferedImageView : UIImageView {
         }
     }
     
-    func fallback(with url:URL, interface:NetworkSessionInterface) {
-        interface.fetch(url: url) { [weak self] (data) in
+    func fallback(with url:URL, queue:DispatchQueue, interface:NetworkSessionInterface) {
+        interface.fetch(url: url, queue: queue) {[weak self] (data) in
             self?.assign(data: data)
         }
     }
@@ -180,6 +180,6 @@ extension BufferedImageView : NetworkSessionInterfaceDataTaskDelegate {
         guard let sessionTask = sessionTask, let url = sessionTask.task.originalRequest?.url, let interface = interface  else {
             return
         }
-        fallback(with:url, interface:interface)
+        fallback(with:url, queue:queue.underlyingQueue ?? .main, interface:interface)
     }
 }
