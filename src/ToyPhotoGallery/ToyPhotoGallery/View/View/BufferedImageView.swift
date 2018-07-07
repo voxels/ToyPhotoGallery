@@ -73,11 +73,10 @@ class BufferedImageView : UIImageView {
 
 extension BufferedImageView {
     func add(operation:@escaping ()->Void) {
-        let nextOperation = BlockOperation { [weak self] in
-            self?.queue.underlyingQueue?.sync {
-                operation()
-            }
+        let nextOperation = BlockOperation {
+            operation()
         }
+        nextOperation.qualityOfService = .background
         
         queue.addOperation(nextOperation)
     }
