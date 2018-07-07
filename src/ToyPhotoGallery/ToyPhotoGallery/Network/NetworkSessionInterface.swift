@@ -8,47 +8,30 @@
 
 import Foundation
 
-class NetworkSessionTask : Hashable {
-    var uuid:String = ""
-    var task:URLSessionTask
-    var retain:Bool = false
-    var dataLocation:String?
-    weak var dataDelegate:NetworkSessionInterfaceDataTaskDelegate?
-    
-    init(with uuid:String, task:URLSessionTask, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) {
-        self.uuid = uuid
-        self.task = task
-        self.retain = retain
-        self.dataDelegate = dataDelegate
-    }
-    
-    var hashValue: Int {
-        return task.hashValue ^ uuid.hashValue &* 16777619
-    }
-    
-    static func == (lhs: NetworkSessionTask, rhs: NetworkSessionTask) -> Bool {
-        return lhs.task == rhs.task && lhs.uuid == rhs.uuid
-    }
-}
-
 typealias TaskMap = [String:NetworkSessionTask]
 
-protocol NetworkSessionInterfaceDataTaskDelegate : class {
-    var uuid:String { get }
-    func didReceive(data: Data, for uuid:String?) throws
-    func didReceive(response: URLResponse, for uuid:String?)
-    func didFinish(uuid:String?)
-    func didFail(uuid:String?, with error:URLError)
-}
-
+/// Class used to wrap URLSession for handling data and download session tasks
 class NetworkSessionInterface : NSObject {
+    
+    /// A default configuration used for the URLSession
     static let defaultConfiguration = URLSessionConfiguration.default
+    
+    /// The default timeout used for URLSession requests
     static let defaultTimeout:TimeInterval = 30
+    
+    /// The default cache policy used for URLSession requests
     static let defaultCachePolicy:URLRequest.CachePolicy = .returnCacheDataElseLoad
 
+    /// An operation queue used to facilitate the URLSession
     let operationQueue = OperationQueue()
+    
+    /// The error handler delegate used to report non-fatal errors
     let errorHandler:ErrorHandlerDelegate
+    
+    /// A map of the enqueue tasks that have not completed
     var enqueued = TaskMap()
+    
+    /// The URLSession used for requests
     var session:URLSession?
 
     init(with errorHandler:ErrorHandlerDelegate) {
@@ -58,6 +41,13 @@ class NetworkSessionInterface : NSObject {
         session = session(with: URLSessionConfiguration.default, queue: operationQueue)
     }
     
+    /**
+     Uses a one-off URLSession, NOT the interface's session, to perform a quick fetch of a data task for the given URL
+     - parameter url: the URL being fetched
+     - parameter queue: the *DispatchQueue* used for the fetch
+     - parameter compeletion: a callback used to pass through the optional fetched *Data*
+     - Returns: void
+     */
     func fetch(url:URL, queue:DispatchQueue = .main, completion:@escaping (Data?)->Void) {
         let task = URLSession(configuration: .default, delegate: nil, delegateQueue: nil).dataTask(with: url) { [weak self] (data, response, error) in
             queue.async {
@@ -73,6 +63,12 @@ class NetworkSessionInterface : NSObject {
         task.resume()
     }
     
+    /**
+     Constructs a session with the given configuration and queue
+     - parameter configuration: The *URLSessionConfiguration* intended for the session
+     - parameter queue: the *OperationQueue* used to facilitate the session
+     - Returns: a configured *URLSession*
+     */
     func session(with configuration:URLSessionConfiguration, queue:OperationQueue) -> URLSession {
         if #available(iOS 11.0, *) {
             configuration.waitsForConnectivity = true
@@ -81,6 +77,16 @@ class NetworkSessionInterface : NSObject {
         return URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
     }
     
+    /**
+     Attempts to create a *NetworkSessionTask* with the given parameters and enqueue it into the interface's *TaskMap*
+     - parameter url: the *URL* for the task
+     - parameter session: the *URLSession* used to handle the task
+     - parameter cachePolicy: the *URLRequest.CachePolicy* used to perform the task.  Defaults to the interface's *defaultCachePolicy*
+     - parameter timeoutInterval: the *TimeInterval* used to wait for a response.  Defaults to the interface's *defaultTimeout*
+     - parameter retain: a *Bool* flag used to indicate if the session task response should be cached locally
+     - parameter dataDelegate: an optional *NetworkSessionInterfaceDataTaskDelegate* that will be informed of the task's progress
+     - Returns: a *NetworkSessionTask* or nil if one cannot be created
+     */
     func sessionTask(with url:URL, in session:URLSession, cachePolicy: URLRequest.CachePolicy = NetworkSessionInterface.defaultCachePolicy, timeoutInterval: TimeInterval = NetworkSessionInterface.defaultTimeout, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) -> NetworkSessionTask? {
         
         if NetworkSessionInterface.isAWS(url: url) {
@@ -95,7 +101,14 @@ class NetworkSessionInterface : NSObject {
         return enqueue(task: task, retain:retain, dataDelegate:dataDelegate)
     }
     
-    func enqueue<T>(task:T, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) -> NetworkSessionTask where T:URLSessionTask {
+    /**
+     Creates a *NetworkSessionTask* instance from an *URLSessionTask*, and enqueues the task into the interface's *TaskMap* instance
+     - parameter task: the *URLSessionTask* to enqueue
+     - parameter retain: a *Bool* flag used to indicate if the session task response should be cached locally
+     - parameter dataDelegate: an optional *NetworkSessionInterfaceDataTaskDelegate* that will be informed of the task's progress
+     - Returns: the enqueued *NetworkSessionTask*
+     */
+    func enqueue(task:URLSessionTask, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) -> NetworkSessionTask {
         let checkUUID = dataDelegate?.uuid ?? UUID().uuidString
         
         if let sessionTask = enqueued[checkUUID] {
@@ -113,15 +126,30 @@ class NetworkSessionInterface : NSObject {
         return sessionTask
     }
     
+    /**
+     Cancels and dequeues the given *NetworkSessionTask*
+     - parameter sessionTask: the task to cancel
+     - Returns: void
+     */
     func cancel(_ sessionTask:NetworkSessionTask) {
         sessionTask.task.cancel()
         dequeue(sessionTask)
     }
     
+    /**
+     Dequeues the given *NetworkSessionTask*
+     - parameter sessionTask: the task to cancel
+     - Returns: void
+    */
     func dequeue(_ sessionTask:NetworkSessionTask) {
         enqueued.removeValue(forKey: sessionTask.uuid)
     }
     
+    /**
+     Lookup for a session task in the interface's *TaskMap* given the task's UUID
+     - parameter uuid: a option *String* for the *NetworkSessionTask*'s identifier
+     - Returns: the enqueued *NetworkSessionTask* or nil if one cannot be found
+     */
     func sessionTask(for uuid:String?)->NetworkSessionTask? {
         guard let uuid = uuid else {
             return nil
@@ -131,6 +159,11 @@ class NetworkSessionInterface : NSObject {
 }
 
 extension NetworkSessionInterface {
+    /**
+     Returns the *NetworkSessionInterfaceDataTaskDelegate* for a given *URLSessionDataTask*
+     - parameter dataTask: the *URLSessionDataTask* that needs to report to its delegate
+     - Returns: a *NetworkSessionInterfaceDataTaskDelegate* for the data task if one can be found
+     */
     func dataDelegate(for dataTask:URLSessionDataTask)->NetworkSessionInterfaceDataTaskDelegate? {
         if let existingTask = sessionTask(for: dataTask.taskDescription), let dataDelegate = existingTask.dataDelegate {
             return dataDelegate
@@ -139,7 +172,12 @@ extension NetworkSessionInterface {
         return nil
     }
     
+    /**
+     Retains the network session task's data to the given location
+     UNIMPLEMENTED
+     */
     func retainIfNecessary(task:NetworkSessionTask?, from location:URL) throws {
+        /*
         guard let _ = task else {
             return
         }
@@ -147,6 +185,7 @@ extension NetworkSessionInterface {
         debugPrint("Download finished: \(location)")
         // TODO: Save to disk
         try? FileManager.default.removeItem(at: location)
+         */
     }
 }
 
@@ -270,6 +309,7 @@ extension NetworkSessionInterface :  URLSessionDownloadDelegate {
 extension NetworkSessionInterface {
     static let awsURLString = "s3.amazonaws.com"
     
+    /// Checks if a URL is from S3, because S3 needs its own network manager
     static func isAWS(url:URL)->Bool {
         return url.absoluteString.contains(NetworkSessionInterface.awsURLString)
     }

@@ -9,6 +9,4 @@
 import Foundation
 
 /// Protocol wrapper for reporting analytics to third-party services
-protocol ReportingHandlerDelegate : LaunchService {
-    
-}
+protocol ReportingHandlerDelegate : LaunchService {}
