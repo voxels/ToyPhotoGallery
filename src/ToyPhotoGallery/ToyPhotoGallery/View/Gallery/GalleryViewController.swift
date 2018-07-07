@@ -25,6 +25,9 @@ class GalleryViewController: UIViewController {
     @IBOutlet weak var headingContainerView: UIView!
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var headingContainerViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var closeButton: UIButton!
+    
     @IBOutlet weak var contentContainerView: UIView!
     var collectionView:GalleryCollectionView?
 
@@ -50,8 +53,23 @@ class GalleryViewController: UIViewController {
         collectionView = configuredView
     }
     
-    func show(previewViewController:PreviewViewController) throws {
-        try insert(childViewController: previewViewController, on: self, into: view)
+    func show(previewViewController:PreviewViewController, safeArea:UIEdgeInsets, in frame:CGRect ) throws {
+        if #available(iOS 11.0, *) {
+            previewViewController.additionalSafeAreaInsets = safeArea
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        toggle(header: headingContainerView, preview: true)
+        try insert(childViewController: previewViewController, on: self, into:view, frame:frame)
+        closeButton.isHidden = false
+    }
+    
+    @IBAction func onTapCloseButton(_ sender: Any) {
+        if let child = self.childViewControllers.first {
+            remove(childViewController: child)
+        }
+        toggle(header: headingContainerView, preview: false)
     }
 }
 
@@ -94,6 +112,16 @@ extension GalleryViewController {
         if view == contentContainerView {
             view.layer.shadowOffset = ContentContainerViewAppearance.shadowOffset
             view.layer.shadowOpacity = ContentContainerViewAppearance.shadowOpacity
+        }
+    }
+    
+    func toggle(header:UIView, preview:Bool) {
+        if preview {
+            closeButton.isHidden = false
+            header.backgroundColor = UIColor.appDarkGrayBackground()
+        } else {
+            closeButton.isHidden = true
+            header.backgroundColor = UIColor.appLightGrayBackground()
         }
     }
 }
@@ -198,6 +226,7 @@ extension GalleryViewController : GalleryCollectionViewLayoutDelegate {
         }
         
         let viewController = try previewViewController(for: indexPath, with: galleryModel)
-        try show(previewViewController: viewController)
+        let frame = contentContainerView.frame
+        try show(previewViewController: viewController, safeArea: UIEdgeInsets.zero, in: frame)
     }
 }

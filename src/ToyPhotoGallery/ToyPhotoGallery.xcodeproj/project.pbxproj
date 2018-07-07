@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E33BE5920F1079B00BF6B1D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E33BE5820F1079B00BF6B1D /* UIColor.swift */; };
 		1E481A9420F017AE006FAE4C /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E481A9320F017AE006FAE4C /* libturbojpeg.a */; };
 		1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */; };
 		1E5E9BCB20F043F200D59DFD /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BCA20F043F200D59DFD /* NetworkError.swift */; };
@@ -131,6 +132,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E33BE5820F1079B00BF6B1D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToyPhotoGallery-Bridging-Header.h"; sourceTree = "<group>"; };
 		1E481A9320F017AE006FAE4C /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "ToyPhotoGallery/vendor/libjpeg-turbo/lib/libturbojpeg.a"; sourceTree = SOURCE_ROOT; };
 		1E481A9520F018AF006FAE4C /* jconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jconfig.h; path = "ToyPhotoGallery/vendor/libjpeg-turbo/include/jconfig.h"; sourceTree = SOURCE_ROOT; };
@@ -477,6 +479,7 @@
 				1E78B34120EDA1B0000DCFE7 /* UIViewController.swift */,
 				1E6F2E0F20EE6444005A5567 /* Collection.swift */,
 				1E5E9BCC20F0452C00D59DFD /* Data.swift */,
+				1E33BE5820F1079B00BF6B1D /* UIColor.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -904,6 +907,7 @@
 				1E78B34220EDA1B0000DCFE7 /* UIViewController.swift in Sources */,
 				1E78B29B20EAC72C000DCFE7 /* PreviewViewModel.swift in Sources */,
 				1E78B32C20EC64C7000DCFE7 /* ModelError.swift in Sources */,
+				1E33BE5920F1079B00BF6B1D /* UIColor.swift in Sources */,
 				1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */,
 				1E78B2A120EAC83C000DCFE7 /* RemoteStoreController.swift in Sources */,
 				1E78B2F920EB2542000DCFE7 /* RemoteStoreError.swift in Sources */,
@@ -1115,7 +1119,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ToyPhotoGallery/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1144,7 +1148,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ToyPhotoGallery/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
