@@ -19,8 +19,9 @@ extension UIViewController {
         if let frame = frame {
             childViewController.view.frame = frame
         } else {
-            childViewController.view.bounds = view.bounds
+            childViewController.view.frame = view.bounds
         }
+        childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(childViewController.view)
     }
     
