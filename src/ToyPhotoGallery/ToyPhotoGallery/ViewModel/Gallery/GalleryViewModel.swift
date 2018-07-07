@@ -8,13 +8,17 @@
 
 import Foundation
 
+/// Protocol to notifcy the GalleryViewController that the model has updated
 protocol GalleryViewModelDelegate : class {
     func didUpdateViewModel()
 }
 
+/// Model class that holds the model controller for the Gallery view subviews
 class GalleryViewModel {
+    
+    /// Resource model controller designed to be the interface to assets stored remotely
+    /// or in a cache
     let resourceModelController:ResourceModelController
-    let logHandler = DebugLogHandler()
     
     init(with resourceModel:ResourceModelController) {
         self.resourceModelController = resourceModel

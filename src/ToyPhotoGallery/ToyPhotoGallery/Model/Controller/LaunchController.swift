@@ -344,6 +344,13 @@ extension LaunchController {
         print("show reachability view")
     }
     
+    static func showLockoutViewController(with window:UIWindow?, message:String?) {
+        let lockoutViewController = LockoutViewController(nibName: nil, bundle: nil)
+        lockoutViewController.message = message
+        window?.rootViewController = lockoutViewController
+        showFatalAlert(with: message ?? "Please contact the developer if you see this message.", in: lockoutViewController)
+    }
+    
     static func showFatalAlert(with message:String, in viewController:UIViewController?) {
         guard let viewController = viewController else {
             // No further recourse.  The app is dead.

@@ -170,7 +170,7 @@ extension AppDelegate {
                 try launchController.showGalleryView(in: navigationController, with: launchController.resourceModelController)
             } catch {
                 launchController.currentErrorHandler.report(error)
-                showLockoutViewController(with: error.localizedDescription)
+                LaunchController.showLockoutViewController(with: window, message: error.localizedDescription)
             }
         } else {
             launchController.showReachabilityView(in: navigationController)
@@ -195,13 +195,7 @@ extension AppDelegate {
         
         completion(launchController, rootNavigationController)
     }
-    
-    func showLockoutViewController(with message:String?) {
-        let lockoutViewController = LockoutViewController(nibName: nil, bundle: nil)
-        lockoutViewController.message = message
-        window?.rootViewController = lockoutViewController
-    }
-    
+        
     // The app is broken because of a programming error.  We have no recourse except to
     // present an error if possible and kill the app
     /**
@@ -210,6 +204,6 @@ extension AppDelegate {
     
     // TODO: Change this to LockoutViewController
     func kill() {
-        LaunchController.showFatalAlert(with: "An unexpected error has occurred.  Please contact the developer at info@noisederived.com", in: window?.rootViewController)
+        LaunchController.showLockoutViewController(with: window, message: "An unexpected error has occurred.  Please contact the developer at info@noisederived.com")
     }
 }

@@ -10,7 +10,9 @@ import UIKit
 
 /// A subclass of UIImageView which displays a JPEG progressively while it is downloaded
 class BufferedImageView : UIImageView {
+
     weak var interface:NetworkSessionInterface?
+
     var sessionTask:NetworkSessionTask?
     var queue = OperationQueue()
     var uuid:String = UUID().uuidString
@@ -24,8 +26,7 @@ class BufferedImageView : UIImageView {
         cancel()
     }
 
-    /// Initialize a new image view and start loading a JPEG from the given URL
-    init(url: Foundation.URL, networkSessionInterface:NetworkSessionInterface?) {
+    required init(url: Foundation.URL, networkSessionInterface:NetworkSessionInterface?) {
         super.init(image: nil)
         guard let interface = networkSessionInterface, let session = interface.session else {
             return
@@ -40,7 +41,6 @@ class BufferedImageView : UIImageView {
         super.init(coder: aDecoder)
     }
     
-    /// Load a JPEG from the given URL
     func load(_ url: Foundation.URL, with interface:NetworkSessionInterface, session:URLSession) {
         if isCancelled {
             return
