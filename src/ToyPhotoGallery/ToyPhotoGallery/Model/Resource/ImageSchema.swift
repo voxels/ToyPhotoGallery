@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol used to define a type of *Resource* for images
 protocol ImageSchema : Resource {
     var createdAt:Date { get set }
     var updatedAt:Date { get set }

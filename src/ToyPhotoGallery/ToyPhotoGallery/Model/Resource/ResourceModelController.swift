@@ -148,7 +148,7 @@ extension ResourceModelController {
     func append<T>(from rawResourceArray:RawResourceArray, into resourceType:T.Type, completion:ErrorCompletion ) where T:Resource {
         switch T.self {
         case is ImageResource.Type:
-            ImageResource.extractImageResources(with: self, from: rawResourceArray, completion: { [weak self] (newRepository, accumulatedErrors) in
+            ImageResource.extractImageResources(from: rawResourceArray, completion: { [weak self] (newRepository, accumulatedErrors) in
                 newRepository.map.forEach({ (object) in
                     self?.imageRepository.map[object.key] = object.value
                 })

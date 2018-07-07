@@ -9,6 +9,13 @@
 import Foundation
 
 extension ResourceModelController : GalleryCollectionViewModelDelegate {
+    /**
+     Fetches the image resources from the local repository contained in the *ResourceModelController*
+     - parameter skip: the number of items to skip when finding new resources
+     - parameter limit: the number of items we want to fetch
+     - parameter completion: a callback used to pass back the filled resources
+     - Returns: void
+     */
     func imageResources(skip: Int, limit: Int, completion:ImageResourceCompletion?) -> Void {
         // We need to make sure we don't skip fetching any images for this purpose
         let checkCount = imageRepository.map.values.count

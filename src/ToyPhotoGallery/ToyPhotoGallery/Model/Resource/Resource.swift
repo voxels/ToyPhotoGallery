@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Generic protocol used to allow the *ResourceModelController* to handle different types of internal resources
 protocol Resource {
     var updatedAt: Date { get set }
 }

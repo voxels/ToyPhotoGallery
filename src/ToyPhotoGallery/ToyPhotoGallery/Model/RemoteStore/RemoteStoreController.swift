@@ -10,7 +10,7 @@ import Foundation
 
 typealias RawResourceArrayCompletion = (RawResourceArray) -> Void
 
-/// Protocol wrapper for handling a remote store service such as Parse or Firebase
+/// Protocol wrapper for handling a remote store service such as Parse
 protocol RemoteStoreController : LaunchService {
     var serverURLString:String { get }
     var defaultQuerySize:Int { get }

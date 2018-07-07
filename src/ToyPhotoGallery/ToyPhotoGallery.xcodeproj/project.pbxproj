@@ -391,11 +391,14 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		1E6F2E1C20EEADC1005A5567 /* Schema */ = {
+		1E6F2E1C20EEADC1005A5567 /* RemoteStore */ = {
 			isa = PBXGroup;
 			children = (
+				1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */,
+				1E78B32420EC2AF0000DCFE7 /* RemoteStoreTableMap.swift */,
+				1E78B32620EC2B45000DCFE7 /* Parse */,
 			);
-			path = Schema;
+			path = RemoteStore;
 			sourceTree = "<group>";
 		};
 		1E6F2E1D20EEADD3005A5567 /* Repository */ = {
@@ -478,8 +481,7 @@
 				1E6F2E1B20EEADB3005A5567 /* Utility */,
 				1E6F2E1F20EEAE35005A5567 /* Resource */,
 				1E6F2E1D20EEADD3005A5567 /* Repository */,
-				1E6F2E1C20EEADC1005A5567 /* Schema */,
-				1E78B32620EC2B45000DCFE7 /* Parse */,
+				1E6F2E1C20EEADC1005A5567 /* RemoteStore */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -487,8 +489,6 @@
 		1E78B28D20EAC5DD000DCFE7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				1E78B2A020EAC83C000DCFE7 /* RemoteStoreController.swift */,
-				1E78B2A220EAC879000DCFE7 /* ParseInterface.swift */,
 				1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */,
 			);
 			path = Network;
@@ -585,7 +585,7 @@
 		1E78B32620EC2B45000DCFE7 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
-				1E78B32420EC2AF0000DCFE7 /* RemoteStoreTableMap.swift */,
+				1E78B2A220EAC879000DCFE7 /* ParseInterface.swift */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
