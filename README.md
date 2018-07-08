@@ -24,7 +24,7 @@ More detail about the examples of [techniques](#code-examples) is offered in the
 
 ### Additional Portfolio Documents
 
-In addition to the code sample included in this repository, and the content located on the public [porfolio](http://voxels.github.com) site, samples of past work can be found at the following address:
+In addition to the code sample included in this repository, and the content located on the public [portfolio](http://voxels.github.com) site, samples of past work can be found at the following address:
 
 [Past Work Samples]()
 
@@ -42,7 +42,7 @@ The zipped file above includes examples of:
 
 ## Required Dependency Setup
 
-*ToyPhotoGallery* requires [Carthage](https://github.com/Carthage/Carthage#installing-carthage)) for a run script build phase that copies in the frameworks for [Bugsnag](https://www.bugsnag.com) and [Parse](http://parseplatform.org).  Carthage is a lightweight alternative to [Cocoapods](https://cocoapods.org).  Carthage can be installed with [Homebrew](https://brew.sh).  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
+*ToyPhotoGallery* requires [Carthage](https://github.com/Carthage/Carthage)) for a run script build phase that copies in the frameworks for [Bugsnag](https://www.bugsnag.com) and [Parse](http://parseplatform.org).  Carthage is a lightweight alternative to [Cocoapods](https://cocoapods.org).  Carthage can be installed with [Homebrew](https://brew.sh).  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
 
 1) **Install Homebrew** with the follwing command in the Terminal:
 
