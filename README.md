@@ -1,7 +1,7 @@
 # Toy Photo Gallery
 
 - [Required Dependency Setup](#required-dependency-setup)
-- [Code Examples](code-examples)
+- [Code Examples](#code-examples)
 - [Client Brief](#client-brief)
 
 *ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
