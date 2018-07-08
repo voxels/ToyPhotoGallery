@@ -201,3 +201,10 @@ extension GalleryCollectionViewModel {
         completion?(true)
     }
 }
+
+extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {
+    func sizeForItemAt(indexPath: IndexPath) -> CGSize {
+        let configuration = FlowLayoutHorizontalConfiguration()
+        return configuration.estimatedItemSize
+    }
+}

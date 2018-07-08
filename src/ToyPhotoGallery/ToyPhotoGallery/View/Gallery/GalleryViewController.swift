@@ -46,8 +46,7 @@ class GalleryViewController: UIViewController {
     }
     
     func refresh(with viewModel:GalleryViewModel) {
-        let configuration = FlowLayoutVerticalConfiguration()
-//        let configuration = FlowLayoutHorizontalConfiguration()
+        let configuration = collectionViewLayoutConfiguration(vertical: true)
         let layout = GalleryCollectionViewLayout(with:configuration, errorHandler:viewModel.resourceModelController.errorHandler)
         layout.delegate = self
         let configuredView = galleryCollectionView(with: layout, viewModel:viewModel)
@@ -75,7 +74,7 @@ class GalleryViewController: UIViewController {
 }
 
 extension GalleryViewController {
-    func galleryCollectionView(with layout:UICollectionViewLayout, viewModel:GalleryViewModel)->GalleryCollectionView {
+    func galleryCollectionView(with layout:GalleryCollectionViewLayout, viewModel:GalleryViewModel)->GalleryCollectionView {
         if collectionView != nil {
             collectionView?.removeFromSuperview()
             refreshLayout(in: contentContainerView)
@@ -85,6 +84,13 @@ extension GalleryViewController {
         let configuredView = GalleryCollectionView(frame: .zero, collectionViewLayout: layout)
         configuredView.translatesAutoresizingMaskIntoConstraints = false
         configuredView.backgroundColor = .white
+        configuredView.isDirectionalLockEnabled = true
+        
+        if #available(iOS 11.0, *) {
+            configuredView.contentInsetAdjustmentBehavior = .scrollableAxes
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         
         let collectionViewModel = GalleryCollectionViewModel()
         collectionViewModel.viewModelDelegate = self
@@ -123,6 +129,17 @@ extension GalleryViewController {
         } else {
             closeButton.isHidden = true
             header.backgroundColor = UIColor.appLightGrayBackground()
+        }
+    }
+    
+    func collectionViewLayoutConfiguration(vertical:Bool)->FlowLayoutConfiguration {
+        if vertical {
+            return FlowLayoutVerticalConfiguration()
+        } else {
+            var layout = FlowLayoutHorizontalConfiguration()
+            layout.sizeDelegate = collectionView?.model
+            let finalLayout = layout
+            return finalLayout
         }
     }
 }

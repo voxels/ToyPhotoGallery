@@ -13,11 +13,15 @@ protocol FlowLayoutConfiguration {
     var scrollDirection:UICollectionViewScrollDirection { get set }
     var minimumLineSpacing:CGFloat { get set }
     var minimumInteritemSpacing:CGFloat { get set }
-    var itemSize:CGSize { get set }
     var estimatedItemSize:CGSize { get set }
     var sectionInset:UIEdgeInsets { get set }
     var headerReferenceSize:CGSize { get set }
     var footerReferenceSize:CGSize { get set }
+    var sizeDelegate:FlowLayoutConfigurationSizeDelegate? { get set }
+}
+
+protocol FlowLayoutConfigurationSizeDelegate {
+    func sizeForItemAt( indexPath: IndexPath)->CGSize
 }
 
 /// Configuration parameters measured from GIMP
@@ -26,11 +30,11 @@ struct FlowLayoutVerticalConfiguration : FlowLayoutConfiguration {
     var scrollDirection:UICollectionViewScrollDirection = .vertical
     var minimumLineSpacing:CGFloat          = 16.0
     var minimumInteritemSpacing:CGFloat     = 16.0
-    var itemSize:CGSize                     = CGSize(width: 282.0, height: 206.0)
     var estimatedItemSize:CGSize            = CGSize(width: 282.0, height: 206.0)
     var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0)
     var headerReferenceSize:CGSize          = CGSize.zero
     var footerReferenceSize:CGSize          = CGSize.zero
+    var sizeDelegate: FlowLayoutConfigurationSizeDelegate? = nil
 }
 
 struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
@@ -38,27 +42,22 @@ struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
     var scrollDirection:UICollectionViewScrollDirection = .horizontal
     var minimumLineSpacing:CGFloat          = 50.0
     var minimumInteritemSpacing:CGFloat     = 50.0
-    var itemSize:CGSize                     = CGSize(width: 640.0, height: 0.0)
-    var estimatedItemSize:CGSize            = CGSize(width: 640.0, height: 0.0)
+    var estimatedItemSize:CGSize            = CGSize(width: 320.0, height: 240.0)
     var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     var headerReferenceSize:CGSize          = CGSize.zero
     var footerReferenceSize:CGSize          = CGSize.zero
+    var sizeDelegate: FlowLayoutConfigurationSizeDelegate? = nil
 }
 
 protocol GalleryCollectionViewLayoutDelegate : class {
     var errorHandler:ErrorHandlerDelegate { get }
     func previewItem(at indexPath:IndexPath) throws
 }
-
 class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
     
-    var configuration:FlowLayoutConfiguration? {
-        didSet {
-            if let configuration = configuration {
-                configure(with:configuration)
-            }
-        }
-    }
+    let defaultAspectRatio:Float = 4.0/3.0
+    
+    var configuration:FlowLayoutConfiguration?
     weak var delegate:GalleryCollectionViewLayoutDelegate?
     var errorHandler:ErrorHandlerDelegate?
     
@@ -66,6 +65,7 @@ class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
         super.init()
         self.configuration = configuration
         self.errorHandler = errorHandler
+        configure(with:configuration)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -101,7 +101,12 @@ extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let configuration = configuration {
-           return relative(size: configuration.itemSize, with: configuration, containerWidth: containerWidth)
+            var relativeSize = configuration.estimatedItemSize
+            if let delegate = configuration.sizeDelegate {
+                relativeSize = delegate.sizeForItemAt(indexPath: indexPath)
+            }
+            
+           return relative(size: relativeSize, with: configuration, containerWidth: containerWidth)
         }
         return CGSize.zero
     }
