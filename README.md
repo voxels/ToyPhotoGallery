@@ -1,30 +1,35 @@
 # Toy Photo Gallery
 
-*ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery which transitions into a preview view.
+*ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
 
-In order to achieve a close representation of a typical production application, the photos used in the proof of concept are stored in
-a remote repository, rather than on device.  Clean UX transitions for most apps must exist within the contexts of fetching
-paged results, cacheing sized copies, securing connections, reachability, and other concerns.  For the purpose of this exercise, given the time constraints, the model controllers are representative of the foundation needed to support these kinds of activities.  They contain inline documentation and are covered in unit tests.  All work was authored during the week provided.
+> video of the transition
+
+The transition is achieved by...
+
+In order to achieve an example reflecting a typical production application's functions, the gallery's photos are archived in a remote repository, rather than on device.  Clean UX transitions for most apps must exist within the contexts of fetching paged results, 
+cacheing sized copies, securing connections, reachability, and other concerns.  
+
+For the purpose of this exercise, given the time constraints, the model controllers are representative of the foundation needed to support common activities by a mobile application.
 
 *ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.  An object graph is
 included below:
 
->description of object graph<
+> description of object graph
 
-More detail about the examples of techniques is offered in the section below.
+More detail about the examples of [techniques](#code-examples) is offered in the section below.
 
 
-## Dependencies
+## Required Dependency Setup
 
-*ToyPhotoGallery* requires Carthage for a run script build phase that copies in the frameworks for Bugsnag and Parse.  Carthage can be installed with Homebrew.  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
+*ToyPhotoGallery* requires [Carthage](https://github.com/Carthage/Carthage#installing-carthage)) for a run script build phase that copies in the frameworks for [Bugsnag](https://www.bugsnag.com) and [Parse](http://parseplatform.org).  Carthage is a lightweight alternative to [Cocoapods](https://cocoapods.org).  Carthage can be installed with [Homebrew](https://brew.sh).  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
 
-1) Install [Homebrew](https://brew.sh) with the follwing command in the Terminal:
+1) **Install Homebrew** with the follwing command in the Terminal:
 
 ```
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-2) Install [Carthage](https://github.com/Carthage/Carthage#installing-carthage) with the following command in the Terminal:
+2) **Install Carthage** with the following command in the Terminal:
 
 ```
 brew install carthage
@@ -37,27 +42,9 @@ carthage update --platform iOS
 
 **NOTE:** At the time of writing, the FBSDKIntegrationTests are misconfigured for building in Carthage.  If checking out the framework dependencies source again, remove the dependency from the FacebookSDK.xcworkspace schemes to pass through the build.
 
-
-## Project Instructions
-
-```
-You're designing a mobile photo gallery interface. 
-A designer on the team delivers mockups for a grid view and detailed photo view and 
-asks you to help define the transition between the two states. 
-If you have additional time, you can consider secondary actions, 
-such as items in the detail view toolbar.
-
-zThings to think about:
-
-How might you build a smooth transition from the grid view to the detail view?
-How could you use gestures to enhance the interactivity? e.g. should users swipe to move between images?
-Feel free to use any technologies, libraries, or frameworks you like to build the gallery.
-The gallery should be viewable on a mobile device, and any code you produce should be clean and extensible.
-```
-
 ## Backend Setup
 
-This project requires setting up a back end to serve images.  Parse was chosen as the remote store API because it's relatively easy to configure.  The sections below describe how content was generated and installed into the Parse instance, located on an AWS box.
+This project requires setting up a back end to serve images.  [Parse](http://parseplatform.org) was chosen as the remote store API because it's relatively easy to configure.  The sections below describe how content was generated and installed into the Parse instance, located on an AWS box.
 
 ### Asset Generation
 
@@ -127,6 +114,8 @@ for path,dirs,files in os.walk(start_path):
 
 #### Unit Testing
 
+#### Inline Documentation
+
 #### API Key Obfuscation
 
 #### Launch Control with Notifications
@@ -152,6 +141,22 @@ for path,dirs,files in os.walk(start_path):
 #### Delegation
 
 
+## Client Brief
+
+```
+You're designing a mobile photo gallery interface. 
+A designer on the team delivers mockups for a grid view and detailed photo view and 
+asks you to help define the transition between the two states. 
+If you have additional time, you can consider secondary actions, 
+such as items in the detail view toolbar.
+
+zThings to think about:
+
+How might you build a smooth transition from the grid view to the detail view?
+How could you use gestures to enhance the interactivity? e.g. should users swipe to move between images?
+Feel free to use any technologies, libraries, or frameworks you like to build the gallery.
+The gallery should be viewable on a mobile device, and any code you produce should be clean and extensible.
+```
 
 
 
