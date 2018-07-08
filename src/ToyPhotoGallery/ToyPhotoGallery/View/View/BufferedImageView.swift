@@ -48,10 +48,12 @@ class BufferedImageView : UIImageView {
         
         image = nil
         
-        if let sessionTask = interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
-            sessionTask.task.resume()
-        } else {
-            fallback(with:url, queue:queue.underlyingQueue ?? .main, interface:interface)
+        add { [weak self] in
+            if let sessionTask = interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
+                sessionTask.task.resume()
+            } else {
+                self?.fallback(with:url, queue:self?.queue.underlyingQueue, interface:interface)
+            }
         }
     }
     
@@ -59,12 +61,13 @@ class BufferedImageView : UIImageView {
         guard let data = data else {
             return
         }
+        
         DispatchQueue.main.async { [weak self] in
             self?.image = UIImage(data:data)
         }
     }
     
-    func fallback(with url:URL, queue:DispatchQueue, interface:NetworkSessionInterface) {
+    func fallback(with url:URL, queue:DispatchQueue?, interface:NetworkSessionInterface) {
         interface.fetch(url: url, queue: queue) {[weak self] (data) in
             self?.assign(data: data)
         }
@@ -73,6 +76,10 @@ class BufferedImageView : UIImageView {
 
 extension BufferedImageView {
     func add(operation:@escaping ()->Void) {
+        if queue.underlyingQueue == nil {
+            queue.underlyingQueue = DispatchQueue.global(qos:.background)
+        }
+        
         let nextOperation = BlockOperation {
             operation()
         }
@@ -128,8 +135,7 @@ extension BufferedImageView : NetworkSessionInterfaceDataTaskDelegate {
             return
         }
         
-        add {
-            [weak self] in
+        add { [weak self] in
             guard let sessionTask = self?.sessionTask, sessionTask.uuid == uuid else {
                 return
             }

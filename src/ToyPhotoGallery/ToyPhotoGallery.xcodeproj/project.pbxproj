@@ -99,6 +99,7 @@
 		1E78B34720EDBDE1000DCFE7 /* GameplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */; };
 		1E78B34B20EE5919000DCFE7 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B34A20EE5919000DCFE7 /* GalleryCollectionView.swift */; };
 		1E78B35220EE59D1000DCFE7 /* GalleryCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B35120EE59D1000DCFE7 /* GalleryCollectionViewModel.swift */; };
+		1E8166D320F25C01005D7FFC /* FeaturePolice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8166D220F25C01005D7FFC /* FeaturePolice.swift */; };
 		1E94CBB620EFBE8D00117209 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E94CBB320EFBE8700117209 /* Roboto-Black.ttf */; };
 		1E94CBB720EFBE8D00117209 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E94CBAE20EFBE8600117209 /* Roboto-BlackItalic.ttf */; };
 		1E94CBB820EFBE8D00117209 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E94CBAF20EFBE8600117209 /* Roboto-Bold.ttf */; };
@@ -228,6 +229,7 @@
 		1E78B34620EDBDE0000DCFE7 /* GameplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameplayKit.framework; path = System/Library/Frameworks/GameplayKit.framework; sourceTree = SDKROOT; };
 		1E78B34A20EE5919000DCFE7 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
 		1E78B35120EE59D1000DCFE7 /* GalleryCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewModel.swift; sourceTree = "<group>"; };
+		1E8166D220F25C01005D7FFC /* FeaturePolice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturePolice.swift; sourceTree = "<group>"; };
 		1E94CBA920EFBE8500117209 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1E94CBAA20EFBE8600117209 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		1E94CBAB20EFBE8600117209 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				1ED5CF6320F1557300E56298 /* Launch */,
+				1E8166D120F25BD9005D7FFC /* Feature */,
 				1E6F2E1B20EEADB3005A5567 /* Utility */,
 				1E6F2E1F20EEAE35005A5567 /* Resource */,
 				1E6F2E1D20EEADD3005A5567 /* Repository */,
@@ -641,6 +644,14 @@
 				1E78B29A20EAC72C000DCFE7 /* PreviewViewModel.swift */,
 			);
 			path = Preview;
+			sourceTree = "<group>";
+		};
+		1E8166D120F25BD9005D7FFC /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				1E8166D220F25C01005D7FFC /* FeaturePolice.swift */,
+			);
+			path = Feature;
 			sourceTree = "<group>";
 		};
 		1E94CBA620EFBADD00117209 /* Fonts */ = {
@@ -901,6 +912,7 @@
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
 				1E78B33E20ED9CC1000DCFE7 /* StoryboardSchemaMap.swift in Sources */,
 				1E78B32E20EC6B12000DCFE7 /* ViewError.swift in Sources */,
+				1E8166D320F25C01005D7FFC /* FeaturePolice.swift in Sources */,
 				1E78B2A520EAC8BA000DCFE7 /* LogHandlerDelegate.swift in Sources */,
 				1E6F2E0E20EE6108005A5567 /* GalleryCollectionViewImageCellModel.swift in Sources */,
 				1E6F2E1A20EEAD9E005A5567 /* ImageSchema.swift in Sources */,

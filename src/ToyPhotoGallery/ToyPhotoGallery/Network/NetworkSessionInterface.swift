@@ -48,9 +48,17 @@ class NetworkSessionInterface : NSObject {
      - parameter compeletion: a callback used to pass through the optional fetched *Data*
      - Returns: void
      */
-    func fetch(url:URL, queue:DispatchQueue = .main, completion:@escaping (Data?)->Void) {
-        let task = URLSession(configuration: .default, delegate: nil, delegateQueue: nil).dataTask(with: url) { [weak self] (data, response, error) in
-            queue.async {
+    func fetch(url:URL, queue:DispatchQueue?, completion:@escaping (Data?)->Void) {
+        guard let currentQueue = queue == nil ? .main : queue else {
+            return
+        }
+
+        // Using a default session here may crash because of a potential bug in Foundation.
+        // Ephemeral and Shared sessions don't crash.
+        // See: https://forums.developer.apple.com/thread/66874
+        let session = FeaturePolice.networkInterfaceUsesSharedSessionForFetching ? URLSession.shared : URLSession(configuration: .default)
+        let task = session.dataTask(with: url) { [weak self] (data, response, error) in
+            currentQueue.async {
                 if let e = error {
                     self?.errorHandler.report(e)
                     completion(nil)
