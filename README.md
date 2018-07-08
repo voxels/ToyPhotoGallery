@@ -2,6 +2,23 @@
 
 The Toy Photo Gallery implements the design for a Google code interview that shows a photo gallery which transitions into a preview view.  
 
+## Dependencies
+
+ToyPhotoGallery requires Carthage for a run script build phase.  Carthage can be installed with Homebrew.  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
+
+1) Install [Homebrew](https://brew.sh) with the follwing command in the Terminal:
+
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+2) Install [Carthage](https://github.com/Carthage/Carthage#installing-carthage) with the following command in the Terminal:
+
+```
+brew install carthage
+```
+
+
 ## Instructions
 
 ```

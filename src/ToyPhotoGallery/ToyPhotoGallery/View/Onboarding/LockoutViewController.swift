@@ -10,13 +10,7 @@ import UIKit
 
 class LockoutViewController: UIViewController {
     
-    var message:String? {
-        didSet {
-            if let text = message {
-                
-            }
-        }
-    }
+    var message:String?
     
     var messageLabel:UILabel?
     
