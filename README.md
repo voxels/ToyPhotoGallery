@@ -61,11 +61,11 @@ brew install carthage
 carthage update --platform iOS
 ```
 
-**NOTE:** At the time of writing, the FBSDKIntegrationTests are misconfigured for building in Carthage.  If checking out the framework dependencies source again, remove the dependency from the FacebookSDK.xcworkspace schemes to pass through the build.
+**NOTE:** At the time of writing, the **FBSDKIntegrationTests** are **misconfigured** for building in Carthage.  If checking out the framework dependencies source again, remove the dependency from the *FacebookSDK.xcworkspace* schemes to pass through the build.
 
 ### Backend Setup
 
-This project requires setting up a back end to serve images.  [Parse](http://parseplatform.org) was chosen as the remote store API because it's relatively easy to configure.  The sections below describe how content was generated and installed into the Parse instance, located on an AWS box.
+This project requires setting up a back end to serve images.  [Parse](http://parseplatform.org) was chosen as the remote store API because it's relatively easy to configure.  The sections below describe how content was generated and installed into the Parse instance, located on an [AWS](https://aws.amazon.com) box.
 
 #### Asset Generation
 
@@ -90,7 +90,7 @@ done
 
 
 #### Upload image assets to AWS
-1) Setup an S3 bucket on AWS
+1) Setup an [S3](https://aws.amazon.com/free/storage/?sc_channel=PS&sc_campaign=acquisition_US&sc_publisher=google&sc_medium=ACQ-P%7CPS-GO%7CBrand%7CSU%7CStorage%7CS3%7CUS%7CEN%7CText&sc_content=s3_e&sc_detail=aws%20s3&sc_category=s3&sc_segment=278699799512&sc_matchtype=e&sc_country=US&s_kwcid=AL!4422!3!278699799512!e!!g!!aws%20s3&ef_id=W0IR5gAAAeKB3yeM:20180708133014:s) bucket on AWS
 2) Synchronize thumbnails and full-res folders to the bucket using 
 ```
 aws s3 sync ./resources s3://<BUCKET_NAME>/path/to/resources
@@ -98,9 +98,9 @@ aws s3 sync ./resources s3://<BUCKET_NAME>/path/to/resources
 
 #### Parse Server Setup
 
-1) Setup a Parse service on AWS using Bitnami or something else
+1) Setup a Parse service on AWS using [Bitnami](https://aws.amazon.com/marketplace/pp/B01BLQ17TO?qid=1531056576513&sr=0-2&ref_=srh_res_product_title) or something else
 2) SSH into the box and grab the application ID from /apps/parse/htdocs/server.js
-3) Create the classes and columns for EXIF and Resource tables
+3) Create the classes and columns for Resource tables
 4) Upload the resource links using Python:
 
 ```
@@ -125,8 +125,8 @@ for path,dirs,files in os.walk(start_path):
 ```
 5) Set the **allowClientClassCreation** parse server configuration setting to FALSE
 6) Create an Administrator Role and an admin user with that role
-7) Set the ACL for the EXIF and Resource classes to 'public>read', 'administrator>read+write'
-8) Configure for HTTPS if necessary
+7) Set the ACL for the Resource classes to 'public>read', 'administrator>read+write'
+8) [Configure](https://docs.bitnami.com/aws/apps/parse/#how-to-enable-https-support-with-ssl-certificates) for HTTPS if necessary
 
 
 ```
@@ -182,10 +182,8 @@ for path,dirs,files in os.walk(start_path):
 You're designing a mobile photo gallery interface. 
 A designer on the team delivers mockups for a grid view and detailed photo view and 
 asks you to help define the transition between the two states. 
-If you have additional time, you can consider secondary actions, 
-such as items in the detail view toolbar.
 
-zThings to think about:
+Things to think about:
 
 How might you build a smooth transition from the grid view to the detail view?
 How could you use gestures to enhance the interactivity? e.g. should users swipe to move between images?
