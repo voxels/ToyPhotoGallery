@@ -1,5 +1,9 @@
 # Toy Photo Gallery
 
+- [Required Dependency Setup](#required-dependency-setup)
+- [Code Examples](code-examples)
+- [Client Brief](#client-brief)
+
 *ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
 
 > video of the transition
@@ -18,6 +22,23 @@ included below:
 
 More detail about the examples of [techniques](#code-examples) is offered in the section below.
 
+### Additional Portfolio Documents
+
+In addition to the code sample included in this repository, and the content located on the public [porfolio](http://voxels.github.com) site, samples of past work can be found at the following address:
+
+[Past Work Samples]()
+
+The zipped file above includes examples of:
+- Planning documents
+- Code Reviews
+- White papers
+
+```
+
+
+```
+
+---
 
 ## Required Dependency Setup
 
@@ -42,11 +63,11 @@ carthage update --platform iOS
 
 **NOTE:** At the time of writing, the FBSDKIntegrationTests are misconfigured for building in Carthage.  If checking out the framework dependencies source again, remove the dependency from the FacebookSDK.xcworkspace schemes to pass through the build.
 
-## Backend Setup
+### Backend Setup
 
 This project requires setting up a back end to serve images.  [Parse](http://parseplatform.org) was chosen as the remote store API because it's relatively easy to configure.  The sections below describe how content was generated and installed into the Parse instance, located on an AWS box.
 
-### Asset Generation
+#### Asset Generation
 
 1) Choose photos
 2) Export as original size, JPG format into ./assets/originals/
@@ -68,14 +89,14 @@ done
 6) Upload folders to s3 bucket
 
 
-### Upload image assets to AWS
+#### Upload image assets to AWS
 1) Setup an S3 bucket on AWS
 2) Synchronize thumbnails and full-res folders to the bucket using 
 ```
 aws s3 sync ./resources s3://<BUCKET_NAME>/path/to/resources
 ```
 
-### Parse Server Setup
+#### Parse Server Setup
 
 1) Setup a Parse service on AWS using Bitnami or something else
 2) SSH into the box and grab the application ID from /apps/parse/htdocs/server.js
@@ -107,6 +128,13 @@ for path,dirs,files in os.walk(start_path):
 7) Set the ACL for the EXIF and Resource classes to 'public>read', 'administrator>read+write'
 8) Configure for HTTPS if necessary
 
+
+```
+
+
+```
+
+---
 
 ## Code Examples
 
@@ -140,6 +168,13 @@ for path,dirs,files in os.walk(start_path):
 
 #### Delegation
 
+
+```
+
+
+```
+
+---
 
 ## Client Brief
 
