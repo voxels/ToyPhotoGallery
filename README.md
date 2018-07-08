@@ -1,10 +1,22 @@
 # Toy Photo Gallery
 
-The Toy Photo Gallery implements the design for a Google code interview that shows a photo gallery which transitions into a preview view.  
+*ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery which transitions into a preview view.
+
+In order to achieve a close representation of a typical production application, the photos used in the proof of concept are stored in
+a remote repository, rather than on device.  Clean UX transitions for most apps must exist within the contexts of fetching
+paged results, cacheing sized copies, securing connections, reachability, and other concerns.  For the purpose of this exercise, given the time constraints, the model controllers are representative of the foundation needed to support these kinds of activities.  They contain inline documentation and are covered in unit tests.  All work was authored during the week provided.
+
+*ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.  An object graph is
+included below:
+
+>description of object graph<
+
+More detail about the examples of techniques is offered in the section below.
+
 
 ## Dependencies
 
-ToyPhotoGallery requires Carthage for a run script build phase.  Carthage can be installed with Homebrew.  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
+*ToyPhotoGallery* requires Carthage for a run script build phase that copies in the frameworks for Bugsnag and Parse.  Carthage can be installed with Homebrew.  In order to compile the project on a machine that does not have Carthage installed, follow the steps below:
 
 1) Install [Homebrew](https://brew.sh) with the follwing command in the Terminal:
 
@@ -18,42 +30,38 @@ ToyPhotoGallery requires Carthage for a run script build phase.  Carthage can be
 brew install carthage
 ```
 
+3) Optionally, run the following commands to update the dependencies, however this should not be necessary to get the project to build from a clean checkout:
+```
+carthage update --platform iOS
+```
 
-## Instructions
+**NOTE:** At the time of writing, the FBSDKIntegrationTests are misconfigured for building in Carthage.  If checking out the framework dependencies source again, remove the dependency from the FacebookSDK.xcworkspace schemes to pass through the build.
+
+
+## Project Instructions
 
 ```
-You're designing a mobile photo gallery interface. A designer on the team delivers mockups for a grid view and detailed photo view and asks you to help define the transition between the two states. If you have additional time, you can consider secondary actions, such as items in the detail view toolbar.
-Things to think about:
+You're designing a mobile photo gallery interface. 
+A designer on the team delivers mockups for a grid view and detailed photo view and 
+asks you to help define the transition between the two states. 
+If you have additional time, you can consider secondary actions, 
+such as items in the detail view toolbar.
+
+zThings to think about:
 
 How might you build a smooth transition from the grid view to the detail view?
 How could you use gestures to enhance the interactivity? e.g. should users swipe to move between images?
 Feel free to use any technologies, libraries, or frameworks you like to build the gallery.
 The gallery should be viewable on a mobile device, and any code you produce should be clean and extensible.
-
-The attached zip file includes 3 mock ups and a Photoshop source file (.psd).
 ```
-
-## Project Depedencies
-
-ToyPhotoGallery relies on Carthage to add dependencies for:
-- Parse 
-- Bugsnag
-
-**NOTE:** At the time of writing, the FBSDKIntegrationTests are misconfigured for building in Carthage.  Remove the dependency from the FacebookSDK.xcworkspace schemes to pass through the build.
-
-Run the following commands to update the dependencies:
-```
-carthage update --platform iOS
-```
-
-Typically, the Carthage build products would not be added to the github repo via a line in the .gitignore, however, for the purposes of this project, they are included so that the project can be compiled out of the box.
 
 ## Backend Setup
 
-This project requires setting up a back end to serve progressing JPEG images.  Parse was chosen because it's easy to configure.  The seconds below describe how content was generated and installed into a Parse instance.
+This project requires setting up a back end to serve images.  Parse was chosen as the remote store API because it's relatively easy to configure.  The sections below describe how content was generated and installed into the Parse instance, located on an AWS box.
 
 ### Asset Generation
-1) Choose photos from iPhoto
+
+1) Choose photos
 2) Export as original size, JPG format into ./assets/originals/
 3) Fetch [mozjpeg](https://github.com/kornelski/mozjpeg/releases) from Github
 4) Copy and run the following shell script from ./assets/originals/
@@ -72,13 +80,8 @@ done
 5) Create thumbnails from the converted files
 6) Upload folders to s3 bucket
 
-### Create EXIF Data
-1) Use the EXIFTool to export EXIF data from the images to a csv file:
-```
-exiftool -common -T ./ > ./exif.txt
-```
 
-### Upload image assets
+### Upload image assets to AWS
 1) Setup an S3 bucket on AWS
 2) Synchronize thumbnails and full-res folders to the bucket using 
 ```
@@ -116,5 +119,39 @@ for path,dirs,files in os.walk(start_path):
 6) Create an Administrator Role and an admin user with that role
 7) Set the ACL for the EXIF and Resource classes to 'public>read', 'administrator>read+write'
 8) Configure for HTTPS if necessary
+
+
+## Code Examples
+
+*ToyPhotoGallery* includes code that demonstrates the following techniques:
+
+#### Unit Testing
+
+#### API Key Obfuscation
+
+#### Launch Control with Notifications
+
+#### Remote Store
+
+#### Non-Fatal Error Handling
+
+#### URLSession
+
+#### Buffered Images
+
+#### Collection View Layout
+
+#### Manual Auto Layout
+
+#### Generic Protocols
+
+#### Template Functions
+
+#### Dispatch Queues and Operation Queues
+
+#### Delegation
+
+
+
 
 
