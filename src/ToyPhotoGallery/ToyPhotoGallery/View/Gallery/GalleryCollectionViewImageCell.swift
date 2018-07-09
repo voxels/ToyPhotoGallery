@@ -116,7 +116,7 @@ extension GalleryCollectionViewImageCell {
         }
         imageView.clipsToBounds = true
         imageView.frame = bounds
-        imageView.backgroundColor = .red
+        imageView.backgroundColor = .clear
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.translatesAutoresizingMaskIntoConstraints = true
         imageView.contentMode = .scaleAspectFill

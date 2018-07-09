@@ -65,7 +65,7 @@
 		1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */; };
 		1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */; };
 		1E78B2EE20EAEF32000DCFE7 /* LaunchControlKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */; };
-		1E78B2F020EAF46A000DCFE7 /* ReportingHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2EF20EAF46A000DCFE7 /* ReportingHandlerDelegate.swift */; };
+		1E78B2F020EAF46A000DCFE7 /* BucketHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2EF20EAF46A000DCFE7 /* BucketHandlerDelegate.swift */; };
 		1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F120EAF605000DCFE7 /* Notification.swift */; };
 		1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */; };
 		1E78B2F720EAFF16000DCFE7 /* LaunchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */; };
@@ -212,7 +212,7 @@
 		1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obfuscator.swift; sourceTree = "<group>"; };
 		1E78B2E920EAE6AB000DCFE7 /* LaunchControlKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlKey.swift; sourceTree = "<group>"; };
 		1E78B2ED20EAEF32000DCFE7 /* LaunchControlKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchControlKeyTests.swift; sourceTree = "<group>"; };
-		1E78B2EF20EAF46A000DCFE7 /* ReportingHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingHandlerDelegate.swift; sourceTree = "<group>"; };
+		1E78B2EF20EAF46A000DCFE7 /* BucketHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketHandlerDelegate.swift; sourceTree = "<group>"; };
 		1E78B2F120EAF605000DCFE7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		1E78B2F420EAFB02000DCFE7 /* LaunchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchError.swift; sourceTree = "<group>"; };
 		1E78B2F620EAFF16000DCFE7 /* LaunchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchService.swift; sourceTree = "<group>"; };
@@ -532,7 +532,7 @@
 		1E78B28E20EAC5F7000DCFE7 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				1E78B30020EBC6B7000DCFE7 /* ReportingHandler */,
+				1E78B30020EBC6B7000DCFE7 /* BucketHandler */,
 				1E78B2FF20EBC6AB000DCFE7 /* LogHandler */,
 				1E78B2FE20EBC69B000DCFE7 /* ErrorHandler */,
 				1E78B2F320EAFAF3000DCFE7 /* ErrorType */,
@@ -587,12 +587,12 @@
 			path = LogHandler;
 			sourceTree = "<group>";
 		};
-		1E78B30020EBC6B7000DCFE7 /* ReportingHandler */ = {
+		1E78B30020EBC6B7000DCFE7 /* BucketHandler */ = {
 			isa = PBXGroup;
 			children = (
-				1E78B2EF20EAF46A000DCFE7 /* ReportingHandlerDelegate.swift */,
+				1E78B2EF20EAF46A000DCFE7 /* BucketHandlerDelegate.swift */,
 			);
-			path = ReportingHandler;
+			path = BucketHandler;
 			sourceTree = "<group>";
 		};
 		1E78B30520EBCE63000DCFE7 /* Frameworks */ = {
@@ -975,7 +975,7 @@
 				1E6F2E1820EEAD4E005A5567 /* Resource.swift in Sources */,
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
 				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
-				1E78B2F020EAF46A000DCFE7 /* ReportingHandlerDelegate.swift in Sources */,
+				1E78B2F020EAF46A000DCFE7 /* BucketHandlerDelegate.swift in Sources */,
 				1E78B29D20EAC77C000DCFE7 /* ResourceModelController.swift in Sources */,
 				1E78B2E820EAE5FF000DCFE7 /* Obfuscator.swift in Sources */,
 			);

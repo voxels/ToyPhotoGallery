@@ -51,9 +51,11 @@ class BufferedImageView : UIImageView {
         image = nil
         
         add { [weak self] in
-            if let sessionTask = interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
-                sessionTask.task.resume()
-            } else {
+            do {
+                if let sessionTask = try interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
+                    sessionTask.task.resume()
+                }
+            } catch {
                 self?.fallback(with:url, interface:interface)
             }
         }

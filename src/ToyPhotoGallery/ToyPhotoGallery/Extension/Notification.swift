@@ -10,7 +10,7 @@ import Foundation
 
 extension Notification.Name {
     static let DidCompleteLaunch = Notification.Name.init("DidCompleteLaunch")
-    static let DidLaunchReportingHandler = Notification.Name.init("DidLaunchReportingHandler")
+    static let DidLaunchBucketHandler = Notification.Name.init("DidLaunchBucketHandler")
     static let DidLaunchErrorHandler = Notification.Name.init("DidLaunchErrorHandler")
     static let DidLaunchRemoteStore = Notification.Name.init("DidLaunchRemoteStore")
     static let DidFailLaunch = Notification.Name.init("DidFailLaunch")

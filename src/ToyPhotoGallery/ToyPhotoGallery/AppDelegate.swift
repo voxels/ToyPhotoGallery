@@ -42,10 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Start launch services
         let errorHandlerDelegate = BugsnagInterface()
         let remoteStoreController = ParseInterface()
+        let bucketHandler = AWSBucketHandler()
         let networkSessionInterface = NetworkSessionInterface(with: errorHandlerDelegate)
         let resourceModelController = ResourceModelController(with: remoteStoreController, networkSessionInterface:networkSessionInterface, errorHandler: errorHandlerDelegate)
         launchController = LaunchController(with:resourceModelController)
-        launchController?.launch(services: [errorHandlerDelegate, remoteStoreController])
+        launchController?.launch(services: [errorHandlerDelegate, remoteStoreController, bucketHandler])
         
         return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
     }

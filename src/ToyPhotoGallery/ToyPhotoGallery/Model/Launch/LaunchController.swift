@@ -34,12 +34,6 @@ class LaunchController {
         return didLaunchErrorHandler ? BugsnagInterface() : DebugErrorHandler()
     }
     
-    /// DEBUG flag to print API key encryption bytes to the console
-    static let showKeyEncryption = false
-    
-    /// DEBUG flag to assert FALSE if a warning is received during launch
-    let shouldAssertWarnings = false
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -47,7 +41,9 @@ class LaunchController {
     init(with modelController:ResourceModelController) {
         resourceModelController = modelController
         #if DEBUG
-        show(hidden: [.BugsnagAPIKey, .ParseApplicationId])
+        if FeaturePolice.showAPIKeys {
+            show(hidden: [.BugsnagAPIKey, .ParseApplicationId, .AWSIdentityPoolId])
+        }
         #endif
     }
     
@@ -114,7 +110,7 @@ extension LaunchController {
             shouldWaitForDidCompleteNotification = true
         }
             
-        if service is ReportingHandlerDelegate {
+        if service is BucketHandlerDelegate {
             shouldWaitForDidCompleteNotification = true
         }
         
@@ -233,7 +229,7 @@ extension LaunchController {
             let debugHandler = DebugErrorHandler()
             debugHandler.report(error)
             
-            if shouldAssertWarnings {
+            if FeaturePolice.shouldAssertWarnings {
                 assert(false)
             }
             return
@@ -277,8 +273,8 @@ extension LaunchController {
             return Notification.Name.DidLaunchRemoteStore
         } else if service is ErrorHandlerDelegate {
             return Notification.Name.DidLaunchErrorHandler
-        } else if service is ReportingHandlerDelegate {
-            return Notification.Name.DidLaunchReportingHandler
+        } else if service is BucketHandlerDelegate {
+            return Notification.Name.DidLaunchBucketHandler
         }
         
         return nil
@@ -296,7 +292,7 @@ extension LaunchController {
             fallthrough
         case Notification.Name.DidLaunchRemoteStore:
             fallthrough
-        case Notification.Name.DidLaunchReportingHandler:
+        case Notification.Name.DidLaunchBucketHandler:
             checkLaunchComplete(with: notification)
         default:
             handle(error: LaunchError.UnexpectedLaunchNotification, with:currentErrorHandler)
@@ -377,10 +373,6 @@ private extension LaunchController {
      - parameter handler: The *LogHandlerDelegate* responsible for displaying the string
      */
     func show(hidden keys:[LaunchControlKey], with handler:LogHandlerDelegate = DebugLogHandler()) {
-        if !LaunchController.showKeyEncryption {
-            return
-        }
-        
         for key in keys {
             let bytes = key.generate(with:Obfuscator.saltObjects())
             handler.console("Key for \(key):")

@@ -26,7 +26,7 @@ extension NetworkError : LocalizedError {
         case .InvalidServerTrust:
             return NSLocalizedString("The server trust was not verified", comment: "")
         case .AWSDoesNotSupportSessionTasks:
-            return NSLocalizedString("AWS does not support session tasks", comment: "")
+            return NSLocalizedString("AWS does not support session tasks.  Use fetch: instead", comment: "")
         case .Timeout:
             return NSLocalizedString("The network operation timed out", comment: "")
         }

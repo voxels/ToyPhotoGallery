@@ -67,25 +67,18 @@ class ResourceModelController {
                     let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
                     readQueue.sync {
                         let group = DispatchGroup()
-                        let fetchSession = URLSession(configuration: .default)
+                        
                         strongSelf.imageRepository.map.values.forEach({ (resource) in
                             group.enter()
-                            let task = fetchSession.dataTask(with: resource.thumbnailURL, completionHandler: {(data, response, error) in
-                                if let e = error {
-                                    errorHandler.report(e)
-                                    group.leave()
-                                    print(e.localizedDescription)
-                                    return
-                                }
-                                
+                            strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, completion: { (data) in
                                 if let data = data {
                                     let image = UIImage(data: data)
                                     resource.thumbnailImage = image
+                                } else {
+                                    strongSelf.errorHandler.report(ModelError.MissingValue)
                                 }
-                                print("value:\(resource.filename)")
                                 group.leave()
                             })
-                            task.resume()
                         })
                         switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
                         case .timedOut:

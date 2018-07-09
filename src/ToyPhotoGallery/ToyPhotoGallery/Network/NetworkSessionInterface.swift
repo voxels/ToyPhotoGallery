@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import AWSCore
+import AWSMobileClient
+import AWSS3
 
 typealias TaskMap = [String:NetworkSessionTask]
 
@@ -21,7 +24,7 @@ class NetworkSessionInterface : NSObject {
     
     /// The default cache policy used for URLSession requests
     static let defaultCachePolicy:URLRequest.CachePolicy = FeaturePolice.disableCache ? .reloadIgnoringLocalAndRemoteCacheData : .returnCacheDataElseLoad
-
+    
     /// An operation queue used to facilitate the URLSession
     let operationQueue = OperationQueue()
     
@@ -33,7 +36,7 @@ class NetworkSessionInterface : NSObject {
     
     /// The URLSession used for requests
     var session:URLSession?
-
+    
     init(with errorHandler:ErrorHandlerDelegate) {
         self.errorHandler = errorHandler
         super.init()
@@ -51,6 +54,12 @@ class NetworkSessionInterface : NSObject {
         // Using a default session here may crash because of a potential bug in Foundation.
         // Ephemeral and Shared sessions don't crash.
         // See: https://forums.developer.apple.com/thread/66874
+        
+        if NetworkSessionInterface.isAWS(url: url), let filename = filename(for: url) {
+            fetchWithAWS(filename: filename, completion: completion)
+            return
+        }
+        
         let useSession = session != nil ? session : FeaturePolice.networkInterfaceUsesEphemeralSession ? URLSession(configuration: .ephemeral) : URLSession(configuration: .default)
         
         let taskCompletion:((Data?, URLResponse?, Error?) -> Void) = { [weak self] (data, response, error) in
@@ -69,6 +78,65 @@ class NetworkSessionInterface : NSObject {
         }
         
         task.resume()
+    }
+    
+    
+    
+    // TODO: Implement: https://docs.aws.amazon.com/aws-mobile/latest/developerguide/how-to-transfer-files-with-transfer-utility.html
+    /**
+     Intercept for fetching AWS urls since they fail with URLSession
+     - parameter filename: the key *String* for the file
+     - parameter completion: the callback used for the data
+     */
+    func fetchWithAWS(filename:String, completion:@escaping (Data?)->Void) {
+        let expression = AWSS3TransferUtilityDownloadExpression()
+        expression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
+            // Do something e.g. Update a progress bar.
+        })
+        }
+        
+        var completionHandler: AWSS3TransferUtilityDownloadCompletionHandlerBlock?
+        completionHandler = { [weak self] (task, URL, data, error) -> Void in
+            if let error = error {
+                self?.errorHandler.report(error)
+            }
+            completion(data)
+        }
+        
+        let transferUtility = AWSS3TransferUtility.default()
+        transferUtility.downloadData(
+            fromBucket: "com-federalforge-repository",
+            key: filename,
+            expression: expression,
+            completionHandler: completionHandler
+            ).continueWith {
+                (task) -> AnyObject? in if let error = task.error {
+                    self.errorHandler.report(error)
+                }
+                
+                if let _ = task.result {
+                    // Do something with downloadTask.
+                    
+                }
+                return nil;
+        }
+    }
+    
+    /**
+     Calculates the AWS filename from the given URL
+     - parameter AWSUrl: the aws url
+     - Returns: a *String* or nil if none is found
+    */
+    func filename(for AWSUrl:URL)->String? {
+        let components = AWSUrl.absoluteString.split(separator: "/")
+        var filename = ""
+        for index in 3..<components.count {
+            filename.append(String(components[index]))
+            if index < components.count - 1 {
+                filename.append("/")
+            }
+        }
+        return filename
     }
     
     /**
@@ -95,16 +163,11 @@ class NetworkSessionInterface : NSObject {
      - parameter dataDelegate: an optional *NetworkSessionInterfaceDataTaskDelegate* that will be informed of the task's progress
      - Returns: a *NetworkSessionTask* or nil if one cannot be created
      */
-    func sessionTask(with url:URL, in session:URLSession, cachePolicy: URLRequest.CachePolicy = NetworkSessionInterface.defaultCachePolicy, timeoutInterval: TimeInterval = NetworkSessionInterface.defaultTimeout, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) -> NetworkSessionTask? {
+    func sessionTask(with url:URL, in session:URLSession, cachePolicy: URLRequest.CachePolicy = NetworkSessionInterface.defaultCachePolicy, timeoutInterval: TimeInterval = NetworkSessionInterface.defaultTimeout, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) throws -> NetworkSessionTask? {
         
-        /*
         if NetworkSessionInterface.isAWS(url: url) {
-            #if !DEBUG
-            errorHandler.report(NetworkError.AWSDoesNotSupportSessionTasks)
-            #endif
-            return nil
+            throw NetworkError.AWSDoesNotSupportSessionTasks
         }
-        */
         
         let request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
         let task = session.dataTask(with: request)
@@ -150,7 +213,7 @@ class NetworkSessionInterface : NSObject {
      Dequeues the given *NetworkSessionTask*
      - parameter sessionTask: the task to cancel
      - Returns: void
-    */
+     */
     func dequeue(_ sessionTask:NetworkSessionTask) {
         enqueued.removeValue(forKey: sessionTask.uuid)
     }
@@ -188,13 +251,13 @@ extension NetworkSessionInterface {
      */
     func retainIfNecessary(task:NetworkSessionTask?, from location:URL) throws {
         /*
-        guard let _ = task else {
-            return
-        }
-        
-        debugPrint("Download finished: \(location)")
-        // TODO: Save to disk
-        try? FileManager.default.removeItem(at: location)
+         guard let _ = task else {
+         return
+         }
+         
+         debugPrint("Download finished: \(location)")
+         // TODO: Save to disk
+         try? FileManager.default.removeItem(at: location)
          */
     }
 }
