@@ -210,7 +210,7 @@ extension GalleryViewController : GalleryViewModelDelegate {
             return
         }
         
-        if !contentContainerView.subviews.contains(collectionView) {
+        if isViewLoaded, !contentContainerView.subviews.contains(collectionView) {
             contentContainerView.addSubview(collectionView)
             refreshLayout(in: view)
         }

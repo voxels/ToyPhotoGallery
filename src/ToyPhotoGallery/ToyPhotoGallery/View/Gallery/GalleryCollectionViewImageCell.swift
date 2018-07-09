@@ -20,7 +20,7 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
     var model:GalleryCollectionViewImageCellModel?
     var appearance:GalleryCollectionViewImageCellAppearance?
 
-    var fadeDuration:TimeInterval = 0.25
+    var fadeDuration:TimeInterval = 0.5
 
     var thumbnailImageView:UIImageView?
     var fileImageView:UIImageView?

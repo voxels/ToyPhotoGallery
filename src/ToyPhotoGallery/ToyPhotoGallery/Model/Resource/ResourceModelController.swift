@@ -34,6 +34,9 @@ class ResourceModelController {
     /// A cache of previously fetched *ImageResource*
     var imageRepository = ImageRepository()
     
+    var writeQueueLabel = "com.secretaomtics.resourcemodelcontroller.write"
+    var readQueueLabel = "com.secretaomtics.resourcemodelcontroller.read"
+    
     /// The default number of seconds to wait before timing out
     static let defaultTimeout:TimeInterval = 1
     
@@ -55,7 +58,29 @@ class ResourceModelController {
         do {
             switch T.self {
             case is ImageResource.Type:
-                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:nil)
+                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:{ (repository) in
+                    
+                    let group = DispatchGroup()
+                    
+                    let readQueue = DispatchQueue(label: "com.secretatomics.resourcemodelcontroller.read.build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+                    readQueue.sync {
+                        self.imageRepository.map.values.forEach({ (resource) in
+                            group.enter()
+                            print("value:\(resource.filename)")
+                            group.leave()
+                        })
+                    }
+                    
+                    switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
+                    case .timedOut:
+                        // this is ok, we have our map
+                        fallthrough
+                    case .success:
+                        DispatchQueue.main.async { [weak self] in
+                            self?.delegate?.didUpdateModel()
+                        }
+                    }
+                })
             default:
                 throw ModelError.UnsupportedRequest
             }
@@ -94,17 +119,12 @@ class ResourceModelController {
         
         find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: skip, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
             self?.append(from: rawResourceArray, into: T.AssociatedType.self, timeoutDuration:timeoutDuration, completion: { (accumulatedErrors) in
+                // Append returns on the main thread
                 if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
-                    DispatchQueue.main.async {
-                        self?.delegate?.didFailToUpdateModel(with: nil)
-                    }
+                    self?.delegate?.didFailToUpdateModel(with: nil)
                 } else {
-                    DispatchQueue.main.async {
-                        self?.delegate?.didUpdateModel()
-                    }
+                    completion?(repository)
                 }
-                
-                completion?(repository)
             })
         }
     }
@@ -141,23 +161,25 @@ extension ResourceModelController {
 
         switch T.self {
         case is ImageResource.Type:
-            ImageResource.extractImageResources(from: rawResourceArray, completion: { [weak self] (newRepository, accumulatedErrors) in
-
+            let mapGroup = DispatchGroup()
+            ImageResource.extractImageResources(from: rawResourceArray, completion: { (newRepository, accumulatedErrors) in
+                let writeQueue = DispatchQueue(label: "com.secretaomtics.resourcemodelcontroller.write.append")
                 newRepository.map.forEach({ (object) in
-                    self?.networkSessionInterface.fetch(url: object.value.thumbnailURL, completion: { (data) in
-                        if let data = data, let image = UIImage(data: data) {
-                            object.value.thumbnailImage = image
-                            object.value.thumbnailWidth = image.size.width
-                            object.value.thumbnailHeight = image.size.height
-                        }
-                    })
-                    imageRepository.map[object.key] = object.value
+                    mapGroup.enter()
+                    writeQueue.async {
+                        self.imageRepository.map[object.key] = object.value
+                        mapGroup.leave()
+                    }
                 })
-
-                completion(accumulatedErrors)
+                
+                mapGroup.notify(queue: .main) {
+                    completion(accumulatedErrors)
+                }
             })
         default:
-            completion([ModelError.UnsupportedRequest])
+            DispatchQueue.main.async {
+                completion([ModelError.UnsupportedRequest])
+            }
         }
     }
     
@@ -215,11 +237,16 @@ extension ResourceModelController {
      - parameter completion: a callback used to pass back the filled resources
      - Returns: void
      */
-    func sort<T>(repository:T, skip:Int, limit:Int, completion:([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
-        let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
-        let endSlice = skip + limit < values.count ? skip + limit : values.count
-        let resources = Array(values[skip..<(endSlice)])
-        completion(resources)
+    func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+        let queue = DispatchQueue(label: "com.secretatomics.resourcemodelcontroller.sort")
+        queue.async {
+            let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
+            let endSlice = skip + limit < values.count ? skip + limit : values.count
+            let resources = Array(values[skip..<(endSlice)])
+            DispatchQueue.main.async {
+                completion(resources)
+            }
+        }
     }
 }
 

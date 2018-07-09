@@ -24,27 +24,43 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
      */
     func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:ImageResourceCompletion?) -> Void {
         // We need to make sure we don't skip fetching any images for this purpose
-        let checkCount = imageRepository.map.values.count
+        let readQueue = DispatchQueue(label: readQueueLabel)
+        var checkCount = 0
+        readQueue.sync { checkCount = imageRepository.map.values.count }
         let finalSkip = skip > checkCount ? checkCount : skip
         
         // We also need to make sure we still get the requested number of images
         let finalLimit = abs(finalSkip - skip) + limit
         
+        // FillAndSort returns on the main queue but we are doing this for safety
         let wrappedCompletion:([Resource])->Void = {[weak self] (sortedResources) in
             guard let imageResources = sortedResources as? [ImageResource] else {
                 self?.errorHandler.report(ModelError.IncorrectType)
-                completion?([ImageResource]())
+                DispatchQueue.main.async {
+                    self?.delegate?.didFailToUpdateModel(with: ModelError.IncorrectType.errorDescription)
+                    completion?([ImageResource]())
+                }
                 return
             }
             
-            completion?(imageResources)
+            DispatchQueue.main.async {
+                self?.delegate?.didUpdateModel()
+                completion?(imageResources)
+            }
         }
         
-        do {
-            try fillAndSort(repository: imageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, completion: wrappedCompletion)
-        } catch {
-            errorHandler.report(error)
-            completion?([ImageResource]())
-        }
+            var copyImageRepository = ImageRepository()
+            readQueue.sync {
+                copyImageRepository = imageRepository
+                do {
+                    try fillAndSort(repository: copyImageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, completion: wrappedCompletion)
+                } catch {
+                    errorHandler.report(error)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+                        completion?([ImageResource]())
+                    }
+                }
+            }
     }
 }

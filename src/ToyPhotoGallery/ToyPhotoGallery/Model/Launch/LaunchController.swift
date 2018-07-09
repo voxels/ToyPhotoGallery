@@ -134,14 +134,13 @@ extension LaunchController {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
             resourceModelController.delegate = self
-//            let queue = DispatchQueue(label: "com.secretatomics.launchcontroller", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
-//            queue.async { [weak self] in
-//                guard let strongSelf = self else {
-//                    return
-//                }
-            let strongSelf = self
+            let queue = DispatchQueue(label: "com.secretatomics.launchcontroller", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+            queue.async { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
                 strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler, timeoutDuration:strongSelf.timeoutDuration)
-//            }
+            }
         }
     }
     
