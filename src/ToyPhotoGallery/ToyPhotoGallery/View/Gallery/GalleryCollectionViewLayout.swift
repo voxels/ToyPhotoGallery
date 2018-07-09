@@ -20,7 +20,7 @@ protocol FlowLayoutConfiguration {
 }
 
 protocol FlowLayoutConfigurationSizeDelegate : class {
-    func sizeForItemAt( indexPath: IndexPath)->CGSize
+    func sizeForItemAt( indexPath: IndexPath, layout:GalleryCollectionViewLayout, currentConfiguration:FlowLayoutConfiguration)->CGSize
 }
 
 /// Configuration parameters measured from GIMP
@@ -96,18 +96,15 @@ extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
             errorHandler?.report(error)
         }
     }
-
+ 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var relativeSize = CGSize.zero
         
-        if let configuration = configuration {
-            let estimatedSize = configuration.estimatedItemSize
-            relativeSize = relative(size: estimatedSize, with: configuration, containerWidth: containerWidth)
+        guard let configuration = configuration, let delegate = sizeDelegate else {
+            return relativeSize
         }
-
-        if let delegate = sizeDelegate {
-            relativeSize = delegate.sizeForItemAt(indexPath: indexPath)
-        }
+        
+        relativeSize = delegate.sizeForItemAt(indexPath: indexPath, layout:self, currentConfiguration: configuration)
         
         return relativeSize
     }

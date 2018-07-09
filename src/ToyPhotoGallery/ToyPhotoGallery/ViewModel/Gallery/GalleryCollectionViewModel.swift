@@ -198,16 +198,31 @@ extension GalleryCollectionViewModel {
         endFetching()
     }
      */
+    
+    func calculateItemSize(for thumbnailSize:CGSize, containerSize:CGSize, layout:GalleryCollectionViewLayout, configuration:FlowLayoutConfiguration)->CGSize {
+        var actualSize = configuration.estimatedItemSize
+        
+        if configuration.scrollDirection == .horizontal {
+            actualSize = itemSize(for: thumbnailSize, containerSize: containerSize)
+        }
+        
+        return layout.relative(size: actualSize, with: configuration, containerWidth: containerSize.width)
+    }
+    
+    func itemSize(for thumbnailSize:CGSize, containerSize:CGSize)->CGSize {
+        var actualSize = thumbnailSize
+        
+        return actualSize
+    }
 }
 
 extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {
-    func sizeForItemAt(indexPath: IndexPath) -> CGSize {
-        let fetchedWidth = data[indexPath.item].imageResource.thumbnailWidth
-        let fetchedHeight = data[indexPath.item].imageResource.thumbnailHeight
+    func sizeForItemAt(indexPath: IndexPath, layout:GalleryCollectionViewLayout, currentConfiguration:FlowLayoutConfiguration) -> CGSize {
+        let width = data[indexPath.item].imageResource.thumbnailWidth
+        let height = data[indexPath.item].imageResource.thumbnailHeight
         
-        if fetchedWidth > 0 && fetchedHeight > 0, let containerSize = viewModelDelegate?.containerSize {
-            print("\(fetchedWidth)\t\(fetchedHeight)\t\(containerSize)")
-            return CGSize(width: fetchedWidth, height: fetchedHeight)
+        if width > 0 && height > 0, let containerSize = viewModelDelegate?.containerSize {
+            return calculateItemSize(for: CGSize(width:width, height:height), containerSize: containerSize, layout:layout, configuration: currentConfiguration)
         }
         
         return FlowLayoutVerticalConfiguration().estimatedItemSize
