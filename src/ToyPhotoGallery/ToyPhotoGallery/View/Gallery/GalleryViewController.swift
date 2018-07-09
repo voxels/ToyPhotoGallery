@@ -61,7 +61,7 @@ class GalleryViewController: UIViewController {
     }
     
     func refresh(with viewModel:GalleryViewModel) {
-        let configuration = collectionViewLayoutConfiguration(vertical: true)
+        let configuration = collectionViewLayoutConfiguration(vertical: !FeaturePolice.defaultHorizontalLayout)
         let layout = GalleryCollectionViewLayout(with:configuration, errorHandler:viewModel.resourceModelController.errorHandler)
         layout.delegate = self
         let configuredView = galleryCollectionView(with: layout, viewModel:viewModel)
@@ -112,6 +112,7 @@ extension GalleryViewController {
         collectionViewModel.resourceDelegate = viewModel.resourceModelController
         collectionViewModel.configure(with: viewModel.resourceModelController)
         configuredView.model = collectionViewModel
+        layout.sizeDelegate = configuredView.model
         
         return configuredView
     }
@@ -155,10 +156,7 @@ extension GalleryViewController {
         if vertical {
             return FlowLayoutVerticalConfiguration()
         } else {
-            var layout = FlowLayoutHorizontalConfiguration()
-            layout.sizeDelegate = collectionView?.model
-            let finalLayout = layout
-            return finalLayout
+            return FlowLayoutHorizontalConfiguration()
         }
     }
 }
@@ -212,6 +210,9 @@ extension GalleryViewController {
 // MARK: - GalleryViewModelDelegate
 
 extension GalleryViewController : GalleryViewModelDelegate {
+    var containerSize: CGSize {
+        return contentContainerView.bounds.size
+    }
     
     func didUpdateViewModel(insertItems: [IndexPath]?, deleteItems: [IndexPath]?, moveItems: [(IndexPath, IndexPath)]?) {
         guard let collectionView = collectionView else {

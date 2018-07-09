@@ -20,7 +20,7 @@ class ParseInterface : RemoteStoreController {
     var serverURLString = "http://ec2-54-210-146-169.compute-1.amazonaws.com/parse"
     
     /// Default size for fetch results
-    var defaultQuerySize = 30
+    var defaultQuerySize = 20
     
     /// The launch control key that decodes the Parse Application ID
     var launchControlKey: LaunchControlKey? = .ParseApplicationId

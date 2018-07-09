@@ -47,12 +47,13 @@ class NetworkSessionInterface : NSObject {
      - parameter compeletion: a callback used to pass through the optional fetched *Data*
      - Returns: void
      */
-    func fetch(url:URL, completion:@escaping (Data?)->Void) {
+    func fetch(url:URL, with session:URLSession? = nil, completion:@escaping (Data?)->Void) {
         // Using a default session here may crash because of a potential bug in Foundation.
         // Ephemeral and Shared sessions don't crash.
         // See: https://forums.developer.apple.com/thread/66874
-        let session = FeaturePolice.networkInterfaceUsesEphemeralSession ? URLSession(configuration: .ephemeral) : URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { [weak self] (data, response, error) in
+        let useSession = session != nil ? session : FeaturePolice.networkInterfaceUsesEphemeralSession ? URLSession(configuration: .ephemeral) : URLSession(configuration: .default)
+        
+        let taskCompletion:((Data?, URLResponse?, Error?) -> Void) = { [weak self] (data, response, error) in
             if let e = error {
                 self?.errorHandler.report(e)
                 completion(nil)
@@ -61,6 +62,12 @@ class NetworkSessionInterface : NSObject {
             
             completion(data)
         }
+        
+        guard let task = useSession?.dataTask(with: url, completionHandler: taskCompletion) else {
+            completion(nil)
+            return
+        }
+        
         task.resume()
     }
     
@@ -90,12 +97,14 @@ class NetworkSessionInterface : NSObject {
      */
     func sessionTask(with url:URL, in session:URLSession, cachePolicy: URLRequest.CachePolicy = NetworkSessionInterface.defaultCachePolicy, timeoutInterval: TimeInterval = NetworkSessionInterface.defaultTimeout, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) -> NetworkSessionTask? {
         
+        /*
         if NetworkSessionInterface.isAWS(url: url) {
             #if !DEBUG
             errorHandler.report(NetworkError.AWSDoesNotSupportSessionTasks)
             #endif
             return nil
         }
+        */
         
         let request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
         let task = session.dataTask(with: request)

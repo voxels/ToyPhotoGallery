@@ -17,10 +17,9 @@ protocol FlowLayoutConfiguration {
     var sectionInset:UIEdgeInsets { get set }
     var headerReferenceSize:CGSize { get set }
     var footerReferenceSize:CGSize { get set }
-    var sizeDelegate:FlowLayoutConfigurationSizeDelegate? { get set }
 }
 
-protocol FlowLayoutConfigurationSizeDelegate {
+protocol FlowLayoutConfigurationSizeDelegate : class {
     func sizeForItemAt( indexPath: IndexPath)->CGSize
 }
 
@@ -34,7 +33,6 @@ struct FlowLayoutVerticalConfiguration : FlowLayoutConfiguration {
     var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0)
     var headerReferenceSize:CGSize          = CGSize.zero
     var footerReferenceSize:CGSize          = CGSize.zero
-    var sizeDelegate: FlowLayoutConfigurationSizeDelegate? = nil
 }
 
 struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
@@ -46,7 +44,6 @@ struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
     var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     var headerReferenceSize:CGSize          = CGSize.zero
     var footerReferenceSize:CGSize          = CGSize.zero
-    var sizeDelegate: FlowLayoutConfigurationSizeDelegate? = nil
 }
 
 protocol GalleryCollectionViewLayoutDelegate : class {
@@ -56,10 +53,11 @@ protocol GalleryCollectionViewLayoutDelegate : class {
 class GalleryCollectionViewLayout : UICollectionViewFlowLayout {
     
     let defaultAspectRatio:Float = 4.0/3.0
-    
+
+    var errorHandler:ErrorHandlerDelegate?
     var configuration:FlowLayoutConfiguration?
     weak var delegate:GalleryCollectionViewLayoutDelegate?
-    var errorHandler:ErrorHandlerDelegate?
+    weak var sizeDelegate:FlowLayoutConfigurationSizeDelegate?
     
     init(with configuration:FlowLayoutConfiguration, errorHandler:ErrorHandlerDelegate?) {
         super.init()
@@ -100,15 +98,18 @@ extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var relativeSize = CGSize.zero
+        
         if let configuration = configuration {
-            var relativeSize = configuration.estimatedItemSize
-            if let delegate = configuration.sizeDelegate {
-                relativeSize = delegate.sizeForItemAt(indexPath: indexPath)
-            }
-            
-           return relative(size: relativeSize, with: configuration, containerWidth: containerWidth)
+            let estimatedSize = configuration.estimatedItemSize
+            relativeSize = relative(size: estimatedSize, with: configuration, containerWidth: containerWidth)
         }
-        return CGSize.zero
+
+        if let delegate = sizeDelegate {
+            relativeSize = delegate.sizeForItemAt(indexPath: indexPath)
+        }
+        
+        return relativeSize
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

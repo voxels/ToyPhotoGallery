@@ -18,7 +18,7 @@ protocol GalleryCollectionViewModelDelegate : class {
 
 class GalleryCollectionViewModel {
     /// The default page limit size for fetching
-    static let defaultPageSize:Int = 30
+    static let defaultPageSize:Int = 20
     
     /// The threshhold of the number of cells remining in the scroll view to trigger fetching the next page
     static let remainingCellsPageLimit:Int = 10
@@ -202,7 +202,14 @@ extension GalleryCollectionViewModel {
 
 extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {
     func sizeForItemAt(indexPath: IndexPath) -> CGSize {
-        let configuration = FlowLayoutHorizontalConfiguration()
-        return configuration.estimatedItemSize
+        let fetchedWidth = data[indexPath.item].imageResource.thumbnailWidth
+        let fetchedHeight = data[indexPath.item].imageResource.thumbnailHeight
+        
+        if fetchedWidth > 0 && fetchedHeight > 0, let containerSize = viewModelDelegate?.containerSize {
+            print("\(fetchedWidth)\t\(fetchedHeight)\t\(containerSize)")
+            return CGSize(width: fetchedWidth, height: fetchedHeight)
+        }
+        
+        return FlowLayoutVerticalConfiguration().estimatedItemSize
     }
 }

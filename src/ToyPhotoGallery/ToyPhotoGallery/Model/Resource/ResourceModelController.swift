@@ -38,7 +38,7 @@ class ResourceModelController {
     var readQueueLabel = "com.secretaomtics.resourcemodelcontroller.read"
     
     /// The default number of seconds to wait before timing out
-    static let defaultTimeout:TimeInterval = 1
+    static let defaultTimeout:TimeInterval = 20
     
     init(with storeController:RemoteStoreController, networkSessionInterface:NetworkSessionInterface, errorHandler:ErrorHandlerDelegate) {
         self.remoteStoreController = storeController
@@ -63,24 +63,38 @@ class ResourceModelController {
                     guard let strongSelf = self else {
                         return
                     }
-                    let group = DispatchGroup()
                     
                     let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
                     readQueue.sync {
+                        let group = DispatchGroup()
+                        let fetchSession = URLSession(configuration: .default)
                         strongSelf.imageRepository.map.values.forEach({ (resource) in
                             group.enter()
-                            print("value:\(resource.filename)")
-                            group.leave()
+                            let task = fetchSession.dataTask(with: resource.thumbnailURL, completionHandler: {(data, response, error) in
+                                if let e = error {
+                                    errorHandler.report(e)
+                                    group.leave()
+                                    print(e.localizedDescription)
+                                    return
+                                }
+                                
+                                if let data = data {
+                                    let image = UIImage(data: data)
+                                    resource.thumbnailImage = image
+                                }
+                                print("value:\(resource.filename)")
+                                group.leave()
+                            })
+                            task.resume()
                         })
-                    }
-                    
-                    switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
-                    case .timedOut:
-                        // this is ok, we have our map
-                        fallthrough
-                    case .success:
-                        DispatchQueue.main.async { [weak self] in
-                            self?.delegate?.didUpdateModel()
+                        switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
+                        case .timedOut:
+                            // this is ok, we have our map
+                            fallthrough
+                        case .success:
+                            DispatchQueue.main.async { [weak self] in
+                                self?.delegate?.didUpdateModel()
+                            }
                         }
                     }
                 })

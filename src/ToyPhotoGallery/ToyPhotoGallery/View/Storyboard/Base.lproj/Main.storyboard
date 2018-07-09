@@ -107,9 +107,9 @@
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="W36-0U-ffK" firstAttribute="top" secondItem="lwt-YF-ZxG" secondAttribute="bottom" id="6Ra-ao-jaP"/>
+                            <constraint firstItem="Ojl-zU-ujH" firstAttribute="top" secondItem="W36-0U-ffK" secondAttribute="bottom" id="8KV-P6-h7o"/>
                             <constraint firstItem="W36-0U-ffK" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="FKx-Eu-S1Q"/>
                             <constraint firstItem="SEu-l8-7EO" firstAttribute="trailing" secondItem="W36-0U-ffK" secondAttribute="trailing" id="MHE-Xz-A7g"/>
-                            <constraint firstItem="SEu-l8-7EO" firstAttribute="bottom" secondItem="W36-0U-ffK" secondAttribute="bottom" id="PoX-q4-rm1"/>
                             <constraint firstItem="Ojl-zU-ujH" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="Rgt-w5-UsV"/>
                             <constraint firstItem="lwt-YF-ZxG" firstAttribute="top" secondItem="SEu-l8-7EO" secondAttribute="top" id="Sl1-Ci-UiJ"/>
                             <constraint firstItem="lwt-YF-ZxG" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="XIW-1k-TSa"/>

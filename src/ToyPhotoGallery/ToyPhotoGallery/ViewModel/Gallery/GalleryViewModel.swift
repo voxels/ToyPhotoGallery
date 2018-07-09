@@ -10,6 +10,7 @@ import Foundation
 
 /// Protocol to notifcy the GalleryViewController that the model has updated
 protocol GalleryViewModelDelegate : class {
+    var containerSize:CGSize { get }
     func didUpdateViewModel(insertItems:[IndexPath]?, deleteItems:[IndexPath]?, moveItems:[(IndexPath,IndexPath)]?)
 }
 
