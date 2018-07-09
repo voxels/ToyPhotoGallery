@@ -6,19 +6,12 @@
 
 *ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
 
-> video of the transition
-
-The transition is achieved by...
-
 In order to achieve an example reflecting a typical production application's functions, the gallery's photos are archived in a remote repository, rather than on device.  Clean UX transitions for most apps must exist within the contexts of fetching paged results, 
 cacheing sized copies, securing connections, reachability, and other concerns.  
 
 For the purpose of this exercise, given the time constraints, the model controllers are representative of the foundation needed to support common activities by a mobile application.
 
-*ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.  An object graph is
-included below:
-
-> description of object graph
+*ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.
 
 More detail about the examples of [techniques](#code-examples) is offered in the section below.
 
@@ -142,36 +135,302 @@ for path,dirs,files in os.walk(start_path):
 
 #### Unit Testing
 
+**ImageRepositoryTests.swift** *Line 33*
+```
+func testExtractImageResourcesExtractsExpectedEntries() {
+    let waitExpectation = expectation(description: "Wait for completion")
+    
+    let rawResourceArray = [ImageRepositoryTests.imageResourceRawObject]
+    ImageResource.extractImageResources(from: rawResourceArray) { (repository, errors) in
+        if let errors = errors, errors.count > 0 {
+            XCTFail("Found unexpected errors")
+            return
+        }
+        
+        guard let first = repository.map.first else {
+            XCTFail("Did not find expected resource")
+            return
+        }
+        
+        XCTAssertEqual(first.key, ImageRepositoryTests.imageResourceRawObject["objectId"] as! String)
+        
+        waitExpectation.fulfill()
+    }
+    
+    let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
+    XCTAssertTrue(actual)
+}
+```
+
 #### Inline Documentation
+
+**ResourceModelController.swift** *Line 110*
+```
+/**
+ Checks the existing number of resources in the repository and fills in entries for indexes between the skip and limit, if necessary
+ - parameter repository: the *Repository* that needs to be filled
+ - parameter skip: the number of items to skip when finding new resources
+ - parameter limit: the number of items we want to fetch
+ - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
+ - parameter completion: a callback used to pass back the filled repository
+ - Throws: Throws any error surfaced from *tableMap*
+ - Returns: void
+ */
+```
 
 #### API Key Obfuscation
 
-#### Launch Control with Notifications
+**LaunchController.swift** *Line 88*
+```
+try service.launch(with:service.launchControlKey?.decoded(), with:center)
+
+```
+
+#### Launch Control with DispatchGroup and Notifications
+
+**ResourceModelController.swift** *Line 67*
+```
+if FeaturePolice.waitForImageBeforeLaunching {
+    let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+    readQueue.sync {
+        let group = DispatchGroup()
+        
+        strongSelf.imageRepository.map.values.forEach({ (resource) in
+            group.enter()
+            strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, completion: { (data) in
+                if let data = data,                                         let image = UIImage(data: data)  {
+                    resource.thumbnailImage = image
+                } else {
+                    strongSelf.errorHandler.report(ModelError.MissingValue)
+                }
+                group.leave()
+            })
+        })
+        switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
+        case .timedOut:
+            // this is ok, we have our map
+            fallthrough
+        case .success:
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didUpdateModel()
+            }
+        }
+    }
+} else {
+    DispatchQueue.main.async { [weak self] in
+        self?.delegate?.didUpdateModel()
+    }
+}
+```
 
 #### Remote Store
 
+**ParseInterface.swift** *Line 64*
+```
+func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
+    
+    let wrappedCompletion = parseFindCompletion(with:errorHandler, for: completion)
+    
+    do {
+        let pfQuery = try query(for: table, sortBy: sortBy, skip: skip, limit: limit)
+        find(query: pfQuery, completion: wrappedCompletion)
+    } catch {
+        errorHandler.report(error)
+        completion(RawResourceArray())
+    }
+}
+```
+
 #### Non-Fatal Error Handling
+
+**Extractor.swift** *Line 12*
+```
+static func extractValue<T>(named key:String, from dictionary:[String:AnyObject]) throws -> T {
+    
+    guard var value = dictionary[key] else {
+        if key == RemoteStoreTableMap.CommonColumn.objectId.rawValue {
+            throw ModelError.EmptyObjectId
+        } else {
+            throw ModelError.MissingValue
+        }
+    }
+    
+    // We need to convert the string to an URL type
+    if T.self is URL.Type{
+        value = try Extractor.constructURL(from: value) as AnyObject
+    }
+    
+    // We need to make sure we have the type of variable we expect to have
+    guard let castValue = value as? T else {
+        throw ModelError.IncorrectType
+    }
+    
+    return castValue
+}
+```
 
 #### URLSession
 
-#### Buffered Images
+**NetworkSesionInterface** *Line 53*
+```
+func fetch(url:URL, with session:URLSession? = nil, completion:@escaping (Data?)->Void) {
+    // Using a default session here may crash because of a potential bug in Foundation.
+    // Ephemeral and Shared sessions don't crash.
+    // See: https://forums.developer.apple.com/thread/66874
+    
+    if NetworkSessionInterface.isAWS(url: url), let filename = filename(for: url) {
+        fetchWithAWS(filename: filename, completion: completion)
+        return
+    }
+    
+    let useSession = session != nil ? session : FeaturePolice.networkInterfaceUsesEphemeralSession ? URLSession(configuration: .ephemeral) : URLSession(configuration: .default)
+    
+    let taskCompletion:((Data?, URLResponse?, Error?) -> Void) = { [weak self] (data, response, error) in
+        if let e = error {
+            self?.errorHandler.report(e)
+            completion(nil)
+            return
+        }
+        
+        completion(data)
+    }
+    
+    guard let task = useSession?.dataTask(with: url, completionHandler: taskCompletion) else {
+        completion(nil)
+        return
+    }
+    
+    task.resume()
+}
+```
 
-#### Collection View Layout
+#### Collection View Flow Layout Customization
+
+**GalleryCollectionViewLayout.swift** *Line 100*
+```
+func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    var relativeSize = CGSize.zero
+    
+    guard let configuration = configuration, let delegate = sizeDelegate else {
+        return relativeSize
+    }
+    
+    relativeSize = delegate.sizeForItemAt(indexPath: indexPath, layout:self, currentConfiguration: configuration)
+    
+    return relativeSize
+}
+```
 
 #### Manual Auto Layout
 
+**GalleryViewController.swift** *Line 253*
+```
+override func updateViewConstraints() {
+        if customConstraints.count > 0 {
+            NSLayoutConstraint.deactivate(customConstraints)
+            view.removeConstraints(customConstraints)
+        }
+        
+        customConstraints.removeAll()
+        
+        if let currentCollectionView = collectionView, let collectionViewConstraints = constraints(for: currentCollectionView) {
+            customConstraints.append(contentsOf: collectionViewConstraints)
+        }
+        
+        NSLayoutConstraint.activate(customConstraints)
+        super.updateViewConstraints()
+    }
+```
+
 #### Generic Protocols
+
+**ImageRespository.swift** *Line 13*
+```
+/// Implementation of the *Repository* protocol for images
+class ImageRepository : Repository {
+    typealias AssociatedType = ImageResource
+    
+    /// A map of image resources 
+    var map: [String : ImageResource] = [:]
+}
+```
 
 #### Template Functions
 
+**ResourceModelController.swift** *Line 255*
+```
+func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+    let queue = DispatchQueue(label: "\(readQueueLabel).sort")
+    queue.async {
+        let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
+        let endSlice = skip + limit < values.count ? skip + limit : values.count
+        let resources = Array(values[skip..<(endSlice)])
+        DispatchQueue.main.async {
+            completion(resources)
+        }
+    }
+}
+```
+
 #### Dispatch Queues and Operation Queues
+
+**ResourceModelController+GalleryCollectionViewModelDelegate** *Line 25*
+```
+func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:ImageResourceCompletion?) -> Void {
+    // We need to make sure we don't skip fetching any images for this purpose
+    let readQueue = DispatchQueue(label: readQueueLabel)
+    var checkCount = 0
+    readQueue.sync { checkCount = imageRepository.map.values.count }
+    let finalSkip = skip > checkCount ? checkCount : skip
+    
+    // We also need to make sure we still get the requested number of images
+    let finalLimit = abs(finalSkip - skip) + limit
+    
+    // FillAndSort returns on the main queue but we are doing this for safety
+    let wrappedCompletion:([Resource])->Void = {[weak self] (sortedResources) in
+        guard let imageResources = sortedResources as? [ImageResource] else {
+            self?.errorHandler.report(ModelError.IncorrectType)
+            DispatchQueue.main.async {
+                self?.delegate?.didFailToUpdateModel(with: ModelError.IncorrectType.errorDescription)
+                completion?([ImageResource]())
+            }
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self?.delegate?.didUpdateModel()
+            completion?(imageResources)
+        }
+    }
+    
+    var copyImageRepository = ImageRepository()
+    readQueue.sync {
+        copyImageRepository = imageRepository
+        do {
+            try fillAndSort(repository: copyImageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, completion: wrappedCompletion)
+        } catch {
+            errorHandler.report(error)
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+                completion?([ImageResource]())
+            }
+        }
+    }
+}
+```
 
 #### Delegation
 
 
+**GalleryCollectionViewModel.swift** *Line 11*
 ```
-
-
+/// Protocol to fetch the image resources for the model and get an error handler if necessary
+protocol GalleryCollectionViewModelDelegate : class {
+    var networkSessionInterface:NetworkSessionInterface { get }
+    var errorHandler:ErrorHandlerDelegate { get }
+    var timeoutDuration:TimeInterval { get }
+    func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval, completion:ImageResourceCompletion?)
+}
 ```
 
 ---

@@ -49,18 +49,18 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
             }
         }
         
-            var copyImageRepository = ImageRepository()
-            readQueue.sync {
-                copyImageRepository = imageRepository
-                do {
-                    try fillAndSort(repository: copyImageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, completion: wrappedCompletion)
-                } catch {
-                    errorHandler.report(error)
-                    DispatchQueue.main.async { [weak self] in
-                        self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
-                        completion?([ImageResource]())
-                    }
+        var copyImageRepository = ImageRepository()
+        readQueue.sync {
+            copyImageRepository = imageRepository
+            do {
+                try fillAndSort(repository: copyImageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, completion: wrappedCompletion)
+            } catch {
+                errorHandler.report(error)
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+                    completion?([ImageResource]())
                 }
             }
+        }
     }
 }
