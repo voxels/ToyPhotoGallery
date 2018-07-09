@@ -161,7 +161,8 @@ extension GalleryViewController {
         
         let layout = collectionViewLayout(for: preview ? .horizontal : .vertical, errorHandler: oldCollectionView.model?.resourceDelegate?.errorHandler)
         let newCollectionView = galleryCollectionView(with: layout, viewModel:viewModel)
-        newCollectionView.backgroundColor = .clear
+        newCollectionView.backgroundColor = preview ? .black : .white
+        contentContainerView.backgroundColor = newCollectionView.backgroundColor
         newCollectionView.alpha = 1.0
         contentContainerView.addSubview(newCollectionView)
         self.collectionView = newCollectionView

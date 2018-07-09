@@ -146,7 +146,7 @@ extension GalleryCollectionViewImageCell {
     }
     
     func addFileImageView( for model:GalleryCollectionViewImageCellModel, data:Data ) {
-        guard model != self.model, let foundImage = UIImage(data:data) else {
+        guard model == self.model, let foundImage = UIImage(data:data) else {
             return
         }
         
