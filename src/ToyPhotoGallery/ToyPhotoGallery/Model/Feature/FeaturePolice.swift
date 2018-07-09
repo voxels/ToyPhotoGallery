@@ -9,6 +9,6 @@
 import Foundation
 
 struct FeaturePolice {
-    static let networkInterfaceUsesSharedSessionForFetching = true
+    static let networkInterfaceUsesEphemeralSession = true
     static let disableCache = true
 }

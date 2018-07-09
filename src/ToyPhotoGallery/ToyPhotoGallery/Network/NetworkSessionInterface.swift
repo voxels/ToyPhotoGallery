@@ -38,7 +38,7 @@ class NetworkSessionInterface : NSObject {
         self.errorHandler = errorHandler
         super.init()
         operationQueue.maxConcurrentOperationCount = 1
-        session = session(with: URLSessionConfiguration.default, queue: operationQueue)
+        session = session(with: FeaturePolice.networkInterfaceUsesEphemeralSession ? .ephemeral : URLSessionConfiguration.default, queue: operationQueue)
     }
     
     /**
@@ -51,7 +51,7 @@ class NetworkSessionInterface : NSObject {
         // Using a default session here may crash because of a potential bug in Foundation.
         // Ephemeral and Shared sessions don't crash.
         // See: https://forums.developer.apple.com/thread/66874
-        let session = FeaturePolice.networkInterfaceUsesSharedSessionForFetching ? URLSession.shared : URLSession(configuration: .default)
+        let session = FeaturePolice.networkInterfaceUsesEphemeralSession ? URLSession(configuration: .ephemeral) : URLSession(configuration: .default)
         let task = session.dataTask(with: url) { [weak self] (data, response, error) in
             if let e = error {
                 self?.errorHandler.report(e)
