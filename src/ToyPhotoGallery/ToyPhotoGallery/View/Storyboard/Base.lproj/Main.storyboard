@@ -133,7 +133,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDG-bh-GPQ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_exposure_plus_1_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="tL7-qw-lpZ">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_exposure_plus_1_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="tL7-qw-lpZ" userLabel="plusOneIcon">
                                         <rect key="frame" x="25" y="8" width="34" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="34" id="KtR-Av-f7T"/>
@@ -150,9 +150,30 @@
                                             <action selector="onTapPlusOneButton:" destination="tfB-aw-ZY9" eventType="touchUpInside" id="z6Z-fM-QD1"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_reply_reversed_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="HoQ-9j-Tgy" userLabel="shareIcon">
+                                        <rect key="frame" x="316" y="7.5" width="34" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="A4o-Fg-ban"/>
+                                            <constraint firstAttribute="width" constant="34" id="Bwe-DO-haJ"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qv-at-awc" userLabel="shareButton">
+                                        <rect key="frame" x="311" y="0.0" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="IvO-Od-22f"/>
+                                            <constraint firstAttribute="width" constant="44" id="OMX-ly-2JC"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="onTapShareButton:" destination="tfB-aw-ZY9" eventType="touchUpInside" id="fSc-VI-9rM"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="HoQ-9j-Tgy" secondAttribute="trailing" constant="25" id="6Cn-iU-p7x"/>
+                                    <constraint firstItem="9qv-at-awc" firstAttribute="centerX" secondItem="HoQ-9j-Tgy" secondAttribute="centerX" id="BpL-wH-Wj3"/>
+                                    <constraint firstItem="9qv-at-awc" firstAttribute="centerY" secondItem="HoQ-9j-Tgy" secondAttribute="centerY" id="DTx-t2-nR1"/>
+                                    <constraint firstItem="HoQ-9j-Tgy" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" id="Rao-2w-InY"/>
                                     <constraint firstItem="tL7-qw-lpZ" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" id="dUK-zb-b8Q"/>
                                     <constraint firstItem="tL7-qw-lpZ" firstAttribute="leading" secondItem="EDG-bh-GPQ" secondAttribute="leading" constant="25" id="lUR-an-vds"/>
                                     <constraint firstItem="tL7-qw-lpZ" firstAttribute="centerY" secondItem="6V7-bb-hlc" secondAttribute="centerY" id="on0-el-hRA"/>
@@ -181,5 +202,6 @@
     <resources>
         <image name="ic_clear_white_36pt" width="36" height="36"/>
         <image name="ic_exposure_plus_1_white_36pt" width="36" height="36"/>
+        <image name="ic_reply_reversed_white_36pt" width="36" height="36"/>
     </resources>
 </document>

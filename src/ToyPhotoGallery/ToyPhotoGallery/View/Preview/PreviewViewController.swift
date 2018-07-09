@@ -30,4 +30,7 @@ class PreviewViewController: UIViewController {
         
     }
     
+    @IBAction func onTapShareButton(_ sender: Any) {
+        
+    }
 }
