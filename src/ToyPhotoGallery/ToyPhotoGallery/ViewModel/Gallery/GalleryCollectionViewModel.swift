@@ -200,17 +200,31 @@ extension GalleryCollectionViewModel {
      */
     
     func calculateItemSize(for thumbnailSize:CGSize, containerSize:CGSize, layout:GalleryCollectionViewLayout, configuration:FlowLayoutConfiguration)->CGSize {
-        var actualSize = configuration.estimatedItemSize
-        
         if configuration.scrollDirection == .horizontal {
-            actualSize = itemSize(for: thumbnailSize, containerSize: containerSize)
+            return itemSize(for: thumbnailSize, containerSize: containerSize)
+        } else {
+            return layout.relative(size: configuration.estimatedItemSize, with: configuration, containerWidth: containerSize.width)
         }
-        
-        return layout.relative(size: actualSize, with: configuration, containerWidth: containerSize.width)
     }
     
     func itemSize(for thumbnailSize:CGSize, containerSize:CGSize)->CGSize {
-        var actualSize = thumbnailSize
+        var actualSize = containerSize
+        
+        // Protect against div/0
+        guard containerSize.width != 0, containerSize.height != 0 else {
+            return actualSize
+        }
+        
+        // Landscape and square
+        if thumbnailSize.width >= thumbnailSize.height {
+            let actualHeight = min(thumbnailSize.height * containerSize.width / thumbnailSize.width, containerSize.width - 2) - 2
+            let actualWidth = containerSize.width - 2
+            actualSize = CGSize(width: actualWidth, height: actualHeight)
+        } else {
+            let actualHeight = containerSize.height - 2
+            let actualWidth = min(thumbnailSize.width * containerSize.height / thumbnailSize.height, containerSize.width - 2) - 2
+            actualSize = CGSize(width: actualWidth, height: actualHeight)
+        }
         
         return actualSize
     }

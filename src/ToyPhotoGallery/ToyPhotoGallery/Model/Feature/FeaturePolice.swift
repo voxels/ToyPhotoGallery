@@ -11,5 +11,5 @@ import Foundation
 struct FeaturePolice {
     static let networkInterfaceUsesEphemeralSession = false
     static let disableCache = false
-    static let defaultHorizontalLayout = false
+    static let defaultHorizontalLayout = true
 }

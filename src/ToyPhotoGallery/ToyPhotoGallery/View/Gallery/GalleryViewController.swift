@@ -211,7 +211,11 @@ extension GalleryViewController {
 
 extension GalleryViewController : GalleryViewModelDelegate {
     var containerSize: CGSize {
-        return contentContainerView.bounds.size
+        guard let collectionView = collectionView else {
+            return CGSize.zero
+        }
+        
+        return collectionView.bounds.size
     }
     
     func didUpdateViewModel(insertItems: [IndexPath]?, deleteItems: [IndexPath]?, moveItems: [(IndexPath, IndexPath)]?) {
