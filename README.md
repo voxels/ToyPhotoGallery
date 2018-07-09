@@ -118,7 +118,7 @@ for path,dirs,files in os.walk(start_path):
 
 *ToyPhotoGallery* includes code that demonstrates the following techniques:
 
-#### Unit Testing
+### Unit Testing
 
 **ImageRepositoryTests.swift** *[Line 33 - 55](https://github.com/voxels/ToyPhotoGallery/blob/5a09509a8c6623cced2e3af6819915021b10b803/src/ToyPhotoGallery/ToyPhotoGalleryTests/ImageRepositoryTests.swift#L33-L55)*
 ```
@@ -147,7 +147,7 @@ func testExtractImageResourcesExtractsExpectedEntries() {
 }
 ```
 
-#### Inline Documentation
+### Inline Documentation
 
 **ResourceModelController.swift** *[Line 110 - 119](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L110-L119)*
 ```
@@ -163,7 +163,7 @@ func testExtractImageResourcesExtractsExpectedEntries() {
  */
 ```
 
-#### API Key Obfuscation
+### API Key Obfuscation
 
 **LaunchController.swift** *[Line 88](https://github.com/voxels/ToyPhotoGallery/blob/3f600d85db70ea4b880059e09e2e1f550f5ed393/src/ToyPhotoGallery/ToyPhotoGallery/Model/Launch/LaunchController.swift#L88)*
 ```
@@ -171,7 +171,7 @@ try service.launch(with:service.launchControlKey?.decoded(), with:center)
 
 ```
 
-#### Launch Control with DispatchGroup and Notifications
+### Launch Control with DispatchGroup and Notifications
 
 **ResourceModelController.swift** *[Line 67 - 97](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L67-L97)*
 ```
@@ -208,7 +208,7 @@ if FeaturePolice.waitForImageBeforeLaunching {
 }
 ```
 
-#### Remote Store
+### Remote Store
 
 **ParseInterface.swift** *[Line 64 - 74](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L67-L97)*
 ```
@@ -226,7 +226,7 @@ func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, er
 }
 ```
 
-#### Non-Fatal Error Handling
+### Non-Fatal Error Handling
 
 **Extractor.swift** *[Line 12 - 33](https://github.com/voxels/ToyPhotoGallery/blob/708babee8965af46330edf01906458a570c1307c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Utility/Extractor.swift#L12-L33)*
 ```
@@ -254,7 +254,7 @@ static func extractValue<T>(named key:String, from dictionary:[String:AnyObject]
 }
 ```
 
-#### URLSession
+### URLSession
 
 **NetworkSesionInterface** *[Line 53 - 81](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Network/NetworkSessionInterface.swift#L53-L81)*
 ```
@@ -289,7 +289,7 @@ func fetch(url:URL, with session:URLSession? = nil, completion:@escaping (Data?)
 }
 ```
 
-#### Collection View Flow Layout Customization
+### Collection View Flow Layout Customization
 
 **GalleryCollectionViewLayout.swift** *[Line 100 - 110](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/View/Gallery/GalleryCollectionViewLayout.swift#L100-L110)*
 ```
@@ -306,7 +306,7 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
 }
 ```
 
-#### Manual Auto Layout
+### Manual Auto Layout
 
 **GalleryViewController.swift** *[Line 253 - 267](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/View/Gallery/GalleryViewController.swift#L253-L267)*
 ```
@@ -327,7 +327,7 @@ override func updateViewConstraints() {
     }
 ```
 
-#### Generic Protocols
+### Generic Protocols
 
 **ImageRespository.swift** *[Line 13 - 19](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Repository/ImageRepository.swift#L13-L19)*
 ```
@@ -340,7 +340,7 @@ class ImageRepository : Repository {
 }
 ```
 
-#### Template Functions
+### Template Functions
 
 **ResourceModelController.swift** *[Line 255 - 266](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L255-L266)*
 ```
@@ -357,7 +357,7 @@ func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.Associa
 }
 ```
 
-#### Dispatch Queues and Operation Queues
+### Dispatch Queues and Operation Queues
 
 **ResourceModelController+GalleryCollectionViewModelDelegate** *[Line 25 - 66](https://github.com/voxels/ToyPhotoGallery/blob/4302b56a9c2d04f1c6474081a34f74c44f8c3464/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController%2BGalleryCollectionViewModelDelegate.swift#L25-L66)*
 ```
@@ -404,8 +404,7 @@ func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval = Resour
 }
 ```
 
-#### Delegation
-
+### Delegation
 
 **GalleryCollectionViewModel.swift** *[Line 11 - 17](https://github.com/voxels/ToyPhotoGallery/blob/4302b56a9c2d04f1c6474081a34f74c44f8c3464/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController%2BGalleryCollectionViewModelDelegate.swift#L25-L66)*
 ```
