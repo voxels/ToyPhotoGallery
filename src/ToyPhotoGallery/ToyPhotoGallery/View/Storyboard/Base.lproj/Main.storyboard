@@ -38,10 +38,22 @@
                     <view key="view" contentMode="scaleToFill" id="JaE-rz-9pA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qIf-UG-eR0">
+                                <rect key="frame" x="169" y="325.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qIf-UG-eR0" firstAttribute="centerY" secondItem="Mfh-UA-sTq" secondAttribute="centerY" id="Hqb-sF-2wT"/>
+                            <constraint firstItem="qIf-UG-eR0" firstAttribute="centerX" secondItem="Mfh-UA-sTq" secondAttribute="centerX" id="dKA-J0-Zen"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Mfh-UA-sTq"/>
                     </view>
                     <navigationItem key="navigationItem" id="lqV-JE-Ti8"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="qIf-UG-eR0" id="Arg-NK-hyA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yzi-9M-n6l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

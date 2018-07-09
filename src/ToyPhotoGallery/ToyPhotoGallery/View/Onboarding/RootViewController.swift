@@ -8,4 +8,19 @@
 
 import UIKit
 
-class RootViewController: UIViewController {}
+class RootViewController: UIViewController {
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    var timer:Timer?
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { [weak self] (timer) in
+            self?.showActivityIndicator()
+        })
+    }
+    
+    func showActivityIndicator() {
+        activityIndicator.isHidden = true
+    }
+}
