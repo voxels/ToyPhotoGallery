@@ -9,20 +9,18 @@
 import UIKit
 
 extension UIViewController {
-    func insert(childViewController:UIViewController, on parentViewController:UIViewController, into view:UIView, frame:CGRect? = nil ) throws {
+    func insert(childViewController:UIViewController, on parentViewController:UIViewController, into view:UIView ) throws {
         if childViewController.parent != nil {
             remove(childViewController: childViewController)
         }
         
         parentViewController.addChildViewController(childViewController)
-        childViewController.didMove(toParentViewController: parentViewController)
-        if let frame = frame {
-            childViewController.view.frame = frame
-        } else {
-            childViewController.view.frame = view.bounds
-        }
+        childViewController.view.frame = view.bounds
+
         childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(childViewController.view)
+        childViewController.didMove(toParentViewController: parentViewController)
+
     }
     
     func remove(childViewController:UIViewController) {

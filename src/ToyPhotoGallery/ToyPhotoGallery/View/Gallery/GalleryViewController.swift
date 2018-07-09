@@ -30,7 +30,12 @@ class GalleryViewController: UIViewController {
     
     @IBOutlet weak var contentContainerView: UIView!
     var collectionView:GalleryCollectionView?
-
+    
+    @IBOutlet weak var previewContainerView: UIView!
+    @IBOutlet weak var previewContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var previewContainerViewBottomConstraint: NSLayoutConstraint!
+    
+    
     var customConstraints = [NSLayoutConstraint]()
 
     override func viewDidLoad() {
@@ -63,7 +68,7 @@ class GalleryViewController: UIViewController {
         collectionView = configuredView
     }
     
-    func show(previewViewController:PreviewViewController, safeArea:UIEdgeInsets, in frame:CGRect ) throws {
+    func show(previewViewController:PreviewViewController, safeArea:UIEdgeInsets, into view:UIView ) throws {
         if #available(iOS 11.0, *) {
             previewViewController.additionalSafeAreaInsets = safeArea
         } else {
@@ -71,7 +76,7 @@ class GalleryViewController: UIViewController {
         }
         
         toggle(header: headingContainerView, preview: true)
-        try insert(childViewController: previewViewController, on: self, into:view, frame:frame)
+        try insert(childViewController: previewViewController, on: self, into:view)
         closeButton.isHidden = false
     }
     
@@ -232,7 +237,6 @@ extension GalleryViewController : GalleryCollectionViewLayoutDelegate {
         }
         
         let viewController = try previewViewController(for: indexPath, with: galleryModel)
-        let frame = contentContainerView.frame
-        try show(previewViewController: viewController, safeArea: UIEdgeInsets.zero, in: frame)
+        try show(previewViewController: viewController, safeArea: UIEdgeInsets.zero, into: previewContainerView)
     }
 }

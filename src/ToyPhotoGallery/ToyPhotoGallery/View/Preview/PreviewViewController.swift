@@ -25,4 +25,9 @@ class PreviewViewController: UIViewController {
     func refresh(with viewModel:PreviewViewModel) {
         
     }
+    
+    @IBAction func onTapPlusOneButton(_ sender: Any) {
+        
+    }
+    
 }
