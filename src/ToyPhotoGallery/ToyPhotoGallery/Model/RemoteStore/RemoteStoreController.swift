@@ -36,10 +36,6 @@ extension RemoteStoreController {
             if RemoteStoreTableMap.ImageResourceColumn.init(rawValue: sortBy) != nil {
                 return
             }
-        case .EXIF:
-            if RemoteStoreTableMap.EXIFColumn.init(rawValue: sortBy ) != nil {
-                return
-            }
         }
         
         throw RemoteStoreError.InvalidSortByColumn

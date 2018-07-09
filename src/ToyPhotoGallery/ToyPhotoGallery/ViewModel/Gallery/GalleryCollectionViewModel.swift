@@ -33,7 +33,7 @@ class GalleryCollectionViewModel {
     weak var viewModelDelegate:GalleryViewModelDelegate?
     
     /// The data source used for the collection view, containing a protocol of cell models
-    var data = [GalleryCollectionViewImageCellModel]()
+    var data = SynchronizedArray<GalleryCollectionViewImageCellModel>(qos: .userInteractive)
     
     /// A flag to determine if the collection view is currently fetching image resources
     var isFetching = false
@@ -62,7 +62,7 @@ class GalleryCollectionViewModel {
      */
     func configure(with delegate:GalleryCollectionViewModelDelegate) {
         networkSessionInterface = delegate.networkSessionInterface
-        data = [GalleryCollectionViewImageCellModel]()
+        data = SynchronizedArray<GalleryCollectionViewImageCellModel>(qos: .userInteractive)
         nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize)
     }
     
@@ -186,18 +186,12 @@ extension GalleryCollectionViewModel {
             return
         }
         
-        data.append(contentsOf: imageModels)
+        self.data.append(contentsOf: imageModels)
+        
+        // TODO: Implement checking for changes
         viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)
         endFetching()
     }
-    
-    /*
-    func completeFetch(with newDataSource:[GalleryCollectionViewImageCellModel], insertItems:[IndexPath]?, deleteItems:[IndexPath]?, moveItems:[(IndexPath, IndexPath)]?, delegate:GalleryViewModelDelegate?) {
-        data = newDataSource
-        delegate?.didUpdateViewModel(insertItems: insertItems, deleteItems: deleteItems, moveItems: moveItems)
-        endFetching()
-    }
-     */
     
     func calculateItemSize(for thumbnailSize:CGSize, containerSize:CGSize, layout:GalleryCollectionViewLayout, configuration:FlowLayoutConfiguration)->CGSize {
         if configuration.scrollDirection == .horizontal {
@@ -211,13 +205,13 @@ extension GalleryCollectionViewModel {
         var actualSize = containerSize
         
         // Protect against div/0
-        guard containerSize.width != 0, containerSize.height != 0 else {
-            return actualSize
+        guard containerSize.width > 0, containerSize.height > 0 else {
+            return CGSize(width: 1, height: 1)
         }
         
         // Landscape and square, else portrait
         if thumbnailSize.width >= thumbnailSize.height {
-            let actualHeight = min(thumbnailSize.height * containerSize.width / thumbnailSize.width, containerSize.height)
+            let actualHeight = max(min(thumbnailSize.height * containerSize.width / thumbnailSize.width, containerSize.height), 320.0)
             let actualWidth = containerSize.width
             actualSize = CGSize(width: actualWidth, height: actualHeight)
         } else {
@@ -226,16 +220,22 @@ extension GalleryCollectionViewModel {
             actualSize = CGSize(width: actualWidth, height: actualHeight)
         }
         
+        // Making sure we don't break the layout by returning a negative size
+        if actualSize.width <= 1 || actualSize.height <= 1 {
+            return CGSize(width: 1, height: 1)
+        }
+        
         return actualSize
     }
 }
 
 extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {
     func sizeForItemAt(indexPath: IndexPath, layout:GalleryCollectionViewLayout, currentConfiguration:FlowLayoutConfiguration) -> CGSize {
-        let width = data[indexPath.item].imageResource.thumbnailWidth
-        let height = data[indexPath.item].imageResource.thumbnailHeight
         
-        if let containerSize = viewModelDelegate?.containerSize {
+        if let containerSize = viewModelDelegate?.containerSize,
+            let width = data[indexPath.item]?.imageResource.thumbnailWidth,
+            let height = data[indexPath.item]?.imageResource.thumbnailHeight,
+            width > CGFloat(0.0) && height > CGFloat(0.0) {
             return calculateItemSize(for: CGSize(width:width, height:height), containerSize: containerSize, layout:layout, configuration: currentConfiguration)
         }
         

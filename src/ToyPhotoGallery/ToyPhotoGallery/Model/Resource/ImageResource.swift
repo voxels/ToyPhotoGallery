@@ -24,19 +24,12 @@ class ImageResource : ImageSchema  {
     var filename: String
     var thumbnailURL: URL
     var fileURL: URL
-    var thumbnailImage:UIImage? {
-        didSet {
-            if let image = thumbnailImage {
-                thumbnailWidth = image.size.width
-                thumbnailHeight = image.size.height
-            }
-        }
-    }
+    var thumbnailImage:UIImage?
     var thumbnailWidth:CGFloat = 0
     var thumbnailHeight:CGFloat = 0
     var fileImage:UIImage?
     
-    init(createdAt:Date, updatedAt:Date, filename:String, thumbnailURL:URL, fileURL:URL) {
+    init(createdAt:Date, updatedAt:Date, filename:String, thumbnailURL:URL, fileURL:URL, width:Int, height:Int) {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.filename = filename
@@ -44,6 +37,8 @@ class ImageResource : ImageSchema  {
         self.fileURL = fileURL
         self.thumbnailImage = nil
         self.fileImage = nil
+        self.thumbnailWidth = CGFloat(width)
+        self.thumbnailHeight = CGFloat(height)
     }
     
     /**
@@ -91,8 +86,10 @@ class ImageResource : ImageSchema  {
         let filename:String = try Extractor.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.filename.rawValue, from: dictionary)
         let thumbnailURL:URL = try Extractor.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.thumbnailURLString.rawValue, from: dictionary)
         let fileURL:URL = try Extractor.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.fileURLString.rawValue, from: dictionary)
+        let width:Int = try Extractor.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.width.rawValue, from: dictionary)
+        let height:Int = try Extractor.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.height.rawValue, from: dictionary)
         
-        return ImageResource(createdAt: createdAt, updatedAt: updatedAt, filename: filename, thumbnailURL: thumbnailURL, fileURL: fileURL)
+        return ImageResource(createdAt: createdAt, updatedAt: updatedAt, filename: filename, thumbnailURL: thumbnailURL, fileURL: fileURL, width:width, height:height)
     }
 }
 

@@ -21,11 +21,7 @@ enum RemoteStoreTableMap : String {
         case filename
         case thumbnailURLString
         case fileURLString
-        case exifData
-    }
-    
-    case EXIF
-    enum EXIFColumn : String {
-        case camera
+        case width
+        case height
     }
 }

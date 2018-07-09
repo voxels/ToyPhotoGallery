@@ -9,13 +9,7 @@
 import UIKit
 
 class GalleryCollectionView: UICollectionView {
-    var model:GalleryCollectionViewModel? {
-        didSet {
-            if model != nil {
-                refresh()
-            }
-        }
-    }
+    var model:GalleryCollectionViewModel?
     
     let defaultBackgroundColor:UIColor = .white
     let defaultIdentifier = "default"
@@ -53,10 +47,6 @@ extension GalleryCollectionView {
     func assign(dataSource:UICollectionViewDataSource, delegate:UICollectionViewDelegateFlowLayout) {
         self.dataSource = dataSource
         self.delegate = delegate
-    }
-    
-    func refresh() {
-        self.reloadData()
     }
 }
 

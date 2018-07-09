@@ -9,18 +9,13 @@
 import UIKit
 
 class RootViewController: UIViewController {
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    var timer:Timer?
+    @IBOutlet weak var waitTextView: UITextView!
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { [weak self] (timer) in
-            self?.showActivityIndicator()
-        })
-    }
-    
-    func showActivityIndicator() {
-        activityIndicator.isHidden = true
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if FeaturePolice.waitForImageBeforeLaunching {
+            waitTextView.isHidden = false
+        }
     }
 }

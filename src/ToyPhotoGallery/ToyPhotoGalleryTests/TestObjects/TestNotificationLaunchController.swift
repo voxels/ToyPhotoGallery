@@ -21,7 +21,7 @@ class TestNotificationLaunchController : LaunchController {
             didReceiveLaunchErrorHandlerNotification = true
         case Notification.Name.DidLaunchRemoteStore:
             didReceiveLaunchRemoteStoreNotification = true
-        case Notification.Name.DidLaunchReportingHandler:
+        case Notification.Name.DidLaunchBucketHandler:
             didReceiveLaunchReportingHandlerNotification = true
         default:
             didReceiveUnexpectedNotification = true

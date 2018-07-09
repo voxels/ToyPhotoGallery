@@ -10,7 +10,7 @@
 import UIKit
 
 struct GalleryCollectionViewImageCellAppearance {
-    let defaultBackgroundColor:UIColor = .white
+    let defaultBackgroundColor:UIColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 240.0/255.0)
     let shadowOffset:CGSize = CGSize(width: 0.0, height: -0.5)
     let shadowOpacity:Float = 0.1
 }
@@ -28,9 +28,10 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         layer.shadowOpacity = 0.0
-        thumbnailImageView?.removeFromSuperview()
+        for view in subviews{
+            view.removeFromSuperview()
+        }
         thumbnailImageView = nil
-        fileImageView?.removeFromSuperview()
         fileImageView = nil
         model = nil
     }
@@ -54,27 +55,25 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
             addSubview(newImageView)
             thumbnailImageView = newImageView
             showThumbnail()
+            configureFileImageView(for: model)
         } else {
-            let newImageView = UIImageView.imageView(with:model.imageResource, url:model.imageResource.fileURL, networkSessionInterface:model.interface, completion:{[weak self] (image) in
-                DispatchQueue.main.async {
-                    model.imageResource.thumbnailImage = image
-                    
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    if model == strongSelf.model {
-                        strongSelf.thumbnailImageView?.image = image
-                        if let appearance = strongSelf.appearance {
-                            strongSelf.layer.shadowOpacity = appearance.shadowOpacity
-                            strongSelf.layer.shadowOffset = appearance.shadowOffset
-                        }
-                    }
+            model.interface.fetch(url: model.imageResource.thumbnailURL) { [weak self, weak configurationModel = model] (data) in
+                guard let data = data, let strongSelf = self else {
+                    return
                 }
-            })
-            applyAttributes(to: newImageView)
-            addSubview(newImageView)
-            thumbnailImageView = newImageView
-            showThumbnail()
+                
+                if let existingModel = strongSelf.model {
+                    let existingResourceFileName = existingModel.imageResource.filename
+                    if configurationModel?.imageResource.filename != existingResourceFileName  {
+                        self?.configureThumbnailImageView(for: existingModel)
+                    } else {
+                        self?.addThumbnailImageView(for: existingModel, data: data)
+                    }
+                } else {
+                    model.interface.errorHandler.report(ModelError.MissingValue)
+                    assert(false)
+                }
+            }
         }
     }
     
@@ -90,21 +89,27 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
             fileImageView = newImageView
             showFileImageView()
         } else {
-            let newImageView = UIImageView.imageView(with:model.imageResource, url:model.imageResource.fileURL, networkSessionInterface:model.interface, completion:{ (image) in
-                DispatchQueue.main.async { [weak self] in
-                    model.imageResource.fileImage = image
-                    if model == self?.model {
-                        self?.fileImageView?.image = image
-                    }
+            model.interface.fetch(url: model.imageResource.fileURL) { [weak self, weak configurationModel = model] (data) in
+                guard let data = data, let strongSelf = self else {
+                    return
                 }
-            })
-            if let thumbnailImageView = thumbnailImageView, subviews.contains(thumbnailImageView) {
-                insertSubview(newImageView, belowSubview: thumbnailImageView)
-            } else {
-                addSubview(newImageView)
+                
+                if model != strongSelf.model {
+                    return
+                }
+                
+                if let existingModel = strongSelf.model {
+                    let existingResourceFileName = existingModel.imageResource.filename
+                    if configurationModel?.imageResource.filename != existingResourceFileName  {
+                        self?.configureFileImageView(for: existingModel)
+                    } else {
+                        self?.addFileImageView(for: existingModel, data: data)
+                    }
+                } else {
+                    model.interface.errorHandler.report(ModelError.MissingValue)
+                    assert(false)
+                }
             }
-            fileImageView = newImageView
-            showFileImageView()
         }
     }
 }
@@ -116,15 +121,51 @@ extension GalleryCollectionViewImageCell {
         }
         imageView.clipsToBounds = true
         imageView.frame = bounds
-        imageView.backgroundColor = .clear
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.translatesAutoresizingMaskIntoConstraints = true
         imageView.contentMode = .scaleAspectFill
-        imageView.alpha = 0.0
     }
 }
 
 extension GalleryCollectionViewImageCell {
+    
+    func addThumbnailImageView( for model:GalleryCollectionViewImageCellModel, data:Data ) {
+        guard model == self.model, let foundImage = UIImage(data:data) else {
+            return
+        }
+        
+        if let existingThumbnailView = thumbnailImageView, subviews.contains(existingThumbnailView) {
+            existingThumbnailView.image = foundImage
+        } else {
+            let newImageView = UIImageView(image:UIImage(data: data))
+            applyAttributes(to: newImageView)
+            addSubview(newImageView)
+            thumbnailImageView = newImageView
+        }
+        showThumbnail()
+    }
+    
+    func addFileImageView( for model:GalleryCollectionViewImageCellModel, data:Data ) {
+        guard model != self.model, let foundImage = UIImage(data:data) else {
+            return
+        }
+        
+        if let existingFileImageView = fileImageView, subviews.contains(existingFileImageView) {
+            existingFileImageView.image = foundImage
+        } else {
+            let newImageView = UIImageView(image:foundImage)
+            applyAttributes(to: newImageView)
+            newImageView.alpha = 0.0
+            if let thumbnailImageView = thumbnailImageView, subviews.contains(thumbnailImageView) {
+                insertSubview(newImageView, belowSubview: thumbnailImageView)
+            } else {
+                addSubview(newImageView)
+            }
+            fileImageView = newImageView
+        }
+        showFileImageView()
+    }
+    
     func showFileImageView() {
         guard let fileImageView = fileImageView else {
             return
@@ -146,13 +187,10 @@ extension GalleryCollectionViewImageCell {
             return
         }
         
-        thumbnailImageView.alpha = 0
         thumbnailImageView.isHidden = false
-        
-        UIView.animate(withDuration: fadeDuration, delay: 0.0, options: .curveLinear, animations: {
-            thumbnailImageView.alpha = 1.0
-        }) { (didSucceed) in
-            
+        guard let model = model else {
+            return
         }
+        configureFileImageView(for: model)
     }
 }

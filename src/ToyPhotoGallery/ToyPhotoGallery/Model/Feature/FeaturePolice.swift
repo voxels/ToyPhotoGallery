@@ -14,4 +14,5 @@ struct FeaturePolice {
     static let useSlowAnimation = false
     static let showAPIKeys = false
     static let shouldAssertWarnings = false
+    static let waitForImageBeforeLaunching = true
 }

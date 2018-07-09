@@ -46,13 +46,11 @@ class GalleryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let collectionView = collectionView, let existingEntries = collectionView.model?.data, existingEntries.count > 0 {
-            if contentContainerView.contains(collectionView) {
-                collectionView.reloadData()
-            } else {
+            if !contentContainerView.contains(collectionView) {
                 contentContainerView.addSubview(collectionView)
                 refreshLayout(in: view)
-                collectionView.reloadData()
             }
+            reloadCollectionViewWithoutAnimation()
         }
     }
     
@@ -280,6 +278,13 @@ extension GalleryViewController {
             collectionView.reloadData()
         }
     }
+    
+    func reloadCollectionViewWithoutAnimation() {
+        CATransaction.begin()
+        CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+        collectionView?.reloadData()
+        CATransaction.commit()
+    }
 }
 
 // MARK: - GalleryViewModelDelegate
@@ -303,7 +308,7 @@ extension GalleryViewController : GalleryViewModelDelegate {
             refreshLayout(in: view)
         }
         
-        collectionView.reloadData()
+        reloadCollectionViewWithoutAnimation()
     }
 }
 

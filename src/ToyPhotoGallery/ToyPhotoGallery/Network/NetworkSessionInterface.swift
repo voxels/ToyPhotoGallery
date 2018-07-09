@@ -97,10 +97,12 @@ class NetworkSessionInterface : NSObject {
         
         var completionHandler: AWSS3TransferUtilityDownloadCompletionHandlerBlock?
         completionHandler = { [weak self] (task, URL, data, error) -> Void in
-            if let error = error {
-                self?.errorHandler.report(error)
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorHandler.report(error)
+                }
+                completion(data)
             }
-            completion(data)
         }
         
         let transferUtility = AWSS3TransferUtility.default()
@@ -166,7 +168,7 @@ class NetworkSessionInterface : NSObject {
     func sessionTask(with url:URL, in session:URLSession, cachePolicy: URLRequest.CachePolicy = NetworkSessionInterface.defaultCachePolicy, timeoutInterval: TimeInterval = NetworkSessionInterface.defaultTimeout, retain:Bool, dataDelegate:NetworkSessionInterfaceDataTaskDelegate?) throws -> NetworkSessionTask? {
         
         if NetworkSessionInterface.isAWS(url: url) {
-            throw NetworkError.AWSDoesNotSupportSessionTasks
+            return nil
         }
         
         let request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)

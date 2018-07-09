@@ -13,6 +13,7 @@
 		1E1A7AB820F379140002F6FC /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB720F379140002F6FC /* AWSCore.framework */; };
 		1E1A7ABA20F379610002F6FC /* AWSAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB920F379610002F6FC /* AWSAuthCore.framework */; };
 		1E1A7ABB20F37AEE0002F6FC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E1A7AA920F3765B0002F6FC /* awsconfiguration.json */; };
+		1E1A7ABD20F3A9B40002F6FC /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1A7ABC20F3A9B30002F6FC /* SynchronizedArray.swift */; };
 		1E33BE5920F1079B00BF6B1D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E33BE5820F1079B00BF6B1D /* UIColor.swift */; };
 		1E481A9420F017AE006FAE4C /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E481A9320F017AE006FAE4C /* libturbojpeg.a */; };
 		1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */; };
@@ -147,6 +148,7 @@
 		1E1A7AB320F377CD0002F6FC /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = Carthage/Build/iOS/AWSS3.framework; sourceTree = SOURCE_ROOT; };
 		1E1A7AB720F379140002F6FC /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = Carthage/Build/iOS/AWSCore.framework; sourceTree = SOURCE_ROOT; };
 		1E1A7AB920F379610002F6FC /* AWSAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSAuthCore.framework; path = Carthage/Build/iOS/AWSAuthCore.framework; sourceTree = SOURCE_ROOT; };
+		1E1A7ABC20F3A9B30002F6FC /* SynchronizedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronizedArray.swift; sourceTree = "<group>"; };
 		1E33BE5820F1079B00BF6B1D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToyPhotoGallery-Bridging-Header.h"; sourceTree = "<group>"; };
 		1E481A9320F017AE006FAE4C /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "ToyPhotoGallery/vendor/libjpeg-turbo/lib/libturbojpeg.a"; sourceTree = SOURCE_ROOT; };
@@ -419,6 +421,7 @@
 			children = (
 				1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */,
 				1E6F2E2420EED35A005A5567 /* Extractor.swift */,
+				1E1A7ABC20F3A9B30002F6FC /* SynchronizedArray.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -974,6 +977,7 @@
 				1E78B34020ED9F44000DCFE7 /* LockoutViewController.swift in Sources */,
 				1E6F2E1820EEAD4E005A5567 /* Resource.swift in Sources */,
 				1E78B2E620EADE4D000DCFE7 /* BugsnagInterface.swift in Sources */,
+				1E1A7ABD20F3A9B40002F6FC /* SynchronizedArray.swift in Sources */,
 				1E78B2EA20EAE6AB000DCFE7 /* LaunchControlKey.swift in Sources */,
 				1E78B2F020EAF46A000DCFE7 /* BucketHandlerDelegate.swift in Sources */,
 				1E78B29D20EAC77C000DCFE7 /* ResourceModelController.swift in Sources */,

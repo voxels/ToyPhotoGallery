@@ -64,30 +64,35 @@ class ResourceModelController {
                         return
                     }
                     
-                    let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
-                    readQueue.sync {
-                        let group = DispatchGroup()
-                        
-                        strongSelf.imageRepository.map.values.forEach({ (resource) in
-                            group.enter()
-                            strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, completion: { (data) in
-                                if let data = data {
-                                    let image = UIImage(data: data)
-                                    resource.thumbnailImage = image
-                                } else {
-                                    strongSelf.errorHandler.report(ModelError.MissingValue)
-                                }
-                                group.leave()
+                    if FeaturePolice.waitForImageBeforeLaunching {
+                        let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+                        readQueue.sync {
+                            let group = DispatchGroup()
+                            
+                            strongSelf.imageRepository.map.values.forEach({ (resource) in
+                                group.enter()
+                                strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, completion: { (data) in
+                                    if let data = data,                                         let image = UIImage(data: data)  {
+                                        resource.thumbnailImage = image
+                                    } else {
+                                        strongSelf.errorHandler.report(ModelError.MissingValue)
+                                    }
+                                    group.leave()
+                                })
                             })
-                        })
-                        switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
-                        case .timedOut:
-                            // this is ok, we have our map
-                            fallthrough
-                        case .success:
-                            DispatchQueue.main.async { [weak self] in
-                                self?.delegate?.didUpdateModel()
+                            switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
+                            case .timedOut:
+                                // this is ok, we have our map
+                                fallthrough
+                            case .success:
+                                DispatchQueue.main.async { [weak self] in
+                                    self?.delegate?.didUpdateModel()
+                                }
                             }
+                        }
+                    } else {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.delegate?.didUpdateModel()
                         }
                     }
                 })
@@ -171,21 +176,21 @@ extension ResourceModelController {
 
         switch T.self {
         case is ImageResource.Type:
-            let mapGroup = DispatchGroup()
-            ImageResource.extractImageResources(from: rawResourceArray, completion: { (newRepository, accumulatedErrors) in
-                let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")
-                newRepository.map.forEach({ (object) in
-                    mapGroup.enter()
-                    writeQueue.async {
-                        self.imageRepository.map[object.key] = object.value
-                        mapGroup.leave()
+                let mapGroup = DispatchGroup()
+                ImageResource.extractImageResources(from: rawResourceArray, completion: { (newRepository, accumulatedErrors) in
+                    let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")
+                    newRepository.map.forEach({ (object) in
+                        mapGroup.enter()
+                        writeQueue.async {
+                            self.imageRepository.map[object.key] = object.value
+                            mapGroup.leave()
+                        }
+                    })
+                    
+                    mapGroup.notify(queue: .main) {
+                        completion(accumulatedErrors)
                     }
                 })
-                
-                mapGroup.notify(queue: .main) {
-                    completion(accumulatedErrors)
-                }
-            })
         default:
             DispatchQueue.main.async {
                 completion([ModelError.UnsupportedRequest])

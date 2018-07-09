@@ -39,25 +39,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qIf-UG-eR0">
-                                <rect key="frame" x="169" y="325.5" width="37" height="37"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qIf-UG-eR0">
+                                <rect key="frame" x="169" y="325" width="37" height="37"/>
                             </activityIndicatorView>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Right now we are fetching images from S3 using a 30 second timeout..." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4kq-Qv-4yz">
+                                <rect key="frame" x="67" y="166" width="240" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="BBM-Ob-O6z"/>
+                                    <constraint firstAttribute="width" constant="240" id="woz-tW-bBd"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="4kq-Qv-4yz" firstAttribute="centerX" secondItem="Mfh-UA-sTq" secondAttribute="centerX" id="1NN-OW-2lM"/>
                             <constraint firstItem="qIf-UG-eR0" firstAttribute="centerY" secondItem="Mfh-UA-sTq" secondAttribute="centerY" id="Hqb-sF-2wT"/>
                             <constraint firstItem="qIf-UG-eR0" firstAttribute="centerX" secondItem="Mfh-UA-sTq" secondAttribute="centerX" id="dKA-J0-Zen"/>
+                            <constraint firstItem="4kq-Qv-4yz" firstAttribute="centerY" secondItem="Mfh-UA-sTq" secondAttribute="centerY" multiplier="0.6" id="gMP-a4-pg1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Mfh-UA-sTq"/>
                     </view>
                     <navigationItem key="navigationItem" id="lqV-JE-Ti8"/>
                     <connections>
                         <outlet property="activityIndicator" destination="qIf-UG-eR0" id="Arg-NK-hyA"/>
+                        <outlet property="waitTextView" destination="4kq-Qv-4yz" id="acr-nG-cC4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yzi-9M-n6l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="564" y="305"/>
+            <point key="canvasLocation" x="564" y="304.4977511244378"/>
         </scene>
         <!--Gallery View Controller-->
         <scene sceneID="o2z-mp-uKf">
