@@ -167,3 +167,28 @@ extension GalleryCollectionViewLayout {
         return dimension * containerWidth / configuration.compWidth
     }
 }
+
+extension GalleryCollectionViewLayout {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollDirection == .horizontal {
+            calculateTransforms(with:scrollView.contentOffset)
+        }
+    }
+    
+    func calculateTransforms(with offset:CGPoint) {
+        guard let collectionView = collectionView else {
+            return
+        }
+        for indexPath in collectionView.indexPathsForVisibleItems {
+            if let cell = collectionView.cellForItem(at: indexPath) {
+                let halfWidth = cell.contentView.frame.size.width / 2.0
+                let realCenter = collectionView.convert(cell.center, to: collectionView.superview)
+                let diff = abs(halfWidth - realCenter.x)
+                let scale = 1.0 - diff / 1000.0
+                let scaleTransform = CGAffineTransform.init(scaleX: scale, y: scale)
+                cell.transform = scaleTransform
+                cell.alpha = scale
+            }
+        }
+    }
+}
