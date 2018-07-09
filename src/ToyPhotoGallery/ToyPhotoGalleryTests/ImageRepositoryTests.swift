@@ -28,7 +28,7 @@ class ImageRepositoryTests: XCTestCase {
          "updatedAt":Date() as AnyObject,
          "filename": "name" as AnyObject,
          "thumbnailURLString":"https://s3.amazonaws.com/com-federalforge-repository/public/resources/thumbnails/ToyPhotoGallery_98.jpg" as AnyObject,
-         "fileURLString": "https://s3.amazonaws.com/com-federalforge-repository/public/resources/converted/ToyPhotoGallery_98.jpg" as AnyObject ]
+         "fileURLString": "https://s3.amazonaws.com/com-federalforge-repository/public/resources/converted/ToyPhotoGallery_98.jpg" as AnyObject, "width":100 as AnyObject, "height":100 as AnyObject ]
 
     func testExtractImageResourcesExtractsExpectedEntries() {
         let waitExpectation = expectation(description: "Wait for completion")
