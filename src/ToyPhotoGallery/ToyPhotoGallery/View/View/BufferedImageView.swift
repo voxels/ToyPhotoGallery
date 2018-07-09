@@ -21,18 +21,20 @@ class BufferedImageView : UIImageView {
     
     let defaultContentLength = 5 * 1024 * 1024
     var data: Data?
+    
+    private var currentCompletion:ImageCompletion?
 
     deinit {
         cancel()
     }
 
-    required init(url: Foundation.URL, networkSessionInterface:NetworkSessionInterface?) {
+    required init(url: Foundation.URL, networkSessionInterface:NetworkSessionInterface?, completion:ImageCompletion?) {
         super.init(image: nil)
         guard let interface = networkSessionInterface, let session = interface.session else {
             return
         }
-        queue.maxConcurrentOperationCount = 1
-        self.interface = interface
+        self.interface = networkSessionInterface
+        self.currentCompletion = completion
         load(url, with:interface, session:session)
     }
 
@@ -52,7 +54,7 @@ class BufferedImageView : UIImageView {
             if let sessionTask = interface.sessionTask(with: url, in: session, retain: false, dataDelegate:self) {
                 sessionTask.task.resume()
             } else {
-                self?.fallback(with:url, queue:self?.queue.underlyingQueue, interface:interface)
+                self?.fallback(with:url, interface:interface)
             }
         }
     }
@@ -64,11 +66,12 @@ class BufferedImageView : UIImageView {
         
         DispatchQueue.main.async { [weak self] in
             self?.image = UIImage(data:data)
+            self?.currentCompletion?(self?.image)
         }
     }
     
-    func fallback(with url:URL, queue:DispatchQueue?, interface:NetworkSessionInterface) {
-        interface.fetch(url: url, queue: queue) {[weak self] (data) in
+    func fallback(with url:URL, interface:NetworkSessionInterface) {
+        interface.fetch(url: url) {[weak self] (data) in
             self?.assign(data: data)
         }
     }
@@ -77,7 +80,8 @@ class BufferedImageView : UIImageView {
 extension BufferedImageView {
     func add(operation:@escaping ()->Void) {
         if queue.underlyingQueue == nil {
-            queue.underlyingQueue = DispatchQueue.global(qos:.background)
+            queue.underlyingQueue = DispatchQueue(label: "com.secretatomics.bufferedimageview", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+            queue.maxConcurrentOperationCount = 1
         }
         
         let nextOperation = BlockOperation {
@@ -100,6 +104,7 @@ extension BufferedImageView {
         interface.cancel(task)
         sessionTask = nil
         self.data = nil
+        currentCompletion = nil
         image = nil
     }
 }
@@ -168,6 +173,7 @@ extension BufferedImageView : NetworkSessionInterfaceDataTaskDelegate {
                 }
                 
                 strongSelf.image = decodedImage
+                strongSelf.currentCompletion?(decodedImage)
             }
         }
     }
@@ -186,6 +192,6 @@ extension BufferedImageView : NetworkSessionInterfaceDataTaskDelegate {
         guard let sessionTask = sessionTask, let url = sessionTask.task.originalRequest?.url, let interface = interface  else {
             return
         }
-        fallback(with:url, queue:queue.underlyingQueue ?? .main, interface:interface)
+        fallback(with:url, interface:interface)
     }
 }

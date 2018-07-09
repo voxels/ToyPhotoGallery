@@ -10,8 +10,10 @@ import Foundation
 
 /// Protocol to fetch the image resources for the model and get an error handler if necessary
 protocol GalleryCollectionViewModelDelegate : class {
+    var networkSessionInterface:NetworkSessionInterface { get }
     var errorHandler:ErrorHandlerDelegate { get }
-    func imageResources(skip:Int, limit:Int, completion:ImageResourceCompletion?)
+    var timeoutDuration:TimeInterval { get }
+    func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval, completion:ImageResourceCompletion?)
 }
 
 class GalleryCollectionViewModel {
@@ -22,13 +24,7 @@ class GalleryCollectionViewModel {
     static let remainingCellsPageLimit:Int = 10
 
     /// The delegate used to fetch image resources
-    weak var resourceDelegate:GalleryCollectionViewModelDelegate? {
-        didSet {
-            if let delegate = resourceDelegate {
-                configure(with: delegate)
-            }
-        }
-    }
+    weak var resourceDelegate:GalleryCollectionViewModelDelegate?
     
     /// The network session interface given to the cells to fetch UIImage data with
     var networkSessionInterface:NetworkSessionInterface?
@@ -37,7 +33,7 @@ class GalleryCollectionViewModel {
     weak var viewModelDelegate:GalleryViewModelDelegate?
     
     /// The data source used for the collection view, containing a protocol of cell models
-    var dataSource = [GalleryCollectionViewCellModel]()
+    var data = [GalleryCollectionViewImageCellModel]()
     
     /// A flag to determine if the collection view is currently fetching image resources
     var isFetching = false
@@ -65,9 +61,9 @@ class GalleryCollectionViewModel {
      - Returns: void
      */
     func configure(with delegate:GalleryCollectionViewModelDelegate) {
-        networkSessionInterface = NetworkSessionInterface(with: delegate.errorHandler)
-        dataSource = [GalleryCollectionViewCellModel]()
-        nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize, completion:nil)
+        networkSessionInterface = delegate.networkSessionInterface
+        data = [GalleryCollectionViewImageCellModel]()
+        nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize)
     }
     
     /**
@@ -91,8 +87,8 @@ class GalleryCollectionViewModel {
      - Returns: void
      */
     func checkForNextPage(with indexPath:IndexPath, with resourceDelegate:GalleryCollectionViewModelDelegate) {
-        if indexPath.item > dataSource.count - GalleryCollectionViewModel.remainingCellsPageLimit {
-            nextPage(from: resourceDelegate, skip: dataSource.count, limit: GalleryCollectionViewModel.defaultPageSize, completion:nil)
+        if indexPath.item > data.count - GalleryCollectionViewModel.remainingCellsPageLimit {
+            nextPage(from: resourceDelegate, skip: data.count, limit: GalleryCollectionViewModel.defaultPageSize)
         }
     }
     
@@ -101,15 +97,14 @@ class GalleryCollectionViewModel {
      - parameter resourceDelegate: The *GalleryCollectionViewModelDelegate* we use to fetch *ImageResources* from
      - parameter skip: the number of items to skip in the fetch
      - parameter limit: the number of items we want to fetch
-     - parameter completion: A callback which indicates if the fetch succeeded
      - Returns: void
      */
-    func nextPage(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
+    func nextPage(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int) {
         if isFetching {
             return
         }
         
-        beginFetching(from: resourceDelegate, skip: dataSource.count, limit: GalleryCollectionViewModel.defaultPageSize, completion:completion)
+        beginFetching(from: resourceDelegate, skip: data.count, limit: GalleryCollectionViewModel.defaultPageSize)
     }
 }
 
@@ -121,23 +116,22 @@ extension GalleryCollectionViewModel {
      - parameter resourceDelegate: the *GalleryCollectionViewModelDelegate* we use to fetch *ImageResources* from
      - parameter skip: the number of items to skip in the fetch
      - parameter limit: the number of items we want to fetch
-     - parameter completion: A callback which indicates if the fetch succeeded
      - Returns: void
      */
-    func beginFetching(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
+    func beginFetching(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int) {
         isFetching = true
         failTimer = Timer.scheduledTimer(withTimeInterval: failureDuration, repeats: false, block: { [weak self] (timer) in
             guard let strongSelf = self else {
                 return
             }
             if strongSelf.retryFetching() < strongSelf.maxRetryCount {
-                strongSelf.beginFetching(from: resourceDelegate, skip: skip, limit: limit, completion: completion)
+                strongSelf.beginFetching(from: resourceDelegate, skip: skip, limit: limit)
             } else {
                 strongSelf.endFetching()
             }
         })
         
-        request(from: resourceDelegate, skip: skip, limit: limit, completion: completion)
+        request(from: resourceDelegate, skip: skip, limit: limit)
     }
 
     /// Increments the retry count and sets the tools for another attempt
@@ -165,22 +159,20 @@ extension GalleryCollectionViewModel {
      - parameter resourceDelegate: the *GalleryCollectionViewModelDelegate* we use to fetch *ImageResources* from
      - parameter skip: the number of items to skip in the fetch
      - parameter limit: the number of items we want to fetch
-     - parameter completion: A callback which indicates if the fetch succeeded
      - Returns: void
      */
-    func request(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int, completion:((Bool)->Void)?) {
-        resourceDelegate.imageResources(skip: skip, limit: limit) { [weak self] (resources) in
-            self?.append(imageResources: resources, completion: completion)
+    func request(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int) {
+        resourceDelegate.imageResources(skip: skip, limit: limit, timeoutDuration:resourceDelegate.timeoutDuration ) { [weak self] (resources) in
+            self?.insert(imageResources: resources)
         }
     }
     
     /**
-     Creates an array of *GalleryCollectionViewImageCellModel* from an array of *ImageResource* and appends it to the model's data source
+     Creates an array of *GalleryCollectionViewImageCellModel* from an array of *ImageResource* and inserts it to the model's data source.  This method will replace existing data source items if they have been updated more recently, and it sorts the dataSource by the updatedAt property in descending order
      - parameter imageResources: an array of *ImageResource* that will be added to the model's dataSource
-     - parameter completion: A callback which indicates if the fetch succeeded
      - Returns: void
      */
-    func append(imageResources:[ImageResource], completion:((Bool)->Void)?) {
+    func insert(imageResources:[ImageResource]) {
         let imageModels = imageResources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
             do {
                 return try GalleryCollectionViewImageCellModel(with: imageResource, networkSessionInterface:self?.networkSessionInterface)
@@ -191,15 +183,21 @@ extension GalleryCollectionViewModel {
         })
         
         guard imageModels.count > 0 else {
-            completion?(false)
             return
         }
         
-        dataSource.append(contentsOf: imageModels)
-        viewModelDelegate?.didUpdateViewModel()
+        data.append(contentsOf: imageModels)
+        viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)
         endFetching()
-        completion?(true)
     }
+    
+    /*
+    func completeFetch(with newDataSource:[GalleryCollectionViewImageCellModel], insertItems:[IndexPath]?, deleteItems:[IndexPath]?, moveItems:[(IndexPath, IndexPath)]?, delegate:GalleryViewModelDelegate?) {
+        data = newDataSource
+        delegate?.didUpdateViewModel(insertItems: insertItems, deleteItems: deleteItems, moveItems: moveItems)
+        endFetching()
+    }
+     */
 }
 
 extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {

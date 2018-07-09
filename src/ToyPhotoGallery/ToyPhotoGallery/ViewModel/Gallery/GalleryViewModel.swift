@@ -10,7 +10,7 @@ import Foundation
 
 /// Protocol to notifcy the GalleryViewController that the model has updated
 protocol GalleryViewModelDelegate : class {
-    func didUpdateViewModel()
+    func didUpdateViewModel(insertItems:[IndexPath]?, deleteItems:[IndexPath]?, moveItems:[(IndexPath,IndexPath)]?)
 }
 
 /// Model class that holds the model controller for the Gallery view subviews

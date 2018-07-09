@@ -13,6 +13,7 @@ enum NetworkError : Error {
     case CellIsNotReady
     case InvalidServerTrust
     case AWSDoesNotSupportSessionTasks
+    case Timeout
 }
 
 extension NetworkError : LocalizedError {
@@ -26,6 +27,8 @@ extension NetworkError : LocalizedError {
             return NSLocalizedString("The server trust was not verified", comment: "")
         case .AWSDoesNotSupportSessionTasks:
             return NSLocalizedString("AWS does not support session tasks", comment: "")
+        case .Timeout:
+            return NSLocalizedString("The network operation timed out", comment: "")
         }
     }
 }

@@ -22,6 +22,9 @@ class ResourceModelController {
     /// A controller used to fetch objects from a remote store
     let remoteStoreController:RemoteStoreController
     
+    /// An interface uses to make fetches from the network
+    let networkSessionInterface:NetworkSessionInterface
+    
     /// The error handler used to report non-fatal errors
     let errorHandler:ErrorHandlerDelegate
     
@@ -31,8 +34,12 @@ class ResourceModelController {
     /// A cache of previously fetched *ImageResource*
     var imageRepository = ImageRepository()
     
-    init(with storeController:RemoteStoreController, errorHandler:ErrorHandlerDelegate) {
+    /// The default number of seconds to wait before timing out
+    static let defaultTimeout:TimeInterval = 1
+    
+    init(with storeController:RemoteStoreController, networkSessionInterface:NetworkSessionInterface, errorHandler:ErrorHandlerDelegate) {
         self.remoteStoreController = storeController
+        self.networkSessionInterface = networkSessionInterface
         self.errorHandler = errorHandler
     }
     
@@ -41,22 +48,23 @@ class ResourceModelController {
      - parameter storeController: the *RemoteStoreController* used to fetch the resources
      - parameter resourceType: the type of the resource being fetched
      - parameter errorHandler: the *ErrorHandlerDelegate* used to report non-fatal errors
+     - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - Returns: void
      */
-    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate) where T:Resource {
-            do {
-                switch T.self {
-                case is ImageResource.Type:
-                    try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, completion:nil)
-                default:
-                    throw ModelError.UnsupportedRequest
-                }
-            } catch {
-                DispatchQueue.main.async { [weak self] in
-                    self?.errorHandler.report(error)
-                    self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
-                }
+    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
+        do {
+            switch T.self {
+            case is ImageResource.Type:
+                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:nil)
+            default:
+                throw ModelError.UnsupportedRequest
             }
+        } catch {
+            DispatchQueue.main.async { [weak self] in
+                self?.errorHandler.report(error)
+                self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+            }
+        }
     }
     
     /**
@@ -64,11 +72,12 @@ class ResourceModelController {
      - parameter repository: the *Repository* that needs to be filled
      - parameter skip: the number of items to skip when finding new resources
      - parameter limit: the number of items we want to fetch
+     - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - parameter completion: a callback used to pass back the filled repository
      - Throws: Throws any error surfaced from *tableMap*
      - Returns: void
      */
-    func fill<T>(repository:T, skip:Int, limit:Int, completion:((T)->Void)?) throws where T:Repository, T.AssociatedType:Resource {
+    func fill<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:((T)->Void)?) throws where T:Repository, T.AssociatedType:Resource {
         let count = repository.map.count
         
         // We have what we need
@@ -76,7 +85,7 @@ class ResourceModelController {
             DispatchQueue.main.async { [weak self] in
                 self?.delegate?.didUpdateModel()
             }
-
+            
             completion?(repository)
             return
         }
@@ -84,7 +93,7 @@ class ResourceModelController {
         let table = try tableMap(for: repository)
         
         find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: skip, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
-            self?.append(from: rawResourceArray, into: T.AssociatedType.self, completion: { (accumulatedErrors) in
+            self?.append(from: rawResourceArray, into: T.AssociatedType.self, timeoutDuration:timeoutDuration, completion: { (accumulatedErrors) in
                 if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
                     DispatchQueue.main.async {
                         self?.delegate?.didFailToUpdateModel(with: nil)
@@ -120,38 +129,31 @@ extension ResourceModelController {
         
         remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
     }
-
-    /**
-     Cleans a repository using the given *RawResourceArray*
-     - parameter rawResourceArray: an array of *[String:AnyObject]* representing the raw model objects fetched from a remote store controller
-     - parameter resourceType: the type of resource for the repository
-     - parameter errorHandler: a *ErrorHandlerDelegate* used to report non-fatal errors
-     - parameter completion: a callback used to pass through the errors accumulated during the process
-     */
-    func clean<T>(using rawResourceArray:RawResourceArray, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, completion:ErrorCompletion) where T:Resource {
-        switch T.self {
-        case is ImageResource.Type:
-            imageRepository = ImageRepository()
-        default:
-            completion([ModelError.UnsupportedRequest])
-        }
-        
-        append(from: rawResourceArray, into: T.self, completion: completion)
-    }
     
     /**
      Appends the raw resource array into the model's repository of the given type.  Implemented only for *ImageResource*, for now.
      - parameter rawResourceArray: an array of *[String:AnyObject]* representing the raw model objects fetched from a remote store controller
      - parameter resourceType: the type of resource for the repository
+     - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - parameter completion: a callback used to pass through the errors accumulated during the process
      */
-    func append<T>(from rawResourceArray:RawResourceArray, into resourceType:T.Type, completion:ErrorCompletion ) where T:Resource {
+    func append<T>(from rawResourceArray:RawResourceArray, into resourceType:T.Type, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:@escaping ErrorCompletion ) where T:Resource {
+
         switch T.self {
         case is ImageResource.Type:
             ImageResource.extractImageResources(from: rawResourceArray, completion: { [weak self] (newRepository, accumulatedErrors) in
+
                 newRepository.map.forEach({ (object) in
-                    self?.imageRepository.map[object.key] = object.value
+                    self?.networkSessionInterface.fetch(url: object.value.thumbnailURL, completion: { (data) in
+                        if let data = data, let image = UIImage(data: data) {
+                            object.value.thumbnailImage = image
+                            object.value.thumbnailWidth = image.size.width
+                            object.value.thumbnailHeight = image.size.height
+                        }
+                    })
+                    imageRepository.map[object.key] = object.value
                 })
+
                 completion(accumulatedErrors)
             })
         default:
@@ -168,7 +170,7 @@ extension ResourceModelController {
     func tableMap<T>(for repository:T) throws -> RemoteStoreTableMap where T:Repository, T.AssociatedType:Resource {
         return try tableMap(with: T.AssociatedType.self)
     }
-
+    
     /**
      Returns the *RemoteStoreTableMap* for a given repository, if possible
      - parameter type: the type of repository that needs to be mapped to the table
@@ -195,15 +197,16 @@ extension ResourceModelController {
      - parameter skip: the number of items to skip when finding new resources
      - parameter limit: the number of items we want to fetch
      - parameter completion: a callback used to pass back the filled resources
+     - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - Throws: Throws any error surfaced from *fill*
      - Returns: void
      */
-    func fillAndSort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
-        try fill(repository:repository, skip: skip, limit: limit) { [weak self] (filledRepository) in
+    func fillAndSort<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
+        try fill(repository:repository, skip: skip, limit: limit, timeoutDuration:timeoutDuration) { [weak self] (filledRepository) in
             self?.sort(repository: filledRepository, skip:skip, limit:limit, completion: completion)
         }
     }
-
+    
     /**
      Sorts the given repository with records between the skip and limit indexes, and calls a callback with the resources that exist between the indexes
      - parameter repository: the *Repository* that needs to be filled

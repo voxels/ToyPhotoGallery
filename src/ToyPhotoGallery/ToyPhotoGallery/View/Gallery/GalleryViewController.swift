@@ -33,12 +33,22 @@ class GalleryViewController: UIViewController {
 
     var customConstraints = [NSLayoutConstraint]()
 
-    var retryCount:Int = 0
-    var maxRetries:Int = 3
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAppearances()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let collectionView = collectionView, let existingEntries = collectionView.model?.data, existingEntries.count > 0 {
+            if contentContainerView.contains(collectionView) {
+                collectionView.reloadData()
+            } else {
+                contentContainerView.addSubview(collectionView)
+                refreshLayout(in: view)
+                collectionView.reloadData()
+            }
+        }
     }
     
     func configureAppearances() {
@@ -95,6 +105,7 @@ extension GalleryViewController {
         let collectionViewModel = GalleryCollectionViewModel()
         collectionViewModel.viewModelDelegate = self
         collectionViewModel.resourceDelegate = viewModel.resourceModelController
+        collectionViewModel.configure(with: viewModel.resourceModelController)
         configuredView.model = collectionViewModel
         
         return configuredView
@@ -193,19 +204,11 @@ extension GalleryViewController {
 // MARK: - GalleryViewModelDelegate
 
 extension GalleryViewController : GalleryViewModelDelegate {
-    func didUpdateViewModel() {
+    
+    func didUpdateViewModel(insertItems: [IndexPath]?, deleteItems: [IndexPath]?, moveItems: [(IndexPath, IndexPath)]?) {
         guard let collectionView = collectionView else {
-            viewModel?.resourceModelController.errorHandler.report(ViewError.ViewHierarchyError)
             return
         }
-        
-        // Preventing a race condition where the model updates before the view is loaded
-        guard isViewLoaded else {
-            retryCount = retryModelUpdate(with: retryCount)
-            return
-        }
-        
-        retryCount = 0
         
         if !contentContainerView.subviews.contains(collectionView) {
             contentContainerView.addSubview(collectionView)
@@ -213,21 +216,6 @@ extension GalleryViewController : GalleryViewModelDelegate {
         }
         
         collectionView.reloadData()
-    }
-    
-    func retryModelUpdate(with countRetries:Int) -> Int {
-        if countRetries < maxRetries {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                self?.didUpdateViewModel()
-            }
-        } else {
-            let error = ViewError.MissingView
-            viewModel?.resourceModelController.errorHandler.report(error)
-            // TODO: Show lockout view?
-            assert(false, error.localizedDescription)
-        }
-        
-        return countRetries + 1
     }
 }
 

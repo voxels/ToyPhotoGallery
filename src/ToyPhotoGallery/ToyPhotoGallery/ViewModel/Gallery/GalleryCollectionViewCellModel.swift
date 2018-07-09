@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// Generic cell model created so that the collection view data source can hold subtypes
-protocol GalleryCollectionViewCellModel {
-    static var identifier : String { get }    
-    init(with resource: Resource, networkSessionInterface:NetworkSessionInterface?) throws
+// Abstract class used to inherit data source cell items
+protocol GalleryCollectionViewCellModel : class {
+    static var identifier : String { get }
+    var updatedAt : Date { get set }
 }

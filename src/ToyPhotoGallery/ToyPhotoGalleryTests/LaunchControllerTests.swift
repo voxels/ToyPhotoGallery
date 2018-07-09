@@ -35,8 +35,8 @@ class LaunchControllerTests: XCTestCase {
         let testCenter = NotificationCenter()
         let controller = LaunchController(with: resourceModelController!)
         controller.launch(services: [testErrorHandler!], with:testCenter)
-        XCTAssertNotNil(controller.timeOutTimer)
-        controller.timeOutTimer?.invalidate()
+        XCTAssertNotNil(controller.timeoutTimer)
+        controller.timeoutTimer?.invalidate()
     }
     
     func testLaunchAddsWaitNotifications() {
@@ -45,7 +45,7 @@ class LaunchControllerTests: XCTestCase {
         controller.launch(services: [testErrorHandler!], with:testCenter)
         let actual = controller.waitForNotifications.contains(Notification.Name.DidLaunchErrorHandler)
         XCTAssertTrue(actual)
-        controller.timeOutTimer?.invalidate()
+        controller.timeoutTimer?.invalidate()
     }
     
     func testLaunchAttemptsLaunch() {
@@ -53,7 +53,7 @@ class LaunchControllerTests: XCTestCase {
         let controller = LaunchController(with: resourceModelController!)
         controller.launch(services: [testErrorHandler!], with:testCenter)
         XCTAssertTrue(testErrorHandler!.didLaunch)
-        controller.timeOutTimer?.invalidate()
+        controller.timeoutTimer?.invalidate()
     }
     
     func testWaitForLaunchNotificationWaitsForEachService() {
@@ -64,7 +64,7 @@ class LaunchControllerTests: XCTestCase {
         let controller = LaunchController(with: resourceModelController!)
         controller.launch(services: [testErrorHandler!, testRemoteStoreController!], with:testCenter)
 
-        controller.timeOutTimer?.invalidate()
+        controller.timeoutTimer?.invalidate()
         
         let actual = register(expectations:[errorExpectation, remoteStoreExpectation], duration:XCTestCase.defaultWaitDuration )
         XCTAssertTrue(actual)
@@ -176,13 +176,13 @@ class LaunchControllerTests: XCTestCase {
         let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         controller.waitForNotifications = names
         controller.receivedNotifications = names
-        controller.timeOutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
+        controller.timeoutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
             XCTFail("Should not be firing timer for this test")
         })
         controller.signalLaunchComplete()
         XCTAssertTrue(controller.waitForNotifications.count == 0)
         XCTAssertTrue(controller.receivedNotifications.count == 0)
-        XCTAssertNil(controller.timeOutTimer)
+        XCTAssertNil(controller.timeoutTimer)
     }
     
     func testSignalLaunchCompletePostsDidCompleteLaunchNotification() {
@@ -199,13 +199,13 @@ class LaunchControllerTests: XCTestCase {
         let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         controller.waitForNotifications = names
         controller.receivedNotifications = names
-        controller.timeOutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
+        controller.timeoutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
             XCTFail("Should not be firing timer for this test")
         })
         controller.signalLaunchFailed(reason: nil)
         XCTAssertTrue(controller.waitForNotifications.count == 0)
         XCTAssertTrue(controller.receivedNotifications.count == 0)
-        XCTAssertNil(controller.timeOutTimer)
+        XCTAssertNil(controller.timeoutTimer)
     }
     
     func testSignalLaunchFailedPostsDidFailLaunchNotification() {
@@ -222,20 +222,20 @@ class LaunchControllerTests: XCTestCase {
         let names = Set([Notification.Name.DidLaunchErrorHandler, Notification.Name.DidLaunchReportingHandler])
         controller.waitForNotifications = names
         controller.receivedNotifications = names
-        controller.timeOutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
+        controller.timeoutTimer = Timer(timeInterval: 1, repeats: false, block: { (timer) in
             XCTFail("Should not be firing timer for this test")
         })
         controller.reset()
         XCTAssertTrue(controller.waitForNotifications.count == 0)
         XCTAssertTrue(controller.receivedNotifications.count == 0)
-        XCTAssertNil(controller.timeOutTimer)
+        XCTAssertNil(controller.timeoutTimer)
     }
     
     func testStartTimeoutTimerStartsTimer() {
         let controller = LaunchController(with:resourceModelController!)
         controller.startTimeOutTimer(duration: 10)
-        XCTAssertNotNil(controller.timeOutTimer)
-        controller.timeOutTimer?.invalidate()
+        XCTAssertNotNil(controller.timeoutTimer)
+        controller.timeoutTimer?.invalidate()
     }
     
     func testStartTimeoutTimerFiresNotification() {

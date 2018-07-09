@@ -9,6 +9,12 @@
 import Foundation
 
 typealias ImageResourceCompletion = ([ImageResource])->Void
+typealias ImageCompletion = (UIImage?)->Void
+
+protocol ImageResourceDelegate : class {
+    func didUpdateThumbnailImage()
+    func didUpdateFileImage()
+}
 
 /// Implementation of the *ImageSchema* protocol used as model objects that hold data
 /// fetched from the *RemoteStoreController*
@@ -18,6 +24,17 @@ class ImageResource : ImageSchema  {
     var filename: String
     var thumbnailURL: URL
     var fileURL: URL
+    var thumbnailImage:UIImage? {
+        didSet {
+            if let image = thumbnailImage {
+                thumbnailWidth = image.size.width
+                thumbnailHeight = image.size.height
+            }
+        }
+    }
+    var thumbnailWidth:CGFloat = 0
+    var thumbnailHeight:CGFloat = 0
+    var fileImage:UIImage?
     
     init(createdAt:Date, updatedAt:Date, filename:String, thumbnailURL:URL, fileURL:URL) {
         self.createdAt = createdAt
@@ -25,6 +42,8 @@ class ImageResource : ImageSchema  {
         self.filename = filename
         self.thumbnailURL = thumbnailURL
         self.fileURL = fileURL
+        self.thumbnailImage = nil
+        self.fileImage = nil
     }
     
     /**
@@ -74,5 +93,16 @@ class ImageResource : ImageSchema  {
         let fileURL:URL = try Extractor.extractValue(named: RemoteStoreTableMap.ImageResourceColumn.fileURLString.rawValue, from: dictionary)
         
         return ImageResource(createdAt: createdAt, updatedAt: updatedAt, filename: filename, thumbnailURL: thumbnailURL, fileURL: fileURL)
+    }
+}
+
+extension ImageResource : Hashable {
+    var hashValue: Int {
+        return filename.hashValue ^ createdAt.hashValue ^ updatedAt.hashValue &* 16777619
+    }
+    
+    static func == (lhs: ImageResource, rhs: ImageResource) -> Bool {
+        
+        return lhs.createdAt == rhs.createdAt && lhs.updatedAt == rhs.updatedAt && lhs.filename == rhs.filename && lhs.thumbnailURL == rhs.thumbnailURL && lhs.fileURL == rhs.fileURL
     }
 }

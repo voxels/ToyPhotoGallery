@@ -10,4 +10,5 @@ import Foundation
 
 struct FeaturePolice {
     static let networkInterfaceUsesSharedSessionForFetching = true
+    static let disableCache = true
 }

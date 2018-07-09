@@ -62,7 +62,7 @@ extension GalleryCollectionView {
 
 extension GalleryCollectionView : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model?.dataSource.count ?? 0
+        return model?.data.count ?? 0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -78,26 +78,23 @@ extension GalleryCollectionView : UICollectionViewDataSource {
         
         var identifier = defaultIdentifier
         
-        guard let cellDataSource = model?.dataSource, let cellModel = cellDataSource[safe:UInt(indexPath.item)] else {
+        guard let cellDataSource = model?.data, let cellModel = cellDataSource[safe:UInt(indexPath.item)] else {
             model?.resourceDelegate?.errorHandler.report(ModelError.MissingDataSourceItem)
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
         
-        switch cellModel {
-        case is GalleryCollectionViewImageCellModel:
-            identifier = GalleryCollectionViewImageCellModel.identifier
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? GalleryCollectionViewImageCell else {
-                model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)
-                return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-            }
-            if let model = cellModel as? GalleryCollectionViewImageCellModel {
-                cell.refresh(with: model)
-            }
-            return cell
-        default:
+        identifier = GalleryCollectionViewImageCellModel.identifier
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? GalleryCollectionViewImageCell else {
             model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
+        
+        do {
+            try cell.refresh(with: cellModel)
+        } catch {
+            model?.resourceDelegate?.errorHandler.report(error)
+        }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {

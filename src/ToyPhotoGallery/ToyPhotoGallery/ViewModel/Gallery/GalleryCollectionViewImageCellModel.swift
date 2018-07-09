@@ -9,17 +9,20 @@
 import Foundation
 
 /// Model class used to hold an image cell's resouce and network session interface
-class GalleryCollectionViewImageCellModel : GalleryCollectionViewCellModel {
+class GalleryCollectionViewImageCellModel : NSObject, GalleryCollectionViewCellModel {
     
     /// The cell identifier registered with the collection view
     static var identifier: String = "GalleryCollectionViewImageCell"
+    
+    /// The identifier we use to sort the data model with
+    var updatedAt: Date
     
     /// The image resource model for the cell
     var imageResource:ImageResource
     
     /// The interface used to fetch the image resource's data
     var interface:NetworkSessionInterface
-
+    
     required init(with resource: Resource, networkSessionInterface:NetworkSessionInterface? = nil) throws {
         guard let imageResource = resource as? ImageResource, let interface = networkSessionInterface else {
             throw ModelError.IncorrectType
@@ -27,5 +30,6 @@ class GalleryCollectionViewImageCellModel : GalleryCollectionViewCellModel {
         
         self.imageResource = imageResource
         self.interface = interface
+        self.updatedAt = imageResource.updatedAt
     }
 }

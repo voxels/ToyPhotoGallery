@@ -20,7 +20,7 @@ class NetworkSessionInterface : NSObject {
     static let defaultTimeout:TimeInterval = 30
     
     /// The default cache policy used for URLSession requests
-    static let defaultCachePolicy:URLRequest.CachePolicy = .returnCacheDataElseLoad
+    static let defaultCachePolicy:URLRequest.CachePolicy = FeaturePolice.disableCache ? .reloadIgnoringLocalAndRemoteCacheData : .returnCacheDataElseLoad
 
     /// An operation queue used to facilitate the URLSession
     let operationQueue = OperationQueue()
@@ -44,29 +44,22 @@ class NetworkSessionInterface : NSObject {
     /**
      Uses a one-off URLSession, NOT the interface's session, to perform a quick fetch of a data task for the given URL
      - parameter url: the URL being fetched
-     - parameter queue: the *DispatchQueue* used for the fetch
      - parameter compeletion: a callback used to pass through the optional fetched *Data*
      - Returns: void
      */
-    func fetch(url:URL, queue:DispatchQueue?, completion:@escaping (Data?)->Void) {
-        guard let currentQueue = queue == nil ? .main : queue else {
-            return
-        }
-
+    func fetch(url:URL, completion:@escaping (Data?)->Void) {
         // Using a default session here may crash because of a potential bug in Foundation.
         // Ephemeral and Shared sessions don't crash.
         // See: https://forums.developer.apple.com/thread/66874
         let session = FeaturePolice.networkInterfaceUsesSharedSessionForFetching ? URLSession.shared : URLSession(configuration: .default)
         let task = session.dataTask(with: url) { [weak self] (data, response, error) in
-            currentQueue.async {
-                if let e = error {
-                    self?.errorHandler.report(e)
-                    completion(nil)
-                    return
-                }
-                
-                completion(data)
+            if let e = error {
+                self?.errorHandler.report(e)
+                completion(nil)
+                return
             }
+            
+            completion(data)
         }
         task.resume()
     }

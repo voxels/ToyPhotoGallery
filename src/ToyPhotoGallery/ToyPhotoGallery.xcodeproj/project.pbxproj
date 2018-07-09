@@ -32,6 +32,7 @@
 		1E6F2E2520EED35A005A5567 /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E2420EED35A005A5567 /* Extractor.swift */; };
 		1E6F2E2720EED441005A5567 /* ExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E2620EED441005A5567 /* ExtractorTests.swift */; };
 		1E6F2E2920EEF8B5005A5567 /* GalleryCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E2820EEF8B5005A5567 /* GalleryCollectionViewLayout.swift */; };
+		1E767F5120F295060069EE88 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E767F5020F295060069EE88 /* UIImageView.swift */; };
 		1E78B29120EAC690000DCFE7 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29020EAC690000DCFE7 /* RootViewController.swift */; };
 		1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */; };
 		1E78B29520EAC6CC000DCFE7 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */; };
@@ -172,6 +173,7 @@
 		1E6F2E2420EED35A005A5567 /* Extractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extractor.swift; sourceTree = "<group>"; };
 		1E6F2E2620EED441005A5567 /* ExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractorTests.swift; sourceTree = "<group>"; };
 		1E6F2E2820EEF8B5005A5567 /* GalleryCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewLayout.swift; sourceTree = "<group>"; };
+		1E767F5020F295060069EE88 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		1E78B29020EAC690000DCFE7 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		1E78B29220EAC6A2000DCFE7 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		1E78B29420EAC6CC000DCFE7 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
@@ -476,6 +478,7 @@
 				1E6F2E0F20EE6444005A5567 /* Collection.swift */,
 				1E5E9BCC20F0452C00D59DFD /* Data.swift */,
 				1E33BE5820F1079B00BF6B1D /* UIColor.swift */,
+				1E767F5020F295060069EE88 /* UIImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -896,6 +899,7 @@
 				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,
 				1E6F2E0C20EE60E9005A5567 /* GalleryCollectionViewCellModel.swift in Sources */,
 				1E78B32520EC2AF0000DCFE7 /* RemoteStoreTableMap.swift in Sources */,
+				1E767F5120F295060069EE88 /* UIImageView.swift in Sources */,
 				1E6F2E1420EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift in Sources */,
 				1E78B2F520EAFB02000DCFE7 /* LaunchError.swift in Sources */,
 				1E78B34B20EE5919000DCFE7 /* GalleryCollectionView.swift in Sources */,
@@ -1045,6 +1049,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1105,6 +1110,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1131,7 +1137,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FTMC23LTVL;
-				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1162,7 +1167,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FTMC23LTVL;
-				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

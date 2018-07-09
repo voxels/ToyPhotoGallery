@@ -21,10 +21,10 @@ class LaunchController {
     var receivedNotifications = Set<Notification.Name>()
     
     /// The duration, in seconds, that the launch controller waits before timing out
-    var timeOutDuration:TimeInterval = 30
+    var timeoutDuration:TimeInterval = 60
     
     /// A timer used to push launch forward if a service is not reached
-    var timeOutTimer:Timer?
+    var timeoutTimer:Timer?
     
     /// Flag to indicate of the error reporting service has been launched
     var didLaunchErrorHandler = false
@@ -59,7 +59,7 @@ class LaunchController {
      - Returns: void
      */
     func launch(services:[LaunchService], with center:NotificationCenter = NotificationCenter.default) {
-        startTimeOutTimer(duration:timeOutDuration, with:center)
+        startTimeOutTimer(duration:timeoutDuration, with:center)
         waitForLaunchNotifications(for: services, with:center)
         attempt(services, with:center)
     }
@@ -134,12 +134,14 @@ extension LaunchController {
         receivedNotifications.insert(notification.name)
         if verify(received: receivedNotifications, with: waitForNotifications) {
             resourceModelController.delegate = self
-            DispatchQueue.global(qos: .background).async { [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler)
-            }
+//            let queue = DispatchQueue(label: "com.secretatomics.launchcontroller", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+//            queue.async { [weak self] in
+//                guard let strongSelf = self else {
+//                    return
+//                }
+            let strongSelf = self
+                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler, timeoutDuration:strongSelf.timeoutDuration)
+//            }
         }
     }
     
@@ -196,8 +198,8 @@ extension LaunchController {
         center.removeObserver(self)
         receivedNotifications = Set<Notification.Name>()
         waitForNotifications = Set<Notification.Name>()
-        timeOutTimer?.invalidate()
-        timeOutTimer = nil
+        timeoutTimer?.invalidate()
+        timeoutTimer = nil
     }
 }
 
@@ -211,8 +213,8 @@ extension LaunchController {
      - Returns: void
     */
     func startTimeOutTimer(duration:TimeInterval, with center:NotificationCenter = NotificationCenter.default) {
-        timeOutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false, block: { [weak self] (timer) in
-            let reason = "Launch timed out after \(String(describing:self?.timeOutDuration)) seconds"
+        timeoutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false, block: { [weak self] (timer) in
+            let reason = "Launch timed out after \(String(describing:self?.timeoutDuration)) seconds"
             self?.signalLaunchFailed(reason: reason)
         })
     }
