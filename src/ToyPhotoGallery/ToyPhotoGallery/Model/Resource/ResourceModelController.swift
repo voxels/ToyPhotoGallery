@@ -58,13 +58,16 @@ class ResourceModelController {
         do {
             switch T.self {
             case is ImageResource.Type:
-                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:{ (repository) in
+                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:{ [weak self] (repository) in
                     
+                    guard let strongSelf = self else {
+                        return
+                    }
                     let group = DispatchGroup()
                     
-                    let readQueue = DispatchQueue(label: "com.secretatomics.resourcemodelcontroller.read.build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+                    let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
                     readQueue.sync {
-                        self.imageRepository.map.values.forEach({ (resource) in
+                        strongSelf.imageRepository.map.values.forEach({ (resource) in
                             group.enter()
                             print("value:\(resource.filename)")
                             group.leave()
@@ -163,7 +166,7 @@ extension ResourceModelController {
         case is ImageResource.Type:
             let mapGroup = DispatchGroup()
             ImageResource.extractImageResources(from: rawResourceArray, completion: { (newRepository, accumulatedErrors) in
-                let writeQueue = DispatchQueue(label: "com.secretaomtics.resourcemodelcontroller.write.append")
+                let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")
                 newRepository.map.forEach({ (object) in
                     mapGroup.enter()
                     writeQueue.async {
@@ -238,7 +241,7 @@ extension ResourceModelController {
      - Returns: void
      */
     func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
-        let queue = DispatchQueue(label: "com.secretatomics.resourcemodelcontroller.sort")
+        let queue = DispatchQueue(label: "\(readQueueLabel).sort")
         queue.async {
             let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
             let endSlice = skip + limit < values.count ? skip + limit : values.count

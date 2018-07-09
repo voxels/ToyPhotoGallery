@@ -14,44 +14,17 @@ class ResourceModelControllerTests: XCTestCase {
     var testErrorHandler:TestErrorHandler?
     var testRemoteStoreController:TestRemoteStoreController?
     var resourceModelController:ResourceModelController?
+    var networkSessionInterface:NetworkSessionInterface?
     
     override func setUp() {
         testErrorHandler = TestErrorHandler()
         testRemoteStoreController = TestRemoteStoreController()
-    }
-    
-    func testCleanRepositoryCleansImageRepository() {
-        let waitExpectation = expectation(description: "Wait for completion")
-        resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
-        let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
-        let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
-        let imageRepository = ImageRepository()
-        imageRepository.map = ["xxxxxx":unexpectedImageResource, "asdfbasd":otherUnexpectedImageResource]
-        resourceModelController?.imageRepository = imageRepository
-        
-        let rawResourceArray = [ImageRepositoryTests.imageResourceRawObject]
-        resourceModelController?.clean(using: rawResourceArray, for: ImageResource.self, with: testErrorHandler!, completion: {[weak self] (errors) in
-            if let errors = errors, errors.count > 0 {
-                XCTFail("Received unexpected errors")
-            }
-            
-            guard let repository = self?.resourceModelController!.imageRepository, repository.map.keys.count == 1, let first = self?.resourceModelController!.imageRepository.map.first else {
-                XCTFail("Expected resource not found")
-                return
-            }
-            
-            XCTAssertEqual(first.key, ImageRepositoryTests.imageResourceRawObject["objectId"] as! String)
-            
-            waitExpectation.fulfill()
-        })        
-        
-        let completed = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
-        XCTAssertTrue(completed)
+        networkSessionInterface = NetworkSessionInterface(with: testErrorHandler!)
     }
     
     func testAppendImagesAppendsExpectedResources() {
         let waitExpectation = expectation(description: "Wait for completion")
-        resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+        resourceModelController = ResourceModelController(with: testRemoteStoreController!, networkSessionInterface:networkSessionInterface!, errorHandler: testErrorHandler!)
         let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
         let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
         let imageRepository = ImageRepository()
@@ -83,7 +56,7 @@ class ResourceModelControllerTests: XCTestCase {
     
     func testAppendImagesCompletesWithAccumulatedErrors() {
         let waitExpectation = expectation(description: "Wait for completion")
-        resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+        resourceModelController = ResourceModelController(with: testRemoteStoreController!, networkSessionInterface:networkSessionInterface!, errorHandler: testErrorHandler!)
         let unexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "notathing", thumbnailURL: URL(string: "http://apple.com")!, fileURL: URL(string:"http://apple.com")!)
         let otherUnexpectedImageResource = ImageResource(createdAt: Date(), updatedAt: Date(), filename: "anotherthing", thumbnailURL: URL(string: "http://verizon.com")!, fileURL: URL(string:"http://verizon.com")!)
         let imageRepository = ImageRepository()

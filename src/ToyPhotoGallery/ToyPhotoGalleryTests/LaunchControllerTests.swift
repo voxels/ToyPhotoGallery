@@ -28,7 +28,8 @@ class LaunchControllerTests: XCTestCase {
     override func setUp() {
         testErrorHandler = TestErrorHandler()
         testRemoteStoreController = TestRemoteStoreController()
-        resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+        let networkSessionInterface = NetworkSessionInterface(with: testErrorHandler!)
+        resourceModelController = ResourceModelController(with: testRemoteStoreController!, networkSessionInterface: networkSessionInterface, errorHandler: testErrorHandler!)
     }
     
     func testLaunchStartsTimeOutTimer() {
@@ -123,7 +124,8 @@ class LaunchControllerTests: XCTestCase {
     }
     
     func testCheckLaunchCompleteBuildsResourceModelControllerRepository() {
-        let testResourceModelController = TestResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+        let networkSessionInterface = NetworkSessionInterface(with: testErrorHandler!)
+        let testResourceModelController = TestResourceModelController(with: testRemoteStoreController!, networkSessionInterface: networkSessionInterface, errorHandler: testErrorHandler!)
 
         let waitExpectation = expectation(forNotification: Notification.Name.DidCompleteLaunch, object: nil) { (notification) -> Bool in
             let actual = testResourceModelController.didBuildRepository

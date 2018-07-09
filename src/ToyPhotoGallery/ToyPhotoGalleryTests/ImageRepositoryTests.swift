@@ -18,7 +18,8 @@ class ImageRepositoryTests: XCTestCase {
     override func setUp() {
         testErrorHandler = TestErrorHandler()
         testRemoteStoreController = TestRemoteStoreController()
-        resourceModelController = ResourceModelController(with: testRemoteStoreController!, errorHandler: testErrorHandler!)
+        let networkSessionInterface = NetworkSessionInterface(with: testErrorHandler!)
+        resourceModelController = ResourceModelController(with: testRemoteStoreController!, networkSessionInterface:networkSessionInterface, errorHandler: testErrorHandler!)
     }
     
     static let imageResourceRawObject:[String:AnyObject] =
@@ -33,7 +34,7 @@ class ImageRepositoryTests: XCTestCase {
         let waitExpectation = expectation(description: "Wait for completion")
         
         let rawResourceArray = [ImageRepositoryTests.imageResourceRawObject]
-        ImageResource.extractImageResources(with: resourceModelController!, from: rawResourceArray) { (repository, errors) in
+        ImageResource.extractImageResources(from: rawResourceArray) { (repository, errors) in
             if let errors = errors, errors.count > 0 {
                 XCTFail("Found unexpected errors")
                 return
@@ -55,7 +56,7 @@ class ImageRepositoryTests: XCTestCase {
     
     func testExtractImageResourcesAccumulatesExpectedErrors() {
         let waitExpectation = expectation(description: "Wait for completion")
-        ImageResource.extractImageResources(with: resourceModelController!, from: RawResourceArray()) { (repository, errors) in
+        ImageResource.extractImageResources( from: RawResourceArray()) { (repository, errors) in
             guard let errors = errors else {
                 XCTFail("No errors found")
                 return
@@ -79,7 +80,7 @@ class ImageRepositoryTests: XCTestCase {
     
     func testImageResourceConstructsExpectedResource() {
         do {
-            let actual = try ImageResource.imageResource(with: resourceModelController!, from: ImageRepositoryTests.imageResourceRawObject)
+            let actual = try ImageResource.imageResource( from: ImageRepositoryTests.imageResourceRawObject)
             XCTAssertNotNil(actual)
         } catch {
             XCTFail(error.localizedDescription)
