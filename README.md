@@ -120,7 +120,7 @@ for path,dirs,files in os.walk(start_path):
 
 #### Unit Testing
 
-**ImageRepositoryTests.swift** *Line 33*
+**ImageRepositoryTests.swift** *[Line 33 - 55](https://github.com/voxels/ToyPhotoGallery/blob/5a09509a8c6623cced2e3af6819915021b10b803/src/ToyPhotoGallery/ToyPhotoGalleryTests/ImageRepositoryTests.swift#L33-L55)*
 ```
 func testExtractImageResourcesExtractsExpectedEntries() {
     let waitExpectation = expectation(description: "Wait for completion")
@@ -149,7 +149,7 @@ func testExtractImageResourcesExtractsExpectedEntries() {
 
 #### Inline Documentation
 
-**ResourceModelController.swift** *Line 110*
+**ResourceModelController.swift** *[Line 110 - 119](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L110-L119)*
 ```
 /**
  Checks the existing number of resources in the repository and fills in entries for indexes between the skip and limit, if necessary
@@ -165,7 +165,7 @@ func testExtractImageResourcesExtractsExpectedEntries() {
 
 #### API Key Obfuscation
 
-**LaunchController.swift** *Line 88*
+**LaunchController.swift** *[Line 88](https://github.com/voxels/ToyPhotoGallery/blob/3f600d85db70ea4b880059e09e2e1f550f5ed393/src/ToyPhotoGallery/ToyPhotoGallery/Model/Launch/LaunchController.swift#L88)*
 ```
 try service.launch(with:service.launchControlKey?.decoded(), with:center)
 
@@ -173,7 +173,7 @@ try service.launch(with:service.launchControlKey?.decoded(), with:center)
 
 #### Launch Control with DispatchGroup and Notifications
 
-**ResourceModelController.swift** *Line 67*
+**ResourceModelController.swift** *[Line 67 - 97](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L67-L97)*
 ```
 if FeaturePolice.waitForImageBeforeLaunching {
     let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
@@ -210,7 +210,7 @@ if FeaturePolice.waitForImageBeforeLaunching {
 
 #### Remote Store
 
-**ParseInterface.swift** *Line 64*
+**ParseInterface.swift** *[Line 64 - 74](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L67-L97)*
 ```
 func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
     
@@ -228,7 +228,7 @@ func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, er
 
 #### Non-Fatal Error Handling
 
-**Extractor.swift** *Line 12*
+**Extractor.swift** *[Line 12 - 33](https://github.com/voxels/ToyPhotoGallery/blob/708babee8965af46330edf01906458a570c1307c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Utility/Extractor.swift#L12-L33)*
 ```
 static func extractValue<T>(named key:String, from dictionary:[String:AnyObject]) throws -> T {
     
@@ -256,7 +256,7 @@ static func extractValue<T>(named key:String, from dictionary:[String:AnyObject]
 
 #### URLSession
 
-**NetworkSesionInterface** *Line 53*
+**NetworkSesionInterface** *[Line 53 - 81](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Network/NetworkSessionInterface.swift#L53-L81)*
 ```
 func fetch(url:URL, with session:URLSession? = nil, completion:@escaping (Data?)->Void) {
     // Using a default session here may crash because of a potential bug in Foundation.
@@ -291,7 +291,7 @@ func fetch(url:URL, with session:URLSession? = nil, completion:@escaping (Data?)
 
 #### Collection View Flow Layout Customization
 
-**GalleryCollectionViewLayout.swift** *Line 100*
+**GalleryCollectionViewLayout.swift** *[Line 100 - 110](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/View/Gallery/GalleryCollectionViewLayout.swift#L100-L110)*
 ```
 func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     var relativeSize = CGSize.zero
@@ -308,7 +308,7 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
 
 #### Manual Auto Layout
 
-**GalleryViewController.swift** *Line 253*
+**GalleryViewController.swift** *[Line 253 - 267](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/View/Gallery/GalleryViewController.swift#L253-L267)*
 ```
 override func updateViewConstraints() {
         if customConstraints.count > 0 {
@@ -329,7 +329,7 @@ override func updateViewConstraints() {
 
 #### Generic Protocols
 
-**ImageRespository.swift** *Line 13*
+**ImageRespository.swift** *[Line 13 - 19](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Repository/ImageRepository.swift#L13-L19)*
 ```
 /// Implementation of the *Repository* protocol for images
 class ImageRepository : Repository {
@@ -342,7 +342,7 @@ class ImageRepository : Repository {
 
 #### Template Functions
 
-**ResourceModelController.swift** *Line 255*
+**ResourceModelController.swift** *[Line 255 - 266](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L255-L266)*
 ```
 func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
     let queue = DispatchQueue(label: "\(readQueueLabel).sort")
@@ -359,7 +359,7 @@ func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.Associa
 
 #### Dispatch Queues and Operation Queues
 
-**ResourceModelController+GalleryCollectionViewModelDelegate** *Line 25*
+**ResourceModelController+GalleryCollectionViewModelDelegate** *[Line 25 - 66](https://github.com/voxels/ToyPhotoGallery/blob/4302b56a9c2d04f1c6474081a34f74c44f8c3464/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController%2BGalleryCollectionViewModelDelegate.swift#L25-L66)*
 ```
 func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:ImageResourceCompletion?) -> Void {
     // We need to make sure we don't skip fetching any images for this purpose
@@ -407,7 +407,7 @@ func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval = Resour
 #### Delegation
 
 
-**GalleryCollectionViewModel.swift** *Line 11*
+**GalleryCollectionViewModel.swift** *[Line 11 - 17](https://github.com/voxels/ToyPhotoGallery/blob/4302b56a9c2d04f1c6474081a34f74c44f8c3464/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController%2BGalleryCollectionViewModelDelegate.swift#L25-L66)*
 ```
 /// Protocol to fetch the image resources for the model and get an error handler if necessary
 protocol GalleryCollectionViewModelDelegate : class {
