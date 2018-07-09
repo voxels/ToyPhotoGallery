@@ -192,4 +192,10 @@ The gallery should be viewable on a mobile device, and any code you produce shou
 ```
 
 
+### Questions for the designer:
+
+- The "Image gallery" label on the gallery view appears to be in the Roboto font, however the character width is wider that the default Roboto character.  What is the intention?  Should we use an image instead of the font?
+- How should the space between the icons on the preview view's toolbar shrink and grow on differently sized devices?  An assumption was made to flex the outer margins and keep the space between fixed.
+
+
 

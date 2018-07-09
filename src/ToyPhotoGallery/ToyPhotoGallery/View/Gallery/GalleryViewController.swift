@@ -142,10 +142,13 @@ extension GalleryViewController {
         if preview {
             closeButton.isHidden = false
             header.backgroundColor = UIColor.appDarkGrayBackground()
+            previewContainerViewBottomConstraint.constant = 0
         } else {
             closeButton.isHidden = true
             header.backgroundColor = UIColor.appLightGrayBackground()
+            previewContainerViewBottomConstraint.constant = -45
         }
+        refreshLayout(in: view)
     }
     
     func collectionViewLayoutConfiguration(vertical:Bool)->FlowLayoutConfiguration {

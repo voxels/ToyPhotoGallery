@@ -86,8 +86,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ojl-zU-ujH">
-                                <rect key="frame" x="0.0" y="622" width="375" height="45"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="0.0" y="667" width="375" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="V2L-pV-Cdv"/>
                                 </constraints>
@@ -103,7 +102,7 @@
                             <constraint firstItem="lwt-YF-ZxG" firstAttribute="top" secondItem="SEu-l8-7EO" secondAttribute="top" id="Sl1-Ci-UiJ"/>
                             <constraint firstItem="lwt-YF-ZxG" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="XIW-1k-TSa"/>
                             <constraint firstItem="SEu-l8-7EO" firstAttribute="trailing" secondItem="Ojl-zU-ujH" secondAttribute="trailing" id="XTt-Uq-RBJ"/>
-                            <constraint firstItem="SEu-l8-7EO" firstAttribute="bottom" secondItem="Ojl-zU-ujH" secondAttribute="bottom" id="dux-dE-KdF"/>
+                            <constraint firstItem="SEu-l8-7EO" firstAttribute="bottom" secondItem="Ojl-zU-ujH" secondAttribute="bottom" constant="-45" id="dux-dE-KdF"/>
                             <constraint firstItem="SEu-l8-7EO" firstAttribute="trailing" secondItem="lwt-YF-ZxG" secondAttribute="trailing" id="tH2-gD-V5i"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SEu-l8-7EO"/>
@@ -181,6 +180,9 @@
                                             <constraint firstAttribute="width" constant="44" id="akP-af-4S8"/>
                                             <constraint firstAttribute="height" constant="44" id="pRG-bS-lag"/>
                                         </constraints>
+                                        <connections>
+                                            <action selector="onTapAddButton:" destination="tfB-aw-ZY9" eventType="touchUpInside" id="eWr-jO-myV"/>
+                                        </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_reply_reversed_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="HoQ-9j-Tgy" userLabel="shareIcon">
                                         <rect key="frame" x="315" y="7" width="34" height="30"/>
