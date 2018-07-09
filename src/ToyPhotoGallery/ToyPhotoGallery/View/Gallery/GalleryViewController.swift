@@ -61,9 +61,7 @@ class GalleryViewController: UIViewController {
     }
     
     func refresh(with viewModel:GalleryViewModel) {
-        let configuration = collectionViewLayoutConfiguration(vertical: !FeaturePolice.defaultHorizontalLayout)
-        let layout = GalleryCollectionViewLayout(with:configuration, errorHandler:viewModel.resourceModelController.errorHandler)
-        layout.delegate = self
+        let layout = collectionViewLayout(for: .vertical, errorHandler: viewModel.resourceModelController.errorHandler)
         let configuredView = galleryCollectionView(with: layout, viewModel:viewModel)
         collectionView = configuredView
     }
@@ -75,7 +73,7 @@ class GalleryViewController: UIViewController {
             // Fallback on earlier versions
         }
         
-        toggle(header: headingContainerView, preview: true)
+        toggle(preview: true)
         try insert(childViewController: previewViewController, on: self, into:view)
         closeButton.isHidden = false
     }
@@ -84,7 +82,7 @@ class GalleryViewController: UIViewController {
         if let child = self.childViewControllers.first {
             remove(childViewController: child)
         }
-        toggle(header: headingContainerView, preview: false)
+        toggle(preview: false)
     }
 }
 
@@ -100,7 +98,7 @@ extension GalleryViewController {
         configuredView.translatesAutoresizingMaskIntoConstraints = false
         configuredView.backgroundColor = .white
         configuredView.isDirectionalLockEnabled = true
-        configuredView.isPagingEnabled = true
+        configuredView.isPagingEnabled = layout.scrollDirection == .horizontal
         
         if #available(iOS 11.0, *) {
             configuredView.contentInsetAdjustmentBehavior = .scrollableAxes
@@ -128,6 +126,22 @@ extension GalleryViewController {
         previewViewController.view.backgroundColor = previewViewController.defaultBackgroundColor
         return previewViewController
     }
+    
+    func collectionViewLayout(for direction:UICollectionViewScrollDirection, errorHandler:ErrorHandlerDelegate?) -> GalleryCollectionViewLayout {
+        let configuration = collectionViewLayoutConfiguration(direction: direction)
+        let layout = GalleryCollectionViewLayout(with:configuration, errorHandler:errorHandler)
+        layout.delegate = self
+        layout.sizeDelegate = collectionView?.model
+        return layout
+    }
+    
+    func collectionViewLayoutConfiguration(direction:UICollectionViewScrollDirection)->FlowLayoutConfiguration {
+        if direction == .vertical {
+            return FlowLayoutVerticalConfiguration()
+        } else {
+            return FlowLayoutHorizontalConfiguration()
+        }
+    }
 }
 
 // MARK: - Appearance
@@ -140,25 +154,85 @@ extension GalleryViewController {
         }
     }
     
-    func toggle(header:UIView, preview:Bool) {
-        if preview {
-            closeButton.isHidden = false
-            header.backgroundColor = UIColor.appDarkGrayBackground()
-            previewContainerViewBottomConstraint.constant = 0
-        } else {
-            closeButton.isHidden = true
-            header.backgroundColor = UIColor.appLightGrayBackground()
-            previewContainerViewBottomConstraint.constant = -45
+    func toggle(preview:Bool) {
+        guard let oldCollectionView = collectionView, let viewModel = viewModel else {
+            return
         }
+        
+        let timingDuration:TimeInterval = 0.35 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
+        
+        let layout = collectionViewLayout(for: preview ? .horizontal : .vertical, errorHandler: oldCollectionView.model?.resourceDelegate?.errorHandler)
+        let newCollectionView = galleryCollectionView(with: layout, viewModel:viewModel)
+        newCollectionView.backgroundColor = .clear
+        newCollectionView.alpha = 1.0
+        contentContainerView.addSubview(newCollectionView)
+        self.collectionView = newCollectionView
+        newCollectionView.reloadData()
         refreshLayout(in: view)
-    }
-    
-    func collectionViewLayoutConfiguration(vertical:Bool)->FlowLayoutConfiguration {
-        if vertical {
-            return FlowLayoutVerticalConfiguration()
-        } else {
-            return FlowLayoutHorizontalConfiguration()
+        
+        newCollectionView.transform = CGAffineTransform.init(scaleX: 0.85, y: 0.95)
+        
+        let newCollectionAlphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
+        newCollectionAlphaAnimation.fromValue = 0.0
+        newCollectionAlphaAnimation.toValue = 1.0
+        
+        let oldCollectionAlphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
+        oldCollectionAlphaAnimation.fromValue = 1.0
+        oldCollectionAlphaAnimation.toValue = 0.0
+        
+        let headerBackgroundAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.backgroundColor))
+        let currentColor = !preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
+        let headerColor = preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
+        headerBackgroundAnimation.fromValue = currentColor
+        headerBackgroundAnimation.toValue = headerColor
+        
+        let timingFunction = CAMediaTimingFunction(controlPoints: 0.45, -0.4, 0.20, 1.25)
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(timingDuration)
+        CATransaction.setAnimationTimingFunction(timingFunction)
+        CATransaction.setCompletionBlock {
+            oldCollectionView.removeFromSuperview()
         }
+        headingContainerView.backgroundColor = headerColor
+        headingContainerView.layer.add(headerBackgroundAnimation, forKey: #keyPath(CALayer.backgroundColor))
+        
+        oldCollectionView.alpha = 0.0
+        oldCollectionView.layer.add(oldCollectionAlphaAnimation, forKey: #keyPath(CALayer.opacity))
+        
+        newCollectionView.alpha = 1.0
+        newCollectionView.layer.add(newCollectionAlphaAnimation, forKey: #keyPath(CALayer.opacity))
+        
+        UIView.animate(withDuration: timingDuration) {
+            newCollectionView.transform = .identity
+        }
+        
+        let bottomConstant:CGFloat = preview ? -15 : -45
+        previewContainerViewBottomConstraint.constant = bottomConstant
+        view.setNeedsUpdateConstraints()
+        UIView.animate(withDuration: timingDuration) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+        
+        if preview {
+            closeButton.alpha = 1.0
+            
+            UIView.animate(withDuration: timingDuration) { [weak self] in
+                self?.headingLabel.alpha = 0.0
+                self?.headingLabel.transform = CGAffineTransform.init(scaleX: 0.5, y: 0.5)
+                self?.closeButton.transform = .identity                
+            }
+        } else {
+            let angle = CGFloat(Measurement(value: 90, unit: UnitAngle.degrees)
+                .converted(to: .radians).value)
+            UIView.animate(withDuration: timingDuration, animations: { [weak self] in
+                self?.headingLabel.alpha = 1.0
+                self?.headingLabel.transform = .identity
+                self?.closeButton.transform = CGAffineTransform.init(rotationAngle:angle )
+            }) { [weak self] (didSucceed) in
+                self?.closeButton.alpha = 0.0
+            }
+        }
+        CATransaction.commit()
     }
 }
 

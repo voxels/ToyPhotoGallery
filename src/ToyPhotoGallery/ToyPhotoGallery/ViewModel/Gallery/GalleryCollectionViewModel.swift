@@ -235,10 +235,10 @@ extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {
         let width = data[indexPath.item].imageResource.thumbnailWidth
         let height = data[indexPath.item].imageResource.thumbnailHeight
         
-        if width > 0 && height > 0, let containerSize = viewModelDelegate?.containerSize {
+        if let containerSize = viewModelDelegate?.containerSize {
             return calculateItemSize(for: CGSize(width:width, height:height), containerSize: containerSize, layout:layout, configuration: currentConfiguration)
         }
         
-        return FlowLayoutVerticalConfiguration().estimatedItemSize
+        return layout.relative(size: currentConfiguration.estimatedItemSize, with: currentConfiguration, containerWidth: currentConfiguration.compWidth)
     }
 }

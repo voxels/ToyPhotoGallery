@@ -94,13 +94,13 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W36-0U-ffK">
-                                <rect key="frame" x="0.0" y="80" width="375" height="587"/>
+                                <rect key="frame" x="0.0" y="80" width="375" height="572"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ojl-zU-ujH">
-                                <rect key="frame" x="0.0" y="667" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="652" width="375" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="V2L-pV-Cdv"/>
+                                    <constraint firstAttribute="height" constant="60" id="V2L-pV-Cdv"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -139,11 +139,11 @@
             <objects>
                 <viewController storyboardIdentifier="PreviewViewController" autoresizesArchivedViewToFullSize="NO" id="tfB-aw-ZY9" customClass="PreviewViewController" customModule="ToyPhotoGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ht3-sW-bRj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDG-bh-GPQ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_exposure_plus_1_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="tL7-qw-lpZ" userLabel="plusOneIcon">
                                         <rect key="frame" x="28" y="8" width="34" height="30"/>
@@ -163,14 +163,14 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_chat_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="4Aw-ky-4ug" userLabel="commentIcon">
-                                        <rect key="frame" x="126.5" y="11.5" width="28" height="24"/>
+                                        <rect key="frame" x="126.5" y="12" width="28" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="0Cw-P8-HrR"/>
                                             <constraint firstAttribute="width" constant="28" id="wiB-uX-E9B"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31U-Jj-aEj" userLabel="commentButton">
-                                        <rect key="frame" x="118.5" y="1.5" width="44" height="44"/>
+                                        <rect key="frame" x="118.5" y="2" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="XfO-he-noh"/>
                                             <constraint firstAttribute="width" constant="44" id="aNZ-Am-9z9"/>
@@ -197,14 +197,14 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_reply_reversed_white_36pt" translatesAutoresizingMaskIntoConstraints="NO" id="HoQ-9j-Tgy" userLabel="shareIcon">
-                                        <rect key="frame" x="315" y="7" width="34" height="30"/>
+                                        <rect key="frame" x="315" y="8" width="34" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="A4o-Fg-ban"/>
                                             <constraint firstAttribute="width" constant="34" id="Bwe-DO-haJ"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qv-at-awc" userLabel="shareButton">
-                                        <rect key="frame" x="310" y="0.0" width="44" height="44"/>
+                                        <rect key="frame" x="310" y="1" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="IvO-Od-22f"/>
                                             <constraint firstAttribute="width" constant="44" id="OMX-ly-2JC"/>
@@ -216,16 +216,16 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="wD9-JX-hgC" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" id="1Sl-uT-9Hn"/>
+                                    <constraint firstItem="wD9-JX-hgC" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" constant="-7" id="1Sl-uT-9Hn"/>
                                     <constraint firstItem="31U-Jj-aEj" firstAttribute="centerX" secondItem="4Aw-ky-4ug" secondAttribute="centerX" id="4fN-kR-BZt"/>
                                     <constraint firstItem="HoQ-9j-Tgy" firstAttribute="centerX" secondItem="EDG-bh-GPQ" secondAttribute="centerX" multiplier="1.772" id="6Cn-iU-p7x"/>
                                     <constraint firstItem="RS1-aF-tY8" firstAttribute="centerY" secondItem="wD9-JX-hgC" secondAttribute="centerY" id="7jv-PH-iMa"/>
                                     <constraint firstItem="9qv-at-awc" firstAttribute="centerX" secondItem="HoQ-9j-Tgy" secondAttribute="centerX" id="BpL-wH-Wj3"/>
                                     <constraint firstItem="9qv-at-awc" firstAttribute="centerY" secondItem="HoQ-9j-Tgy" secondAttribute="centerY" id="DTx-t2-nR1"/>
                                     <constraint firstItem="4Aw-ky-4ug" firstAttribute="centerX" secondItem="EDG-bh-GPQ" secondAttribute="centerX" multiplier="0.75" id="Nqn-ie-tkI"/>
-                                    <constraint firstItem="4Aw-ky-4ug" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" constant="1" id="Qcm-gW-GMp"/>
-                                    <constraint firstItem="HoQ-9j-Tgy" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" id="Rao-2w-InY"/>
-                                    <constraint firstItem="tL7-qw-lpZ" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" id="dUK-zb-b8Q"/>
+                                    <constraint firstItem="4Aw-ky-4ug" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" constant="-6" id="Qcm-gW-GMp"/>
+                                    <constraint firstItem="HoQ-9j-Tgy" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" constant="-7" id="Rao-2w-InY"/>
+                                    <constraint firstItem="tL7-qw-lpZ" firstAttribute="centerY" secondItem="EDG-bh-GPQ" secondAttribute="centerY" constant="-7" id="dUK-zb-b8Q"/>
                                     <constraint firstItem="tL7-qw-lpZ" firstAttribute="centerX" secondItem="EDG-bh-GPQ" secondAttribute="centerX" multiplier="0.245" id="lUR-an-vds"/>
                                     <constraint firstItem="tL7-qw-lpZ" firstAttribute="centerY" secondItem="6V7-bb-hlc" secondAttribute="centerY" id="on0-el-hRA"/>
                                     <constraint firstItem="31U-Jj-aEj" firstAttribute="centerY" secondItem="4Aw-ky-4ug" secondAttribute="centerY" id="sjg-fT-p0c"/>
@@ -243,7 +243,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7in-cm-aCh"/>
                     </view>
-                    <size key="freeformSize" width="375" height="45"/>
+                    <size key="freeformSize" width="375" height="60"/>
                     <connections>
                         <outlet property="contentContainerView" destination="EDG-bh-GPQ" id="MMe-QT-m8q"/>
                     </connections>
