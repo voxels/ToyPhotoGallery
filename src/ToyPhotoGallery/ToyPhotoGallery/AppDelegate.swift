@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AWSCore
+import AWSMobileClient
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         launchController = LaunchController(with:resourceModelController)
         launchController?.launch(services: [errorHandlerDelegate, remoteStoreController])
         
-        return true
+        return AWSMobileClient.sharedInstance().interceptApplication(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

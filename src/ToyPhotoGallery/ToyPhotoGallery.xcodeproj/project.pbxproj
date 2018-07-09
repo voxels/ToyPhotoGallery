@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E1A7AB420F377CD0002F6FC /* AWSMobileClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB120F377CD0002F6FC /* AWSMobileClient.framework */; };
+		1E1A7AB520F377CD0002F6FC /* AWSCognito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB220F377CD0002F6FC /* AWSCognito.framework */; };
+		1E1A7AB620F377CD0002F6FC /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB320F377CD0002F6FC /* AWSS3.framework */; };
+		1E1A7AB820F379140002F6FC /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB720F379140002F6FC /* AWSCore.framework */; };
+		1E1A7ABA20F379610002F6FC /* AWSAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1A7AB920F379610002F6FC /* AWSAuthCore.framework */; };
+		1E1A7ABB20F37AEE0002F6FC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E1A7AA920F3765B0002F6FC /* awsconfiguration.json */; };
 		1E33BE5920F1079B00BF6B1D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E33BE5820F1079B00BF6B1D /* UIColor.swift */; };
 		1E481A9420F017AE006FAE4C /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E481A9320F017AE006FAE4C /* libturbojpeg.a */; };
 		1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */; };
@@ -135,6 +141,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E1A7AA920F3765B0002F6FC /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		1E1A7AB120F377CD0002F6FC /* AWSMobileClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSMobileClient.framework; path = Carthage/Build/iOS/AWSMobileClient.framework; sourceTree = SOURCE_ROOT; };
+		1E1A7AB220F377CD0002F6FC /* AWSCognito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognito.framework; path = Carthage/Build/iOS/AWSCognito.framework; sourceTree = SOURCE_ROOT; };
+		1E1A7AB320F377CD0002F6FC /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = Carthage/Build/iOS/AWSS3.framework; sourceTree = SOURCE_ROOT; };
+		1E1A7AB720F379140002F6FC /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = Carthage/Build/iOS/AWSCore.framework; sourceTree = SOURCE_ROOT; };
+		1E1A7AB920F379610002F6FC /* AWSAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSAuthCore.framework; path = Carthage/Build/iOS/AWSAuthCore.framework; sourceTree = SOURCE_ROOT; };
 		1E33BE5820F1079B00BF6B1D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToyPhotoGallery-Bridging-Header.h"; sourceTree = "<group>"; };
 		1E481A9320F017AE006FAE4C /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "ToyPhotoGallery/vendor/libjpeg-turbo/lib/libturbojpeg.a"; sourceTree = SOURCE_ROOT; };
@@ -254,11 +266,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E1A7AB620F377CD0002F6FC /* AWSS3.framework in Frameworks */,
+				1E1A7AB520F377CD0002F6FC /* AWSCognito.framework in Frameworks */,
+				1E1A7AB820F379140002F6FC /* AWSCore.framework in Frameworks */,
+				1E1A7AB420F377CD0002F6FC /* AWSMobileClient.framework in Frameworks */,
 				1E78B34720EDBDE1000DCFE7 /* GameplayKit.framework in Frameworks */,
 				1E78B34520EDBDD6000DCFE7 /* SceneKit.framework in Frameworks */,
 				1E78B2E020EADC96000DCFE7 /* ParseUI.framework in Frameworks */,
 				1E78B2DA20EADC96000DCFE7 /* FBSDKPlacesKit.framework in Frameworks */,
 				1E78B2D820EADC96000DCFE7 /* FBSDKLoginKit.framework in Frameworks */,
+				1E1A7ABA20F379610002F6FC /* AWSAuthCore.framework in Frameworks */,
 				1E78B2DD20EADC96000DCFE7 /* Bugsnag.framework in Frameworks */,
 				1E78B2E120EADC96000DCFE7 /* ParseTwitterUtils.framework in Frameworks */,
 				1E78B2DC20EADC96000DCFE7 /* FBSDKShareKit.framework in Frameworks */,
@@ -355,7 +372,14 @@
 				1E78B28A20EAC566000DCFE7 /* Resource */,
 				1E65C9F720EABBEC00D28BE4 /* Info.plist */,
 				1E481A8A20F01735006FAE4C /* ToyPhotoGallery-Bridging-Header.h */,
+				1E1A7AA920F3765B0002F6FC /* awsconfiguration.json */,
 				1E65C9F220EABBEC00D28BE4 /* Assets.xcassets */,
+				1E1A7AB920F379610002F6FC /* AWSAuthCore.framework */,
+				1E1A7AB720F379140002F6FC /* AWSCore.framework */,
+				1E1A7AB220F377CD0002F6FC /* AWSCognito.framework */,
+				1E1A7AB120F377CD0002F6FC /* AWSMobileClient.framework */,
+				1E1A7AB320F377CD0002F6FC /* AWSS3.framework */,
+				1E78B28F20EAC608000DCFE7 /* Framework */,
 				1E94CBA620EFBADD00117209 /* Fonts */,
 			);
 			path = ToyPhotoGallery;
@@ -465,7 +489,6 @@
 			isa = PBXGroup;
 			children = (
 				1E481A8920F0171E006FAE4C /* CCBufferedImageDecoder */,
-				1E78B28F20EAC608000DCFE7 /* Framework */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -531,7 +554,8 @@
 				1E78B2D720EADC96000DCFE7 /* ParseTwitterUtils.framework */,
 				1E78B2D620EADC96000DCFE7 /* ParseUI.framework */,
 			);
-			path = Framework;
+			name = Framework;
+			path = Resource/Framework;
 			sourceTree = "<group>";
 		};
 		1E78B2F320EAFAF3000DCFE7 /* ErrorType */ = {
@@ -794,6 +818,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E1A7ABB20F37AEE0002F6FC /* awsconfiguration.json in Resources */,
 				1E94CBC020EFBE8D00117209 /* Roboto-Thin.ttf in Resources */,
 				1E94CBBD20EFBE8D00117209 /* Roboto-Medium.ttf in Resources */,
 				1E94CBB920EFBE8D00117209 /* Roboto-BoldItalic.ttf in Resources */,
@@ -846,6 +871,11 @@
 				"$(SRCROOT)/Carthage/Build/iOS/ParseFacebookUtilsV4.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ParseTwitterUtils.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ParseUI.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSCognito.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSS3.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSMobileClient.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSCore.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AWSAuthCore.framework",
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Bolts.framework",
@@ -858,6 +888,11 @@
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseFacebookUtilsV4.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseTwitterUtils.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ParseUI.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AWSCognito.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AWSS3.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AWSMobileClient.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AWSCore.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AWSAuthCore.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

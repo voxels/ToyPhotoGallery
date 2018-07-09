@@ -1,0 +1,20 @@
+{
+    "Version": "1.0",
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "us-east-1:d777ed86-d051-4516-8eda-7257e7808e3c",
+                "Region": "us-east-1"
+            }
+        }
+    },
+    "IdentityManager" : {
+      "Default" : { }
+    },
+    "S3TransferUtility": {
+        "Default": {
+            "Bucket": "com-federalforge-repository",
+            "Region": "us-east-1"
+        }
+    }
+}
