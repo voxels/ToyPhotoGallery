@@ -7,24 +7,9 @@
 *ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
 
 In order to achieve an example reflecting a typical production application's functions, the gallery's photos are archived in a remote repository, rather than on device.  Clean UX transitions for most apps must exist within the contexts of fetching paged results, 
-cacheing sized copies, securing connections, reachability, and other concerns.  
-
-For the purpose of this exercise, given the time constraints, the model controllers are representative of the foundation needed to support common activities by a mobile application.
-
-*ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.
+cacheing sized copies, securing connections, reachability, and other concerns.  *ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.
 
 More detail about the examples of [techniques](#code-examples) is offered in the section below.
-
-### Additional Portfolio Documents
-
-In addition to the code sample included in this repository, and the content located on the public [portfolio](http://voxels.github.com) site, samples of past work can be found at the following address:
-
-[Past Work Samples]()
-
-The zipped file above includes examples of:
-- Planning documents
-- Code Reviews
-- White papers
 
 ```
 
@@ -450,11 +435,8 @@ Feel free to use any technologies, libraries, or frameworks you like to build th
 The gallery should be viewable on a mobile device, and any code you produce should be clean and extensible.
 ```
 
-
 ### Questions for the designer:
 
 - The "Image gallery" label on the gallery view appears to be in the Roboto font, however the character width is wider that the default Roboto character.  What is the intention?  Should we use an image instead of the font?
 - How should the space between the icons on the preview view's toolbar shrink and grow on differently sized devices?  An assumption was made to flex the outer margins and keep the space between fixed.
-
-
 
