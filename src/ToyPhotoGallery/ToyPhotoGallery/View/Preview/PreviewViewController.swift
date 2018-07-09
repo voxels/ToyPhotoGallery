@@ -33,4 +33,7 @@ class PreviewViewController: UIViewController {
     @IBAction func onTapShareButton(_ sender: Any) {
         
     }
+    
+    @IBAction func onTapCommentButton(_ sender: Any) {
+    }
 }
