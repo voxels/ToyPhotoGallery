@@ -57,20 +57,6 @@ class LaunchControllerTests: XCTestCase {
         controller.timeoutTimer?.invalidate()
     }
     
-    func testWaitForLaunchNotificationWaitsForEachService() {
-        let errorExpectation = expectation(forNotification: Notification.Name.DidLaunchErrorHandler, object: nil, handler: nil)
-        let remoteStoreExpectation = expectation(forNotification: Notification.Name.DidLaunchRemoteStore, object: nil, handler: nil)
-
-        let testCenter = NotificationCenter.default
-        let controller = LaunchController(with: resourceModelController!)
-        controller.launch(services: [testErrorHandler!, testRemoteStoreController!], with:testCenter)
-
-        controller.timeoutTimer?.invalidate()
-        
-        let actual = register(expectations:[errorExpectation, remoteStoreExpectation], duration:XCTestCase.defaultWaitDuration )
-        XCTAssertTrue(actual)
-    }
-    
     func testAttemptLaunchesServices() {
         let testCenter = NotificationCenter()
         let controller = LaunchController(with: resourceModelController!)
