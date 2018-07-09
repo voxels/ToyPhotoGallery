@@ -215,14 +215,14 @@ extension GalleryCollectionViewModel {
             return actualSize
         }
         
-        // Landscape and square
+        // Landscape and square, else portrait
         if thumbnailSize.width >= thumbnailSize.height {
-            let actualHeight = min(thumbnailSize.height * containerSize.width / thumbnailSize.width, containerSize.width - 2) - 2
-            let actualWidth = containerSize.width - 2
+            let actualHeight = min(thumbnailSize.height * containerSize.width / thumbnailSize.width, containerSize.height)
+            let actualWidth = containerSize.width
             actualSize = CGSize(width: actualWidth, height: actualHeight)
         } else {
-            let actualHeight = containerSize.height - 2
-            let actualWidth = min(thumbnailSize.width * containerSize.height / thumbnailSize.height, containerSize.width - 2) - 2
+            let actualHeight = containerSize.height
+            let actualWidth = min(thumbnailSize.width * containerSize.height / thumbnailSize.height, containerSize.width)
             actualSize = CGSize(width: actualWidth, height: actualHeight)
         }
         

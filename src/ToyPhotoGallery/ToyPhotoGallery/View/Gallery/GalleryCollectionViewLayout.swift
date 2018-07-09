@@ -38,8 +38,8 @@ struct FlowLayoutVerticalConfiguration : FlowLayoutConfiguration {
 struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
     var compWidth:CGFloat                   = 640.0
     var scrollDirection:UICollectionViewScrollDirection = .horizontal
-    var minimumLineSpacing:CGFloat          = 50.0
-    var minimumInteritemSpacing:CGFloat     = 50.0
+    var minimumLineSpacing:CGFloat          = 0.0
+    var minimumInteritemSpacing:CGFloat     = 320.0
     var estimatedItemSize:CGSize            = CGSize(width: 320.0, height: 240.0)
     var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     var headerReferenceSize:CGSize          = CGSize.zero

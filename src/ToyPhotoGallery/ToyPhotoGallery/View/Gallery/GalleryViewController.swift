@@ -100,6 +100,7 @@ extension GalleryViewController {
         configuredView.translatesAutoresizingMaskIntoConstraints = false
         configuredView.backgroundColor = .white
         configuredView.isDirectionalLockEnabled = true
+        configuredView.isPagingEnabled = true
         
         if #available(iOS 11.0, *) {
             configuredView.contentInsetAdjustmentBehavior = .scrollableAxes
