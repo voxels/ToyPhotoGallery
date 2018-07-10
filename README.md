@@ -4,10 +4,24 @@
 - [Code Examples](#code-examples)
 - [Client Brief](#client-brief)
 
-*ToyPhotoGallery* implements the design for a Google code interview that shows a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
+*ToyPhotoGallery* implements the design for a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
 
-In order to achieve an example reflecting a typical production application's functions, the gallery's photos are archived in a remote repository, rather than on device.  Clean UX transitions for most apps must exist within the contexts of fetching paged results, 
-cacheing sized copies, securing connections, reachability, and other concerns.  *ToyPhotoGallery* uses a variation of the MVVM design pattern to acheieve the gallery view controller design.
+#### Design Goals
+
+The design goals of the object map include:
+- Provide abstract protocols for common services so that libraries can be swapped if needed
+- Hide API interfaces behind model controllers
+- Provide launch safety for reachability or other issues
+- Provide thread safe access to network fetching and local storage
+- Provide robust non-fatal error handling for debugging
+- Use the Model View View Model design pattern
+- Use abstract models within model controllers so that content can be expanded without rearchitecture
+- Offer the ability to swap out views as much as possible
+- Provide convenience structures for configuring requests and appearances
+
+A [description] of the object graph diagram below can be found at [voxels.github.io](https://gist.github.com/voxels/40f6f9da51cf56a4ad2e8a0eb238c87d)
+
+![Diagram](https://s3.amazonaws.com/com-federalforge-repository/public/resources/originals/ToyPhotoGallery_ObjectGraphDiagram.png)
 
 More detail about the examples of [techniques](#code-examples) is offered in the section below.
 
