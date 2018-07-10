@@ -19,7 +19,7 @@ The design goals of the object map include:
 - Offer the ability to swap out views as much as possible
 - Provide convenience structures for configuring requests and appearances
 
-A [description] of the object graph diagram below can be found at [voxels.github.io](https://gist.github.com/voxels/40f6f9da51cf56a4ad2e8a0eb238c87d)
+A description of the object graph diagram below can be found at [voxels.github.io](https://gist.github.com/voxels/40f6f9da51cf56a4ad2e8a0eb238c87d)
 
 ![Diagram](https://s3.amazonaws.com/com-federalforge-repository/public/resources/originals/ToyPhotoGallery_ObjectGraphDiagram.png)
 
