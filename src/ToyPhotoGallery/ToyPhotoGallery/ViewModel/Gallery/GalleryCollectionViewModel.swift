@@ -10,7 +10,6 @@ import Foundation
 
 /// Protocol to fetch the image resources for the model and get an error handler if necessary
 protocol GalleryCollectionViewModelDelegate : class {
-    var networkSessionInterface:NetworkSessionInterface { get }
     var errorHandler:ErrorHandlerDelegate { get }
     var timeoutDuration:TimeInterval { get }
     func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval, completion:ImageResourceCompletion?)
@@ -25,9 +24,6 @@ class GalleryCollectionViewModel {
 
     /// The delegate used to fetch image resources
     weak var resourceDelegate:GalleryCollectionViewModelDelegate?
-    
-    /// The network session interface given to the cells to fetch UIImage data with
-    var networkSessionInterface:NetworkSessionInterface?
     
     /// The viewmodel delegate that receives a signal when the model has updated
     weak var viewModelDelegate:GalleryViewModelDelegate?
@@ -61,7 +57,6 @@ class GalleryCollectionViewModel {
      - Returns: void
      */
     func configure(with delegate:GalleryCollectionViewModelDelegate) {
-        networkSessionInterface = delegate.networkSessionInterface
         data = SynchronizedArray<GalleryCollectionViewImageCellModel>(qos: .userInteractive)
         nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize)
     }
@@ -192,7 +187,9 @@ extension GalleryCollectionViewModel {
         viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)
         endFetching()
     }
-    
+}
+
+extension GalleryCollectionViewModel {
     func calculateItemSize(for thumbnailSize:CGSize, containerSize:CGSize, layout:GalleryCollectionViewLayout, configuration:FlowLayoutConfiguration)->CGSize {
         if configuration.scrollDirection == .horizontal {
             return itemSize(for: thumbnailSize, containerSize: containerSize)

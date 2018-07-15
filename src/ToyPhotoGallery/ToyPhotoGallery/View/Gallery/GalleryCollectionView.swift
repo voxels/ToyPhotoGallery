@@ -79,11 +79,8 @@ extension GalleryCollectionView : UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
         
-        do {
-            try cell.refresh(with: cellModel)
-        } catch {
-            model?.resourceDelegate?.errorHandler.report(error)
-        }
+        cell.refresh(with: cellModel)
+        
         return cell
     }
     
