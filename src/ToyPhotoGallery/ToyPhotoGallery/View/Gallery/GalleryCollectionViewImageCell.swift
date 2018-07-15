@@ -10,7 +10,8 @@
 import UIKit
 
 struct GalleryCollectionViewImageCellAppearance {
-    let defaultBackgroundColor:UIColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 240.0/255.0)
+    var backgroundColor:UIColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 240.0/255.0)
+    var fadeDuration:TimeInterval = 0.5
 }
 
 class GalleryCollectionViewImageCell : UICollectionViewCell {
@@ -21,50 +22,48 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
     var thumbnailImageView:UIImageView = UIImageView(frame: CGRect.zero)
     var fileImageView:UIImageView = UIImageView(frame: CGRect.zero)
 
-    let fadeDuration:TimeInterval = 0.5
-
     override func prepareForReuse() {
         super.prepareForReuse()
+        thumbnailImageView.isHidden = true
         thumbnailImageView.image = nil
+        thumbnailImageView.alpha = 0.0
+        
+        fileImageView.isHidden = true
         fileImageView.image = nil
-        thumbnailImageView.frame = self.contentView.bounds
-        fileImageView.frame = self.contentView.bounds
+        fileImageView.alpha = 0.0
+        
         model = nil
     }
     
-    func refresh(with model:ImageResource, appearance:GalleryCollectionViewImageCellAppearance = GalleryCollectionViewImageCellAppearance()) {
+    func refresh(with model:ImageResource, appearance:GalleryCollectionViewImageCellAppearance) {
         configure(with: appearance, model:model)
         self.model = model
     }
     
     func configure(with appearance:GalleryCollectionViewImageCellAppearance, model:ImageResource) {
         self.appearance = appearance
-        backgroundColor = appearance.defaultBackgroundColor
+        backgroundColor = appearance.backgroundColor
         
         apply(image: model.thumbnailImage, to:thumbnailImageView)
         apply(image: model.fileImage, to: fileImageView)
-        
-        if thumbnailImageView.image != nil {
-            show(imageView:thumbnailImageView)
-        }
     }
 
     func apply(image:UIImage?, to imageView:UIImageView) {
         if !contentView.subviews.contains(imageView) {
             applyAttributes(to: imageView)
-            imageView.isHidden = true
-            imageView.alpha = 0.0
             contentView.addSubview(imageView)
         }
         
         imageView.image = image
     }
     
-    func show(imageView:UIImageView) {
+    func show(imageView:UIImageView, with appearance:GalleryCollectionViewImageCellAppearance) {
         if imageView.isHidden {
             imageView.isHidden = false
-            UIView.animate(withDuration: fadeDuration) {
-                imageView.alpha = 1.0
+            if imageView.alpha <= 0.01 {
+                UIView.animate(withDuration: appearance.fadeDuration) {
+                    imageView.alpha = 1.0
+                }
             }
         }
     }
@@ -76,8 +75,10 @@ extension GalleryCollectionViewImageCell {
             return
         }
         imageView.clipsToBounds = true
-        imageView.frame = bounds
+        imageView.frame = contentView.bounds
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFill
+        imageView.isHidden = true
+        imageView.alpha = 0.0
     }
 }

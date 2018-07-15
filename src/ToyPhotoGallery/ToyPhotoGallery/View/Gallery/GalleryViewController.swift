@@ -14,19 +14,15 @@ struct ContentContainerViewAppearance {
 }
 
 class GalleryViewController: UIViewController {
-    var viewModel:GalleryViewModel? {
-        didSet {
-            if let model = viewModel {
-                refresh(with: model)
-            }
-        }
-    }
+    var viewModel:GalleryViewModel?
     
     @IBOutlet weak var headingContainerView: UIView!
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var headingContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headingContainerViewTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var backingView: UIView!
     
     @IBOutlet weak var contentContainerView: UIView!
     var collectionView:GalleryCollectionView?
@@ -35,8 +31,11 @@ class GalleryViewController: UIViewController {
     @IBOutlet weak var previewContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var previewContainerViewBottomConstraint: NSLayoutConstraint!
     
-    
     var customConstraints = [NSLayoutConstraint]()
+    
+    var isPreviewing:Bool {
+        return childViewControllers.first as? PreviewViewController != nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,40 +57,59 @@ class GalleryViewController: UIViewController {
         configure(view: contentContainerView)
     }
     
-    func refresh(with viewModel:GalleryViewModel) {
-        let layout = collectionViewLayout(for: .vertical, errorHandler: viewModel.resourceModelController.errorHandler)
-        let configuredView = galleryCollectionView(with: layout, viewModel:viewModel)
+    func refresh(with viewModel:GalleryViewModel, for direction:UICollectionViewScrollDirection) {
+        self.viewModel = viewModel
+        let layout = collectionViewLayout(for: direction, errorHandler: viewModel.resourceModelController.errorHandler)
+        let collectionViewModel = GalleryCollectionViewModel()
+        collectionViewModel.viewModelDelegate = self
+        collectionViewModel.resourceDelegate = viewModel.resourceModelController
+        collectionViewModel.configure(with: viewModel.resourceModelController)
+        let configuredView = galleryCollectionView(with: layout, collectionViewModel:collectionViewModel)
         collectionView = configuredView
     }
     
-    func show(previewViewController:PreviewViewController, safeArea:UIEdgeInsets, into view:UIView ) throws {
-        if #available(iOS 11.0, *) {
-            previewViewController.additionalSafeAreaInsets = safeArea
-        } else {
-            // Fallback on earlier versions
+    func toggle(previewViewController:PreviewViewController, into view:UIView, with indexPath:IndexPath ) throws
+    {
+        if let existingPreviewViewController = childViewControllers.first as? PreviewViewController {
+            if !existingPreviewViewController.view.isHidden {
+                UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                    existingPreviewViewController.view.alpha = 0.0
+                    self?.headingContainerView.alpha = 0.0
+                }) { [weak self] (didSucceed) in
+                    existingPreviewViewController.view.isHidden = true
+                    self?.headingContainerView.isHidden = true
+                }
+            } else {
+                existingPreviewViewController.view.isHidden = false
+                headingContainerView.isHidden = false
+                UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                    existingPreviewViewController.view.alpha = 1.0
+                    self?.headingContainerView.alpha = 1.0
+                })
+            }
+            return
         }
         
-        toggle(preview: true)
         try insert(childViewController: previewViewController, on: self, into:view)
-        closeButton.isHidden = false
+        animateCollectionViews(preview: isPreviewing, with:indexPath)
     }
     
     @IBAction func onTapCloseButton(_ sender: Any) {
+        let indexPath = collectionView?.indexPathsForVisibleItems.first
         if let child = self.childViewControllers.first {
             remove(childViewController: child)
         }
-        toggle(preview: false)
+        
+        animateCollectionViews(preview: isPreviewing, with:indexPath)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return isPreviewing ? .lightContent : .default
     }
 }
 
 extension GalleryViewController {
-    func galleryCollectionView(with layout:GalleryCollectionViewLayout, viewModel:GalleryViewModel)->GalleryCollectionView {
-        if collectionView != nil {
-            collectionView?.removeFromSuperview()
-            refreshLayout(in: contentContainerView)
-            collectionView = nil
-        }
-        
+    func galleryCollectionView(with layout:GalleryCollectionViewLayout, collectionViewModel:GalleryCollectionViewModel)->GalleryCollectionView {
         let configuredView = GalleryCollectionView(frame: .zero, collectionViewLayout: layout)
         configuredView.translatesAutoresizingMaskIntoConstraints = false
         configuredView.backgroundColor = .white
@@ -104,10 +122,6 @@ extension GalleryViewController {
             automaticallyAdjustsScrollViewInsets = false
         }
         
-        let collectionViewModel = GalleryCollectionViewModel()
-        collectionViewModel.viewModelDelegate = self
-        collectionViewModel.resourceDelegate = viewModel.resourceModelController
-        collectionViewModel.configure(with: viewModel.resourceModelController)
         configuredView.model = collectionViewModel
         layout.sizeDelegate = configuredView.model
         
@@ -150,22 +164,51 @@ extension GalleryViewController {
         }
     }
     
-    func toggle(preview:Bool) {
-        guard let oldCollectionView = collectionView, let viewModel = viewModel else {
+    func animateCollectionViews(preview:Bool, with indexPath:IndexPath?) {
+        guard let oldCollectionView = collectionView, let collectionViewModel = oldCollectionView.model else {
             return
+        }
+        
+        closeButton.isHidden = false
+        
+        var scrollToIndexPath = IndexPath(item: 0, section: 0)
+        if let visibleIndexPath = indexPath {
+            scrollToIndexPath = visibleIndexPath
         }
         
         let timingDuration:TimeInterval = 0.35 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
         
         let layout = collectionViewLayout(for: preview ? .horizontal : .vertical, errorHandler: oldCollectionView.model?.resourceDelegate?.errorHandler)
-        let newCollectionView = galleryCollectionView(with: layout, viewModel:viewModel)
+        let newCollectionView = galleryCollectionView(with: layout, collectionViewModel:collectionViewModel)
+        
         newCollectionView.backgroundColor = preview ? .black : .white
+        backingView.backgroundColor = newCollectionView.backgroundColor
         contentContainerView.backgroundColor = newCollectionView.backgroundColor
+        headingContainerView.backgroundColor = view.backgroundColor
+
+        var appearance = GalleryCollectionViewImageCellAppearance()
+        if preview {
+            appearance.backgroundColor = .black
+        } else {
+            appearance.backgroundColor = .white
+        }
+        appearance.fadeDuration = timingDuration + 0.25
+        
+        newCollectionView.cellAppearance = appearance
+
         newCollectionView.alpha = 1.0
-        contentContainerView.addSubview(newCollectionView)
+
+        contentContainerView.insertSubview(newCollectionView, at: 0)
         self.collectionView = newCollectionView
-        newCollectionView.reloadData()
+        
+        setNeedsStatusBarAppearanceUpdate()
         refreshLayout(in: view)
+        
+        newCollectionView.performBatchUpdates({
+            newCollectionView.reloadData()
+        }) { (didSucceed) in
+            newCollectionView.scrollToItem(at: scrollToIndexPath, at: preview ? .centeredHorizontally : .centeredVertically, animated: false)
+        }
         
         newCollectionView.transform = CGAffineTransform.init(scaleX: 0.85, y: 0.95)
         
@@ -177,12 +220,10 @@ extension GalleryViewController {
         oldCollectionAlphaAnimation.fromValue = 1.0
         oldCollectionAlphaAnimation.toValue = 0.0
         
-        let headerBackgroundAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.backgroundColor))
-        let currentColor = !preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
         let headerColor = preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
-        headerBackgroundAnimation.fromValue = currentColor
-        headerBackgroundAnimation.toValue = headerColor
-        
+        headingContainerView.backgroundColor = headerColor
+        view.backgroundColor = headingContainerView.backgroundColor
+
         let timingFunction = CAMediaTimingFunction(controlPoints: 0.45, -0.4, 0.20, 1.25)
         CATransaction.begin()
         CATransaction.setAnimationDuration(timingDuration)
@@ -190,8 +231,6 @@ extension GalleryViewController {
         CATransaction.setCompletionBlock {
             oldCollectionView.removeFromSuperview()
         }
-        headingContainerView.backgroundColor = headerColor
-        headingContainerView.layer.add(headerBackgroundAnimation, forKey: #keyPath(CALayer.backgroundColor))
         
         oldCollectionView.alpha = 0.0
         oldCollectionView.layer.add(oldCollectionAlphaAnimation, forKey: #keyPath(CALayer.opacity))
@@ -199,11 +238,11 @@ extension GalleryViewController {
         newCollectionView.alpha = 1.0
         newCollectionView.layer.add(newCollectionAlphaAnimation, forKey: #keyPath(CALayer.opacity))
         
-        UIView.animate(withDuration: timingDuration) {
+        UIView.animate(withDuration: timingDuration, animations: {
             newCollectionView.transform = .identity
-        }
+        })
         
-        let bottomConstant:CGFloat = preview ? -15 : -45
+        let bottomConstant:CGFloat = preview ? -15 : -60
         previewContainerViewBottomConstraint.constant = bottomConstant
         view.setNeedsUpdateConstraints()
         UIView.animate(withDuration: timingDuration) { [weak self] in
@@ -216,7 +255,7 @@ extension GalleryViewController {
             UIView.animate(withDuration: timingDuration) { [weak self] in
                 self?.headingLabel.alpha = 0.0
                 self?.headingLabel.transform = CGAffineTransform.init(scaleX: 0.5, y: 0.5)
-                self?.closeButton.transform = .identity                
+                self?.closeButton.transform = .identity
             }
         } else {
             let angle = CGFloat(Measurement(value: 90, unit: UnitAngle.degrees)
@@ -229,6 +268,7 @@ extension GalleryViewController {
                 self?.closeButton.alpha = 0.0
             }
         }
+        
         CATransaction.commit()
     }
 }
@@ -324,6 +364,7 @@ extension GalleryViewController : GalleryCollectionViewLayoutDelegate {
         }
         
         let viewController = try previewViewController(for: indexPath, with: galleryModel)
-        try show(previewViewController: viewController, safeArea: UIEdgeInsets.zero, into: previewContainerView)
+        try toggle(previewViewController: viewController, into: previewContainerView, with:indexPath )
     }
 }
+

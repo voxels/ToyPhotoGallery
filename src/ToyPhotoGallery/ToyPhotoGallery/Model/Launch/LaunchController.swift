@@ -336,7 +336,7 @@ extension LaunchController {
             throw ViewError.MissingViewController
         }
         
-        galleryViewController.viewModel = galleryViewModel
+        galleryViewController.refresh(with: galleryViewModel, for: .vertical)
         rootViewController.pushViewController(galleryViewController, animated: false)
     }
     

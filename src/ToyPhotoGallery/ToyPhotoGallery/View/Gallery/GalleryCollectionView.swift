@@ -14,6 +14,7 @@ class GalleryCollectionView: UICollectionView {
     let defaultBackgroundColor:UIColor = .white
     let defaultIdentifier = "default"
     let imageIdentifer = "image"
+    var cellAppearance:GalleryCollectionViewImageCellAppearance?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -81,7 +82,15 @@ extension GalleryCollectionView : UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
         
-        cell.refresh(with: cellModel)
+        var appearance = GalleryCollectionViewImageCellAppearance()
+        if let overrideAppearance = cellAppearance {
+            appearance = overrideAppearance
+        }
+        
+        cell.refresh(with: cellModel, appearance:appearance)
+        DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(Int(appearance.fadeDuration))) {
+            cell.show(imageView:cell.thumbnailImageView, with:appearance)
+        }
         
         return cell
     }
