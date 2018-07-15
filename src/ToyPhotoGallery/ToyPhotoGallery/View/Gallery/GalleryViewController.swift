@@ -9,7 +9,7 @@
 import UIKit
 
 struct ContentContainerViewAppearance {
-    static let shadowOffset:CGSize = CGSize(width: 0.0, height: -0.5)
+    static let shadowOffset:CGSize = CGSize(width: 0.0, height: -2)
     static let shadowOpacity:Float = 0.1
 }
 
@@ -23,6 +23,9 @@ class GalleryViewController: UIViewController {
     
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var backingView: UIView!
+    @IBOutlet weak var coverCollectionShadowView: UIView!
+    @IBOutlet weak var topContentContainerCoverView: UIView!
+    @IBOutlet weak var bottomContentContainerCoverView: UIView!
     
     @IBOutlet weak var contentContainerView: UIView!
     var collectionView:GalleryCollectionView?
@@ -54,7 +57,14 @@ class GalleryViewController: UIViewController {
     }
     
     func configureAppearances() {
-        configure(view: contentContainerView)
+        addShadow(view: contentContainerView)
+        addShadow(view: coverCollectionShadowView)
+        coverCollectionShadowView.backgroundColor = UIColor.appLightGrayBackground()
+    }
+    
+    func addShadow(view:UIView) {
+        view.layer.shadowOffset = ContentContainerViewAppearance.shadowOffset
+        view.layer.shadowOpacity = ContentContainerViewAppearance.shadowOpacity
     }
     
     func refresh(with viewModel:GalleryViewModel, for direction:UICollectionViewScrollDirection) {
@@ -71,7 +81,7 @@ class GalleryViewController: UIViewController {
     func toggle(previewViewController:PreviewViewController, into view:UIView, with indexPath:IndexPath ) throws
     {
         if let existingPreviewViewController = childViewControllers.first as? PreviewViewController {
-            let timingDuration:TimeInterval = 0.05
+            let timingDuration:TimeInterval = 0.05 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
             if !existingPreviewViewController.view.isHidden {
                 UIView.animate(withDuration: timingDuration, animations: { [weak self] in
                     existingPreviewViewController.view.alpha = 0.0
@@ -154,21 +164,17 @@ extension GalleryViewController {
     }
 }
 
-// MARK: - Appearance
+// MARK: - Animation
 
 extension GalleryViewController {
-    func configure(view:UIView) {
-        if view == contentContainerView {
-            view.layer.shadowOffset = ContentContainerViewAppearance.shadowOffset
-            view.layer.shadowOpacity = ContentContainerViewAppearance.shadowOpacity
-        }
-    }
-    
     func animateCollectionViews(preview:Bool, with indexPath:IndexPath?) {
         guard let oldCollectionView = collectionView, let collectionViewModel = oldCollectionView.model else {
             return
         }
-        
+
+        let angle = CGFloat(Measurement(value: 90, unit: UnitAngle.degrees)
+            .converted(to: .radians).value)
+        closeButton.transform = preview ? CGAffineTransform.init(rotationAngle:angle) : .identity
         closeButton.isHidden = false
         
         var scrollToIndexPath = IndexPath(item: 0, section: 0)
@@ -176,7 +182,7 @@ extension GalleryViewController {
             scrollToIndexPath = visibleIndexPath
         }
         
-        let timingDuration:TimeInterval = 0.35 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
+        let timingDuration:TimeInterval = 0.65 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
         
         let layout = collectionViewLayout(for: preview ? .horizontal : .vertical, errorHandler: oldCollectionView.model?.resourceDelegate?.errorHandler)
         let newCollectionView = galleryCollectionView(with: layout, collectionViewModel:collectionViewModel)
@@ -185,6 +191,11 @@ extension GalleryViewController {
         backingView.backgroundColor = newCollectionView.backgroundColor
         contentContainerView.backgroundColor = newCollectionView.backgroundColor
         headingContainerView.backgroundColor = view.backgroundColor
+        topContentContainerCoverView.isHidden = preview
+        bottomContentContainerCoverView.backgroundColor = preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
+        coverCollectionShadowView.backgroundColor = preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
+        coverCollectionShadowView.layer.shadowOpacity = preview ? 0.0 : 0.1
+        
 
         var appearance = GalleryCollectionViewImageCellAppearance()
         if preview {
@@ -244,28 +255,51 @@ extension GalleryViewController {
         
         let bottomConstant:CGFloat = preview ? -15 : -60
         previewContainerViewBottomConstraint.constant = bottomConstant
+        
+        if preview {
+            for index in 1...4 {
+                if let previewViewButtonImageView = previewContainerView.subviews.first?.subviews.first?.viewWithTag(index) {
+                    
+                    previewViewButtonImageView.alpha = 0.0
+                    previewViewButtonImageView.transform = CGAffineTransform.init(scaleX: 0.25, y: 0.25)
+                }
+            }
+        }
+        
         view.setNeedsUpdateConstraints()
         UIView.animate(withDuration: timingDuration) { [weak self] in
             self?.view.layoutIfNeeded()
         }
         
         if preview {
-            closeButton.alpha = 1.0
+            closeButton.alpha = 0.5
             
-            UIView.animate(withDuration: timingDuration) { [weak self] in
+            UIView.animate(withDuration: timingDuration, animations: { [weak self] in
                 self?.headingLabel.alpha = 0.0
                 self?.headingLabel.transform = CGAffineTransform.init(scaleX: 0.5, y: 0.5)
                 self?.closeButton.transform = .identity
+                self?.closeButton.alpha = 1.0
+            }) { (didSucceed) in
+                if preview {
+                    UIView.animate(withDuration: timingDuration / 2.0, animations: { [weak self] in
+                        for index in 1...4 {
+                            if let previewViewButtonImageView = self?.previewContainerView.subviews.first?.subviews.first?.viewWithTag(index) {
+                                previewViewButtonImageView.alpha = 1.0
+                                previewViewButtonImageView.transform = .identity
+                            }
+                        }
+                    })
+                }
             }
         } else {
-            let angle = CGFloat(Measurement(value: 90, unit: UnitAngle.degrees)
-                .converted(to: .radians).value)
+            closeButton.alpha = 0.0
+            closeButton.isHidden = true
             UIView.animate(withDuration: timingDuration, animations: { [weak self] in
                 self?.headingLabel.alpha = 1.0
                 self?.headingLabel.transform = .identity
-                self?.closeButton.transform = CGAffineTransform.init(rotationAngle:angle )
-            }) { [weak self] (didSucceed) in
-                self?.closeButton.alpha = 0.0
+                self?.closeButton.transform = CGAffineTransform.init(rotationAngle:angle)
+            }) { (didSucceed) in
+                
             }
         }
         
