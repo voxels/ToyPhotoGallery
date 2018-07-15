@@ -168,7 +168,12 @@ extension GalleryCollectionViewModel {
      - Returns: void
      */
     func insert(imageResources:[ImageResource]) {
-        self.data.append(contentsOf: imageResources)
+        let readQueue = DispatchQueue(label: "com.secretatomics.toyphotogallery.gallerycollectionviewmodel.read")
+        var appendResources = [ImageResource]()
+        readQueue.sync {
+            appendResources = imageResources
+        }
+        self.data.append(contentsOf: appendResources)
         
         // TODO: Implement checking for changes
         viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)

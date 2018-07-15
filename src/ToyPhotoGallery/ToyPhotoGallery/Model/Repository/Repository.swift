@@ -10,6 +10,7 @@ import Foundation
 
 /// Generic protocol used to define the map from a hash value string to an associated type
 /// Used to create repositories that can be handled by the *ResourceModelController*
+
 protocol Repository {
     associatedtype AssociatedType
     var map:[String:AssociatedType] { get set }

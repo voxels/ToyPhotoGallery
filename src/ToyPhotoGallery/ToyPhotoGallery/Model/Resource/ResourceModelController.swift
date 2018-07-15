@@ -52,25 +52,34 @@ class ResourceModelController {
      Builds the initial repository asset list
      - parameter storeController: the *RemoteStoreController* used to fetch the resources
      - parameter resourceType: the type of the resource being fetched
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
      - parameter errorHandler: the *ErrorHandlerDelegate* used to report non-fatal errors
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - Returns: void
      */
-    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
+    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, on queue:DispatchQueue, with errorHandler:ErrorHandlerDelegate, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
         do {
             switch T.self {
             case is ImageResource.Type:
-                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:{ (repository) in
-                    DispatchQueue.main.async { [weak self] in
-                        self?.delegate?.didUpdateModel()
+                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, on:queue, completion:{ [weak self] (repository) in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    let writeQueue = DispatchQueue(label: "\(strongSelf.writeQueueLabel)")
+                    writeQueue.async { [weak self] in
+                        self?.imageRepository = repository
+                        DispatchQueue.main.async { [weak self] in
+                            self?.delegate?.didUpdateModel()
+                        }
                     }
                 })
             default:
                 throw ModelError.UnsupportedRequest
             }
         } catch {
+            errorHandler.report(error)
             DispatchQueue.main.async { [weak self] in
-                self?.errorHandler.report(error)
                 self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
             }
         }
@@ -82,11 +91,12 @@ class ResourceModelController {
      - parameter skip: the number of items to skip when finding new resources
      - parameter limit: the number of items we want to fetch
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
      - parameter completion: a callback used to pass back the filled repository
      - Throws: Throws any error surfaced from *tableMap*
      - Returns: void
      */
-    func fill<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:((T)->Void)?) throws where T:Repository, T.AssociatedType:Resource {
+    func fill<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, on queue:DispatchQueue, completion:((T)->Void)?) throws where T:Repository, T.AssociatedType:Resource {
         let count = repository.map.count
         
         // We have what we need
@@ -101,15 +111,22 @@ class ResourceModelController {
         
         let table = try tableMap(for: repository)
         
-        find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: skip, limit: limit, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
-            self?.append(from: rawResourceArray, into: T.AssociatedType.self, timeoutDuration:timeoutDuration, completion: { (accumulatedErrors) in
-                // Append returns on the main thread
-                if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
-                    self?.delegate?.didFailToUpdateModel(with: nil)
-                } else {
-                    completion?(repository)
-                }
-            })
+        find(from: remoteStoreController, in: table, sortBy:RemoteStoreTableMap.CommonColumn.createdAt.rawValue, skip: skip, limit: limit, on:queue, errorHandler: errorHandler) {[weak self] (rawResourceArray) in
+            if let imageRepository = repository as? ImageRepository {
+                self?.append(from: rawResourceArray, into: imageRepository, timeoutDuration:timeoutDuration, completion: { (updatedRepository,accumulatedErrors) in
+                    if ResourceModelController.modelUpdateFailed(with: accumulatedErrors) {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.delegate?.didFailToUpdateModel(with: nil)
+                        }
+                    } else {
+                        completion?(updatedRepository as! T)
+                    }
+                })
+
+            } else {
+                self?.errorHandler.report(ModelError.UnsupportedRequest)
+                completion?(repository)
+            }
         }
     }
 }
@@ -125,62 +142,61 @@ extension ResourceModelController {
      - parameter sortBy: An optional *String* to sort the query with
      - parameter skip: the number of records we want to skip in the query
      - parameter limit: the number of records we want to fetch
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
      - parameter errorHandler: an error handler used to report non-fatal errors
      - parameter completion: a *RawResourceArrayCompletion* that passes through the records fetched from the remote store
      - Returns: void
      */
-    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTableMap, sortBy:String?, skip:Int, limit:Int, errorHandler:ErrorHandlerDelegate, completion:@escaping RawResourceArrayCompletion) {
+    func find(from remoteStoreController:RemoteStoreController, in table:RemoteStoreTableMap, sortBy:String?, skip:Int, limit:Int, on queue:DispatchQueue, errorHandler:ErrorHandlerDelegate, completion:@escaping RawResourceArrayCompletion) {
         
-        remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, errorHandler:errorHandler, completion:completion)
+        remoteStoreController.find(table: table, sortBy: sortBy, skip: skip, limit: limit, on:queue, errorHandler:errorHandler, completion:completion)
     }
     
     /**
      Appends the raw resource array into the model's repository of the given type.  Implemented only for *ImageResource*, for now.
      - parameter rawResourceArray: an array of *[String:AnyObject]* representing the raw model objects fetched from a remote store controller
-     - parameter resourceType: the type of resource for the repository
+     - parameter repository: the repository to append valued into
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
-     - parameter completion: a callback used to pass through the errors accumulated during the process
+     - parameter completion: a callback used to pass through the repository and errors accumulated during the process
      */
-    func append<T>(from rawResourceArray:RawResourceArray, into resourceType:T.Type, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:@escaping ErrorCompletion ) where T:Resource {
+    func append(from rawResourceArray:RawResourceArray, into repository:ImageRepository, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:@escaping((ImageRepository,[Error]?)->Void)) {
 
-        switch T.self {
-        case is ImageResource.Type:
-                let mapGroup = DispatchGroup()
-                ImageResource.extractImageResources(from: rawResourceArray, completion: {[weak self] (newRepository, accumulatedErrors) in
-                    let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")
-                    newRepository.map.forEach({ (object) in
-                        mapGroup.enter()
+        let mapGroup = DispatchGroup()
+        ImageResource.extractImageResources(from: rawResourceArray, completion: {[weak self] (newRepository, accumulatedErrors) in
+            let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")
+            var updatedRepository = ImageRepository()
+            writeQueue.sync {
+                updatedRepository = repository
+            }
+            
+            newRepository.map.forEach({ (object) in
+                mapGroup.enter()
+                writeQueue.async {
+                    guard let strongSelf = self else {
+                        mapGroup.leave()
+                        return
+                    }
+                    strongSelf.networkSessionInterface.fetch(url: object.value.thumbnailURL, on: writeQueue, timeout:timeoutDuration, cacheHandler: strongSelf.cacheHandler, completion: { (data) in
+                        if let data = data, let image = UIImage(data:data) {
+                            object.value.thumbnailImage = image
+                        }
+                        
                         writeQueue.async {
-                            guard let strongSelf = self else {
-                                mapGroup.leave()
-                                return
-                            }
-                            strongSelf.networkSessionInterface.fetch(url: object.value.thumbnailURL, on: writeQueue, timeout:timeoutDuration, cacheHandler: strongSelf.cacheHandler, completion: { (data) in
-                                if let data = data, let image = UIImage(data:data) {
-                                    object.value.thumbnailImage = image
-                                }
-                                
-                                strongSelf.imageRepository.map[object.key] = object.value
-                                mapGroup.leave()
-                            })
+                            updatedRepository.map[object.key] = object.value
+                            mapGroup.leave()
                         }
                     })
-                    
-                    switch mapGroup.wait(timeout:.now() + DispatchTimeInterval.seconds(Int(timeoutDuration))) {
-                    case .timedOut:
-                        // this is ok, we have our map
-                        fallthrough
-                    case .success:
-                        DispatchQueue.main.async {
-                            completion(accumulatedErrors)
-                        }
-                    }
-                })
-        default:
-            DispatchQueue.main.async {
-                completion([ModelError.UnsupportedRequest])
+                }
+            })
+            
+            switch mapGroup.wait(timeout:.now() + DispatchTimeInterval.seconds(Int(timeoutDuration))) {
+            case .timedOut:
+                // this is ok, we have our map
+                fallthrough
+            case .success:
+                completion(updatedRepository,accumulatedErrors)
             }
-        }
+        })
     }
     
     /**
@@ -218,14 +234,15 @@ extension ResourceModelController {
      - parameter repository: the *Repository* that needs to be filled
      - parameter skip: the number of items to skip when finding new resources
      - parameter limit: the number of items we want to fetch
-     - parameter completion: a callback used to pass back the filled resources
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
+     - parameter completion: a callback used to pass back the filled resources
      - Throws: Throws any error surfaced from *fill*
      - Returns: void
      */
-    func fillAndSort<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
-        try fill(repository:repository, skip: skip, limit: limit, timeoutDuration:timeoutDuration) { [weak self] (filledRepository) in
-            self?.sort(repository: filledRepository, skip:skip, limit:limit, completion: completion)
+    func fillAndSort<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, on queue:DispatchQueue, completion:@escaping ([T.AssociatedType])->Void) throws where T:Repository, T.AssociatedType:Resource {
+        try fill(repository:repository, skip: skip, limit: limit, timeoutDuration:timeoutDuration, on:queue) { [weak self] (filledRepository) in
+            self?.sort(repository: filledRepository, skip:skip, limit:limit, on:queue, completion: completion)
         }
     }
     
@@ -234,16 +251,17 @@ extension ResourceModelController {
      - parameter repository: the *Repository* that needs to be filled
      - parameter skip: the number of items to skip when finding new resources
      - parameter limit: the number of items we want to fetch
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
      - parameter completion: a callback used to pass back the filled resources
      - Returns: void
      */
-    func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
-        let queue = DispatchQueue(label: "\(readQueueLabel).sort")
-        queue.async {
+    func sort<T>(repository:T, skip:Int, limit:Int, on queue:DispatchQueue, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+        let sortQueue = DispatchQueue(label: "\(readQueueLabel).sort")
+        sortQueue.async {
             let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
             let endSlice = skip + limit < values.count ? skip + limit : values.count
             let resources = Array(values[skip..<(endSlice)])
-            DispatchQueue.main.async {
+            queue.async {
                 completion(resources)
             }
         }

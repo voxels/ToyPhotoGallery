@@ -57,17 +57,18 @@ class ParseInterface : RemoteStoreController {
      - parameter sortBy: the *String* of the column name to sort by, or nil if no sorting is needed
      - parameter skip: an *Int* of the number of records to skip in the query
      - parameter limit: an *Int* of the limit of the number of records returned by the query
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
      - parameter errorHandler: The *ErrorHandlerDelegate* that will report the error
      - parameter completion: the *FindCompletion* callback executed when the query is complete
      - Returns: void
      */
-    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, on queue:DispatchQueue, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
         
         let wrappedCompletion = parseFindCompletion(with:errorHandler, for: completion)
         
         do {
             let pfQuery = try query(for: table, sortBy: sortBy, skip: skip, limit: limit)
-            find(query: pfQuery, completion: wrappedCompletion)
+            find(query: pfQuery, on:queue, completion: wrappedCompletion)
         } catch {
             errorHandler.report(error)
             completion(RawResourceArray())
@@ -100,12 +101,15 @@ class ParseInterface : RemoteStoreController {
     /**
      Executes the *PFQuery on a background thread and calls the callback when completed
      - parameter query: the *PFQuery* to run
+     - parameter queue: The *DispatchQueue* we need to send the results back to.  Parse returns on the main thread by default.
      - parameter completion: the *ParseFindCompletion* callback to execute when the query has returned
      - Returns: void
      */
-    func find(query:PFQuery<PFObject>, completion:@escaping ParseFindCompletion ) {
+    func find(query:PFQuery<PFObject>, on queue:DispatchQueue, completion:@escaping ParseFindCompletion ) {
         query.findObjectsInBackground { (objects, error) in
-            completion(objects, error)
+            queue.async {
+                completion(objects, error)
+            }
         }
     }
     

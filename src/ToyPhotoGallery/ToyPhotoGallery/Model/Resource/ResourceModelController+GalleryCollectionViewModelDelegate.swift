@@ -37,14 +37,12 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
             guard let imageResources = sortedResources as? [ImageResource] else {
                 self?.errorHandler.report(ModelError.IncorrectType)
                 DispatchQueue.main.async {
-                    self?.delegate?.didFailToUpdateModel(with: ModelError.IncorrectType.errorDescription)
                     completion?([ImageResource]())
                 }
                 return
             }
             
             DispatchQueue.main.async {
-                self?.delegate?.didUpdateModel()
                 completion?(imageResources)
             }
         }
@@ -52,12 +50,15 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
         var copyImageRepository = ImageRepository()
         readQueue.sync {
             copyImageRepository = imageRepository
+        }
+        
+        let fetchQueue = DispatchQueue(label: "\(readQueueLabel).fetch")
+        fetchQueue.async { [weak self] in
             do {
-                try fillAndSort(repository: copyImageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, completion: wrappedCompletion)
+                try self?.fillAndSort(repository: copyImageRepository, skip: finalSkip, limit: finalLimit, timeoutDuration:timeoutDuration, on:fetchQueue, completion: wrappedCompletion)
             } catch {
-                errorHandler.report(error)
-                DispatchQueue.main.async { [weak self] in
-                    self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+                self?.errorHandler.report(error)
+                DispatchQueue.main.async {
                     completion?([ImageResource]())
                 }
             }
