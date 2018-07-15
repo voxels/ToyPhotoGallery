@@ -60,58 +60,9 @@ class ResourceModelController {
         do {
             switch T.self {
             case is ImageResource.Type:
-                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:{ [weak self] (repository) in
-                    
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    if FeaturePolice.waitForImageBeforeLaunching {
-                        let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
-                        readQueue.sync {
-                            let fetchMostRecent = strongSelf.imageRepository.map.sorted(by: { (source, compare) -> Bool in
-                                source.value.updatedAt >= compare.value.updatedAt
-                            })
-                            
-                            guard fetchMostRecent.count > 0 else {
-                                DispatchQueue.main.async { [weak self] in
-                                    let error = ModelError.MissingValue
-                                    self?.errorHandler.report(error)
-                                    self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
-                                }
-                                return
-                            }
-                            
-                            let fetchImagesGroup = DispatchGroup()
-                            
-                            fetchMostRecent.forEach({ (mapValue) in
-                                let resource = mapValue.value
-                                
-                                fetchImagesGroup.enter()
-                                strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, on:readQueue, timeout:ResourceModelController.defaultTimeout, cacheHandler:strongSelf.cacheHandler, completion: { (data) in
-                                    if let data = data, let image = UIImage(data: data)  {
-                                        resource.thumbnailImage = image
-                                    } else {
-                                        strongSelf.errorHandler.report(ModelError.MissingValue)
-                                    }
-                                    fetchImagesGroup.leave()
-                                })
-                            })
-                            
-                            switch fetchImagesGroup.wait(timeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
-                            case .timedOut:
-                                // this is ok, we have our map
-                                fallthrough
-                            case .success:
-                                DispatchQueue.main.async { [weak self] in
-                                    self?.delegate?.didUpdateModel()
-                                }
-                            }
-                        }
-                    } else {
-                        DispatchQueue.main.async { [weak self] in
-                            self?.delegate?.didUpdateModel()
-                        }
+                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, completion:{ (repository) in
+                    DispatchQueue.main.async { [weak self] in
+                        self?.delegate?.didUpdateModel()
                     }
                 })
             default:
@@ -195,18 +146,34 @@ extension ResourceModelController {
         switch T.self {
         case is ImageResource.Type:
                 let mapGroup = DispatchGroup()
-                ImageResource.extractImageResources(from: rawResourceArray, completion: { (newRepository, accumulatedErrors) in
+                ImageResource.extractImageResources(from: rawResourceArray, completion: {[weak self] (newRepository, accumulatedErrors) in
                     let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")
                     newRepository.map.forEach({ (object) in
                         mapGroup.enter()
                         writeQueue.async {
-                            self.imageRepository.map[object.key] = object.value
-                            mapGroup.leave()
+                            guard let strongSelf = self else {
+                                mapGroup.leave()
+                                return
+                            }
+                            strongSelf.networkSessionInterface.fetch(url: object.value.thumbnailURL, on: writeQueue, timeout:timeoutDuration, cacheHandler: strongSelf.cacheHandler, completion: { (data) in
+                                if let data = data, let image = UIImage(data:data) {
+                                    object.value.thumbnailImage = image
+                                }
+                                
+                                strongSelf.imageRepository.map[object.key] = object.value
+                                mapGroup.leave()
+                            })
                         }
                     })
                     
-                    mapGroup.notify(queue: .main) {
-                        completion(accumulatedErrors)
+                    switch mapGroup.wait(timeout:.now() + DispatchTimeInterval.seconds(Int(timeoutDuration))) {
+                    case .timedOut:
+                        // this is ok, we have our map
+                        fallthrough
+                    case .success:
+                        DispatchQueue.main.async {
+                            completion(accumulatedErrors)
+                        }
                     }
                 })
         default:
