@@ -362,7 +362,7 @@ extension GalleryViewController : GalleryViewModelDelegate {
             refreshLayout(in: view)
         }
         
-        guard let inserts = insertItems, let firstInsertedIndex = inserts.first?.item, firstInsertedIndex >= collectionView.numberOfItems(inSection: 0) else {
+        guard let inserts = insertItems, let firstInsertedIndex = inserts.first?.item, firstInsertedIndex >= collectionView.numberOfItems(inSection: 0), let lastInsertedIndex = inserts.last?.item, let dataSourceCount = collectionView.model?.data.count, lastInsertedIndex < dataSourceCount else {
             reloadCollectionViewWithoutAnimation()
             return
         }

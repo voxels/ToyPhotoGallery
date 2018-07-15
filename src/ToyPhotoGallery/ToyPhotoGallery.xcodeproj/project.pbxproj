@@ -16,6 +16,8 @@
 		1E1A7ABD20F3A9B40002F6FC /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1A7ABC20F3A9B30002F6FC /* SynchronizedArray.swift */; };
 		1E33BE5920F1079B00BF6B1D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E33BE5820F1079B00BF6B1D /* UIColor.swift */; };
 		1E481A9420F017AE006FAE4C /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E481A9320F017AE006FAE4C /* libturbojpeg.a */; };
+		1E49D8DE20FBF3FF0083412F /* GallerySectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E49D8DD20FBF3FF0083412F /* GallerySectionFooterView.swift */; };
+		1E49D8E020FBF42B0083412F /* GallerySectionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E49D8DF20FBF42B0083412F /* GallerySectionFooterView.xib */; };
 		1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */; };
 		1E5E9BCB20F043F200D59DFD /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BCA20F043F200D59DFD /* NetworkError.swift */; };
 		1E5E9BCD20F0452C00D59DFD /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E9BCC20F0452C00D59DFD /* Data.swift */; };
@@ -150,6 +152,8 @@
 		1E481A9720F018AF006FAE4C /* turbojpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = turbojpeg.h; path = "ToyPhotoGallery/vendor/libjpeg-turbo/include/turbojpeg.h"; sourceTree = SOURCE_ROOT; };
 		1E481A9820F018AF006FAE4C /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jpeglib.h; path = "ToyPhotoGallery/vendor/libjpeg-turbo/include/jpeglib.h"; sourceTree = SOURCE_ROOT; };
 		1E481A9920F018B0006FAE4C /* jmorecfg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jmorecfg.h; path = "ToyPhotoGallery/vendor/libjpeg-turbo/include/jmorecfg.h"; sourceTree = SOURCE_ROOT; };
+		1E49D8DD20FBF3FF0083412F /* GallerySectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySectionFooterView.swift; sourceTree = "<group>"; };
+		1E49D8DF20FBF42B0083412F /* GallerySectionFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GallerySectionFooterView.xib; sourceTree = "<group>"; };
 		1E5E9BC420F038E300D59DFD /* NetworkSessionInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSessionInterface.swift; sourceTree = "<group>"; };
 		1E5E9BCA20F043F200D59DFD /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		1E5E9BCC20F0452C00D59DFD /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -609,6 +613,8 @@
 				1E78B34A20EE5919000DCFE7 /* GalleryCollectionView.swift */,
 				1E6F2E2820EEF8B5005A5567 /* GalleryCollectionViewLayout.swift */,
 				1E627B3B20EE5C5300F46F22 /* GalleryCollectionViewImageCell.swift */,
+				1E49D8DD20FBF3FF0083412F /* GallerySectionFooterView.swift */,
+				1E49D8DF20FBF42B0083412F /* GallerySectionFooterView.xib */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -788,6 +794,7 @@
 				1E94CBC020EFBE8D00117209 /* Roboto-Thin.ttf in Resources */,
 				1E94CBBD20EFBE8D00117209 /* Roboto-Medium.ttf in Resources */,
 				1E94CBB920EFBE8D00117209 /* Roboto-BoldItalic.ttf in Resources */,
+				1E49D8E020FBF42B0083412F /* GallerySectionFooterView.xib in Resources */,
 				1E94CBBC20EFBE8D00117209 /* Roboto-LightItalic.ttf in Resources */,
 				1E94CBBE20EFBE8D00117209 /* Roboto-MediumItalic.ttf in Resources */,
 				1E65C9F620EABBEC00D28BE4 /* LaunchScreen.storyboard in Resources */,
@@ -894,6 +901,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E49D8DE20FBF3FF0083412F /* GallerySectionFooterView.swift in Sources */,
 				1E627B3C20EE5C5300F46F22 /* GalleryCollectionViewImageCell.swift in Sources */,
 				1E5E9BD120F0527000D59DFD /* CCBufferedImageDecoder.m in Sources */,
 				1E78B29320EAC6A2000DCFE7 /* GalleryViewController.swift in Sources */,

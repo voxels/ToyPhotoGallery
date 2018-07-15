@@ -34,6 +34,9 @@ class ResourceModelController {
     /// A cache of previously fetched *ImageResource*
     var imageRepository = ImageRepository()
     
+    /// The complete number of images
+    var totalImageRecords:Int = 0
+    
     var writeQueueLabel = "com.secretaomtics.resourcemodelcontroller.write"
     var readQueueLabel = "com.secretaomtics.resourcemodelcontroller.read"
     
@@ -56,30 +59,53 @@ class ResourceModelController {
      - Returns: void
      */
     func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, on queue:DispatchQueue, with errorHandler:ErrorHandlerDelegate, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
-        do {
-            switch T.self {
-            case is ImageResource.Type:
-                try fill(repository: imageRepository, skip: 0, limit: remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, on:queue, completion:{ [weak self] (repository) in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    
-                    let writeQueue = DispatchQueue(label: "\(strongSelf.writeQueueLabel)")
-                    writeQueue.async { [weak self] in
-                        self?.imageRepository = repository
-                        DispatchQueue.main.async { [weak self] in
-                            self?.delegate?.didUpdateModel()
+        switch T.self {
+        case is ImageResource.Type:
+            guard let table = try? tableMap(with: resourceType) else {
+                reportUnsupportedRequest(with:errorHandler)
+                return
+            }
+            
+            remoteStoreController.count(table: table, on: queue, errorHandler: errorHandler) { [weak self] (fetchedCount) in
+                guard let strongSelf = self else {
+                    self?.reportUnsupportedRequest(with:errorHandler)
+                    return
+                }
+                
+                strongSelf.totalImageRecords = fetchedCount
+
+                do {
+                    try strongSelf.fill(repository: strongSelf.imageRepository, skip: 0, limit: strongSelf.remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, on:queue, completion:{ [weak self] (repository) in
+                        guard let strongSelf = self else {
+                            return
                         }
+                        
+                        let writeQueue = DispatchQueue(label: "\(strongSelf.writeQueueLabel)")
+                        writeQueue.async { [weak self] in
+                            self?.imageRepository = repository
+                            DispatchQueue.main.async { [weak self] in
+                                self?.delegate?.didUpdateModel()
+                            }
+                        }
+                    })
+                }
+                catch {
+                    errorHandler.report(error)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
                     }
-                })
-            default:
-                throw ModelError.UnsupportedRequest
+                }
             }
-        } catch {
+        default:
+            reportUnsupportedRequest(with:errorHandler)
+        }
+    }
+    
+    func reportUnsupportedRequest(with errorHandler:ErrorHandlerDelegate) {
+        DispatchQueue.main.async { [weak self] in
+            let error = ModelError.UnsupportedRequest
             errorHandler.report(error)
-            DispatchQueue.main.async { [weak self] in
-                self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
-            }
+            self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
         }
     }
     
@@ -96,9 +122,14 @@ class ResourceModelController {
      */
     func fill<T>(repository:T, skip:Int, limit:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, on queue:DispatchQueue, completion:((T)->Void)?) throws where T:Repository, T.AssociatedType:Resource {
         let count = repository.map.count
+        var fetchedAllRecords = false
+        
+        if repository is ImageRepository, count == totalImageRecords {
+            fetchedAllRecords = true
+        }
         
         // We have what we need
-        if count >= skip + limit {
+        if count >= skip + limit || fetchedAllRecords {
             DispatchQueue.main.async { [weak self] in
                 self?.delegate?.didUpdateModel()
             }
@@ -120,7 +151,7 @@ class ResourceModelController {
                         completion?(updatedRepository as! T)
                     }
                 })
-
+                
             } else {
                 self?.errorHandler.report(ModelError.UnsupportedRequest)
                 completion?(repository)
@@ -158,7 +189,7 @@ extension ResourceModelController {
      - parameter completion: a callback used to pass through the repository and errors accumulated during the process
      */
     func append(from rawResourceArray:RawResourceArray, into repository:ImageRepository, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:@escaping((ImageRepository,[Error]?)->Void)) {
-
+        
         let mapGroup = DispatchGroup()
         ImageResource.extractImageResources(from: rawResourceArray, completion: {[weak self] (newRepository, accumulatedErrors) in
             let writeQueue = DispatchQueue(label: "\(writeQueueLabel).append")

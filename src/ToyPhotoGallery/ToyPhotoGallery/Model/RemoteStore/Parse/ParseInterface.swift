@@ -50,6 +50,29 @@ class ParseInterface : RemoteStoreController {
        
         center.post(name: Notification.Name.DidLaunchRemoteStore, object: nil)
     }
+
+    /**
+     Counts the objects in the given schemaClass, Calls a completion block when completed
+     - parameter table: a *RemoteStoreTable* table that should be queried on the remote store
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
+     - parameter errorHandler: The *ErrorHandlerDelegate* that will report the error
+     - parameter completion: the callback executed when the query is complete passing through the count
+     - Returns: void
+     */
+    func count(table:RemoteStoreTableMap, on queue:DispatchQueue, errorHandler:ErrorHandlerDelegate, completion:@escaping((Int)->Void)) {
+        do {
+            let pfQuery = try query(for: table, sortBy: nil, skip: 0, limit: 0)
+            count(query: pfQuery, on: queue) { (fetchedCount, error) in
+                if let e = error {
+                    errorHandler.report(e)
+                }
+                completion(fetchedCount)
+            }
+        } catch {
+            errorHandler.report(error)
+            completion(0)
+        }
+    }
     
     /**
      Finds the objects in the given schemaClass, sorted by the given String, with the expected fetch skip and limit constants.  Calls a completion block when completed
@@ -99,7 +122,7 @@ class ParseInterface : RemoteStoreController {
     }
     
     /**
-     Executes the *PFQuery on a background thread and calls the callback when completed
+     Executes the *PFQuery* on a background thread and calls the callback when completed
      - parameter query: the *PFQuery* to run
      - parameter queue: The *DispatchQueue* we need to send the results back to.  Parse returns on the main thread by default.
      - parameter completion: the *ParseFindCompletion* callback to execute when the query has returned
@@ -109,6 +132,21 @@ class ParseInterface : RemoteStoreController {
         query.findObjectsInBackground { (objects, error) in
             queue.async {
                 completion(objects, error)
+            }
+        }
+    }
+    
+    /**
+     Executes the *PFQuery*  counton a background thread and calls the callback when completed
+     - parameter query: the *PFQuery* to run
+     - parameter queue: The *DispatchQueue* we need to send the results back to.  Parse returns on the main thread by default.
+     - parameter completion: the *ParseFindCompletion* callback to execute when the query has returned
+     - Returns: void
+     */
+    func count(query:PFQuery<PFObject>, on queue:DispatchQueue, completion:@escaping((Int, Error?)->Void)) {
+        query.countObjectsInBackground { (fetchedCount, error) in
+            queue.async {
+                completion(Int(fetchedCount), error)
             }
         }
     }
@@ -157,7 +195,11 @@ extension ParseInterface {
         }
         
         query.skip = skip
-        query.limit = limit
+        
+        if limit > 0 {
+            query.limit = limit
+        }
+        
         query.cachePolicy = cachePolicy
         
         return query

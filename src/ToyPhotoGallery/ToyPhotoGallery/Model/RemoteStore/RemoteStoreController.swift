@@ -16,6 +16,7 @@ protocol RemoteStoreController : LaunchService {
     var defaultQuerySize:Int { get }
     
     func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, on queue:DispatchQueue, errorHandler:ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) -> Void
+    func count(table:RemoteStoreTableMap, on queue:DispatchQueue, errorHandler:ErrorHandlerDelegate, completion:@escaping((Int)->Void))
     func validate(sortBy:String, in schemaClass:RemoteStoreTableMap) throws -> Void
 }
 

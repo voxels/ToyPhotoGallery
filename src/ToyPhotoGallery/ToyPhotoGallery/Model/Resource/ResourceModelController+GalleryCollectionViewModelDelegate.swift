@@ -16,13 +16,20 @@ extension ResourceModelController : GalleryCollectionViewModelDelegate {
     
     /**
      Fetches the image resources from the local repository contained in the *ResourceModelController*
+     - parameter currentCount: the current number of image resource items in the collection view model
      - parameter skip: the number of items to skip when finding new resources
      - parameter limit: the number of items we want to fetch
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - parameter completion: a callback used to pass back the filled resources
      - Returns: void
      */
-    func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:ImageResourceCompletion?) -> Void {
+    func imageResources(currentCount:Int, skip: Int, limit: Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout, completion:ImageResourceCompletion?) -> Void {
+        if currentCount == totalImageRecords {
+            DispatchQueue.main.async {
+                completion?([ImageResource]())
+            }
+        }
+        
         // We need to make sure we don't skip fetching any images for this purpose
         let readQueue = DispatchQueue(label: readQueueLabel)
         var checkCount = 0

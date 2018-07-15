@@ -10,9 +10,10 @@ import Foundation
 
 /// Protocol to fetch the image resources for the model and get an error handler if necessary
 protocol GalleryCollectionViewModelDelegate : class {
+    var totalImageRecords:Int { get }
     var errorHandler:ErrorHandlerDelegate { get }
     var timeoutDuration:TimeInterval { get }
-    func imageResources(skip: Int, limit: Int, timeoutDuration:TimeInterval, completion:ImageResourceCompletion?)
+    func imageResources(currentCount:Int, skip: Int, limit: Int, timeoutDuration:TimeInterval, completion:ImageResourceCompletion?) -> Void
 }
 
 class GalleryCollectionViewModel {
@@ -76,6 +77,11 @@ class GalleryCollectionViewModel {
      - Returns: void
      */
     func checkForNextPage(with indexPath:IndexPath, with resourceDelegate:GalleryCollectionViewModelDelegate) {
+        let currentCount = data.count
+        if currentCount == resourceDelegate.totalImageRecords {
+            return
+        }
+
         if indexPath.item > data.count - GalleryCollectionViewModel.remainingCellsPageLimit {
             nextPage(from: resourceDelegate, skip: data.count, limit: GalleryCollectionViewModel.defaultPageSize)
         }
@@ -151,8 +157,16 @@ extension GalleryCollectionViewModel {
      - Returns: void
      */
     func request(from resourceDelegate:GalleryCollectionViewModelDelegate, skip:Int, limit:Int) {
-        resourceDelegate.imageResources(skip: skip, limit: limit, timeoutDuration:resourceDelegate.timeoutDuration ) { [weak self] (resources) in
-            self?.insert(imageResources: resources)
+        let currentCount = data.count
+        if currentCount == resourceDelegate.totalImageRecords {
+            return
+        }
+        
+        // Returns on the main thread
+        resourceDelegate.imageResources(currentCount:currentCount, skip: skip, limit: limit, timeoutDuration:resourceDelegate.timeoutDuration ) { [weak self] (resources) in
+            if resources.count > 0 {
+                self?.insert(imageResources: resources)
+            }
         }
     }
     
@@ -178,8 +192,10 @@ extension GalleryCollectionViewModel {
         
         self.data.append(contentsOf: appendResources)
         
-        // TODO: Implement checking for changes
-        viewModelDelegate?.didUpdateViewModel(insertItems: insertIndexPaths, deleteItems: nil, moveItems: nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModelDelegate?.didUpdateViewModel(insertItems: insertIndexPaths, deleteItems: nil, moveItems: nil)
+        }
+        
         endFetching()
     }
 }

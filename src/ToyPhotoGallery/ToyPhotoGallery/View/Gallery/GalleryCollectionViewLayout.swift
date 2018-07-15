@@ -20,6 +20,7 @@ protocol FlowLayoutConfiguration {
 }
 
 protocol FlowLayoutConfigurationSizeDelegate : class {
+    var isFetching:Bool { get }
     func sizeForItemAt( indexPath: IndexPath, layout:GalleryCollectionViewLayout, currentConfiguration:FlowLayoutConfiguration)->CGSize
 }
 
@@ -32,7 +33,7 @@ struct FlowLayoutVerticalConfiguration : FlowLayoutConfiguration {
     var estimatedItemSize:CGSize            = CGSize(width: 282.0, height: 206.0)
     var sectionInset:UIEdgeInsets           = UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0)
     var headerReferenceSize:CGSize          = CGSize.zero
-    var footerReferenceSize:CGSize          = CGSize.zero
+    var footerReferenceSize:CGSize          = CGSize(width: 320.0, height: 60.0)
 }
 
 struct FlowLayoutHorizontalConfiguration : FlowLayoutConfiguration {
@@ -138,8 +139,8 @@ extension GalleryCollectionViewLayout : UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if let configuration = configuration {
-            return relative(size: configuration.footerReferenceSize, with: configuration, containerWidth: containerWidth)
+        if let configuration = configuration, let sizeDelegate = sizeDelegate, sizeDelegate.isFetching {
+            return CGSize(width: collectionView.frame.size.width, height: configuration.footerReferenceSize.height)
         }
         return CGSize.zero
     }

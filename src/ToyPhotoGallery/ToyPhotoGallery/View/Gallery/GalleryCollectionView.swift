@@ -14,11 +14,12 @@ class GalleryCollectionView: UICollectionView {
     let defaultBackgroundColor:UIColor = .white
     let defaultIdentifier = "default"
     let imageIdentifer = "image"
+    let footerIdentifier = "footer"
     var cellAppearance:GalleryCollectionViewImageCellAppearance?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        register(identifiers: [defaultIdentifier, imageIdentifer])
+        register(identifiers: [defaultIdentifier, imageIdentifer, footerIdentifier])
         if let delegate = layout as? GalleryCollectionViewLayout {
             assign(dataSource: self, delegate:delegate )
         } else {
@@ -28,7 +29,7 @@ class GalleryCollectionView: UICollectionView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        register(identifiers: [defaultIdentifier, imageIdentifer])
+        register(identifiers: [defaultIdentifier, imageIdentifer, footerIdentifier])
     }
 }
 
@@ -38,6 +39,8 @@ extension GalleryCollectionView {
             switch identifier {
             case imageIdentifer:
                 self?.register(GalleryCollectionViewImageCell.classForCoder(), forCellWithReuseIdentifier: identifier)
+            case footerIdentifier:
+                self?.register(GallerySectionFooterView.nib(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
             case defaultIdentifier:
                 fallthrough
             default:
@@ -97,6 +100,14 @@ extension GalleryCollectionView : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return false
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionElementKindSectionFooter, let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerIdentifier, for: indexPath) as? GallerySectionFooterView {
+            return footerView
+        }
+        
+        return UICollectionReusableView(frame: CGRect.zero)
     }
 }
 
