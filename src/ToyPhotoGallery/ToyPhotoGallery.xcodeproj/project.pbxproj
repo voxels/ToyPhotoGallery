@@ -27,7 +27,6 @@
 		1E65C9F620EABBEC00D28BE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E65C9F420EABBEC00D28BE4 /* LaunchScreen.storyboard */; };
 		1E65CA0120EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65CA0020EABBEC00D28BE4 /* ToyPhotoGalleryTests.swift */; };
 		1E65CA0C20EABBEC00D28BE4 /* ToyPhotoGalleryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65CA0B20EABBEC00D28BE4 /* ToyPhotoGalleryUITests.swift */; };
-		1E65E47120FA812800E44B65 /* CacheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E65E47020FA812800E44B65 /* CacheHandler.swift */; };
 		1E6F2E1020EE6444005A5567 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E0F20EE6444005A5567 /* Collection.swift */; };
 		1E6F2E1420EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E1320EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift */; };
 		1E6F2E1620EEAD30005A5567 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6F2E1520EEAD30005A5567 /* Repository.swift */; };
@@ -169,7 +168,6 @@
 		1E65CA0720EABBEC00D28BE4 /* ToyPhotoGalleryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToyPhotoGalleryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E65CA0B20EABBEC00D28BE4 /* ToyPhotoGalleryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToyPhotoGalleryUITests.swift; sourceTree = "<group>"; };
 		1E65CA0D20EABBEC00D28BE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1E65E47020FA812800E44B65 /* CacheHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHandler.swift; sourceTree = "<group>"; };
 		1E6F2E0F20EE6444005A5567 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		1E6F2E1320EE7BE6005A5567 /* ResourceModelController+GalleryCollectionViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourceModelController+GalleryCollectionViewModelDelegate.swift"; sourceTree = "<group>"; };
 		1E6F2E1520EEAD30005A5567 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
@@ -409,7 +407,6 @@
 				1E78B2E720EAE5FF000DCFE7 /* Obfuscator.swift */,
 				1E6F2E2420EED35A005A5567 /* Extractor.swift */,
 				1E1A7ABC20F3A9B30002F6FC /* SynchronizedArray.swift */,
-				1E65E47020FA812800E44B65 /* CacheHandler.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -911,7 +908,6 @@
 				1E5E9BC520F038E300D59DFD /* NetworkSessionInterface.swift in Sources */,
 				1E6F2E2520EED35A005A5567 /* Extractor.swift in Sources */,
 				1E78B35220EE59D1000DCFE7 /* GalleryCollectionViewModel.swift in Sources */,
-				1E65E47120FA812800E44B65 /* CacheHandler.swift in Sources */,
 				1E78B2F220EAF605000DCFE7 /* Notification.swift in Sources */,
 				1E78B29720EAC6EB000DCFE7 /* LaunchController.swift in Sources */,
 				1E78B33E20ED9CC1000DCFE7 /* StoryboardSchemaMap.swift in Sources */,

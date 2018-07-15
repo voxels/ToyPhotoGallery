@@ -114,10 +114,6 @@ extension LaunchController {
             shouldWaitForDidCompleteNotification = true
         }
         
-        if service is CacheHandler {
-            shouldWaitForDidCompleteNotification = true
-        }
-        
         if shouldWaitForDidCompleteNotification, let name = didLaunchNotificationName(for: service) {
             waitForNotifications.insert(name)
             register(for: name, with:center)
@@ -279,8 +275,6 @@ extension LaunchController {
             return Notification.Name.DidLaunchErrorHandler
         } else if service is BucketHandlerDelegate {
             return Notification.Name.DidLaunchBucketHandler
-        } else if service is CacheHandler {
-            return Notification.Name.DidLaunchSharedCached
         }
         
         return nil

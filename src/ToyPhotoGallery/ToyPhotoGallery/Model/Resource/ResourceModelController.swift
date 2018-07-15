@@ -25,8 +25,6 @@ class ResourceModelController {
     /// An interface uses to make fetches from the network
     let networkSessionInterface:NetworkSessionInterface
     
-    let cacheHandler:CacheHandler = CacheHandler()
-    
     /// The error handler used to report non-fatal errors
     let errorHandler:ErrorHandlerDelegate
     
@@ -176,7 +174,7 @@ extension ResourceModelController {
                         mapGroup.leave()
                         return
                     }
-                    strongSelf.networkSessionInterface.fetch(url: object.value.thumbnailURL, on: writeQueue, timeout:timeoutDuration, cacheHandler: strongSelf.cacheHandler, completion: { (data) in
+                    strongSelf.networkSessionInterface.fetch(url: object.value.thumbnailURL, on: writeQueue, timeout:timeoutDuration, completion: { (data) in
                         if let data = data, let image = UIImage(data:data) {
                             object.value.thumbnailImage = image
                         }

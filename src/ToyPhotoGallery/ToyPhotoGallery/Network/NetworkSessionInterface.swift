@@ -28,11 +28,10 @@ class NetworkSessionInterface : NSObject {
      - parameter queue: The queue that the fetch should be returned on
      - parameter timeout: The number of seconds before timing out the request
      - parameter cachePolicy: The *URLRequest.CachePolicy* for handling the request.  Defaults to *.returnCacheDataEleseLoad*.
-     - parameter cacheHandler: An optional  *CacheHandler* used to archive the response
      - parameter completion: a callback used to pass through the optional fetched *Data*
      - Returns: void
      */
-    func fetch(url:URL, on queue:DispatchQueue?, timeout:TimeInterval, cachePolicy:URLRequest.CachePolicy = .returnCacheDataElseLoad, cacheHandler:CacheHandler?,  completion:@escaping (Data?)->Void) {
+    func fetch(url:URL, on queue:DispatchQueue?, timeout:TimeInterval, cachePolicy:URLRequest.CachePolicy = .returnCacheDataElseLoad,  completion:@escaping (Data?)->Void) {
         // Using a default session here may crash because of a potential bug in Foundation.
         // Ephemeral and Shared sessions don't crash.
         // See: https://forums.developer.apple.com/thread/66874
@@ -43,18 +42,13 @@ class NetworkSessionInterface : NSObject {
         }
         
         if AWSBucketHandler.isAWS(url: url) {
-            bucketHandler.fetchWithAWS(url: url, on:fetchQueue, cacheHandler:cacheHandler, with:errorHandler, completion: completion)
+            bucketHandler.fetchWithAWS(url: url, on:fetchQueue, with:errorHandler, completion: completion)
             return
         }
         
         // We are handling the cacheing ourselves
         let session = URLSession(configuration: .ephemeral)
         let request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeout)
-        
-        if let data = cacheHandler?.cachedData(for: request) {
-            completion(data)
-            return
-        }
         
         let taskCompletion:((Data?, URLResponse?, Error?) -> Void) = { [weak self] (data, response, error) in
             if let e = error {
@@ -66,11 +60,7 @@ class NetworkSessionInterface : NSObject {
             }
             
             fetchQueue.async {
-                if let handler = cacheHandler {
-                    handler.storeResponse(request:request, response: response, data: data, completion: completion)
-                } else {
-                    completion(data)
-                }
+                completion(data)
             }
         }
         

@@ -41,17 +41,12 @@ class AWSBucketHandler : BucketHandlerDelegate {
      Intercept for fetching AWS urls since they fail with URLSession
      - parameter filename: the key *String* for the file
      - parameter queue: The queue that the fetch should be returned on
-     - parameter cacheHandler: The optional *CacheHandler* used to cache the URLRequest
      - parameter errorHandler: The *ErrorHandlerDelegate* used to report errors
      - parameter completion: the callback used for the data
      */
-    func fetchWithAWS(url:URL, on queue:DispatchQueue, cacheHandler:CacheHandler?, with errorHandler:ErrorHandlerDelegate, completion:@escaping (Data?)->Void) {
-        
-        var didComplete = false
+    func fetchWithAWS(url:URL, on queue:DispatchQueue, with errorHandler:ErrorHandlerDelegate, completion:@escaping (Data?)->Void) {
         
         // If we can find a cached response, we will return that but run the fetch anyway to update the cache
-        let cachedRequest = URLRequest(url: url)
-        
         let expression = AWSS3TransferUtilityDownloadExpression()
         expression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
             // Do something e.g. Update a progress bar.
@@ -63,20 +58,14 @@ class AWSBucketHandler : BucketHandlerDelegate {
             queue.async {
                 if let error = error {
                     errorHandler.report(error)
-                } else {
-                    cacheHandler?.storeResponse(request: cachedRequest, response:task.response, data: data, completion: nil)
                 }
                 
-                if !didComplete {
-                    completion(data)
-                }
+                completion(data)
             }
         }
         
         guard let key = fileKey(for: url) else {
-            if !didComplete {
-                completion(nil)
-            }
+            completion(nil)
             return
         }
         
@@ -93,11 +82,6 @@ class AWSBucketHandler : BucketHandlerDelegate {
                 }
                 
                 return task;
-        }
-        
-        if let data = cacheHandler?.cachedData(for: cachedRequest) {
-            completion(data)
-            didComplete = true
         }
     }
     
