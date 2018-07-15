@@ -45,11 +45,6 @@ class GalleryCollectionViewModel {
     
     /// The maximum number of retries to take
     var maxRetryCount: Int = 3
-    
-    /// Flag that indicates that the collection view has called cellForItem: at least once
-    /// We are using it because we need to make sure reloadData is called AFTER auto layout
-    /// has applied the constraints for the collection, but not every time we layout the VC's subviews
-    var completedInitialLayout = false
 
     /**
      Configures the view model with the given delegate, perpares a network session interface for the cells, empties the data source, and fetches the first page
@@ -68,7 +63,6 @@ class GalleryCollectionViewModel {
      - Returns: void
      */
     func viewDidRequestCell(for indexPath:IndexPath) throws {
-        completedInitialLayout = true
         guard let delegate = resourceDelegate else {
             throw ModelError.MissingResourceModelController
         }

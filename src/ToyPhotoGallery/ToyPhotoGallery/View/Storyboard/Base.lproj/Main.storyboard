@@ -111,7 +111,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W36-0U-ffK">
-                                <rect key="frame" x="0.0" y="80" width="375" height="587"/>
+                                <rect key="frame" x="0.0" y="80" width="375" height="527"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ojl-zU-ujH">
@@ -124,7 +124,6 @@
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="W36-0U-ffK" firstAttribute="top" secondItem="lwt-YF-ZxG" secondAttribute="bottom" id="6Ra-ao-jaP"/>
-                            <constraint firstItem="Ojl-zU-ujH" firstAttribute="top" secondItem="W36-0U-ffK" secondAttribute="bottom" id="8KV-P6-h7o"/>
                             <constraint firstItem="W36-0U-ffK" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="FKx-Eu-S1Q"/>
                             <constraint firstItem="SEu-l8-7EO" firstAttribute="trailing" secondItem="W36-0U-ffK" secondAttribute="trailing" id="MHE-Xz-A7g"/>
                             <constraint firstItem="Ojl-zU-ujH" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="Rgt-w5-UsV"/>
@@ -137,6 +136,7 @@
                             <constraint firstItem="8UT-3G-BBH" firstAttribute="leading" secondItem="SEu-l8-7EO" secondAttribute="leading" id="fxe-Ox-T4h"/>
                             <constraint firstItem="SEu-l8-7EO" firstAttribute="bottom" secondItem="8UT-3G-BBH" secondAttribute="bottom" id="gEk-9a-Bee"/>
                             <constraint firstItem="SEu-l8-7EO" firstAttribute="trailing" secondItem="lwt-YF-ZxG" secondAttribute="trailing" id="tH2-gD-V5i"/>
+                            <constraint firstItem="SEu-l8-7EO" firstAttribute="bottom" secondItem="W36-0U-ffK" secondAttribute="bottom" constant="60" id="za7-ur-6cK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SEu-l8-7EO"/>
                     </view>

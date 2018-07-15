@@ -88,11 +88,10 @@ class GalleryViewController: UIViewController {
                     self?.headingContainerView.alpha = 1.0
                 })
             }
-            return
+        } else {
+            try insert(childViewController: previewViewController, on: self, into:view)
+            animateCollectionViews(preview: isPreviewing, with:indexPath)
         }
-        
-        try insert(childViewController: previewViewController, on: self, into:view)
-        animateCollectionViews(preview: isPreviewing, with:indexPath)
     }
     
     @IBAction func onTapCloseButton(_ sender: Any) {
@@ -304,19 +303,6 @@ extension GalleryViewController {
         
         NSLayoutConstraint.activate(customConstraints)
         super.updateViewConstraints()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // We need to kick the collection view after the auto layout constraints have been applied
-        // But we don't want to do this every time we layout the subviews
-        guard let collectionView = collectionView, let model = collectionView.model else {
-            return
-        }
-        if model.completedInitialLayout {
-            collectionView.reloadData()
-        }
     }
     
     func reloadCollectionViewWithoutAnimation() {
