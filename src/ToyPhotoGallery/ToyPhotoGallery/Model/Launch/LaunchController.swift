@@ -316,6 +316,7 @@ extension LaunchController : ResourceModelControllerDelegate {
      - Returns: void
      */
     func didUpdateModel() {
+        resourceModelController.delegate = nil
         signalLaunchComplete()
     }
     
@@ -325,6 +326,7 @@ extension LaunchController : ResourceModelControllerDelegate {
      - Returns: void
      */
     func didFailToUpdateModel(with reason:String?) {
+        resourceModelController.delegate = nil
         signalLaunchFailed(reason: reason)
     }
 }
