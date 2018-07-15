@@ -13,10 +13,11 @@ class GalleryCollectionView: UICollectionView {
     
     let defaultBackgroundColor:UIColor = .white
     let defaultIdentifier = "default"
+    let imageIdentifer = "image"
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        register(identifiers: [defaultIdentifier, GalleryCollectionViewImageCellModel.identifier])
+        register(identifiers: [defaultIdentifier, imageIdentifer])
         if let delegate = layout as? GalleryCollectionViewLayout {
             assign(dataSource: self, delegate:delegate )
         } else {
@@ -26,7 +27,7 @@ class GalleryCollectionView: UICollectionView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        register(identifiers: [defaultIdentifier, GalleryCollectionViewImageCellModel.identifier])
+        register(identifiers: [defaultIdentifier, imageIdentifer])
     }
 }
 
@@ -34,7 +35,7 @@ extension GalleryCollectionView {
     func register(identifiers:[String]) {
         identifiers.forEach { [weak self] (identifier) in
             switch identifier {
-            case GalleryCollectionViewImageCellModel.identifier:
+            case imageIdentifer:
                 self?.register(GalleryCollectionViewImageCell.classForCoder(), forCellWithReuseIdentifier: identifier)
             case defaultIdentifier:
                 fallthrough
@@ -73,7 +74,8 @@ extension GalleryCollectionView : UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         }
         
-        identifier = GalleryCollectionViewImageCellModel.identifier
+        identifier = imageIdentifer
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? GalleryCollectionViewImageCell else {
             model?.resourceDelegate?.errorHandler.report(ModelError.IncorrectType)
             return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)

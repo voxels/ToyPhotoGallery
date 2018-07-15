@@ -12,22 +12,10 @@ class PreviewViewController: UIViewController {
     
     let logHandler = DebugLogHandler()
     
-    var viewModel:PreviewViewModel? {
-        didSet {
-            if let model = viewModel {
-                refresh(with: model)
-            }
-        }
-    }
-    
     @IBOutlet weak var contentContainerView: UIView!
     
     let defaultBackgroundColor:UIColor = .clear
 
-    func refresh(with viewModel:PreviewViewModel) {
-        
-    }
-    
     @IBAction func onTapPlusOneButton(_ sender: Any) {
         logHandler.console("tap plus one")
     }

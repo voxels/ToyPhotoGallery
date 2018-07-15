@@ -53,11 +53,10 @@ class ResourceModelController {
      - parameter storeController: the *RemoteStoreController* used to fetch the resources
      - parameter resourceType: the type of the resource being fetched
      - parameter errorHandler: the *ErrorHandlerDelegate* used to report non-fatal errors
-     - parameter prefetchCount: the count of the number of images to prefetch before launching
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - Returns: void
      */
-    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, prefetchCount:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
+    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
         do {
             switch T.self {
             case is ImageResource.Type:
@@ -72,7 +71,7 @@ class ResourceModelController {
                         readQueue.sync {
                             let fetchMostRecent = strongSelf.imageRepository.map.sorted(by: { (source, compare) -> Bool in
                                 source.value.updatedAt >= compare.value.updatedAt
-                            })[0..<prefetchCount]
+                            })
                             
                             guard fetchMostRecent.count > 0 else {
                                 DispatchQueue.main.async { [weak self] in

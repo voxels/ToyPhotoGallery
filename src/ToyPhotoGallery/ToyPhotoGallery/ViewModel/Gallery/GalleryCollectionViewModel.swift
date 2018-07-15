@@ -29,7 +29,7 @@ class GalleryCollectionViewModel {
     weak var viewModelDelegate:GalleryViewModelDelegate?
     
     /// The data source used for the collection view, containing a protocol of cell models
-    var data = SynchronizedArray<GalleryCollectionViewImageCellModel>(qos: .userInteractive)
+    var data = SynchronizedArray<ImageResource>(qos: .userInteractive)
     
     /// A flag to determine if the collection view is currently fetching image resources
     var isFetching = false
@@ -57,7 +57,7 @@ class GalleryCollectionViewModel {
      - Returns: void
      */
     func configure(with delegate:GalleryCollectionViewModelDelegate) {
-        data = SynchronizedArray<GalleryCollectionViewImageCellModel>(qos: .userInteractive)
+        data = SynchronizedArray<ImageResource>(qos: .userInteractive)
         nextPage(from: delegate, skip: 0, limit: GalleryCollectionViewModel.defaultPageSize)
     }
     
@@ -168,20 +168,7 @@ extension GalleryCollectionViewModel {
      - Returns: void
      */
     func insert(imageResources:[ImageResource]) {
-        let imageModels = imageResources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
-            do {
-                return try GalleryCollectionViewImageCellModel(with: imageResource)
-            } catch {
-                self?.resourceDelegate?.errorHandler.report(error)
-            }
-            return nil
-        })
-        
-        guard imageModels.count > 0 else {
-            return
-        }
-        
-        self.data.append(contentsOf: imageModels)
+        self.data.append(contentsOf: imageResources)
         
         // TODO: Implement checking for changes
         viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)
@@ -230,8 +217,8 @@ extension GalleryCollectionViewModel : FlowLayoutConfigurationSizeDelegate {
     func sizeForItemAt(indexPath: IndexPath, layout:GalleryCollectionViewLayout, currentConfiguration:FlowLayoutConfiguration) -> CGSize {
         
         if let containerSize = viewModelDelegate?.containerSize,
-            let width = data[indexPath.item]?.imageResource.thumbnailWidth,
-            let height = data[indexPath.item]?.imageResource.thumbnailHeight,
+            let width = data[indexPath.item]?.thumbnailWidth,
+            let height = data[indexPath.item]?.thumbnailHeight,
             width > CGFloat(0.0) && height > CGFloat(0.0) {
             return calculateItemSize(for: CGSize(width:width, height:height), containerSize: containerSize, layout:layout, configuration: currentConfiguration)
         }

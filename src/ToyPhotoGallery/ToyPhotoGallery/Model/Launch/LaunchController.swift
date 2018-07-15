@@ -23,9 +23,6 @@ class LaunchController {
     /// The duration, in seconds, that the launch controller waits before timing out
     var timeoutDuration:TimeInterval = 60
     
-    /// The number of thumbnails to prefetch
-    var defaultPrefetchCount = 12
-    
     /// A timer used to push launch forward if a service is not reached
     var timeoutTimer:Timer?
     
@@ -142,7 +139,7 @@ extension LaunchController {
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler, prefetchCount:strongSelf.defaultPrefetchCount, timeoutDuration:strongSelf.timeoutDuration)
+                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler, timeoutDuration:strongSelf.timeoutDuration)
             }
         }
     }

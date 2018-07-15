@@ -15,7 +15,7 @@ struct GalleryCollectionViewImageCellAppearance {
 
 class GalleryCollectionViewImageCell : UICollectionViewCell {
     
-    var model:GalleryCollectionViewImageCellModel?
+    var model:ImageResource?
     var appearance:GalleryCollectionViewImageCellAppearance?    
     
     var thumbnailImageView:UIImageView = UIImageView(frame: CGRect.zero)
@@ -32,17 +32,17 @@ class GalleryCollectionViewImageCell : UICollectionViewCell {
         model = nil
     }
     
-    func refresh(with model:GalleryCollectionViewImageCellModel, appearance:GalleryCollectionViewImageCellAppearance = GalleryCollectionViewImageCellAppearance()) {
+    func refresh(with model:ImageResource, appearance:GalleryCollectionViewImageCellAppearance = GalleryCollectionViewImageCellAppearance()) {
         configure(with: appearance, model:model)
         self.model = model
     }
     
-    func configure(with appearance:GalleryCollectionViewImageCellAppearance, model:GalleryCollectionViewImageCellModel) {
+    func configure(with appearance:GalleryCollectionViewImageCellAppearance, model:ImageResource) {
         self.appearance = appearance
         backgroundColor = appearance.defaultBackgroundColor
         
-        apply(image: model.imageResource.thumbnailImage, to:thumbnailImageView)
-        apply(image: model.imageResource.fileImage, to: fileImageView)
+        apply(image: model.thumbnailImage, to:thumbnailImageView)
+        apply(image: model.fileImage, to: fileImageView)
         
         if thumbnailImageView.image != nil {
             show(imageView:thumbnailImageView)

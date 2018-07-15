@@ -119,8 +119,6 @@ extension GalleryViewController {
             throw ViewError.MissingViewController
         }
         
-        let previewViewModel = PreviewViewModel(with: indexPath, galleryCollectionViewModel: galleryCollectionViewModel)
-        previewViewController.viewModel = previewViewModel
         previewViewController.view.backgroundColor = previewViewController.defaultBackgroundColor
         return previewViewController
     }
