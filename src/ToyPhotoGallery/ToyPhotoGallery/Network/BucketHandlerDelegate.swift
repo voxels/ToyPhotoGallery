@@ -50,7 +50,7 @@ class AWSBucketHandler : BucketHandlerDelegate {
         var didComplete = false
         
         // If we can find a cached response, we will return that but run the fetch anyway to update the cache
-        let request = URLRequest(url: url)
+        let cachedRequest = URLRequest(url: url)
         
         let expression = AWSS3TransferUtilityDownloadExpression()
         expression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
@@ -64,7 +64,7 @@ class AWSBucketHandler : BucketHandlerDelegate {
                 if let error = error {
                     errorHandler.report(error)
                 } else {
-                    cacheHandler?.storeResponse(request: request, response:task.response, data: data, completion: nil)
+                    cacheHandler?.storeResponse(request: cachedRequest, response:task.response, data: data, completion: nil)
                 }
                 
                 if !didComplete {
@@ -81,7 +81,7 @@ class AWSBucketHandler : BucketHandlerDelegate {
         }
         
         let transferUtility = AWSS3TransferUtility.default()
-        let awsTask = transferUtility.downloadData(
+        let _ = transferUtility.downloadData(
             fromBucket: bucketKey.decoded(),
             key: key,
             expression: expression,
@@ -95,7 +95,7 @@ class AWSBucketHandler : BucketHandlerDelegate {
                 return task;
         }
         
-        if let result = awsTask.result as? AWSS3TransferUtilityDownloadTask, let downloadTaskRequest = result.request, let data = cacheHandler?.cachedData(for: downloadTaskRequest) {
+        if let data = cacheHandler?.cachedData(for: cachedRequest) {
             completion(data)
             didComplete = true
         }
