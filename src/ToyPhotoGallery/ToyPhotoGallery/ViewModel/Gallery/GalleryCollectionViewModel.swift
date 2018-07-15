@@ -167,10 +167,19 @@ extension GalleryCollectionViewModel {
         readQueue.sync {
             appendResources = imageResources
         }
+        
+        let currentCount = self.data.count
+        var insertIndexPaths = [IndexPath]()
+        
+        for index in currentCount..<currentCount + appendResources.count {
+            let indexPath = IndexPath(item: index, section: 0)
+            insertIndexPaths.append(indexPath)
+        }
+        
         self.data.append(contentsOf: appendResources)
         
         // TODO: Implement checking for changes
-        viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)
+        viewModelDelegate?.didUpdateViewModel(insertItems: insertIndexPaths, deleteItems: nil, moveItems: nil)
         endFetching()
     }
 }

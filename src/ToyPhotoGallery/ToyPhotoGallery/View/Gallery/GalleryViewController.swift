@@ -52,7 +52,6 @@ class GalleryViewController: UIViewController {
                 contentContainerView.addSubview(collectionView)
                 refreshLayout(in: view)
             }
-            reloadCollectionViewWithoutAnimation()
         }
     }
     
@@ -182,7 +181,7 @@ extension GalleryViewController {
             scrollToIndexPath = visibleIndexPath
         }
         
-        let timingDuration:TimeInterval = 0.65 * (FeaturePolice.useSlowAnimation ? 4.0 : 1.0)
+        let timingDuration:TimeInterval = 0.45 * (FeaturePolice.useSlowAnimation ? 4.0 : 1.0)
         
         let layout = collectionViewLayout(for: preview ? .horizontal : .vertical, errorHandler: oldCollectionView.model?.resourceDelegate?.errorHandler)
         let newCollectionView = galleryCollectionView(with: layout, collectionViewModel:collectionViewModel)
@@ -215,12 +214,7 @@ extension GalleryViewController {
         setNeedsStatusBarAppearanceUpdate()
         refreshLayout(in: view)
         
-        newCollectionView.performBatchUpdates({
-            newCollectionView.reloadData()
-        }) { (didSucceed) in
-            newCollectionView.scrollToItem(at: scrollToIndexPath, at: preview ? .centeredHorizontally : .centeredVertically, animated: false)
-        }
-        
+        newCollectionView.scrollToItem(at: scrollToIndexPath, at: preview ? .centeredHorizontally : .centeredVertically, animated: false)
         newCollectionView.transform = CGAffineTransform.init(scaleX: 0.85, y: 0.95)
         
         let newCollectionAlphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
@@ -368,7 +362,17 @@ extension GalleryViewController : GalleryViewModelDelegate {
             refreshLayout(in: view)
         }
         
-        reloadCollectionViewWithoutAnimation()
+        guard let inserts = insertItems, let firstInsertedIndex = inserts.first?.item, firstInsertedIndex >= collectionView.numberOfItems(inSection: 0) else {
+            reloadCollectionViewWithoutAnimation()
+            return
+        }
+        
+        
+        collectionView.performBatchUpdates({
+            collectionView.insertItems(at: inserts)
+        }) { (didSucceed) in
+
+        }
     }
 }
 
