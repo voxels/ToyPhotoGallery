@@ -13,5 +13,6 @@ extension Notification.Name {
     static let DidLaunchBucketHandler = Notification.Name.init("DidLaunchBucketHandler")
     static let DidLaunchErrorHandler = Notification.Name.init("DidLaunchErrorHandler")
     static let DidLaunchRemoteStore = Notification.Name.init("DidLaunchRemoteStore")
+    static let DidLaunchSharedCached = Notification.Name.init("DidLaunchSharedCache")
     static let DidFailLaunch = Notification.Name.init("DidFailLaunch")
 }

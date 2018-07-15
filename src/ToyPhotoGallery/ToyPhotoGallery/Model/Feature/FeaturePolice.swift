@@ -9,8 +9,6 @@
 import Foundation
 
 struct FeaturePolice {
-    static let networkInterfaceUsesEphemeralSession = false
-    static let disableCache = false
     static let useSlowAnimation = false
     static let showAPIKeys = false
     static let shouldAssertWarnings = false

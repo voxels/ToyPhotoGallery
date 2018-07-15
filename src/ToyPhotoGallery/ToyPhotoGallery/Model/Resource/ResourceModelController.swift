@@ -25,6 +25,8 @@ class ResourceModelController {
     /// An interface uses to make fetches from the network
     let networkSessionInterface:NetworkSessionInterface
     
+    let cacheHandler:CacheHandler = CacheHandler()
+    
     /// The error handler used to report non-fatal errors
     let errorHandler:ErrorHandlerDelegate
     
@@ -51,10 +53,11 @@ class ResourceModelController {
      - parameter storeController: the *RemoteStoreController* used to fetch the resources
      - parameter resourceType: the type of the resource being fetched
      - parameter errorHandler: the *ErrorHandlerDelegate* used to report non-fatal errors
+     - parameter prefetchCount: the count of the number of images to prefetch before launching
      - parameter timeoutDuration:  the *TimeInterval* to wait before timing out the request
      - Returns: void
      */
-    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
+    func build<T>(using storeController:RemoteStoreController, for resourceType:T.Type, with errorHandler:ErrorHandlerDelegate, prefetchCount:Int, timeoutDuration:TimeInterval = ResourceModelController.defaultTimeout) where T:Resource {
         do {
             switch T.self {
             case is ImageResource.Type:
@@ -67,20 +70,36 @@ class ResourceModelController {
                     if FeaturePolice.waitForImageBeforeLaunching {
                         let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
                         readQueue.sync {
-                            let group = DispatchGroup()
+                            let fetchMostRecent = strongSelf.imageRepository.map.sorted(by: { (source, compare) -> Bool in
+                                source.value.updatedAt >= compare.value.updatedAt
+                            })[0..<prefetchCount]
                             
-                            strongSelf.imageRepository.map.values.forEach({ (resource) in
-                                group.enter()
-                                strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, completion: { (data) in
-                                    if let data = data,                                         let image = UIImage(data: data)  {
+                            guard fetchMostRecent.count > 0 else {
+                                DispatchQueue.main.async { [weak self] in
+                                    let error = ModelError.MissingValue
+                                    self?.errorHandler.report(error)
+                                    self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
+                                }
+                                return
+                            }
+                            
+                            let fetchImagesGroup = DispatchGroup()
+                            
+                            fetchMostRecent.forEach({ (mapValue) in
+                                let resource = mapValue.value
+                                
+                                fetchImagesGroup.enter()
+                                strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, on:readQueue, timeout:ResourceModelController.defaultTimeout, cacheHandler:strongSelf.cacheHandler, completion: { (data) in
+                                    if let data = data, let image = UIImage(data: data)  {
                                         resource.thumbnailImage = image
                                     } else {
                                         strongSelf.errorHandler.report(ModelError.MissingValue)
                                     }
-                                    group.leave()
+                                    fetchImagesGroup.leave()
                                 })
                             })
-                            switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
+                            
+                            switch fetchImagesGroup.wait(timeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
                             case .timedOut:
                                 // this is ok, we have our map
                                 fallthrough

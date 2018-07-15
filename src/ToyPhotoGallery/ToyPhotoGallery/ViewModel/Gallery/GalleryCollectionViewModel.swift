@@ -175,7 +175,7 @@ extension GalleryCollectionViewModel {
     func insert(imageResources:[ImageResource]) {
         let imageModels = imageResources.compactMap({ [weak self] (imageResource) -> GalleryCollectionViewImageCellModel? in
             do {
-                return try GalleryCollectionViewImageCellModel(with: imageResource, networkSessionInterface:self?.networkSessionInterface)
+                return try GalleryCollectionViewImageCellModel(with: imageResource)
             } catch {
                 self?.resourceDelegate?.errorHandler.report(error)
             }

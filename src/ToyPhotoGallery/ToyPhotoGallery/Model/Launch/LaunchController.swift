@@ -23,6 +23,9 @@ class LaunchController {
     /// The duration, in seconds, that the launch controller waits before timing out
     var timeoutDuration:TimeInterval = 60
     
+    /// The number of thumbnails to prefetch
+    var defaultPrefetchCount = 12
+    
     /// A timer used to push launch forward if a service is not reached
     var timeoutTimer:Timer?
     
@@ -42,7 +45,7 @@ class LaunchController {
         resourceModelController = modelController
         #if DEBUG
         if FeaturePolice.showAPIKeys {
-            show(hidden: [.BugsnagAPIKey, .ParseApplicationId, .AWSIdentityPoolId])
+            show(hidden: [.BugsnagAPIKey, .ParseApplicationId, .AWSIdentityPoolId, .AWSBucketName])
         }
         #endif
     }
@@ -114,6 +117,10 @@ extension LaunchController {
             shouldWaitForDidCompleteNotification = true
         }
         
+        if service is CacheHandler {
+            shouldWaitForDidCompleteNotification = true
+        }
+        
         if shouldWaitForDidCompleteNotification, let name = didLaunchNotificationName(for: service) {
             waitForNotifications.insert(name)
             register(for: name, with:center)
@@ -135,7 +142,7 @@ extension LaunchController {
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler, timeoutDuration:strongSelf.timeoutDuration)
+                strongSelf.resourceModelController.build(using: strongSelf.resourceModelController.remoteStoreController, for: ImageResource.self, with: strongSelf.resourceModelController.errorHandler, prefetchCount:strongSelf.defaultPrefetchCount, timeoutDuration:strongSelf.timeoutDuration)
             }
         }
     }
@@ -275,6 +282,8 @@ extension LaunchController {
             return Notification.Name.DidLaunchErrorHandler
         } else if service is BucketHandlerDelegate {
             return Notification.Name.DidLaunchBucketHandler
+        } else if service is CacheHandler {
+            return Notification.Name.DidLaunchSharedCached
         }
         
         return nil
@@ -293,6 +302,8 @@ extension LaunchController {
         case Notification.Name.DidLaunchRemoteStore:
             fallthrough
         case Notification.Name.DidLaunchBucketHandler:
+            fallthrough
+        case Notification.Name.DidLaunchSharedCached:
             checkLaunchComplete(with: notification)
         default:
             handle(error: LaunchError.UnexpectedLaunchNotification, with:currentErrorHandler)

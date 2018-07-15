@@ -20,16 +20,12 @@ class GalleryCollectionViewImageCellModel : NSObject, GalleryCollectionViewCellM
     /// The image resource model for the cell
     var imageResource:ImageResource
     
-    /// The interface used to fetch the image resource's data
-    var interface:NetworkSessionInterface
-    
-    required init(with resource: Resource, networkSessionInterface:NetworkSessionInterface? = nil) throws {
-        guard let imageResource = resource as? ImageResource, let interface = networkSessionInterface else {
+    required init(with resource: Resource) throws {
+        guard let imageResource = resource as? ImageResource else {
             throw ModelError.IncorrectType
         }
         
         self.imageResource = imageResource
-        self.interface = interface
         self.updatedAt = imageResource.updatedAt
     }
 }
