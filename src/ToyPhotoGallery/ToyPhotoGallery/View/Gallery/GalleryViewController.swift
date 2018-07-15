@@ -71,18 +71,19 @@ class GalleryViewController: UIViewController {
     func toggle(previewViewController:PreviewViewController, into view:UIView, with indexPath:IndexPath ) throws
     {
         if let existingPreviewViewController = childViewControllers.first as? PreviewViewController {
+            let timingDuration:TimeInterval = 0.05
             if !existingPreviewViewController.view.isHidden {
-                UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                UIView.animate(withDuration: timingDuration, animations: { [weak self] in
                     existingPreviewViewController.view.alpha = 0.0
                     self?.headingContainerView.alpha = 0.0
-                }) { [weak self] (didSucceed) in
+                }) {[weak self] (didSucceed) in
                     existingPreviewViewController.view.isHidden = true
                     self?.headingContainerView.isHidden = true
                 }
             } else {
                 existingPreviewViewController.view.isHidden = false
                 headingContainerView.isHidden = false
-                UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                UIView.animate(withDuration: timingDuration, animations: { [weak self] in
                     existingPreviewViewController.view.alpha = 1.0
                     self?.headingContainerView.alpha = 1.0
                 })
