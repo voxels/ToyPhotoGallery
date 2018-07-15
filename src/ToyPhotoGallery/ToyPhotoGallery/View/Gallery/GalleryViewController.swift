@@ -81,7 +81,7 @@ class GalleryViewController: UIViewController {
     func toggle(previewViewController:PreviewViewController, into view:UIView, with indexPath:IndexPath ) throws
     {
         if let existingPreviewViewController = childViewControllers.first as? PreviewViewController {
-            let timingDuration:TimeInterval = 0.05 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
+            let timingDuration:TimeInterval = 0.05 * (FeaturePolice.useSlowAnimation ? 4.0 : 1.0)
             if !existingPreviewViewController.view.isHidden {
                 UIView.animate(withDuration: timingDuration, animations: { [weak self] in
                     existingPreviewViewController.view.alpha = 0.0
@@ -182,7 +182,7 @@ extension GalleryViewController {
             scrollToIndexPath = visibleIndexPath
         }
         
-        let timingDuration:TimeInterval = 0.65 * (FeaturePolice.useSlowAnimation ? 10.0 : 1.0)
+        let timingDuration:TimeInterval = 0.65 * (FeaturePolice.useSlowAnimation ? 4.0 : 1.0)
         
         let layout = collectionViewLayout(for: preview ? .horizontal : .vertical, errorHandler: oldCollectionView.model?.resourceDelegate?.errorHandler)
         let newCollectionView = galleryCollectionView(with: layout, collectionViewModel:collectionViewModel)
@@ -192,7 +192,7 @@ extension GalleryViewController {
         contentContainerView.backgroundColor = newCollectionView.backgroundColor
         headingContainerView.backgroundColor = view.backgroundColor
         topContentContainerCoverView.isHidden = preview
-        bottomContentContainerCoverView.backgroundColor = preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
+        bottomContentContainerCoverView.backgroundColor = preview ? UIColor.appDarkGrayBackground() : .white
         coverCollectionShadowView.backgroundColor = preview ? UIColor.appDarkGrayBackground() : UIColor.appLightGrayBackground()
         coverCollectionShadowView.layer.shadowOpacity = preview ? 0.0 : 0.1
         
