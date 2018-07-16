@@ -216,20 +216,31 @@ catch {
 
 ### Remote Store
 
-**ParseInterface.swift** *[Line 64 - 74](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L67-L97)*
+**ParseInterface.swift** *[Line 77 - 99](https://github.com/voxels/ToyPhotoGallery/blob/59e42825380eab5c435223a256f49f64277d65ef/src/ToyPhotoGallery/ToyPhotoGallery/Model/RemoteStore/Parse/ParseInterface.swift#L77-L99)*
 ```
-func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
-    
-    let wrappedCompletion = parseFindCompletion(with:errorHandler, for: completion)
-    
-    do {
-        let pfQuery = try query(for: table, sortBy: sortBy, skip: skip, limit: limit)
-        find(query: pfQuery, completion: wrappedCompletion)
-    } catch {
-        errorHandler.report(error)
-        completion(RawResourceArray())
+    /**
+     Finds the objects in the given schemaClass, sorted by the given String, with the expected fetch skip and limit constants.  Calls a completion block when completed
+     - parameter table: a *RemoteStoreTable* table that should be queried on the remote store
+     - parameter sortBy: the *String* of the column name to sort by, or nil if no sorting is needed
+     - parameter skip: an *Int* of the number of records to skip in the query
+     - parameter limit: an *Int* of the limit of the number of records returned by the query
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
+     - parameter errorHandler: The *ErrorHandlerDelegate* that will report the error
+     - parameter completion: the *FindCompletion* callback executed when the query is complete
+     - Returns: void
+     */
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, on queue:DispatchQueue, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
+        
+        let wrappedCompletion = parseFindCompletion(with:errorHandler, for: completion)
+        
+        do {
+            let pfQuery = try query(for: table, sortBy: sortBy, skip: skip, limit: limit)
+            find(query: pfQuery, on:queue, completion: wrappedCompletion)
+        } catch {
+            errorHandler.report(error)
+            completion(RawResourceArray())
+        }
     }
-}
 ```
 
 ### Non-Fatal Error Handling
