@@ -465,7 +465,7 @@ class ImageRepository : Repository {
 
 ### Delegation
 
-**GalleryCollectionViewModel.swift** *[Line 11 - 17](https://github.com/voxels/ToyPhotoGallery/blob/4302b56a9c2d04f1c6474081a34f74c44f8c3464/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController%2BGalleryCollectionViewModelDelegate.swift#L25-L66)*
+**GalleryCollectionViewModel.swift** *[Line 11 - 17](https://github.com/voxels/ToyPhotoGallery/blob/4302b56a9c2d04f1c6474081a34f74c44f8c3464/src/ToyPhotoGallery/ToyPhotoGallery/ViewModel/Gallery/GalleryCollectionViewModel.swift#L11-L17)*
 ```
 /// Protocol to fetch the image resources for the model and get an error handler if necessary
 protocol GalleryCollectionViewModelDelegate : class {
