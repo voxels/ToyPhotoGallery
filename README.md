@@ -23,7 +23,7 @@ A description of the **[v1.0](https://github.com/voxels/ToyPhotoGallery/releases
 
 ![Diagram](https://s3.amazonaws.com/com-federalforge-repository/public/resources/originals/ToyPhotoGallery_ObjectGraphDiagram.png)
 
-[Version 1.1](https://github.com/voxels/ToyPhotoGallery/releases/tag/v_1.1) has a slightly improved object graph from the one diagramed above.  Model objects have been simplified for handling images.
+[Version 1.1](https://github.com/voxels/ToyPhotoGallery/releases/tag/v_1.1) has a slightly improved object graph.  In general terms, model objects have been simplified for handling images.
 
 More detail about the examples of [techniques](#code-examples) is offered in the section below.
 
