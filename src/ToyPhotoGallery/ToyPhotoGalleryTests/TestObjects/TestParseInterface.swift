@@ -12,7 +12,7 @@ import Parse
 
 class TestParseInterface : ParseInterface {
     var didFindQuery = false
-    override func find(query: PFQuery<PFObject>, completion: @escaping ParseFindCompletion) {
+    override func find(query:PFQuery<PFObject>, on queue:DispatchQueue, completion:@escaping ParseFindCompletion ) {
         didFindQuery = true
         let pfObject:PFObject = PFObject(className: RemoteStoreTableMap.ImageResource.rawValue)
         completion([pfObject],nil)
@@ -20,7 +20,7 @@ class TestParseInterface : ParseInterface {
 }
 
 class TestErrorParseInterface : TestParseInterface {
-    override func find(query: PFQuery<PFObject>, completion: @escaping ParseFindCompletion) {
+    override func find(query:PFQuery<PFObject>, on queue:DispatchQueue, completion:@escaping ParseFindCompletion ) {
         didFindQuery = true
         let pfObject:PFObject = PFObject(className: RemoteStoreTableMap.ImageResource.rawValue)
         let error = RemoteStoreError.InvalidSortByColumn

@@ -33,8 +33,7 @@ class ResourceModelControllerTests: XCTestCase {
         resourceModelController?.imageRepository = imageRepository
         
         let rawResourceArray = RawResourceArray()
-        
-        resourceModelController?.append(from: rawResourceArray, into: ImageResource.self, completion: { (errors) in
+        resourceModelController?.append(from: rawResourceArray, into: imageRepository, completion: { (repository, errors) in
             guard let errors = errors, errors.count == 1 else {
                 XCTFail("Errors was not expected value")
                 return

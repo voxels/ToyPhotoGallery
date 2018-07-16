@@ -10,7 +10,6 @@ import Foundation
 @testable import ToyPhotoGallery
 
 class TestRemoteStoreController : RemoteStoreController {
-    
     var serverURLString: String = "urlString"
     var defaultQuerySize: Int = 20
     
@@ -27,8 +26,12 @@ class TestRemoteStoreController : RemoteStoreController {
         }
     }
     
-    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
+    func find(table: RemoteStoreTableMap, sortBy: String?, skip: Int, limit: Int, on queue: DispatchQueue, errorHandler: ErrorHandlerDelegate, completion: @escaping RawResourceArrayCompletion) {
         didFind = true
         completion([ImageRepositoryTests.imageResourceRawObject])
+    }
+    
+    func count(table: RemoteStoreTableMap, on queue: DispatchQueue, errorHandler: ErrorHandlerDelegate, completion: @escaping ((Int) -> Void)) {
+        completion(1)
     }
 }

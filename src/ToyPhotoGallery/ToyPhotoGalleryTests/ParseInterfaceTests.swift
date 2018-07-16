@@ -68,9 +68,10 @@ class ParseInterfaceTests: XCTestCase {
         let waitExpectation = expectation(description: "Wait for expectation")
         let interface = TestParseInterface()
         let errorHandler = TestErrorHandler()
-        interface.find(table: .ImageResource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
+        interface.find(table: .ImageResource, sortBy: nil, skip: 0, limit: 0, on: .main, errorHandler: errorHandler) { (objects) in
             waitExpectation.fulfill()
         }
+        
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
     }
@@ -79,10 +80,12 @@ class ParseInterfaceTests: XCTestCase {
         let waitExpectation = expectation(description: "Wait for expectation")
         let interface = TestParseInterface()
         let errorHandler = TestErrorHandler()
-        interface.find(table: .ImageResource, sortBy: nil, skip: 0, limit: 0, errorHandler: errorHandler) { (objects) in
+        
+        interface.find(table: .ImageResource, sortBy: nil, skip: 0, limit: 0, on: .main, errorHandler: errorHandler) { (objects) in
             XCTAssertTrue(interface.didFindQuery)
             waitExpectation.fulfill()
         }
+
         let actual = register(expectations: [waitExpectation], duration: XCTestCase.defaultWaitDuration)
         XCTAssertTrue(actual)
     }
@@ -151,7 +154,7 @@ class ParseInterfaceTests: XCTestCase {
         let interface = TestParseInterface()
         do {
             let query = try interface.query(for: .ImageResource, sortBy: nil, skip: 0, limit: 0)
-            interface.find(query: query, completion: findCompletion)
+            interface.find(query: query, on: .main, completion: findCompletion)
         } catch {
             XCTFail("Received unexpected error: \(error.localizedDescription)")
         }
