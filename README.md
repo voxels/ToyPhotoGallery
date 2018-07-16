@@ -4,11 +4,11 @@
 - [Code Examples](#code-examples)
 - [Client Brief](#client-brief)
 
-*ToyPhotoGallery* implements the design for a photo gallery transitioning into a preview view.  All work was authored, without referencing proprietary code, during the week provided.
+*ToyPhotoGallery* implements the design for a photo gallery transitioning into a preview view.
 
 #### Design Goals
 
-The design goals of the object map include:
+The design goals of the original **[v1.0](https://github.com/voxels/ToyPhotoGallery/releases/tag/v_1.0)** object map include:
 - Provide abstract protocols for common services so that libraries can be swapped if needed
 - Hide API interfaces behind model controllers
 - Provide launch safety for reachability or other issues
@@ -19,9 +19,11 @@ The design goals of the object map include:
 - Offer the ability to swap out views as much as possible
 - Provide convenience structures for configuring requests and appearances
 
-A description of the object graph diagram below can be found at [voxels.github.io](https://voxels.github.io/codesamples_toyphotogallery_diagram)
+A description of the **[v1.0](https://github.com/voxels/ToyPhotoGallery/releases/tag/v_1.0)** object graph diagram below can be found at [voxels.github.io](https://voxels.github.io/codesamples_toyphotogallery_diagram)
 
 ![Diagram](https://s3.amazonaws.com/com-federalforge-repository/public/resources/originals/ToyPhotoGallery_ObjectGraphDiagram.png)
+
+[Version 1.1](https://github.com/voxels/ToyPhotoGallery/releases/tag/v_1.1) has a slightly improved object graph from the one diagramed above.  Model objects have been simplified for handling images.
 
 More detail about the examples of [techniques](#code-examples) is offered in the section below.
 
