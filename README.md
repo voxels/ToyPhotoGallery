@@ -187,39 +187,29 @@ try service.launch(with:service.launchControlKey?.decoded(), with:center)
 
 ```
 
-### Launch Control with DispatchGroup and Notifications
+### Launch Control with DispatchGroup
 
-**ResourceModelController.swift** *[Line 67 - 97](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L67-L97)*
+**ResourceModelController.swift** *[Line 67 - 97](https://github.com/voxels/ToyPhotoGallery/blob/master/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L77-L97)*
 ```
-if FeaturePolice.waitForImageBeforeLaunching {
-    let readQueue = DispatchQueue(label: "\(strongSelf.readQueueLabel).build", qos: .userInteractive, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
-    readQueue.sync {
-        let group = DispatchGroup()
-        
-        strongSelf.imageRepository.map.values.forEach({ (resource) in
-            group.enter()
-            strongSelf.networkSessionInterface.fetch(url: resource.thumbnailURL, completion: { (data) in
-                if let data = data,                                         let image = UIImage(data: data)  {
-                    resource.thumbnailImage = image
-                } else {
-                    strongSelf.errorHandler.report(ModelError.MissingValue)
-                }
-                group.leave()
-            })
-        })
-        switch group.wait(wallTimeout:.now() + DispatchTimeInterval.seconds(Int(ResourceModelController.defaultTimeout))) {
-        case .timedOut:
-            // this is ok, we have our map
-            fallthrough
-        case .success:
-            DispatchQueue.main.async { [weak self] in
-                self?.delegate?.didUpdateModel()
-            }
-        }
-    }
-} else {
+do {
+    try strongSelf.fill(repository: strongSelf.imageRepository, skip: 0, limit: strongSelf.remoteStoreController.defaultQuerySize, timeoutDuration:timeoutDuration, on:queue, completion:{ [weak self] (repository) in
+	guard let strongSelf = self else {
+	    return
+	}
+
+	let writeQueue = DispatchQueue(label: "\(strongSelf.writeQueueLabel)")
+	writeQueue.async { [weak self] in
+	    self?.imageRepository = repository
+	    DispatchQueue.main.async { [weak self] in
+		self?.delegate?.didUpdateModel()
+	    }
+	}
+    })
+}
+catch {
+    errorHandler.report(error)
     DispatchQueue.main.async { [weak self] in
-        self?.delegate?.didUpdateModel()
+	self?.delegate?.didFailToUpdateModel(with: error.localizedDescription)
     }
 }
 ```
