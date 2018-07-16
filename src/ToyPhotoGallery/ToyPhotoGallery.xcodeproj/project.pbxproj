@@ -321,13 +321,6 @@
 			path = CCBufferedImageDecoder;
 			sourceTree = "<group>";
 		};
-		1E5E9BD320F053A800D59DFD /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		1E65C9DF20EABBE100D28BE4 = {
 			isa = PBXGroup;
 			children = (
@@ -453,7 +446,6 @@
 				1E78B34D20EE593D000DCFE7 /* Onboarding */,
 				1E78B34C20EE5926000DCFE7 /* Gallery */,
 				1E78B34E20EE594C000DCFE7 /* Preview */,
-				1E5E9BD320F053A800D59DFD /* View */,
 			);
 			path = View;
 			sourceTree = "<group>";

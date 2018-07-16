@@ -192,6 +192,13 @@ extension GalleryCollectionViewModel {
         
         self.data.append(contentsOf: appendResources)
         
+        guard let lastItem = insertIndexPaths.last?.item, let resourceDelegate = resourceDelegate, lastItem < resourceDelegate.totalImageRecords else {
+            DispatchQueue.main.async { [weak self] in
+                self?.viewModelDelegate?.didUpdateViewModel(insertItems: nil, deleteItems: nil, moveItems: nil)
+            }
+            return
+        }
+        
         DispatchQueue.main.async { [weak self] in
             self?.viewModelDelegate?.didUpdateViewModel(insertItems: insertIndexPaths, deleteItems: nil, moveItems: nil)
         }

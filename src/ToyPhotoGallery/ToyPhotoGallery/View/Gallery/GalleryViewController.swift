@@ -265,6 +265,7 @@ extension GalleryViewController {
             self?.view.layoutIfNeeded()
         }
         
+        
         if preview {
             closeButton.alpha = 0.5
             
