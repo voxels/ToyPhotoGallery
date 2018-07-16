@@ -376,19 +376,28 @@ class ImageRepository : Repository {
 
 ### Template Functions
 
-**ResourceModelController.swift** *[Line 255 - 266](https://github.com/voxels/ToyPhotoGallery/blob/88ef1e7a6334b56f3445777e841254ea90e4867c/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L255-L266)*
+**ResourceModelController.swift** *[Line 278 - 298](https://github.com/voxels/ToyPhotoGallery/blob/master/src/ToyPhotoGallery/ToyPhotoGallery/Model/Resource/ResourceModelController.swift#L278-L298)*
 ```
-func sort<T>(repository:T, skip:Int, limit:Int, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
-    let queue = DispatchQueue(label: "\(readQueueLabel).sort")
-    queue.async {
-        let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
-        let endSlice = skip + limit < values.count ? skip + limit : values.count
-        let resources = Array(values[skip..<(endSlice)])
-        DispatchQueue.main.async {
-            completion(resources)
+    /**
+     Sorts the given repository with records between the skip and limit indexes, and calls a callback with the resources that exist between the indexes
+     - parameter repository: the *Repository* that needs to be filled
+     - parameter skip: the number of items to skip when finding new resources
+     - parameter limit: the number of items we want to fetch
+     - parameter queue: The *DispatchQueue* we need to call the completion block on
+     - parameter completion: a callback used to pass back the filled resources
+     - Returns: void
+     */
+    func sort<T>(repository:T, skip:Int, limit:Int, on queue:DispatchQueue, completion:@escaping ([T.AssociatedType])->Void) where T:Repository, T.AssociatedType:Resource {
+        let sortQueue = DispatchQueue(label: "\(readQueueLabel).sort")
+        sortQueue.async {
+            let values = Array(repository.map.values).sorted { $0.updatedAt > $1.updatedAt }
+            let endSlice = skip + limit < values.count ? skip + limit : values.count
+            let resources = Array(values[skip..<(endSlice)])
+            queue.async {
+                completion(resources)
+            }
         }
     }
-}
 ```
 
 ### Dispatch Queues and Operation Queues
